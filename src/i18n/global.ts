@@ -1,10 +1,10 @@
 import type { routing } from "./routing";
-import type tr from "../../messages/tr.json";
+import type messages from "../../messages/tr";
 
-// next-intl tip güvenliği: anahtarlar Türkçe dosyadan, diller routing'den gelir.
+// next-intl type safety: keys come from the Turkish messages, locales from the routing config.
 declare module "next-intl" {
   interface AppConfig {
     Locale: (typeof routing.locales)[number];
-    Messages: typeof tr;
+    Messages: typeof messages;
   }
 }

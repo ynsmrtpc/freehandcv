@@ -1,0 +1,17 @@
+{
+  "meta": "My resumes",
+  "title": "My resumes",
+  "subtitle": "{n, plural, =0 {No resumes yet} one {# resume} other {# resumes}}",
+  "new": "New resume",
+  "newFromExample": "Start from example",
+  "newBlank": "Blank resume",
+  "edit": "Edit",
+  "duplicate": "Duplicate",
+  "delete": "Delete",
+  "deleteConfirm": "Delete \"{name}\"? It stays in the trash for 30 days.",
+  "updated": "Updated {time}",
+  "empty": "Create your first resume. Start from the example or a blank page.",
+  "imported": "The resume in your browser was moved to your account.",
+  "error": "That didn’t work. Please try again.",
+  "limit": "You can keep up to 100 resumes."
+}

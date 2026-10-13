@@ -1,0 +1,17 @@
+{
+  "meta": "CV'lerim",
+  "title": "CV'lerim",
+  "subtitle": "{n, plural, =0 {Henüz CV yok} one {# CV} other {# CV}}",
+  "new": "Yeni CV",
+  "newFromExample": "Örnekten başla",
+  "newBlank": "Boş CV",
+  "edit": "Düzenle",
+  "duplicate": "Çoğalt",
+  "delete": "Sil",
+  "deleteConfirm": "\"{name}\" silinsin mi? Çöp kutusunda 30 gün kalır.",
+  "updated": "{time} güncellendi",
+  "empty": "İlk CV'ni oluştur. Örnekten başlayabilir ya da boş sayfayla açabilirsin.",
+  "imported": "Tarayıcındaki CV hesabına aktarıldı.",
+  "error": "İşlem yapılamadı. Tekrar dene.",
+  "limit": "En fazla 100 CV saklayabilirsin."
+}

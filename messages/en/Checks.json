@@ -1,0 +1,86 @@
+{
+  "statusLabel": {
+    "good": "OK",
+    "warning": "Warning",
+    "info": "Info"
+  },
+  "ready": "Ready to send",
+  "good": "In good shape, a few improvements left",
+  "needsWork": "Some things need work",
+  "scoreSummary": "{passed} of {total} checks passed. The list updates as you edit.",
+  "title": {
+    "title": "Name and target title",
+    "present": "Your title is the most-read line on a first scan. Use the same wording as the job ad.",
+    "absent": "Add the title of the role you’re applying for under your name."
+  },
+  "contact": {
+    "title": "Contact details",
+    "present": "Email and phone are present.",
+    "absent": "Include both an email and a phone number."
+  },
+  "profile": {
+    "title": "Profile link",
+    "present": "Links are clickable in the PDF.",
+    "absent": "Add a LinkedIn, GitHub or portfolio link; recruiters usually check."
+  },
+  "summary": {
+    "title": "Summary",
+    "absent": "Add a 3–4 sentence summary.",
+    "short": "{n} characters. Could be more specific.",
+    "long": "{n} characters. Trim it to under 700.",
+    "ideal": "{n} characters. Ideal length."
+  },
+  "metrics": {
+    "title": "Measurable results",
+    "absent": "No experience bullets yet.",
+    "low": "{percent}% of bullets contain a number. Quantify at least a third (%, count, time, users).",
+    "good": "{percent}% of bullets contain a number. Good."
+  },
+  "bulletLength": {
+    "title": "Bullet length",
+    "long": "{n, plural, one {# bullet exceeds} other {# bullets exceed}} {limit} characters; bullets over two lines get skipped.",
+    "good": "Bullets are short and scannable."
+  },
+  "dates": {
+    "title": "Dates",
+    "incomplete": "{n, plural, one {# entry is} other {# entries are}} missing dates.",
+    "complete": "Every experience and education entry has dates."
+  },
+  "skills": {
+    "title": "Skills",
+    "present": "Skill groups help ATS keyword matching. Use the exact spelling from the job ad.",
+    "absent": "Add a skills section; ATS match keywords from it."
+  },
+  "length": {
+    "title": "Length",
+    "good": "About {n, plural, one {# page} other {# pages}}. 1–2 pages is ideal.",
+    "long": "About {n, plural, one {# page} other {# pages}}. Hide old or unrelated entries with the eye icon."
+  },
+  "personalData": {
+    "title": "Personal data",
+    "present": "ID numbers, marital status or date of birth don’t belong on a resume; remove them.",
+    "absent": "No unnecessary sensitive data."
+  },
+  "contrast": {
+    "title": "Colour contrast",
+    "good": "White text on the coloured area has {ratio}:1 contrast. Readable.",
+    "low": "White text on the coloured area has {ratio}:1 contrast. Pick a darker colour (at least 4.5:1)."
+  },
+  "photo": {
+    "title": "Photo",
+    "present": "Common in Turkey and Germany. Turn it off for the US, UK and Canada.",
+    "absent": "No photo shown. Recommended off for the US, UK and Canada."
+  },
+  "ats": {
+    "title": "ATS compatibility: {score}/5",
+    "full": "Single-column template; applicant tracking systems read it without issues.",
+    "partial": "For large companies using ATS, prefer the ATS Classic or Modern template."
+  },
+  "guideTitle": "Before you send",
+  "guide": [
+    "Tailor the title, summary and skill order to each job; reuse the ad’s keywords with the same spelling.",
+    "Name the file Firstname_Lastname_CV.pdf (Download PDF suggests this for you).",
+    "Open the PDF, select all text and paste it somewhere; if it pastes cleanly, ATS can read it.",
+    "Leave out salary expectations or referee phone numbers unless the ad asks for them."
+  ]
+}

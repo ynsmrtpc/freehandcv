@@ -1,45 +1,41 @@
 import { defineRouting } from "next-intl/routing";
 
-// Plan bölüm 6.2 ve 8.3: Türkçe kökte (öneksiz), diğer diller kendi önekiyle.
-// Yol parçaları o dilin gerçek aramasına göre yazılır. URL'ler yayından sonra değişmez.
+// Plan sections 6.2 and 8.3: Turkish lives at the root (no prefix), other locales use a prefix.
+// Internal route keys are English; public path segments are written for each market's real
+// searches (Turkish URLs stay Turkish). Public URLs never change after launch.
 export const routing = defineRouting({
   locales: ["tr", "en"],
   defaultLocale: "tr",
   localePrefix: "as-needed",
-  // Otomatik yönlendirme yok; tarayıcı diline göre yalnızca öneri çubuğu gösterilir (8.3).
+  // No automatic redirect; a browser-language suggestion bar is shown instead (8.3).
   localeDetection: false,
   pathnames: {
     "/": "/",
-    "/cv-olustur": { tr: "/cv-olustur", en: "/create-resume" },
-    "/cv-ornekleri": { tr: "/cv-ornekleri", en: "/resume-examples" },
-    "/cv-ornekleri/[slug]": {
-      tr: "/cv-ornekleri/[slug]",
-      en: "/resume-examples/[slug]",
-    },
-    "/cv-sablonlari": { tr: "/cv-sablonlari", en: "/resume-templates" },
-    "/cv-sablonlari/[slug]": {
-      tr: "/cv-sablonlari/[slug]",
-      en: "/resume-templates/[slug]",
-    },
-    "/rehber/[konu]": { tr: "/rehber/[konu]", en: "/guides/[konu]" },
-    "/ucretsiz-mi": { tr: "/ucretsiz-mi", en: "/is-it-free" },
-    "/destek": { tr: "/destek", en: "/support" },
-    "/gizlilik": { tr: "/gizlilik-ve-kvkk", en: "/privacy" },
-    "/giris": { tr: "/giris", en: "/sign-in" },
-    "/kayit": { tr: "/kayit", en: "/sign-up" },
-    "/panel": { tr: "/panel", en: "/dashboard" },
-    "/cv/[id]": "/cv/[id]",
-    "/yonetim": "/yonetim",
-    "/yonetim/giris": "/yonetim/giris",
-    "/yonetim/iki-adim": "/yonetim/iki-adim",
-    "/yonetim/sayfalar": "/yonetim/sayfalar",
-    "/yonetim/sayfalar/[id]": "/yonetim/sayfalar/[id]",
-    "/yonetim/onizleme": "/yonetim/onizleme",
-    "/yonetim/site-ayarlari": "/yonetim/site-ayarlari",
-    "/yonetim/gunluk": "/yonetim/gunluk",
-    "/yonetim/kullanicilar": "/yonetim/kullanicilar",
+    "/create-resume": { tr: "/cv-olustur", en: "/create-resume" },
+    "/resume-examples": { tr: "/cv-ornekleri", en: "/resume-examples" },
+    "/resume-examples/[slug]": { tr: "/cv-ornekleri/[slug]", en: "/resume-examples/[slug]" },
+    "/resume-templates": { tr: "/cv-sablonlari", en: "/resume-templates" },
+    "/resume-templates/[slug]": { tr: "/cv-sablonlari/[slug]", en: "/resume-templates/[slug]" },
+    "/guides/[topic]": { tr: "/rehber/[topic]", en: "/guides/[topic]" },
+    "/is-it-free": { tr: "/ucretsiz-mi", en: "/is-it-free" },
+    "/support": { tr: "/destek", en: "/support" },
+    "/privacy": { tr: "/gizlilik-ve-kvkk", en: "/privacy" },
+    "/sign-in": { tr: "/giris", en: "/sign-in" },
+    "/sign-up": { tr: "/kayit", en: "/sign-up" },
+    "/dashboard": { tr: "/panel", en: "/dashboard" },
+    "/resume/[id]": { tr: "/cv/[id]", en: "/resume/[id]" },
+    // Admin is not indexed and English for both locales.
+    "/admin": "/admin",
+    "/admin/sign-in": "/admin/sign-in",
+    "/admin/two-factor": "/admin/two-factor",
+    "/admin/pages": "/admin/pages",
+    "/admin/pages/[id]": "/admin/pages/[id]",
+    "/admin/preview": "/admin/preview",
+    "/admin/settings": "/admin/settings",
+    "/admin/audit-log": "/admin/audit-log",
+    "/admin/users": "/admin/users",
   },
 });
 
-export type Dil = (typeof routing.locales)[number];
-export type Yol = keyof typeof routing.pathnames;
+export type Locale = (typeof routing.locales)[number];
+export type RoutePath = keyof typeof routing.pathnames;

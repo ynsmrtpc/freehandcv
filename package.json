@@ -12,10 +12,11 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "yonetici:olustur": "tsx --conditions=react-server scripts/yonetici-olustur.ts",
-    "build:goc": "esbuild scripts/goc.mjs --bundle --platform=node --format=esm --outfile=.next/goc.mjs",
     "test": "vitest run",
-    "icerik:tohumla": "tsx --conditions=react-server scripts/icerik-tohumla.ts"
+    "build:migrate": "esbuild scripts/migrate.mjs --bundle --platform=node --format=esm --outfile=.next/migrate.mjs",
+    "admin:create": "tsx --conditions=react-server scripts/create-admin.ts",
+    "content:seed": "tsx --conditions=react-server scripts/seed-content.ts",
+    "data:convert-legacy": "tsx --conditions=react-server scripts/convert-legacy-data.ts"
   },
   "dependencies": {
     "better-auth": "^1.7.7",

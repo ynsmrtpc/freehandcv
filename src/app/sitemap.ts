@@ -1,23 +1,23 @@
 import type { MetadataRoute } from "next";
-import { routing, type Dil } from "@/i18n/routing";
-import { CMS_SAYFALARI } from "@/ortak/cmsSayfalari";
-import { alternatifler, tamAdres } from "@/ortak/seo";
-import { ANA_SAYFA, yayindakiSayfalar } from "@/sunucu/icerik/sayfalar";
+import { routing, type Locale } from "@/i18n/routing";
+import { CMS_PAGES } from "@/lib/cmsPages";
+import { alternates, absoluteUrl } from "@/lib/seo";
+import { HOME_SLUG, getPublishedPages } from "@/server/content/pages";
 
-// Yalnız yayındaki ve indekslenen sayfalar; lastmod gerçek güncelleme tarihi (plan 6.4).
-// Örnek CV'ler, şablonlar ve rehberler eklendikçe buraya katılır.
+// Only published, indexable pages; lastmod is the real update time (plan 6.4).
+// Example resumes, templates and guides join here as they are added.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const yayinda = await yayindakiSayfalar();
-  const yollar = [{ href: "/" as const, slug: ANA_SAYFA }, ...CMS_SAYFALARI];
+  const published = await getPublishedPages();
+  const routes = [{ href: "/" as const, slug: HOME_SLUG }, ...CMS_PAGES];
 
-  return yollar.flatMap(({ href, slug }) => {
-    const kayitlar = yayinda.filter((s) => s.slug === slug);
-    // Veritabanına ulaşılamazsa ana sayfa yine de listelenir.
-    const diller = (kayitlar.length ? kayitlar.map((k) => k.dil) : slug === ANA_SAYFA ? routing.locales : []) as Dil[];
-    return diller.map((dil) => ({
-      url: tamAdres(href, dil),
-      lastModified: kayitlar.find((k) => k.dil === dil)?.guncelleme,
-      alternates: { languages: alternatifler(href, dil, diller)?.languages as Record<string, string> },
+  return routes.flatMap(({ href, slug }) => {
+    const records = published.filter((p) => p.slug === slug);
+    // If the database is unreachable the home page is still listed.
+    const locales = (records.length ? records.map((r) => r.locale) : slug === HOME_SLUG ? routing.locales : []) as Locale[];
+    return locales.map((locale) => ({
+      url: absoluteUrl(href, locale),
+      lastModified: records.find((r) => r.locale === locale)?.updatedAt,
+      alternates: { languages: alternates(href, locale, locales)?.languages as Record<string, string> },
     }));
   });
 }

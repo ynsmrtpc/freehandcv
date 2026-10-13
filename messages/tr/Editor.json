@@ -1,0 +1,286 @@
+{
+  "meta": "CV oluştur",
+  "loading": "Editör yükleniyor…",
+  "tabs": {
+    "content": "İçerik",
+    "design": "Tasarım",
+    "checks": "IK Kontrolü"
+  },
+  "save": {
+    "saved": "Tarayıcına kaydedildi · {time}",
+    "error": "Kaydedilemedi — JSON olarak indir",
+    "guest": "Hesap gerekmez. CV'n yalnızca bu tarayıcıda saklanır.",
+    "pending": "Kaydedilmemiş değişiklik",
+    "saving": "Kaydediliyor…",
+    "savedToAccount": "Hesabına kaydedildi · {time}",
+    "network": "Bağlantı yok — bağlanınca kaydedilecek",
+    "tooLarge": "CV çok büyük; daha küçük bir fotoğraf dene",
+    "session": "Oturumun kapanmış — yeniden giriş yap"
+  },
+  "toolbar": {
+    "undo": "Geri al",
+    "redo": "İleri al",
+    "file": "Dosya",
+    "exportJson": "JSON olarak indir",
+    "importJson": "JSON yükle",
+    "loadSample": "Örnek CV'yi yükle",
+    "startBlank": "Boş CV ile başla",
+    "pdf": "PDF indir",
+    "edit": "Düzenle",
+    "preview": "Önizle",
+    "zoomOut": "Uzaklaştır",
+    "zoomIn": "Yakınlaştır",
+    "fit": "Sığdır",
+    "home": "Ana sayfa",
+    "saveToAccount": "Hesabına kaydet"
+  },
+  "confirm": {
+    "loadSample": "Mevcut CV örnek CV ile değiştirilsin mi? Önce JSON olarak indirmen önerilir.",
+    "startBlank": "Tüm içerik silinip boş bir CV açılsın mı? Önce JSON olarak indirmen önerilir.",
+    "deleteEntry": "\"{name}\" silinsin mi? Yalnızca CV'den çıkarmak istiyorsan göz simgesiyle gizleyebilirsin."
+  },
+  "toast": {
+    "jsonDownloaded": "JSON indirildi",
+    "loaded": "CV yüklendi",
+    "invalidJson": "Bu dosya bir FreehandCV JSON'u değil",
+    "imageError": "Görsel okunamadı",
+    "undone": "Geri alındı"
+  },
+  "page": {
+    "info": "{paper} · yaklaşık {n} sayfa",
+    "tooLong": "2 sayfayı geçmemeye çalış",
+    "next": "Sayfa {n}"
+  },
+  "sectionsHint": "Bölümleri oklarla sırala, göz simgesiyle CV'den gizle. Değişiklikler anında kaydedilir.",
+  "personal": {
+    "title": "Kişisel bilgiler",
+    "uploadPhoto": "Fotoğraf yükle",
+    "changePhoto": "Fotoğrafı değiştir",
+    "removePhoto": "Kaldır",
+    "photoHint": "Kare kırpılır. Görünüp görünmeyeceğini Tasarım sekmesinden seçebilirsin.",
+    "extras": "Ek bilgiler",
+    "extrasHint": "Askerlik durumu, ehliyet gibi. T.C. kimlik no, medeni hal ve açık adres yazma.",
+    "addExtra": "Bilgi ekle",
+    "extraLabel": "Başlık",
+    "extraValue": "Değer",
+    "deleteExtra": "Ek bilgiyi sil"
+  },
+  "sections": {
+    "summary": "Profesyonel özet",
+    "experience": "İş deneyimi",
+    "projects": "Projeler",
+    "skills": "Yetkinlikler",
+    "education": "Eğitim",
+    "certifications": "Sertifikalar",
+    "languages": "Yabancı diller",
+    "references": "Referanslar",
+    "interests": "İlgi alanları"
+  },
+  "singular": {
+    "experience": "Deneyim",
+    "projects": "Proje",
+    "skills": "Yetenek grubu",
+    "education": "Eğitim",
+    "certifications": "Sertifika",
+    "languages": "Dil",
+    "references": "Referans"
+  },
+  "sectionTitle": "Bölüm başlığı",
+  "add": "{kind} ekle",
+  "show": "CV'de göster",
+  "hide": "CV'de gizle",
+  "moveUp": "Yukarı taşı",
+  "moveDown": "Aşağı taşı",
+  "duplicate": "Çoğalt",
+  "delete": "Sil",
+  "untitled": "({kind} {n})",
+  "summaryLabel": "Özet",
+  "characters": "{n} karakter",
+  "summaryHint": "İdeal: 250–700 karakter. IK ilk birkaç saniyede bu bölümü ve unvanını okur.",
+  "summaryPlaceholder": "3–4 cümle: kim olduğun, kaç yıllık deneyimin, en güçlü 2–3 yetkinliğin ve hedefin.",
+  "interestsLabel": "İlgi alanları",
+  "interestsPlaceholder": "Kısa tut; rolle bağlantılı olanları öne al.",
+  "bulletsHint": "Her satır bir madde. **kalın** için iki yıldız kullan. Fiille başlayan, sayı ve sonuç içeren maddeler dikkat çeker.",
+  "present": "Günümüz",
+  "ongoing": "boş = devam ediyor",
+  "fields": {
+    "personal": {
+      "name": "Ad soyad",
+      "title": "Hedef unvan",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "location": "Konum (şehir yeterli)",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "web": "Web sitesi / portfolyo"
+    },
+    "experience": {
+      "position": "Pozisyon / unvan",
+      "company": "Kurum",
+      "location": "Konum",
+      "current": "Halen burada çalışıyorum",
+      "start": "Başlangıç",
+      "end": "Bitiş",
+      "description": "Kısa tanım (isteğe bağlı)",
+      "bullets": "Sorumluluklar ve başarılar"
+    },
+    "projects": {
+      "name": "Proje adı",
+      "role": "Rolün",
+      "start": "Başlangıç",
+      "end": "Bitiş",
+      "technologies": "Teknolojiler",
+      "link": "Bağlantı",
+      "description": "Kısa tanım",
+      "bullets": "Öne çıkanlar"
+    },
+    "skills": {
+      "category": "Grup adı",
+      "items": "Yetenekler (virgülle ayır)"
+    },
+    "education": {
+      "school": "Okul",
+      "field": "Bölüm / program",
+      "degree": "Derece",
+      "start": "Başlangıç",
+      "end": "Bitiş",
+      "gpa": "Not ortalaması",
+      "location": "Konum",
+      "description": "Ek bilgi (bitirme projesi, onur vb.)"
+    },
+    "certifications": {
+      "name": "Sertifika adı",
+      "issuer": "Veren kurum",
+      "date": "Tarih",
+      "link": "Doğrulama bağlantısı"
+    },
+    "languages": {
+      "language": "Dil",
+      "level": "Seviye"
+    },
+    "references": {
+      "name": "Ad soyad",
+      "title": "Unvan",
+      "company": "Kurum",
+      "phone": "Telefon",
+      "email": "E-posta"
+    }
+  },
+  "placeholders": {
+    "personal": {
+      "name": "Ad Soyad",
+      "title": "Yazılım Mühendisi",
+      "email": "ad@ornek.com",
+      "phone": "05xx xxx xx xx",
+      "location": "Kadıköy, İstanbul",
+      "linkedin": "linkedin.com/in/kullanici",
+      "github": "github.com/kullanici",
+      "web": "ornek.com"
+    },
+    "experience": {
+      "position": "Yazılım Geliştirici",
+      "company": "Şirket adı",
+      "location": "İstanbul",
+      "start": "Ara 2022",
+      "end": "Haz 2024",
+      "description": "",
+      "bullets": ""
+    },
+    "projects": {
+      "name": "Proje adı",
+      "role": "Kurucu geliştirici",
+      "start": "Oca 2026",
+      "end": "",
+      "technologies": "React, Node.js, PostgreSQL",
+      "link": "github.com/kullanici/proje",
+      "description": "",
+      "bullets": ""
+    },
+    "skills": {
+      "category": "Backend",
+      "items": "Node.js, PostgreSQL, REST API"
+    },
+    "education": {
+      "school": "Üniversite adı",
+      "field": "Yazılım Mühendisliği",
+      "degree": "Lisans",
+      "start": "Eyl 2018",
+      "end": "Haz 2022",
+      "gpa": "3,26 / 4,00",
+      "location": "İstanbul",
+      "description": ""
+    },
+    "certifications": {
+      "name": "AWS Certified Developer",
+      "issuer": "Kurum",
+      "date": "Eki 2022",
+      "link": "https://…"
+    },
+    "languages": {
+      "language": "İngilizce",
+      "level": "B2 – İleri"
+    },
+    "references": {
+      "name": "Ad Soyad",
+      "title": "Yazılım Müdürü",
+      "company": "Kurum",
+      "phone": "05xx xxx xx xx",
+      "email": "ad@kurum.com"
+    },
+    "extraLabel": "Askerlik",
+    "extraValue": "Yapıldı"
+  },
+  "design": {
+    "template": "Şablon",
+    "ats": "ATS {score}/5",
+    "color": "Vurgu rengi",
+    "customColor": "Özel renk",
+    "monochrome": "Bu şablon siyah-beyazdır; vurgu rengi uygulanmaz.",
+    "typography": "Yazı",
+    "font": "Yazı tipi",
+    "fontDefault": "Şablon varsayılanı ({name})",
+    "size": "Yazı boyutu",
+    "sizes": {
+      "small": "Küçük",
+      "medium": "Orta",
+      "large": "Büyük"
+    },
+    "spacing": "Satır aralığı",
+    "spacings": {
+      "compact": "Sıkı",
+      "normal": "Normal",
+      "relaxed": "Ferah"
+    },
+    "document": "Belge",
+    "resumeLocale": "CV dili",
+    "resumeLocaleHint": "Bölüm başlıkları ve \"Günümüz\" ifadesi bu dilde yazılır. İçeriği de aynı dilde yaz.",
+    "paper": "Kâğıt boyutu",
+    "paperHint": "ABD, Kanada ve Meksika için Letter; diğer ülkeler için A4.",
+    "photo": "Fotoğraf",
+    "showPhoto": "CV'de göster",
+    "photoUnsupported": "Bu şablonda fotoğraf gösterilmez",
+    "filter": {
+      "label": "Şablonları filtrele",
+      "all": "Tümü",
+      "ats": "ATS 5/5",
+      "photo": "Fotoğraflı",
+      "twoColumn": "İki sütun"
+    }
+  },
+  "pdf": {
+    "title": "PDF olarak kaydet",
+    "description": "Yazdırma penceresi açılacak. En iyi sonuç için:",
+    "step1": "Hedef olarak \"PDF olarak kaydet\"i seç.",
+    "step2": "Kenar boşluklarını \"Yok\" yap.",
+    "step3": "\"Arka plan grafikleri\" seçeneğini aç.",
+    "continue": "Devam et",
+    "cancel": "Vazgeç",
+    "dontShowAgain": "Bir daha gösterme"
+  },
+  "conflict": {
+    "title": "Bu CV başka bir yerde değişti",
+    "description": "CV başka bir sekmede ya da cihazda kaydedilmiş. Hangisini tutmak istersin?",
+    "reload": "Diğer sürümü yükle",
+    "keepMine": "Benimkini koru"
+  }
+}

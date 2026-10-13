@@ -1,0 +1,50 @@
+/* Printing (PDF): only the resume is printed; scale and guides are removed. The @page size is
+   written in Editor from the resume's paper setting (A4 / Letter). */
+@media print {
+  html,
+  body {
+    height: auto !important;
+    background: #fff !important;
+  }
+  body {
+    margin: 0;
+  }
+  .editor-shell {
+    display: block !important;
+    height: auto !important;
+  }
+  /* On a short resume, don't show the editor's and layout's (gray) background below the last page;
+     and don't let the layout shell's screen height (min-h-dvh) add an empty page. */
+  body > *,
+  .editor-shell {
+    background: #fff !important;
+    min-height: 0 !important;
+  }
+  .editor-shell > *:not(.editor-workspace),
+  .editor-panel,
+  .editor-chrome,
+  .page-guides {
+    display: none !important;
+  }
+  .editor-workspace,
+  .editor-preview,
+  .preview-root,
+  .preview-canvas {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: none !important;
+    border: 0 !important;
+  }
+  .preview-bar {
+    display: none !important;
+  }
+  .print-area {
+    zoom: 1 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .print-area > div {
+    box-shadow: none !important;
+  }
+}

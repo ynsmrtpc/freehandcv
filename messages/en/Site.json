@@ -1,0 +1,23 @@
+{
+  "mainMenu": "Main menu",
+  "openMenu": "Open menu",
+  "closeMenu": "Close menu",
+  "skipToContent": "Skip to content",
+  "templates": "Templates",
+  "howItWorks": "How it works",
+  "faq": "FAQ",
+  "isItFree": "Is it really free?",
+  "createResume": "Create my resume",
+  "language": "Language",
+  "theme": "Theme",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "footerTagline": "A free resume builder. No paid features — we never ask for a credit card.",
+  "footerProduct": "Product",
+  "footerCopyright": "© {year} FreehandCV",
+  "underConstruction": "The site is under construction — launching very soon.",
+  "support": "Support us",
+  "privacy": "Privacy",
+  "signIn": "Sign in"
+}

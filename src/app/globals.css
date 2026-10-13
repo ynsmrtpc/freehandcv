@@ -1,81 +1,81 @@
 @import "tailwindcss";
 
-/* Koyu tema: <html class="dark"> (next-themes). */
+/* Dark theme: <html class="dark"> (next-themes). */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Anlamsal renk token'ları. Bileşenlerde ham renk yazılmaz; bu adlar kullanılır.
- * Kontrast (WCAG AA): metin/zemin ≥ 4.5:1, soluk/zemin ≥ 4.5:1, beyaz/ana ≥ 4.5:1.
+ * Semantic colour tokens. Components never use raw colours; they use these names.
+ * Contrast (WCAG AA): foreground/background ≥ 4.5:1, muted/background ≥ 4.5:1, white/primary ≥ 4.5:1.
  */
 :root {
-  --zemin: #f8fafc;
-  --yuzey: #ffffff;
-  --yuzey-2: #f1f5f9;
-  --cizgi: #e2e8f0;
-  --cizgi-guclu: #cbd5e1;
-  --metin: #0f172a;
-  --soluk: #475569;
-  --ana: #2563eb;
-  --ana-koyu: #1d4ed8;
-  --ana-acik: #eff6ff;
-  --ana-metin: #1d4ed8;
-  --vurgu: #047857;
-  --vurgu-acik: #ecfdf5;
-  --uyari: #9a5b00;
-  --hata: #b42318;
-  --hata-acik: #fef3f2;
-  --odak: #3b82f6;
-  --kagit: #ffffff;
-  --golge-renk: 15 23 42;
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --foreground: #0f172a;
+  --muted: #475569;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-soft: #eff6ff;
+  --primary-text: #1d4ed8;
+  --accent: #047857;
+  --accent-soft: #ecfdf5;
+  --warning: #9a5b00;
+  --danger: #b42318;
+  --danger-soft: #fef3f2;
+  --focus: #3b82f6;
+  --paper: #ffffff;
+  --shadow-color: 15 23 42;
 }
 
 .dark {
-  --zemin: #0b1120;
-  --yuzey: #111827;
-  --yuzey-2: #1e293b;
-  --cizgi: #1f2a3c;
-  --cizgi-guclu: #334155;
-  --metin: #f1f5f9;
-  --soluk: #a3b1c6;
-  --ana: #2563eb;
-  --ana-koyu: #1d4ed8;
-  --ana-acik: #172554;
-  --ana-metin: #93c5fd;
-  --vurgu: #34d399;
-  --vurgu-acik: #052e22;
-  --uyari: #fbbf24;
-  --hata: #f97066;
-  --hata-acik: #3b0d0c;
-  --odak: #60a5fa;
-  --kagit: #ffffff;
-  --golge-renk: 0 0 0;
+  --background: #0b1120;
+  --surface: #111827;
+  --surface-2: #1e293b;
+  --border: #1f2a3c;
+  --border-strong: #334155;
+  --foreground: #f1f5f9;
+  --muted: #a3b1c6;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-soft: #172554;
+  --primary-text: #93c5fd;
+  --accent: #34d399;
+  --accent-soft: #052e22;
+  --warning: #fbbf24;
+  --danger: #f97066;
+  --danger-soft: #3b0d0c;
+  --focus: #60a5fa;
+  --paper: #ffffff;
+  --shadow-color: 0 0 0;
 }
 
 @theme inline {
-  --color-zemin: var(--zemin);
-  --color-yuzey: var(--yuzey);
-  --color-yuzey-2: var(--yuzey-2);
-  --color-cizgi: var(--cizgi);
-  --color-cizgi-guclu: var(--cizgi-guclu);
-  --color-metin: var(--metin);
-  --color-soluk: var(--soluk);
-  --color-ana: var(--ana);
-  --color-ana-koyu: var(--ana-koyu);
-  --color-ana-acik: var(--ana-acik);
-  --color-ana-metin: var(--ana-metin);
-  --color-vurgu: var(--vurgu);
-  --color-vurgu-acik: var(--vurgu-acik);
-  --color-uyari: var(--uyari);
-  --color-hata: var(--hata);
-  --color-hata-acik: var(--hata-acik);
-  --color-odak: var(--odak);
-  --color-kagit: var(--kagit);
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-text: var(--primary-text);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-focus: var(--focus);
+  --color-paper: var(--paper);
   --font-sans: var(--font-jakarta), "Segoe UI", system-ui, sans-serif;
 
-  /* Yükseklik (gölge) ölçeği — kartlar, açılır menüler ve önizleme kâğıdı için. */
-  --shadow-kart: 0 1px 2px rgb(var(--golge-renk) / 0.05), 0 1px 3px rgb(var(--golge-renk) / 0.08);
-  --shadow-yuksek: 0 12px 32px -8px rgb(var(--golge-renk) / 0.18), 0 4px 8px -4px rgb(var(--golge-renk) / 0.08);
-  --shadow-kagit: 0 30px 60px -20px rgb(var(--golge-renk) / 0.35), 0 12px 24px -12px rgb(var(--golge-renk) / 0.2);
+  /* Elevation (shadow) scale — for cards, dropdowns and the preview paper. */
+  --shadow-card: 0 1px 2px rgb(var(--shadow-color) / 0.05), 0 1px 3px rgb(var(--shadow-color) / 0.08);
+  --shadow-elevated: 0 12px 32px -8px rgb(var(--shadow-color) / 0.18), 0 4px 8px -4px rgb(var(--shadow-color) / 0.08);
+  --shadow-paper: 0 30px 60px -20px rgb(var(--shadow-color) / 0.35), 0 12px 24px -12px rgb(var(--shadow-color) / 0.2);
 }
 
 @layer base {
@@ -84,14 +84,14 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    background: var(--zemin);
-    color: var(--metin);
+    background: var(--background);
+    color: var(--foreground);
   }
   :focus-visible {
-    outline: 2px solid var(--odak);
+    outline: 2px solid var(--focus);
     outline-offset: 2px;
   }
-  /* Sabit başlık çapalı bağlantıda içeriği örtmesin. */
+  /* Keep the sticky header from covering content on anchor links. */
   [id] {
     scroll-margin-top: 5rem;
   }
@@ -107,28 +107,28 @@
 }
 
 /*
- * Belirme animasyonları — JS'siz (hidrasyonu beklemez, içerik hiçbir zaman gizli kalmaz).
- * .belir-yukle: sayfa açılınca (hero). --gecikme ile sıralanır.
- * .belir-kaydir: görünüme girerken, kaydırmaya bağlı (scroll-driven). Desteklemeyen
- *   tarayıcıda animasyon yoktur, içerik doğrudan görünür. --i ile ızgarada kademelenir.
+ * Reveal animations — no JS (no waiting for hydration; content is never left hidden).
+ * .reveal-on-load: on page load (hero). Sequenced with --delay.
+ * .reveal-on-scroll: on entering the viewport, scroll-driven. Browsers without support get
+ *   no animation and show the content directly. Staggered in grids with --i.
  */
-@keyframes belir {
+@keyframes reveal {
   from {
     opacity: 0;
     translate: 0 18px;
   }
 }
 
-.belir-yukle {
-  animation: belir 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--gecikme, 0s);
+.reveal-on-load {
+  animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0s);
 }
 
 @supports (animation-timeline: view()) {
-  .belir-kaydir {
-    animation: belir linear both;
+  .reveal-on-scroll {
+    animation: reveal linear both;
     animation-timeline: view();
-    /* Sabit mesafe: öğe ne kadar uzun olursa olsun, üst kenarı ekrana ~240px girince tamamlanır. */
+    /* Fixed distance: however tall the element, it completes once its top edge is ~240px into view. */
     animation-range: entry calc(16px + var(--i, 0) * 36px) entry calc(240px + var(--i, 0) * 36px);
   }
 }
@@ -137,8 +137,8 @@
   html {
     scroll-behavior: auto;
   }
-  .belir-yukle,
-  .belir-kaydir {
+  .reveal-on-load,
+  .reveal-on-scroll {
     animation: none;
   }
 }

@@ -41,5 +41,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Claude Code çalışma ağaçları
+# Claude Code worktrees
 .claude/worktrees/

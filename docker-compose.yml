@@ -1,4 +1,4 @@
-# Yerel geliştirme veritabanı. Canlıda Postgres Coolify üzerinde ayrı servis olarak çalışır.
+# Local development database. In production Postgres runs as a separate Coolify service.
 services:
   db:
     image: postgres:17-alpine

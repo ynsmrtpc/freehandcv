@@ -15,6 +15,13 @@
       "when": 1791895154901,
       "tag": "0001_isveren_paylasimi_rizasi",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791897097617,
+      "tag": "0002_english_names",
+      "breakpoints": true
     }
   ]
 }

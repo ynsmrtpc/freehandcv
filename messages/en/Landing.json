@@ -1,0 +1,146 @@
+{
+  "ogTitle": "Build your resume for free. Download it for free.",
+  "hero": {
+    "badge": "100% free · No sign-up",
+    "title": "Build your resume for <highlight>free</highlight>. Download it for <highlight>free</highlight>.",
+    "subtitle": "ATS-friendly templates, an instant recruiter check and one-click PDF. No credit card, no trial, no watermark.",
+    "primaryButton": "Create my resume",
+    "secondaryButton": "See templates",
+    "bullets": [
+      "No credit card",
+      "No watermark",
+      "Unlimited resumes"
+    ],
+    "template": "Template",
+    "atsFriendly": "ATS-friendly",
+    "pdfReady": "PDF ready",
+    "checksPassed": "Recruiter check passed"
+  },
+  "comparison": {
+    "eyebrow": "Is it really free?",
+    "title": "Free to build. Free to download.",
+    "description": "Most resume sites let you work in the editor for an hour, then ask for a card when you try to download. We don’t. Ever.",
+    "featureHeader": "Feature",
+    "othersHeader": "Elsewhere",
+    "usHeader": "On FreehandCV",
+    "rows": [
+      {
+        "feature": "PDF download",
+        "others": "Paid subscription",
+        "us": "Free, unlimited"
+      },
+      {
+        "feature": "Watermark",
+        "others": "On the free plan",
+        "us": "Never"
+      },
+      {
+        "feature": "Credit card",
+        "others": "Required for a trial",
+        "us": "Never asked"
+      },
+      {
+        "feature": "Charges after trial",
+        "others": "Auto-renewing",
+        "us": "No trial, no charge"
+      },
+      {
+        "feature": "Number of resumes",
+        "others": "Usually 1",
+        "us": "Unlimited"
+      },
+      {
+        "feature": "Version history",
+        "others": "Paid plans only",
+        "us": "For everyone"
+      }
+    ]
+  },
+  "templates": {
+    "eyebrow": "Templates",
+    "title": "A template for every application",
+    "description": "Every template produces real text that applicant tracking systems can read. Tune colors, fonts and spacing as you like.",
+    "atsScore": "ATS {score}/5",
+    "cardButton": "Start with this template",
+    "viewAll": "See all {n} templates in the editor"
+  },
+  "steps": {
+    "eyebrow": "How it works",
+    "title": "Ready in three steps",
+    "items": [
+      {
+        "title": "Enter your details",
+        "text": "Add your experience, education and skills. Not sure what to write? Start from an example."
+      },
+      {
+        "title": "Pick a template",
+        "text": "The preview updates as you type. Switch templates and your content stays put."
+      },
+      {
+        "title": "Download as PDF",
+        "text": "One click, no watermark. As many resumes and downloads as you like."
+      }
+    ]
+  },
+  "features": {
+    "eyebrow": "Features",
+    "title": "Everything you need, nothing locked",
+    "items": [
+      {
+        "title": "Recruiter check",
+        "text": "Missing sections, long bullets, date mistakes — flagged before you send."
+      },
+      {
+        "title": "ATS-friendly",
+        "text": "Clean, selectable text that application systems can parse."
+      },
+      {
+        "title": "Version history",
+        "text": "Keep a version per application and roll back any time."
+      },
+      {
+        "title": "Many languages",
+        "text": "Resumes in several languages in one account; section titles follow the language."
+      },
+      {
+        "title": "Private by design",
+        "text": "Your data is yours. No one can see your resume — not even our admins."
+      },
+      {
+        "title": "Any device",
+        "text": "Start on your phone, finish on your laptop. Nothing to install."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Frequently asked questions",
+    "items": [
+      {
+        "question": "Is it really free? Will I be charged later?",
+        "answer": "Yes, completely free. No feature is paid, PDF download included, and we never ask for your credit card. Donations cover our costs."
+      },
+      {
+        "question": "Do I need an account?",
+        "answer": "No. The editor and PDF download work without one. An account is only for saving to the cloud, keeping versions and continuing on another device."
+      },
+      {
+        "question": "What is an ATS, and is my resume compatible?",
+        "answer": "An ATS is software companies use to screen applications. Our templates output real text, not images, so these systems read your resume correctly."
+      },
+      {
+        "question": "Where is my data stored?",
+        "answer": "Without an account your resume stays in your browser only. With an account it is stored on our server, accessible only to you."
+      },
+      {
+        "question": "Should I add a photo?",
+        "answer": "Common in Turkey and Germany, discouraged in the US and UK. Choose your target country and the editor suggests what fits."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Your first resume is minutes away",
+    "text": "Start without signing up. If you don’t like it, you lose nothing.",
+    "button": "Get started"
+  }
+}

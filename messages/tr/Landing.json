@@ -1,0 +1,146 @@
+{
+  "ogTitle": "CV'ni ücretsiz hazırla, ücretsiz indir.",
+  "hero": {
+    "badge": "%100 ücretsiz · Kayıt gerekmez",
+    "title": "CV'ni <highlight>ücretsiz</highlight> hazırla, <highlight>ücretsiz</highlight> indir.",
+    "subtitle": "ATS uyumlu şablonlar, anlık IK kontrolü ve tek tıkla PDF. Kredi kartı yok, deneme süresi yok, filigran yok.",
+    "primaryButton": "CV'mi oluştur",
+    "secondaryButton": "Şablonları gör",
+    "bullets": [
+      "Kredi kartı yok",
+      "Filigran yok",
+      "Sınırsız CV"
+    ],
+    "template": "Şablon",
+    "atsFriendly": "ATS uyumlu",
+    "pdfReady": "PDF hazır",
+    "checksPassed": "IK kontrolü geçti"
+  },
+  "comparison": {
+    "eyebrow": "Gerçekten ücretsiz mi?",
+    "title": "Oluşturmak ücretsiz, indirmek de ücretsiz.",
+    "description": "Çoğu CV sitesi seni editörde bir saat çalıştırır, PDF indirmek istediğinde kart ister. Burada istemeyiz. Hiçbir zaman.",
+    "featureHeader": "Özellik",
+    "othersHeader": "Diğer sitelerde",
+    "usHeader": "FreehandCV'de",
+    "rows": [
+      {
+        "feature": "PDF indirme",
+        "others": "Ücretli abonelik",
+        "us": "Ücretsiz, sınırsız"
+      },
+      {
+        "feature": "Filigran",
+        "others": "Ücretsiz planda var",
+        "us": "Hiçbir zaman"
+      },
+      {
+        "feature": "Kredi kartı",
+        "others": "Deneme için istenir",
+        "us": "İstenmez"
+      },
+      {
+        "feature": "Deneme sonrası ücret",
+        "others": "Otomatik yenilenir",
+        "us": "Deneme yok, ücret yok"
+      },
+      {
+        "feature": "CV sayısı",
+        "others": "Genelde 1",
+        "us": "Sınırsız"
+      },
+      {
+        "feature": "Sürüm geçmişi",
+        "others": "Ücretli planda",
+        "us": "Herkese açık"
+      }
+    ]
+  },
+  "templates": {
+    "eyebrow": "Şablonlar",
+    "title": "Her başvuruya uygun bir şablon",
+    "description": "Hepsi ATS sistemlerinin okuyabileceği gerçek metin üretir. Renk, yazı tipi ve boşlukları dilediğin gibi ayarla.",
+    "atsScore": "ATS {score}/5",
+    "cardButton": "Bu şablonla başla",
+    "viewAll": "{n} şablonun hepsini editörde gör"
+  },
+  "steps": {
+    "eyebrow": "Nasıl çalışır",
+    "title": "Üç adımda hazır",
+    "items": [
+      {
+        "title": "Bilgilerini gir",
+        "text": "Deneyim, eğitim ve yeteneklerini yaz. Ne yazacağını bilmiyorsan örnek CV'lerden başla."
+      },
+      {
+        "title": "Şablonunu seç",
+        "text": "Önizleme her tuşta güncellenir. Şablonu değiştir, içerik yerinde kalır."
+      },
+      {
+        "title": "PDF olarak indir",
+        "text": "Tek tık, filigransız. İstediğin kadar CV, istediğin kadar indirme."
+      }
+    ]
+  },
+  "features": {
+    "eyebrow": "Özellikler",
+    "title": "İhtiyacın olan her şey, kilitsiz",
+    "items": [
+      {
+        "title": "IK kontrolü",
+        "text": "Eksik bölüm, uzun madde, tarih hatası — göndermeden önce uyarır."
+      },
+      {
+        "title": "ATS uyumu",
+        "text": "Başvuru sistemlerinin okuyabildiği temiz, seçilebilir metin."
+      },
+      {
+        "title": "Sürüm geçmişi",
+        "text": "Her başvuru için ayrı sürüm sakla, istediğin an geri dön."
+      },
+      {
+        "title": "Türkçe ve İngilizce",
+        "text": "Aynı hesapta iki dilde CV; bölüm başlıkları dile göre gelir."
+      },
+      {
+        "title": "KVKK'ya uygun",
+        "text": "Verin yalnız senin. CV'ni kimse göremez, yönetim panelinde bile."
+      },
+      {
+        "title": "Her cihazda",
+        "text": "Telefonda başla, bilgisayarda bitir. Kurulum gerekmez."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "SSS",
+    "title": "Sık sorulan sorular",
+    "items": [
+      {
+        "question": "Gerçekten ücretsiz mi, sonradan ücret çıkar mı?",
+        "answer": "Evet, tamamen ücretsiz. PDF indirme dahil hiçbir özellik ücretli değil ve kredi kartı bilgini hiçbir zaman istemiyoruz. Masraflarımızı bağışlarla karşılıyoruz."
+      },
+      {
+        "question": "Kayıt olmam gerekiyor mu?",
+        "answer": "Hayır. Editör ve PDF indirme hesapsız çalışır. Hesap yalnızca CV'ni bulutta saklamak, sürümleri tutmak ve başka cihazdan devam etmek için gerekir."
+      },
+      {
+        "question": "ATS nedir, CV'm ATS'ye uygun mu?",
+        "answer": "ATS, şirketlerin başvuruları tarayan yazılımıdır. Şablonlarımız görsel değil gerçek metin ürettiği için bu sistemler CV'ni doğru okur."
+      },
+      {
+        "question": "Verilerim nerede saklanıyor?",
+        "answer": "Hesapsız kullanımda CV'n yalnızca tarayıcında durur. Hesap açarsan sunucumuzda, yalnızca senin erişebileceğin şekilde saklanır."
+      },
+      {
+        "question": "CV'ye fotoğraf koymalı mıyım?",
+        "answer": "Türkiye ve Almanya'da yaygın, ABD ve İngiltere'de önerilmez. Hedef ülkeyi seçtiğinde editör sana uygun olanı önerir."
+      }
+    ]
+  },
+  "cta": {
+    "title": "İlk CV'n birkaç dakika uzakta",
+    "text": "Kayıt olmadan başla. Beğenmezsen hiçbir şey kaybetmezsin.",
+    "button": "Hemen başla"
+  }
+}

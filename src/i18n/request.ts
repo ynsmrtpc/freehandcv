@@ -6,14 +6,15 @@ import { routing } from "./routing";
 
 export default getRequestConfig(async ({ locale }) => {
   if (!locale) {
-    const deger = await rootParams.locale();
-    if (!hasLocale(routing.locales, deger)) notFound();
-    locale = deger;
+    const param = await rootParams.locale();
+    if (!hasLocale(routing.locales, param)) notFound();
+    locale = param;
   }
 
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    // One JSON file per namespace, merged in messages/<locale>/index.ts.
+    messages: (await import(`../../messages/${locale}/index.ts`)).default,
     timeZone: "Europe/Istanbul",
   };
 });

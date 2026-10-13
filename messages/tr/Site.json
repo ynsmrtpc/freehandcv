@@ -1,0 +1,23 @@
+{
+  "mainMenu": "Ana menü",
+  "openMenu": "Menüyü aç",
+  "closeMenu": "Menüyü kapat",
+  "skipToContent": "İçeriğe geç",
+  "templates": "Şablonlar",
+  "howItWorks": "Nasıl çalışır",
+  "faq": "SSS",
+  "isItFree": "Gerçekten ücretsiz mi?",
+  "createResume": "CV'mi oluştur",
+  "language": "Dil",
+  "theme": "Tema",
+  "themeLight": "Açık",
+  "themeDark": "Koyu",
+  "themeSystem": "Sistem",
+  "footerTagline": "Ücretsiz CV düzenleyici. Hiçbir özellik ücretli değil; kredi kartı istemiyoruz, hiçbir zaman.",
+  "footerProduct": "Ürün",
+  "footerCopyright": "© {year} FreehandCV",
+  "underConstruction": "Site yapım aşamasında — çok yakında yayında.",
+  "support": "Destek ol",
+  "privacy": "Gizlilik ve KVKK",
+  "signIn": "Giriş yap"
+}

@@ -1,0 +1,22 @@
+{
+  "notice": "Giriş yapmazsan hiçbir verin sunucumuza gönderilmez; CV'n yalnız bu tarayıcıda durur.",
+  "noticeLink": "Giriş yap, CV'n hesabında güvende olsun",
+  "downloadTitle": "İndirmeden önce bir şey söyleyelim",
+  "employerSharing": "Giriş yapıp onay verirsen CV'ni işe alım yapan firmalarla paylaşabilir, daha kolay işe yerleşmene yardımcı olabiliriz. Onay tamamen isteğe bağlı; istediğin an geri alabilirsin.",
+  "dataUse": "Giriş yaparsan CV'n hesabına kaydedilir: her cihazdan ulaşırsın, düzenlemelerin kaybolmaz. Verilerin şifreli bağlantıyla iletilir, yalnız sana ve onay verdiğin işverenlere açılır. Verilerini satmayız.",
+  "guestNoData": "Giriş yapmazsan hiçbir verin bize gönderilmez ve saklanmaz.",
+  "withGoogle": "Google ile giriş yap",
+  "withEmail": "E-postayla giriş yap",
+  "downloadWithoutSignIn": "Giriş yapmadan indir",
+  "signUpConsent": "CV'min işe alım yapan firmalarla paylaşılmasına onay veriyorum. (İsteğe bağlı; istediğim an geri alabilirim.)",
+  "signUpDataNote": "Hesabındaki bilgiler (e-posta adresin ve CV'lerin) yalnız CV'lerini saklamak ve sana sunmak için tutulur. Onay vermezsen kimseyle paylaşılmaz.",
+  "cardTitle": "İşverenler CV'mi görebilsin",
+  "cardDescription": "Açarsan CV'n, işe alım yapan firmalarla paylaşılabilecek aday havuzuna alınır. İşveren eşleştirmesi yakında başlıyor; başladığında yalnız onay veren adaylar dahil edilir.",
+  "cardOn": "Onay verildi — CV'n aday havuzunda.",
+  "cardOff": "Onay yok — CV'n kimseyle paylaşılmaz.",
+  "resumeSelect": "Paylaşılacak CV",
+  "mostRecent": "En son güncellediğim CV",
+  "withdrawNote": "İstediğin an kapatabilirsin; kapatınca CV'n havuzdan hemen çıkarılır.",
+  "saved": "Tercihin kaydedildi.",
+  "error": "Tercih kaydedilemedi. Tekrar dene."
+}

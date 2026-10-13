@@ -1,0 +1,86 @@
+{
+  "statusLabel": {
+    "good": "Tamam",
+    "warning": "Uyarı",
+    "info": "Bilgi"
+  },
+  "ready": "Gönderime hazır",
+  "good": "İyi durumda, birkaç iyileştirme var",
+  "needsWork": "Geliştirilmesi gereken noktalar var",
+  "scoreSummary": "{passed} / {total} kontrol geçti. Liste her değişiklikte güncellenir.",
+  "title": {
+    "title": "Ad ve hedef unvan",
+    "present": "Unvan ilk taramada en çok bakılan satır. İlandaki unvanla aynı ifadeyi kullan.",
+    "absent": "Adının altına başvurduğun pozisyonun unvanını yaz."
+  },
+  "contact": {
+    "title": "İletişim bilgileri",
+    "present": "E-posta ve telefon var.",
+    "absent": "E-posta ve telefon ikisi de olmalı."
+  },
+  "profile": {
+    "title": "Profil bağlantısı",
+    "present": "Bağlantılar PDF'te tıklanabilir.",
+    "absent": "LinkedIn, GitHub ya da portfolyo bağlantısı ekle; IK çoğunlukla kontrol eder."
+  },
+  "summary": {
+    "title": "Profesyonel özet",
+    "absent": "3–4 cümlelik bir özet ekle.",
+    "short": "{n} karakter. Biraz daha somut olabilir.",
+    "long": "{n} karakter. Kısalt; 700 karakteri geçmesin.",
+    "ideal": "{n} karakter. Uzunluk ideal."
+  },
+  "metrics": {
+    "title": "Ölçülebilir başarılar",
+    "absent": "Deneyim maddesi yok.",
+    "low": "Maddelerin %{percent}'i sayı içeriyor. En az üçte birinde sonuç belirt (%, adet, süre, kullanıcı sayısı).",
+    "good": "Maddelerin %{percent}'i sayı içeriyor. İyi."
+  },
+  "bulletLength": {
+    "title": "Madde uzunluğu",
+    "long": "{n} madde {limit} karakteri geçiyor; iki satırı aşan maddeler okunmuyor.",
+    "good": "Maddeler kısa ve taranabilir."
+  },
+  "dates": {
+    "title": "Tarihler",
+    "incomplete": "{n} kayıtta tarih eksik.",
+    "complete": "Tüm deneyim ve eğitim kayıtlarında tarih var."
+  },
+  "skills": {
+    "title": "Yetenekler",
+    "present": "ATS anahtar kelime eşleşmesi için yetenek grupları var. İlandaki teknolojileri aynı yazımla ekle.",
+    "absent": "Yetenekler bölümü ekle; ATS anahtar kelimeleri buradan eşleştirir."
+  },
+  "length": {
+    "title": "Uzunluk",
+    "good": "Yaklaşık {n} sayfa. 1–2 sayfa idealdir.",
+    "long": "Yaklaşık {n} sayfa. Eski ya da ilgisiz kayıtları göz simgesiyle gizle."
+  },
+  "personalData": {
+    "title": "Kişisel veri (KVKK)",
+    "present": "T.C. kimlik no, medeni hal, doğum tarihi gibi bilgiler CV'de gerekmez; kaldır.",
+    "absent": "Gereksiz hassas veri yok."
+  },
+  "contrast": {
+    "title": "Renk kontrastı",
+    "good": "Renkli alandaki beyaz yazı kontrastı {ratio}:1. Okunaklı.",
+    "low": "Renkli alandaki beyaz yazı kontrastı {ratio}:1. Daha koyu bir renk seç (en az 4,5:1)."
+  },
+  "photo": {
+    "title": "Fotoğraf",
+    "present": "Türkiye ve Almanya'da yaygın. ABD, İngiltere ve Kanada başvurularında fotoğrafı kapat.",
+    "absent": "Fotoğraf gösterilmiyor. Türkiye'deki başvurularda profesyonel bir fotoğraf olumlu karşılanır."
+  },
+  "ats": {
+    "title": "ATS uyumu: {score}/5",
+    "full": "Bu şablon tek sütunlu; ATS'ler sorunsuz okur.",
+    "partial": "Büyük şirketlerin ATS'li ilanlarında ATS Klasik ya da Modern şablonunu tercih et."
+  },
+  "guideTitle": "Göndermeden önce",
+  "guide": [
+    "Her ilana göre unvanı, özeti ve yetenek sırasını uyarla; ilandaki anahtar kelimeleri aynı yazımla kullan.",
+    "Dosya adını Ad_Soyad_CV.pdf yap (PDF indir bunu kendiliğinden önerir).",
+    "PDF'i açıp tüm metni seçip kopyala; düzgün yapışıyorsa ATS de okur.",
+    "Maaş beklentisi, referans telefonları gibi bilgileri ilan istemedikçe CV'ye koyma."
+  ]
+}

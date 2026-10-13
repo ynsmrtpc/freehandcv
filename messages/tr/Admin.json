@@ -1,0 +1,20 @@
+{
+  "title": "Yönetim",
+  "signInTitle": "Yönetici girişi",
+  "email": "E-posta",
+  "password": "Şifre",
+  "signIn": "Giriş yap",
+  "verificationCode": "Doğrulama kodu",
+  "verificationHint": "Doğrulama uygulamandaki 6 haneli kodu gir.",
+  "verify": "Doğrula",
+  "signInFailed": "Giriş başarısız. Bilgileri kontrol et.",
+  "invalidCode": "Kod hatalı ya da süresi geçmiş.",
+  "signOut": "Çıkış yap",
+  "twoFactorTitle": "İki adımlı doğrulamayı kur",
+  "twoFactorDescription": "Yönetici hesaplarında iki adımlı doğrulama zorunlu. Devam etmek için şifreni gir.",
+  "continue": "Devam",
+  "qrInstructions": "Bu kodu Google Authenticator, 1Password gibi bir uygulamayla tara, sonra uygulamadaki kodu gir.",
+  "backupCodes": "Yedek kodlar — güvenli bir yere kaydet. Her biri bir kez kullanılır.",
+  "welcome": "Hoş geldin, {name}",
+  "comingSoon": "Site ayarları, sayfa düzenleyici, örnek CV'ler, SSS, medya ve günlük Faz 1'de burada olacak."
+}

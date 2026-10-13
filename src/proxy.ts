@@ -4,6 +4,6 @@ import { routing } from "./i18n/routing";
 export default createMiddleware(routing);
 
 export const config = {
-  // api, Next.js iç yolları ve uzantılı dosyalar (favicon.ico, sitemap.xml…) hariç her şey.
+  // Everything except api, Next.js internals and files with an extension (favicon.ico, sitemap.xml…).
   matcher: "/((?!api|_next|_vercel|.*\\..*).*)",
 };

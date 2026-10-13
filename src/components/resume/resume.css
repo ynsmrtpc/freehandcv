@@ -1,0 +1,924 @@
+/*
+ * Styles for the resume rendering engine. Every template difference is a data-* attribute coming
+ * from the design definition; there are no selectors by template name (plan 11.1). Units are mm/pt —
+ * the same size on screen and in the PDF. Only logical properties (inline/block) are used, so the
+ * layout flips by itself for RTL languages.
+ *
+ * Page structure:
+ *   .resume                  the paper (A4 or Letter width)
+ *     .resume-backdrop       sidebar colour or accent stripe
+ *                            (position:fixed when printing → repeats on every page)
+ *     table.resume-frame     thead/tfoot spacers become each page's top/bottom margin
+ * The @page margin is 0, so the sidebar and the top band reach the paper edge.
+ */
+
+.resume {
+  --resume-accent: #1f3a5f;
+  --resume-text: #1f2937;
+  --resume-muted: #4b5563;
+  --resume-border: #d6dbe3;
+  --resume-dark: color-mix(in srgb, var(--resume-text) 80%, #000);
+  --resume-font: "Inter", "Segoe UI", Arial, sans-serif;
+  --resume-heading-font: var(--resume-font);
+  --resume-size: 10pt;
+  --resume-line-height: 1.42;
+  --resume-spacing: 1;
+  --resume-margin-top: 12mm;
+  --resume-margin-bottom: 12mm;
+  --resume-margin-x: 16mm;
+  --resume-page-width: 210mm;
+  --resume-page-height: 297mm;
+  /* Horizontal inset of the header (used by the full-width header and the band). */
+  --inset-start: var(--resume-margin-x);
+  --inset-end: var(--resume-margin-x);
+  /* Width of the date column on the left (datePosition = left). */
+  --resume-date-column: 0mm;
+
+  position: relative;
+  width: var(--resume-page-width);
+  min-height: var(--resume-page-height);
+  background: #fff;
+  color: var(--resume-text);
+  font-family: var(--resume-font);
+  font-size: var(--resume-size);
+  line-height: var(--resume-line-height);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-kerning: normal;
+  text-align: start;
+}
+.resume *,
+.resume *::before,
+.resume *::after {
+  box-sizing: border-box;
+}
+.resume h1,
+.resume h2,
+.resume h3,
+.resume p,
+.resume ul,
+.resume dl,
+.resume dd {
+  margin: 0;
+}
+.resume a {
+  color: inherit;
+  text-decoration: none;
+}
+.resume strong {
+  font-weight: 700;
+  color: inherit;
+}
+
+.resume-backdrop {
+  display: none;
+}
+.resume-frame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.resume-frame td {
+  padding: 0;
+  vertical-align: top;
+}
+.resume-space-top {
+  height: var(--resume-margin-top);
+}
+.resume-space-bottom {
+  height: var(--resume-margin-bottom);
+}
+.resume-inner {
+  padding-inline: var(--resume-margin-x);
+}
+
+/* --- Header --- */
+.resume-header {
+  display: flex;
+  align-items: center;
+  gap: 6mm;
+}
+.resume-header-text {
+  flex: 1;
+  min-width: 0;
+}
+.resume-name {
+  font-family: var(--resume-heading-font);
+  font-size: 2.3em;
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--resume-dark);
+}
+.resume[data-name-color="accent"] .resume-name {
+  color: var(--resume-accent);
+}
+.resume[data-name-size="small"] .resume-name {
+  font-size: 1.85em;
+}
+.resume[data-name-size="large"] .resume-name {
+  font-size: 2.7em;
+  line-height: 1.05;
+}
+.resume[data-name-size="huge"] .resume-name {
+  font-size: 3.15em;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+.resume[data-name-style="light"] .resume-name {
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+.resume[data-name-style="uppercase"] .resume-name {
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.resume[data-name-style="light-uppercase"] .resume-name {
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+.resume-title {
+  margin-block-start: 1.4mm;
+  font-size: 1.12em;
+  font-weight: 600;
+  color: var(--resume-accent);
+}
+.resume[data-title="uppercase"] .resume-title {
+  font-weight: 500;
+  font-size: 0.98em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.resume[data-title="muted-uppercase"] .resume-title {
+  color: var(--resume-muted);
+  font-size: 1em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.resume-photo {
+  width: 29mm;
+  height: 29mm;
+  object-fit: cover;
+  flex: none;
+  border-radius: 50%;
+}
+.resume[data-photo="square"] .resume-photo {
+  border-radius: 0;
+}
+.resume[data-photo="rounded"] .resume-photo {
+  border-radius: 3mm;
+}
+
+.resume-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1mm 4.5mm;
+  margin-block-start: 2.6mm;
+  padding: 0;
+  list-style: none;
+  font-size: 0.93em;
+  color: var(--resume-muted);
+}
+.resume-contact li {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.4mm;
+}
+.resume-icon {
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
+  fill: none;
+  stroke: var(--resume-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.resume[data-contact="separated"] .resume-contact {
+  gap: 0;
+}
+.resume[data-contact="separated"] .resume-contact .resume-icon {
+  display: none;
+}
+.resume[data-contact="separated"] .resume-contact li + li::before {
+  content: var(--resume-separator);
+  margin-inline: 2.3mm;
+  color: color-mix(in srgb, var(--resume-muted) 60%, #fff);
+}
+.resume-extras {
+  margin-block-start: 1.4mm;
+  font-size: 0.9em;
+  color: var(--resume-muted);
+}
+.resume-extras span + span::before {
+  content: "  ·  ";
+  white-space: pre;
+}
+.resume-extras b {
+  font-weight: 600;
+  color: var(--resume-text);
+}
+
+/* Header divider */
+.resume[data-divider="thin"] .resume-header {
+  padding-block-end: 3mm;
+  border-block-end: 0.6pt solid var(--resume-border);
+}
+.resume[data-divider="thick"] .resume-header {
+  padding-block-end: 3mm;
+  border-block-end: 1.3pt solid var(--resume-text);
+}
+.resume[data-divider="accent"] .resume-header {
+  padding-block-end: 4.5mm;
+  border-block-end: 2pt solid var(--resume-accent);
+}
+.resume[data-divider="double"] .resume-header {
+  padding-block-end: 3.5mm;
+  border-block-end: 2.4pt double var(--resume-text);
+}
+
+/* Centred header */
+.resume[data-align="center"] .resume-header {
+  flex-direction: column;
+  text-align: center;
+  gap: 3mm;
+}
+.resume[data-align="center"] .resume-photo {
+  width: 26mm;
+  height: 26mm;
+}
+.resume[data-align="center"] .resume-contact {
+  justify-content: center;
+}
+
+/* Split: name and title on the left, contact stacked on the opposite edge (vertically centred). */
+.resume[data-align="split"] .resume-header-text {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 1fr auto auto auto 1fr;
+  column-gap: 8mm;
+}
+.resume[data-align="split"] .resume-name {
+  grid-area: 2 / 1;
+}
+.resume[data-align="split"] .resume-title {
+  grid-area: 3 / 1;
+}
+.resume[data-align="split"] .resume-extras {
+  grid-area: 4 / 1;
+}
+.resume[data-align="split"] .resume-contact {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  align-self: center;
+  gap: 0.9mm;
+  margin-block-start: 0;
+  text-align: end;
+}
+.resume[data-align="split"] .resume-contact li + li::before {
+  content: none;
+}
+
+/* --- Header background (band) --- */
+.resume:is([data-band="accent"], [data-band="dark"], [data-band="light"]) :is(.resume-inner, .resume-full-header) > .resume-header {
+  margin-block-start: calc(-1 * var(--resume-margin-top));
+  margin-inline: calc(-1 * var(--inset-start)) calc(-1 * var(--inset-end));
+  padding-block: calc(var(--resume-margin-top) + 2mm) 7mm;
+  padding-inline: var(--inset-start) var(--inset-end);
+}
+.resume[data-band="accent"] .resume-header {
+  background: var(--resume-accent);
+  color: #fff;
+}
+.resume[data-band="dark"] .resume-header {
+  background: var(--resume-dark);
+  color: #fff;
+  border-block-end: 1.6mm solid var(--resume-accent);
+}
+.resume[data-band="light"] .resume-header {
+  background: color-mix(in srgb, var(--resume-accent) 8%, #fff);
+  border-block-end: 0.8pt solid color-mix(in srgb, var(--resume-accent) 30%, #fff);
+}
+.resume:is([data-band="accent"], [data-band="dark"]) .resume-name,
+.resume:is([data-band="accent"], [data-band="dark"]) .resume-extras b {
+  color: #fff;
+}
+.resume:is([data-band="accent"], [data-band="dark"]) .resume-title {
+  color: rgb(255 255 255 / 0.88);
+  font-weight: 500;
+}
+.resume:is([data-band="accent"], [data-band="dark"]) .resume-contact,
+.resume:is([data-band="accent"], [data-band="dark"]) .resume-extras {
+  color: rgb(255 255 255 / 0.92);
+}
+.resume:is([data-band="accent"], [data-band="dark"]) .resume-header .resume-icon {
+  stroke: currentColor;
+  opacity: 0.85;
+}
+.resume:is([data-band="accent"], [data-band="dark"]) .resume-header .resume-photo {
+  border: 0.8mm solid rgb(255 255 255 / 0.85);
+}
+.resume[data-band="light"] .resume-header .resume-photo {
+  border: 0.8mm solid #fff;
+}
+
+/* --- Accent stripe --- */
+.resume[data-stripe="left"] .resume-backdrop {
+  display: block;
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 3.2mm;
+  background: var(--resume-accent);
+}
+.resume[data-stripe="top"] .resume-backdrop {
+  display: block;
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  block-size: 3.2mm;
+  background: var(--resume-accent);
+}
+
+/* --- Sections --- */
+.resume-section {
+  margin-block-start: calc(5.2mm * var(--resume-spacing));
+}
+.resume-section > h2 {
+  font-family: var(--resume-heading-font);
+  font-size: 0.98em;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--resume-accent);
+  margin-block-end: calc(1.6mm * var(--resume-spacing));
+  break-after: avoid;
+  page-break-after: avoid;
+  /* Keep heading ornaments (e.g. the short rule) from breaking onto the next page. */
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.resume[data-heading="underline"] .resume-section > h2 {
+  letter-spacing: 0.08em;
+  padding-block-end: 1mm;
+  border-block-end: 0.6pt solid var(--resume-border);
+}
+.resume[data-heading="extended-rule"] .resume-section > h2 {
+  display: flex;
+  align-items: center;
+  gap: 3mm;
+}
+.resume[data-heading="extended-rule"] .resume-section > h2::after {
+  content: "";
+  flex: 1;
+  height: 0.6pt;
+  background: var(--resume-border);
+}
+.resume[data-heading="square-marker"] .resume-section > h2 {
+  display: flex;
+  align-items: center;
+  gap: 2.2mm;
+  letter-spacing: 0.05em;
+}
+.resume[data-heading="square-marker"] .resume-section > h2::before {
+  content: "";
+  width: 2.2mm;
+  height: 2.2mm;
+  border-radius: 0.5mm;
+  background: var(--resume-accent);
+}
+.resume[data-heading="left-bar"] .resume-section > h2 {
+  padding-inline-start: 2.4mm;
+  border-inline-start: 1mm solid var(--resume-accent);
+}
+/* Accent-coloured box with white text (the contrast check measures this too). */
+.resume[data-heading="box"] .resume-section > h2 {
+  inline-size: fit-content;
+  padding: 0.6mm 2.6mm 0.5mm;
+  border-radius: 0.8mm;
+  background: var(--resume-accent);
+  color: #fff;
+  letter-spacing: 0.08em;
+  margin-block-end: calc(2.2mm * var(--resume-spacing));
+}
+.resume[data-heading="centered"] .resume-section > h2 {
+  display: flex;
+  align-items: center;
+  gap: 3.5mm;
+  text-align: center;
+  letter-spacing: 0.14em;
+  margin-block-end: calc(2.2mm * var(--resume-spacing));
+}
+.resume[data-heading="centered"] .resume-section > h2::before,
+.resume[data-heading="centered"] .resume-section > h2::after {
+  content: "";
+  flex: 1;
+  height: 0.6pt;
+  background: var(--resume-border);
+}
+.resume[data-heading="short-rule"] .resume-section > h2 {
+  margin-block-end: calc(2.2mm * var(--resume-spacing));
+}
+.resume[data-heading="short-rule"] .resume-section > h2::after {
+  content: "";
+  display: block;
+  inline-size: 9mm;
+  block-size: 0.75mm;
+  margin-block-start: 1.1mm;
+  border-radius: 0.4mm;
+  background: var(--resume-accent);
+}
+/* Heading letters as written: slightly larger, tighter letter spacing. */
+.resume[data-heading-case="normal"] .resume-section > h2 {
+  font-size: 1.2em;
+  letter-spacing: 0.005em;
+  text-transform: none;
+}
+
+/* Heading in a narrow column on the left, content to its right. */
+.resume[data-section-layout="side"] {
+  --resume-heading-column: 31mm;
+}
+.resume[data-section-layout="side"] :is(.resume-inner, .resume-main) > .resume-section {
+  display: grid;
+  grid-template-columns: var(--resume-heading-column) minmax(0, 1fr);
+  column-gap: 5mm;
+  align-items: start;
+}
+.resume[data-section-layout="side"] :is(.resume-inner, .resume-main) > .resume-section > * {
+  grid-column: 2;
+}
+.resume[data-section-layout="side"] :is(.resume-inner, .resume-main) > .resume-section > h2 {
+  grid-column: 1;
+  grid-row: 1 / span 40;
+  margin-block-end: 0;
+  padding-block-start: 0.2em;
+  font-size: 0.86em;
+  overflow-wrap: anywhere;
+}
+
+.resume-paragraphs p + p {
+  margin-block-start: 1.5mm;
+}
+
+.resume-entry {
+  margin-block-start: calc(3mm * var(--resume-spacing));
+}
+.resume-section > h2 + .resume-entry {
+  margin-block-start: 0;
+}
+.resume-entry.short {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.resume-entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 5mm;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+.resume-entry h3 {
+  font-size: 1.04em;
+  font-weight: 700;
+  color: var(--resume-dark);
+}
+.resume-role {
+  font-weight: 500;
+  color: var(--resume-muted);
+}
+.resume-entry h3 a {
+  border-block-end: 0.5pt solid currentColor;
+}
+.resume-company {
+  margin-block-start: 0.3mm;
+  font-weight: 600;
+  color: var(--resume-muted);
+}
+.resume[data-company="italic"] .resume-company {
+  font-style: italic;
+  font-weight: 400;
+}
+.resume[data-company="accent"] .resume-company {
+  color: var(--resume-accent);
+}
+.resume-tech {
+  margin-block-start: 0.5mm;
+  font-size: 0.92em;
+  color: var(--resume-accent);
+  font-weight: 500;
+}
+.resume-date {
+  flex: none;
+  white-space: nowrap;
+  font-size: 0.92em;
+  color: var(--resume-muted);
+  font-variant-numeric: tabular-nums;
+}
+.resume-description {
+  margin-block-start: 1mm;
+}
+.resume-entry ul {
+  margin-block-start: 1.2mm;
+  padding-inline-start: 4.4mm;
+}
+.resume-entry li {
+  margin-block-start: calc(0.7mm * var(--resume-spacing));
+  padding-inline-start: 0.6mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.resume-entry li::marker {
+  color: var(--resume-accent);
+}
+.resume[data-bullets="dash"] .resume-entry ul {
+  list-style: "–  ";
+}
+.resume[data-bullets="arrow"] .resume-entry ul {
+  list-style: "›  ";
+}
+.resume[data-bullets="square"] .resume-entry ul {
+  list-style-type: square;
+}
+.resume[data-bullets="none"] .resume-entry ul {
+  list-style: none;
+  padding-inline-start: 0;
+}
+.resume-link {
+  font-size: 0.9em;
+  color: var(--resume-accent);
+}
+
+/* Date below the heading */
+.resume[data-date="below"] .resume-entry-head {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3mm;
+}
+.resume[data-date="below"] .resume-date {
+  font-size: 0.88em;
+}
+/* Date in a separate column on the left (main column only; the sidebar is too narrow) */
+.resume[data-date="left"] {
+  --resume-date-column: 25mm;
+}
+.resume[data-date="left"] :is(.resume-inner, .resume-main) .resume-entry {
+  position: relative;
+  padding-inline-start: var(--resume-date-column);
+}
+.resume[data-date="left"] :is(.resume-inner, .resume-main) .resume-date {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0.12em;
+  inline-size: calc(var(--resume-date-column) - 4mm);
+  white-space: normal;
+  line-height: 1.3;
+}
+/* Timeline: entries are linked by a vertical line and dots. */
+.resume[data-timeline="yes"] :is(.resume-inner, .resume-main) .resume-entry {
+  position: relative;
+  padding-inline-start: calc(var(--resume-date-column) + 6mm);
+}
+.resume[data-timeline="yes"] :is(.resume-inner, .resume-main) .resume-entry::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: calc(var(--resume-date-column) + 1.1mm);
+  inset-block-start: 0.72em;
+  inset-block-end: calc(-3mm * var(--resume-spacing) - 0.72em);
+  border-inline-start: 0.8pt solid var(--resume-border);
+}
+.resume[data-timeline="yes"] :is(.resume-inner, .resume-main) .resume-entry:last-child::before {
+  inset-block-end: 0;
+}
+.resume[data-timeline="yes"] :is(.resume-inner, .resume-main) .resume-entry::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: calc(var(--resume-date-column) + 0.07mm);
+  inset-block-start: calc(0.72em - 1.15mm);
+  inline-size: 2.3mm;
+  block-size: 2.3mm;
+  border-radius: 50%;
+  border: 0.55mm solid var(--resume-accent);
+  background: #fff;
+}
+
+/* Skills: list */
+.resume-skills {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 1.2mm 5mm;
+}
+.resume-skills > div {
+  display: contents;
+}
+.resume-skills dt {
+  font-weight: 700;
+  color: var(--resume-dark);
+}
+/* Skills: tags / two columns */
+.resume-skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.4mm 7mm;
+}
+.resume-skills-flow {
+  display: grid;
+  gap: 2mm;
+}
+.resume-skill-group {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.resume-skill-group h3 {
+  font-size: 0.92em;
+  font-weight: 700;
+  color: var(--resume-dark);
+}
+.resume-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.3mm;
+  margin-block-start: 1mm;
+}
+.resume-tag {
+  padding: 0.5mm 2mm;
+  border-radius: 1.2mm;
+  font-size: 0.9em;
+  font-weight: 500;
+  background: color-mix(in srgb, var(--resume-accent) 10%, #fff);
+  color: color-mix(in srgb, var(--resume-accent) 85%, #000);
+}
+.resume[data-tag-style="outline"] .resume-tag {
+  padding: 0.3mm 1.8mm;
+  background: transparent;
+  border: 0.6pt solid color-mix(in srgb, var(--resume-accent) 45%, #fff);
+}
+/* Invisible comma: text copied from the PDF pastes as "React, Node.js" (ATS). */
+.resume-hidden-separator {
+  font-size: 0;
+}
+
+.resume-list {
+  list-style: none;
+  padding: 0;
+}
+.resume-list li {
+  margin-block-start: 1.1mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.resume-list li:first-child {
+  margin-block-start: 0;
+}
+.resume-meta {
+  color: var(--resume-muted);
+}
+.resume-block {
+  display: block;
+}
+
+.resume-references {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3mm 8mm;
+}
+.resume-reference {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.resume-reference strong,
+.resume-reference span {
+  display: block;
+}
+.resume-reference strong {
+  color: var(--resume-dark);
+}
+.resume-reference span {
+  color: var(--resume-muted);
+  font-size: 0.93em;
+}
+
+/* --- Sidebar layout --- */
+/* Sidebar colours: white text on the accent background; the resume's own colours on light backgrounds. */
+.resume[data-layout^="sidebar"] {
+  --side-bg: var(--resume-accent);
+  --side-text: rgb(255 255 255 / 0.93);
+  --side-strong: #fff;
+  --side-heading: #fff;
+  --side-border: rgb(255 255 255 / 0.4);
+  --side-muted: rgb(255 255 255 / 0.78);
+  --side-dd: rgb(255 255 255 / 0.85);
+  --side-label: rgb(255 255 255 / 0.7);
+  --side-icon: currentColor;
+  --side-icon-opacity: 0.85;
+  --side-photo-border: rgb(255 255 255 / 0.9);
+}
+.resume:is([data-sidebar-bg="light"], [data-sidebar-bg="gray"], [data-sidebar-bg="rule"]) {
+  --side-text: var(--resume-text);
+  --side-strong: var(--resume-dark);
+  --side-heading: var(--resume-accent);
+  --side-border: color-mix(in srgb, var(--resume-accent) 25%, #fff);
+  --side-muted: var(--resume-muted);
+  --side-dd: var(--resume-text);
+  --side-label: var(--resume-muted);
+  --side-icon: var(--resume-accent);
+  --side-icon-opacity: 1;
+  --side-photo-border: #fff;
+}
+.resume[data-sidebar-bg="light"] {
+  --side-bg: color-mix(in srgb, var(--resume-accent) 7%, #fff);
+}
+.resume[data-sidebar-bg="gray"] {
+  --side-bg: #f1f3f6;
+}
+.resume[data-sidebar-bg="rule"] {
+  --side-bg: transparent;
+}
+.resume[data-layout="sidebar-left"] {
+  --inset-start: 7.5mm;
+  --inset-end: 13mm;
+}
+.resume[data-layout="sidebar-right"] {
+  --inset-start: 13mm;
+  --inset-end: 7.5mm;
+}
+.resume[data-layout^="sidebar"] .resume-backdrop {
+  display: block;
+  position: absolute;
+  inset-block: 0;
+  inline-size: var(--resume-sidebar-width);
+  background: var(--side-bg);
+}
+.resume[data-layout="sidebar-left"] .resume-backdrop {
+  inset-inline-start: 0;
+}
+.resume[data-layout="sidebar-right"] .resume-backdrop {
+  inset-inline-end: 0;
+}
+.resume[data-layout^="sidebar"] .resume-body {
+  display: grid;
+}
+.resume[data-layout="sidebar-left"] .resume-body {
+  grid-template-columns: var(--resume-sidebar-width) 1fr;
+}
+.resume[data-layout="sidebar-right"] .resume-body {
+  grid-template-columns: 1fr var(--resume-sidebar-width);
+}
+.resume[data-layout^="sidebar"] .resume-main {
+  grid-row: 1;
+  min-width: 0;
+  padding-inline: 9mm 13mm;
+}
+.resume[data-layout="sidebar-left"] .resume-main {
+  grid-column: 2;
+}
+.resume[data-layout="sidebar-right"] .resume-main {
+  grid-column: 1;
+  padding-inline: 13mm 9mm;
+}
+.resume[data-layout^="sidebar"] .resume-side {
+  grid-row: 1;
+  min-width: 0;
+  padding-inline: 7.5mm;
+  color: var(--side-text);
+  font-size: 0.95em;
+}
+.resume[data-layout="sidebar-left"] .resume-side {
+  grid-column: 1;
+}
+.resume[data-layout="sidebar-right"] .resume-side {
+  grid-column: 2;
+}
+.resume[data-sidebar-bg="rule"][data-layout="sidebar-left"] .resume-side {
+  border-inline-end: 0.6pt solid var(--resume-border);
+}
+.resume[data-sidebar-bg="rule"][data-layout="sidebar-right"] .resume-side {
+  border-inline-start: 0.6pt solid var(--resume-border);
+}
+.resume-side .resume-photo {
+  display: block;
+  width: 36mm;
+  height: 36mm;
+  margin: 0 auto 5mm;
+  border: 1mm solid var(--side-photo-border);
+}
+.resume-side .resume-section {
+  margin-block-start: calc(6mm * var(--resume-spacing));
+}
+.resume-side .resume-section:first-of-type {
+  margin-block-start: 0;
+}
+.resume .resume-side .resume-section > h2 {
+  display: block;
+  inline-size: auto;
+  text-align: start;
+  background: none;
+  border-radius: 0;
+  color: var(--side-heading);
+  font-size: 0.95em;
+  letter-spacing: 0.1em;
+  padding: 0 0 1.3mm;
+  margin-block-end: calc(1.6mm * var(--resume-spacing));
+  border: 0;
+  border-block-end: 0.6pt solid var(--side-border);
+}
+.resume[data-heading-case="normal"] .resume-side .resume-section > h2 {
+  font-size: 1.1em;
+  letter-spacing: 0.005em;
+}
+.resume .resume-side .resume-section > h2::before,
+.resume .resume-side .resume-section > h2::after {
+  display: none;
+}
+.resume-side strong,
+.resume-side dt,
+.resume-side h3 {
+  color: var(--side-strong);
+}
+.resume-side .resume-meta {
+  color: var(--side-muted);
+}
+.resume-side .resume-icon {
+  stroke: var(--side-icon);
+  opacity: var(--side-icon-opacity);
+  margin-block-start: 0.15em;
+}
+.resume-side .resume-skills {
+  display: block;
+}
+.resume-side .resume-skills > div {
+  display: block;
+  margin-block-start: 2.2mm;
+}
+.resume-side .resume-skills > div:first-child {
+  margin-block-start: 0;
+}
+.resume-side .resume-skills dd {
+  margin-block-start: 0.4mm;
+  color: var(--side-dd);
+}
+.resume-side-contact {
+  list-style: none;
+  padding: 0;
+}
+.resume-side-contact li {
+  display: flex;
+  gap: 2mm;
+  align-items: flex-start;
+  margin-block-start: 1.6mm;
+  overflow-wrap: anywhere;
+}
+.resume-side-contact li:first-child {
+  margin-block-start: 0;
+}
+.resume-extra-label {
+  display: block;
+  font-size: 0.85em;
+  color: var(--side-label);
+}
+.resume-main .resume-header {
+  display: block;
+}
+
+/* Full-width header in a sidebar layout: its white background covers the sidebar colour. */
+.resume-full-header {
+  position: relative;
+  margin-block-start: calc(-1 * var(--resume-margin-top));
+  padding-block: var(--resume-margin-top) 6mm;
+  padding-inline: var(--inset-start) var(--inset-end);
+  background: #fff;
+}
+.resume:is([data-band="accent"], [data-band="dark"], [data-band="light"]) .resume-full-header {
+  padding-block-end: 0;
+}
+.resume[data-full-header] .resume-main,
+.resume[data-full-header] .resume-side {
+  padding-block-start: calc(6mm * var(--resume-spacing));
+}
+.resume[data-full-header] .resume-main > .resume-section:first-child {
+  margin-block-start: 0;
+}
+
+/* --- Print --- */
+@media print {
+  .resume {
+    min-height: 0 !important;
+  }
+  .resume[data-layout^="sidebar"] .resume-backdrop,
+  .resume[data-stripe="left"] .resume-backdrop {
+    position: fixed;
+  }
+  .resume,
+  .resume * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

@@ -3,9 +3,9 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
-import { TemaSaglayici } from "@/bilesenler/TemaSaglayici";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { routing } from "@/i18n/routing";
-import { SITE_URL } from "@/ortak/site";
+import { SITE_URL } from "@/lib/site";
 import "../globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -33,15 +33,15 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "Meta" });
   return {
     metadataBase: new URL(SITE_URL),
-    title: { default: t("varsayilanBaslik"), template: `%s | ${t("siteAdi")}` },
-    description: t("varsayilanAciklama"),
-    applicationName: t("siteAdi"),
-    openGraph: { siteName: t("siteAdi"), type: "website", locale },
+    title: { default: t("defaultTitle"), template: `%s | ${t("siteName")}` },
+    description: t("defaultDescription"),
+    applicationName: t("siteName"),
+    openGraph: { siteName: t("siteName"), type: "website", locale },
     twitter: { card: "summary_large_image" },
   };
 }
 
-export default async function KokLayout({
+export default async function RootLayout({
   children,
   params,
 }: LayoutProps<"/[locale]">) {
@@ -49,13 +49,13 @@ export default async function KokLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
 
   return (
-    // Arapça (dalga 2) eklendiğinde dir dilden türetilecek (plan 8.2).
-    // suppressHydrationWarning: next-themes, ilk boyamadan önce <html>'e tema sınıfını ekler.
+    // When Arabic (wave 2) is added, dir will be derived from the locale (plan 8.2).
+    // suppressHydrationWarning: next-themes adds the theme class to <html> before first paint.
     <html lang={locale} dir="ltr" className={jakarta.variable} suppressHydrationWarning>
       <body className="min-h-dvh font-sans antialiased">
-        <TemaSaglayici>
+        <ThemeProvider>
           <NextIntlClientProvider>{children}</NextIntlClientProvider>
-        </TemaSaglayici>
+        </ThemeProvider>
       </body>
     </html>
   );

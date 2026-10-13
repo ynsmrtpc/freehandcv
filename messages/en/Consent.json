@@ -1,0 +1,22 @@
+{
+  "notice": "If you don’t sign in, nothing is sent to our servers; your resume stays in this browser only.",
+  "noticeLink": "Sign in to keep your resume safe in your account",
+  "downloadTitle": "Before you download",
+  "employerSharing": "If you sign in and give your consent, we can share your resume with companies that are hiring and help you land a job more easily. Consent is entirely optional, and you can withdraw it at any time.",
+  "dataUse": "When you sign in, your resume is saved to your account: reach it from any device and never lose your edits. Your data travels over an encrypted connection and is visible only to you and the employers you consent to. We never sell your data.",
+  "guestNoData": "If you don’t sign in, nothing is sent to us or stored.",
+  "withGoogle": "Sign in with Google",
+  "withEmail": "Sign in with email",
+  "downloadWithoutSignIn": "Download without signing in",
+  "signUpConsent": "I agree that my resume may be shared with companies that are hiring. (Optional; I can withdraw at any time.)",
+  "signUpDataNote": "Your account data (your email and resumes) is kept only to store your resumes and show them to you. Without your consent it is shared with no one.",
+  "cardTitle": "Let employers see my resume",
+  "cardDescription": "Turn this on to add your resume to a candidate pool that can be shared with hiring companies. Employer matching launches soon; only candidates who consent will be included.",
+  "cardOn": "Consent given — your resume is in the candidate pool.",
+  "cardOff": "No consent — your resume is shared with no one.",
+  "resumeSelect": "Resume to share",
+  "mostRecent": "My most recently updated resume",
+  "withdrawNote": "You can turn this off any time; your resume is removed from the pool immediately.",
+  "saved": "Your preference was saved.",
+  "error": "Couldn’t save your preference. Please try again."
+}
