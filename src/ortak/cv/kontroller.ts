@@ -1,7 +1,7 @@
 // IK kontrolü (plan bölüm 10): saf fonksiyon. Metin üretmez; her sonuç bir anahtar ve
 // parametreler döndürür, arayüz bunları kullanıcının dilinde gösterir (messages: Kontrol.*).
 import type { CvVerisi } from "./sema";
-import { SISTEM_SABLONLARI, type TasarimTanimi } from "./tasarim";
+import { SISTEM_SABLONLARI, kenarliMi, vurgudaBeyazYaziVar, type TasarimTanimi } from "./tasarim";
 import { beyazKontrast, satirlar } from "./yardimci";
 
 export type KontrolDurumu = "iyi" | "uyari" | "bilgi";
@@ -61,7 +61,7 @@ export function kontroller(v: CvVerisi, tanim: TasarimTanimi, sayfaSayisi: numbe
     p.ekler.some((e) => /(t\.?c\.?|kimlik|medeni|doğum|dogum|uyruk|din|marital|birth)/i.test(e.etiket));
   ekle("kvkk", hassas ? "uyari" : "iyi", hassas ? "var" : "yok");
 
-  if (tanim.yerlesim !== "tek-sutun" && !tanim.tekRenk) {
+  if (vurgudaBeyazYaziVar(tanim)) {
     const kr = beyazKontrast(v.ayarlar.renk);
     ekle("kontrast", kr >= 4.5 ? "iyi" : "uyari", kr >= 4.5 ? "iyi" : "dusuk", { oran: kr.toFixed(1) });
   }
@@ -89,9 +89,12 @@ export function atsPuani(tanim: TasarimTanimi): number {
   const sistem = Object.values(SISTEM_SABLONLARI).find((s) => s.tanim === tanim);
   if (sistem) return sistem.ats;
   let puan = 5;
-  if (tanim.yerlesim.startsWith("kenar-cubugu")) puan -= 1;
-  if (tanim.yerlesim === "ust-bant") puan -= 1;
+  if (kenarliMi(tanim)) puan -= 1;
+  // Açık zeminli bant yalnız arka plandır; beyaz yazılı koyu bant okunurluğu riske atar.
+  if (tanim.yerlesim === "ust-bant" && tanim.bant !== "acik") puan -= 1;
   if (tanim.yetenekler !== "liste") puan -= 0.5;
   if (tanim.yazi.boyut < 9.5) puan -= 0.5;
+  // Başlığı ya da tarihi ayrı sütuna alan düzenler bazı ayrıştırıcılarda satırları karıştırır.
+  if (tanim.bolumDuzeni === "yan" || tanim.zamanCizelgesi) puan -= 0.5;
   return Math.max(1, Math.round(puan));
 }

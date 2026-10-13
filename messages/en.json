@@ -95,8 +95,26 @@
         "ats": "ATS Classic",
         "zarif": "Elegant",
         "teknik": "Technical",
-        "kenar": "Sidebar"
-      }
+        "kenar": "Sidebar",
+        "kurumsal": "Executive",
+        "ikili": "Two Column",
+        "kontrast": "Contrast",
+        "isvicre": "Swiss",
+        "akademik": "Academic",
+        "zaman": "Timeline",
+        "yaratici": "Creative",
+        "girisim": "Startup",
+        "ferah": "Fresh",
+        "yeni-mezun": "Graduate",
+        "acik-kenar": "Soft Sidebar",
+        "editoryal": "Editorial",
+        "butik": "Boutique",
+        "kompakt": "Compact",
+        "resmi": "Formal",
+        "klasik": "Classic",
+        "sade": "Plain"
+      },
+      "tumu": "See all {n} templates in the editor"
     },
     "adimlar": {
       "ust": "How it works",
@@ -434,7 +452,24 @@
         "ats": "Single column, black and white, no icons. The layout applicant tracking systems read most reliably. No photo.",
         "zarif": "Serif type, centred header, double rule. Makes a serious impression in public sector, academia, law and corporate roles.",
         "teknik": "Coloured top band, skills as tags in two columns. Compact and easy to scan for software and technical roles.",
-        "kenar": "Two columns; photo, contact and skills in a coloured sidebar. Reading order for ATS starts with the main column."
+        "kenar": "Two columns; photo, contact and skills in a coloured sidebar. Reading order for ATS starts with the main column.",
+        "kurumsal": "Serif headings, name on the left, contact details stacked on the right and a heavy rule. A dignified single column for senior and executive roles.",
+        "ikili": "Full-width header; skills, languages and certificates in a light grey right-hand column. Keeps a lot of information tidy on one page.",
+        "kontrast": "Dark header band with a coloured stripe and an all-caps name. For sales, marketing and leadership roles that call for a strong first impression.",
+        "isvicre": "Section titles in a narrow left column and a large, plain name. A minimal, grid-based design with plenty of white space.",
+        "akademik": "EB Garamond type, centred header and dates in their own left column. For academic applications, fellowships and research positions.",
+        "zaman": "Experience and education on a vertical timeline with their dates. Shows your career progression at a glance.",
+        "yaratici": "Coloured edge stripe, a large all-caps name and outlined skill tags. For design, media and creative roles.",
+        "girisim": "Thin colour strip on top, a large name, dates under each title and skill tags. A contemporary look for startups and product teams.",
+        "ferah": "Light-tinted header band, soft type and generous spacing. Leaves a clean, trustworthy impression in healthcare, education and services.",
+        "yeni-mezun": "Coloured box headings, skill tags and a warm typeface. Puts education and projects first for people early in their careers.",
+        "acik-kenar": "Photo, contact and skills in a light-tinted sidebar. A softer, easier-to-read option for those who like sidebars.",
+        "editoryal": "A large, light name like a magazine page, serif type and a narrow side column set off by a fine rule. For communications, publishing and content roles.",
+        "butik": "Centred, widely spaced all-caps name and headings flanked by rules. Elegant yet restrained; suits hospitality, fashion and services.",
+        "kompakt": "Small type, narrow margins and tight spacing. An ATS-friendly single column for fitting a long history onto one page.",
+        "resmi": "Black and white, serif type and a centred all-caps name. A measured layout for formal applications in law, government and finance.",
+        "klasik": "Black and white serif type; name on the left, contact on the right, double rule. A traditional look that is fully ATS-compatible.",
+        "sade": "Black and white, centred header and undecorated headings. The plainest ATS option, with nothing to distract the reader."
       },
       "renk": "Accent colour",
       "ozelRenk": "Custom colour",
@@ -461,7 +496,14 @@
       "kagitIpucu": "Letter for the US, Canada and Mexico; A4 everywhere else.",
       "foto": "Photo",
       "fotoGoster": "Show on resume",
-      "fotoYok": "This template doesn’t show a photo"
+      "fotoYok": "This template doesn’t show a photo",
+      "filtre": {
+        "etiket": "Filter templates",
+        "tumu": "All",
+        "ats": "ATS 5/5",
+        "foto": "With photo",
+        "ikiSutun": "Two column"
+      }
     },
     "pdf": {
       "baslik": "Save as PDF",

@@ -1,6 +1,6 @@
 import { ArrowRight, Check } from "lucide-react";
 import { Belir } from "@/bilesenler/hareket/Belir";
-import type { SablonKimligi } from "@/bilesenler/cv-onizleme/MiniCv";
+import type { SablonKimligi } from "@/ortak/cv/sema";
 import { butonSinifi } from "@/bilesenler/ui/Buton";
 import NextLink from "next/link";
 import { HeroOnizleme } from "./HeroOnizleme";

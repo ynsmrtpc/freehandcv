@@ -7,7 +7,9 @@ import type { BolumKimligi, CvVerisi, Kisisel } from "@/ortak/cv/sema";
 import {
   FONTLAR,
   KAGIT_OLCULERI,
+  bantTuru,
   kenardaMi,
+  kenarliMi,
   tasarimCoz,
   type CozulmusTasarim,
   type TasarimTanimi,
@@ -27,6 +29,7 @@ type Baglam = {
   v: CvVerisi;
   t: CozulmusTasarim;
   m: ReturnType<typeof cvMetinleri>;
+  baglantisiz: boolean;
 };
 
 function Zengin({ metin }: { metin: string }) {
@@ -53,8 +56,19 @@ function Maddeler({ metin }: { metin: string }) {
   );
 }
 
-function Baglanti({ adres, children, className }: { adres: string; children: ReactNode; className?: string }) {
-  const href = guvenliAdres(adres);
+function Baglanti({
+  adres,
+  children,
+  className,
+  kapali,
+}: {
+  adres: string;
+  children: ReactNode;
+  className?: string;
+  /** Küçük önizlemelerde bağlantı yok: önizleme zaten bir <a>/<button> içinde durur. */
+  kapali?: boolean;
+}) {
+  const href = kapali ? "" : guvenliAdres(adres);
   return href ? (
     <a href={href} className={className}>
       {children}
@@ -153,7 +167,7 @@ function UstBilgi({ b, kenarli }: { b: Baglam; kenarli: boolean }) {
               <li key={x.ikon}>
                 <Ikon ad={x.ikon} />
                 {x.adres ? (
-                  <Baglanti adres={x.adres}>
+                  <Baglanti kapali={b.baglantisiz} adres={x.adres}>
                     <Kirilabilir metin={x.metin} />
                   </Baglanti>
                 ) : (
@@ -191,7 +205,7 @@ function KenarIletisim({ b }: { b: Baglam }) {
             <Ikon ad={x.ikon} />
             <span>
               {x.adres ? (
-                <Baglanti adres={x.adres}>
+                <Baglanti kapali={b.baglantisiz} adres={x.adres}>
                   <Kirilabilir metin={x.metin} />
                 </Baglanti>
               ) : (
@@ -285,7 +299,7 @@ function bolumGovdesi(id: BolumKimligi, b: Baglam, yanda: boolean): ReactNode {
             sol={
               <>
                 <h3>
-                  {i.baglanti ? <Baglanti adres={i.baglanti}>{i.ad}</Baglanti> : i.ad}
+                  {i.baglanti ? <Baglanti kapali={b.baglantisiz} adres={i.baglanti}>{i.ad}</Baglanti> : i.ad}
                   {i.rol && <span className="cv-rol"> · {i.rol}</span>}
                 </h3>
                 {(i.teknolojiler || i.baglanti) && (
@@ -293,7 +307,7 @@ function bolumGovdesi(id: BolumKimligi, b: Baglam, yanda: boolean): ReactNode {
                     {i.teknolojiler}
                     {i.teknolojiler && i.baglanti && " · "}
                     {i.baglanti && (
-                      <Baglanti adres={i.baglanti} className="cv-baglanti">
+                      <Baglanti kapali={b.baglantisiz} adres={i.baglanti} className="cv-baglanti">
                         {baglantiMetni(i.baglanti)}
                       </Baglanti>
                     )}
@@ -381,7 +395,7 @@ function bolumGovdesi(id: BolumKimligi, b: Baglam, yanda: boolean): ReactNode {
             const ek = [i.kurum, i.tarih].filter(Boolean).join(", ");
             return (
               <li key={i.id}>
-                <strong>{i.baglanti ? <Baglanti adres={i.baglanti}>{i.ad}</Baglanti> : i.ad}</strong>
+                <strong>{i.baglanti ? <Baglanti kapali={b.baglantisiz} adres={i.baglanti}>{i.ad}</Baglanti> : i.ad}</strong>
                 {ek && (yanda ? <span className="cv-ek cv-blok">{ek}</span> : <span className="cv-ek"> — {ek}</span>)}
               </li>
             );
@@ -417,9 +431,9 @@ function bolumGovdesi(id: BolumKimligi, b: Baglam, yanda: boolean): ReactNode {
                 {unvan && <span>{unvan}</span>}
                 {(i.telefon || i.eposta) && (
                   <span>
-                    {i.telefon && <Baglanti adres={"tel:" + i.telefon.replace(/[^\d+]/g, "")}>{i.telefon}</Baglanti>}
+                    {i.telefon && <Baglanti kapali={b.baglantisiz} adres={"tel:" + i.telefon.replace(/[^\d+]/g, "")}>{i.telefon}</Baglanti>}
                     {i.telefon && i.eposta && " · "}
-                    {i.eposta && <Baglanti adres={"mailto:" + i.eposta}>{i.eposta}</Baglanti>}
+                    {i.eposta && <Baglanti kapali={b.baglantisiz} adres={"mailto:" + i.eposta}>{i.eposta}</Baglanti>}
                   </span>
                 )}
               </div>
@@ -445,13 +459,25 @@ function Bolum({ id, b, yanda }: { id: BolumKimligi; b: Baglam; yanda: boolean }
 
 /* --- Belge --- */
 
-export function CvBelge({ veri, tanim, className }: { veri: CvVerisi; tanim: TasarimTanimi; className?: string }) {
+export function CvBelge({
+  veri,
+  tanim,
+  className,
+  baglantisiz = false,
+}: {
+  veri: CvVerisi;
+  tanim: TasarimTanimi;
+  className?: string;
+  /** Bağlantıları düz metin olarak basar (küçük önizlemeler; tıklanabilir bir öğenin içinde). */
+  baglantisiz?: boolean;
+}) {
   const t = tasarimCoz(tanim, veri.ayarlar);
   const m = cvMetinleri(veri.ayarlar.dil);
-  const b: Baglam = { v: veri, t, m };
+  const b: Baglam = { v: veri, t, m, baglantisiz };
   const kagit = KAGIT_OLCULERI[t.kagit];
   const gorunur = veri.ayarlar.bolumSirasi.filter((id) => !veri.ayarlar.gizli.includes(id));
-  const kenarli = t.yerlesim === "kenar-cubugu-sol" || t.yerlesim === "kenar-cubugu-sag";
+  const kenarli = kenarliMi(t);
+  const tamUstBilgi = kenarli && !!t.kenar?.tamUstBilgi;
 
   const stil = {
     "--cv-vurgu": t.renkler.vurgu,
@@ -459,6 +485,7 @@ export function CvBelge({ veri, tanim, className }: { veri: CvVerisi; tanim: Tas
     "--cv-soluk": t.renkler.soluk,
     "--cv-cizgi": t.renkler.cizgi,
     "--cv-font": FONTLAR[t.yazi.font].css,
+    "--cv-baslik-font": t.yazi.baslikFont ? FONTLAR[t.yazi.baslikFont].css : undefined,
     "--cv-boyut": `${t.yazi.boyut}pt`,
     "--cv-satir": t.yazi.satir,
     "--cv-aralik": t.aralikCarpani,
@@ -471,6 +498,7 @@ export function CvBelge({ veri, tanim, className }: { veri: CvVerisi; tanim: Tas
     "--cv-ayrac": `"${t.ayracKarakteri}"`,
   } as React.CSSProperties;
 
+  // Her görünüş farkı bir data-* özniteliğidir; cv.css yalnız bunlara bakar.
   const veriOznitelikleri = {
     "data-yerlesim": t.yerlesim,
     "data-hizalama": t.ustBilgi.hizalama,
@@ -478,10 +506,21 @@ export function CvBelge({ veri, tanim, className }: { veri: CvVerisi; tanim: Tas
     "data-ayrac": t.ustBilgi.ayrac,
     "data-unvan": t.ustBilgi.unvan,
     "data-ad": t.ustBilgi.adRengi,
+    "data-ad-boyut": t.ustBilgi.adBoyutu ?? "orta",
+    "data-ad-bicim": t.ustBilgi.adBicimi ?? "kalin",
+    "data-bant": bantTuru(t),
+    "data-serit": kenarli ? "yok" : (t.serit ?? "yok"),
     "data-baslik": t.bolumBasligi,
+    "data-baslik-harf": t.bolumBasligiHarf ?? "buyuk",
+    "data-bolum-duzeni": t.bolumDuzeni ?? "ust",
     "data-maddeler": t.maddeler,
+    "data-etiket": t.etiketStili ?? "dolu",
     "data-iletisim": t.iletisim,
     "data-kurum": t.kurum,
+    "data-tarih": t.tarihYeri ?? "sag",
+    "data-zaman": t.zamanCizelgesi ? "evet" : "hayir",
+    "data-kenar-zemin": kenarli ? (t.kenar?.zemin ?? "vurgu") : undefined,
+    "data-tam-ust": tamUstBilgi ? "evet" : undefined,
     "data-kagit": t.kagit,
   };
 
@@ -490,22 +529,29 @@ export function CvBelge({ veri, tanim, className }: { veri: CvVerisi; tanim: Tas
     const yan = gorunur.filter((id) => kenardaMi(t, id));
     const ana = gorunur.filter((id) => !kenardaMi(t, id));
     ic = (
-      // DOM'da ana sütun önce gelir (ATS okuma sırası); kenar çubuğu grid ile yana alınır.
-      <div className="cv-govde">
-        <div className="cv-ana">
-          <UstBilgi b={b} kenarli />
-          {ana.map((id) => (
-            <Bolum key={id} id={id} b={b} yanda={false} />
-          ))}
+      <>
+        {tamUstBilgi && (
+          <div className="cv-tam-ust">
+            <UstBilgi b={b} kenarli={false} />
+          </div>
+        )}
+        {/* DOM'da ana sütun önce gelir (ATS okuma sırası); kenar çubuğu grid ile yana alınır. */}
+        <div className="cv-govde">
+          <div className="cv-ana">
+            {!tamUstBilgi && <UstBilgi b={b} kenarli />}
+            {ana.map((id) => (
+              <Bolum key={id} id={id} b={b} yanda={false} />
+            ))}
+          </div>
+          <aside className="cv-yan">
+            {!tamUstBilgi && t.fotoGoster && veri.kisisel.foto && <Foto p={veri.kisisel} />}
+            {!tamUstBilgi && <KenarIletisim b={b} />}
+            {yan.map((id) => (
+              <Bolum key={id} id={id} b={b} yanda />
+            ))}
+          </aside>
         </div>
-        <aside className="cv-yan">
-          {t.fotoGoster && veri.kisisel.foto && <Foto p={veri.kisisel} />}
-          <KenarIletisim b={b} />
-          {yan.map((id) => (
-            <Bolum key={id} id={id} b={b} yanda />
-          ))}
-        </aside>
-      </div>
+      </>
     );
   } else {
     ic = (

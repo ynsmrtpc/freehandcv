@@ -13,6 +13,13 @@
     display: block !important;
     height: auto !important;
   }
+  /* Kısa CV'de son sayfanın altında editörün ve sayfa düzeninin zemini (gri) görünmesin;
+     düzen kabuğunun ekran boyu (min-h-dvh) da boş bir sayfa uzatmasın. */
+  body > *,
+  .editor-kabuk {
+    background: #fff !important;
+    min-height: 0 !important;
+  }
   .editor-kabuk > *:not(.editor-calisma),
   .editor-panel,
   .onizleme-arac,

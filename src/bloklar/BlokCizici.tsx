@@ -5,6 +5,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import type { Blok } from "@/ortak/bloklar";
 import { cn } from "@/ortak/cn";
+import { SABLON_KIMLIKLERI, type SablonKimligi } from "@/ortak/cv/sema";
 import { zenginParcalar } from "@/ortak/cv/yardimci";
 import { Adimlar } from "./Adimlar";
 import { Bagis } from "./Bagis";
@@ -42,13 +43,9 @@ export type BlokBaglami = { bagisBaglantisi?: string };
 function BlokIcerigi({ blok, baglam }: { blok: Blok; baglam: BlokBaglami }) {
   const t = useTranslations("Landing");
   const dil = useLocale() === "tr" ? "tr" : "en";
-  const adlar = {
-    modern: t("sablonlar.adlar.modern"),
-    ats: t("sablonlar.adlar.ats"),
-    zarif: t("sablonlar.adlar.zarif"),
-    teknik: t("sablonlar.adlar.teknik"),
-    kenar: t("sablonlar.adlar.kenar"),
-  };
+  const adlar = Object.fromEntries(
+    SABLON_KIMLIKLERI.map((k) => [k, t(`sablonlar.adlar.${k}` as never)]),
+  ) as Record<SablonKimligi, string>;
 
   switch (blok.tur) {
     case "hero":
@@ -75,7 +72,13 @@ function BlokIcerigi({ blok, baglam }: { blok: Blok; baglam: BlokBaglami }) {
     case "sablon_vitrini":
       return (
         <SablonVitrini
-          icerik={{ ...blok.icerik, adlar, dil, atsEtiketi: (puan) => t("sablonlar.ats", { puan }) }}
+          icerik={{
+            ...blok.icerik,
+            adlar,
+            dil,
+            atsEtiketi: (puan) => t("sablonlar.ats", { puan }),
+            tumu: (n) => t("sablonlar.tumu", { n }),
+          }}
         />
       );
     case "adimlar":

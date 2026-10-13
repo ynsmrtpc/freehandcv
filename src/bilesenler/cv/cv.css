@@ -5,7 +5,8 @@
  *
  * Sayfa yapısı:
  *   .cv                     kâğıt (A4 ya da Letter genişliği)
- *     .cv-zemin             kenar çubuğu rengi (yazdırmada position:fixed → her sayfada tekrar eder)
+ *     .cv-zemin             kenar çubuğu rengi ya da vurgu şeridi
+ *                           (yazdırmada position:fixed → her sayfada tekrar eder)
  *     table.cv-cerceve      thead/tfoot boşlukları her sayfanın üst/alt kenar boşluğu olur
  * @page kenar boşluğu 0'dır; böylece kenar çubuğu ve üst bant kâğıt kenarına kadar uzanır.
  */
@@ -17,6 +18,7 @@
   --cv-cizgi: #d6dbe3;
   --cv-koyu: color-mix(in srgb, var(--cv-metin) 80%, #000);
   --cv-font: "Inter", "Segoe UI", Arial, sans-serif;
+  --cv-baslik-font: var(--cv-font);
   --cv-boyut: 10pt;
   --cv-satir: 1.42;
   --cv-aralik: 1;
@@ -25,6 +27,11 @@
   --cv-yatay: 16mm;
   --cv-sayfa-g: 210mm;
   --cv-sayfa-y: 297mm;
+  /* Üst bilginin yatay iç boşluğu (tam genişlikte üst bilgi ve bant bunu kullanır). */
+  --ic-bas: var(--cv-yatay);
+  --ic-son: var(--cv-yatay);
+  /* Soldaki tarih sütununun genişliği (tarihYeri = sol). */
+  --cv-tarih-sutun: 0mm;
 
   position: relative;
   width: var(--cv-sayfa-g);
@@ -97,6 +104,7 @@
   min-width: 0;
 }
 .cv-ad {
+  font-family: var(--cv-baslik-font);
   font-size: 2.3em;
   line-height: 1.08;
   font-weight: 700;
@@ -105,6 +113,31 @@
 }
 .cv[data-ad="vurgu"] .cv-ad {
   color: var(--cv-vurgu);
+}
+.cv[data-ad-boyut="kucuk"] .cv-ad {
+  font-size: 1.85em;
+}
+.cv[data-ad-boyut="buyuk"] .cv-ad {
+  font-size: 2.7em;
+  line-height: 1.05;
+}
+.cv[data-ad-boyut="dev"] .cv-ad {
+  font-size: 3.15em;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+.cv[data-ad-bicim="ince"] .cv-ad {
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+.cv[data-ad-bicim="buyuk-harf"] .cv-ad {
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.cv[data-ad-bicim="ince-buyuk-harf"] .cv-ad {
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
 }
 .cv-unvan {
   margin-block-start: 1.4mm;
@@ -221,11 +254,104 @@
   justify-content: center;
 }
 
+/* İki yana: ad ve unvan solda, iletişim alt alta karşı kenarda (dikeyde ortalı). */
+.cv[data-hizalama="iki-yana"] .cv-bas-metin {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 1fr auto auto auto 1fr;
+  column-gap: 8mm;
+}
+.cv[data-hizalama="iki-yana"] .cv-ad {
+  grid-area: 2 / 1;
+}
+.cv[data-hizalama="iki-yana"] .cv-unvan {
+  grid-area: 3 / 1;
+}
+.cv[data-hizalama="iki-yana"] .cv-ekler {
+  grid-area: 4 / 1;
+}
+.cv[data-hizalama="iki-yana"] .cv-iletisim {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  align-self: center;
+  gap: 0.9mm;
+  margin-block-start: 0;
+  text-align: end;
+}
+.cv[data-hizalama="iki-yana"] .cv-iletisim li + li::before {
+  content: none;
+}
+
+/* --- Üst bilgi zemini (bant) --- */
+.cv:is([data-bant="vurgu"], [data-bant="koyu"], [data-bant="acik"]) :is(.cv-ic, .cv-tam-ust) > .cv-bas {
+  margin-block-start: calc(-1 * var(--cv-ust));
+  margin-inline: calc(-1 * var(--ic-bas)) calc(-1 * var(--ic-son));
+  padding-block: calc(var(--cv-ust) + 2mm) 7mm;
+  padding-inline: var(--ic-bas) var(--ic-son);
+}
+.cv[data-bant="vurgu"] .cv-bas {
+  background: var(--cv-vurgu);
+  color: #fff;
+}
+.cv[data-bant="koyu"] .cv-bas {
+  background: var(--cv-koyu);
+  color: #fff;
+  border-block-end: 1.6mm solid var(--cv-vurgu);
+}
+.cv[data-bant="acik"] .cv-bas {
+  background: color-mix(in srgb, var(--cv-vurgu) 8%, #fff);
+  border-block-end: 0.8pt solid color-mix(in srgb, var(--cv-vurgu) 30%, #fff);
+}
+.cv:is([data-bant="vurgu"], [data-bant="koyu"]) .cv-ad,
+.cv:is([data-bant="vurgu"], [data-bant="koyu"]) .cv-ekler b {
+  color: #fff;
+}
+.cv:is([data-bant="vurgu"], [data-bant="koyu"]) .cv-unvan {
+  color: rgb(255 255 255 / 0.88);
+  font-weight: 500;
+}
+.cv:is([data-bant="vurgu"], [data-bant="koyu"]) .cv-iletisim,
+.cv:is([data-bant="vurgu"], [data-bant="koyu"]) .cv-ekler {
+  color: rgb(255 255 255 / 0.92);
+}
+.cv:is([data-bant="vurgu"], [data-bant="koyu"]) .cv-bas .cv-ikon {
+  stroke: currentColor;
+  opacity: 0.85;
+}
+.cv:is([data-bant="vurgu"], [data-bant="koyu"]) .cv-bas .cv-foto {
+  border: 0.8mm solid rgb(255 255 255 / 0.85);
+}
+.cv[data-bant="acik"] .cv-bas .cv-foto {
+  border: 0.8mm solid #fff;
+}
+
+/* --- Vurgu şeridi --- */
+.cv[data-serit="sol"] .cv-zemin {
+  display: block;
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 3.2mm;
+  background: var(--cv-vurgu);
+}
+.cv[data-serit="ust"] .cv-zemin {
+  display: block;
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  block-size: 3.2mm;
+  background: var(--cv-vurgu);
+}
+
 /* --- Bölümler --- */
 .cv-bolum {
   margin-block-start: calc(5.2mm * var(--cv-aralik));
 }
 .cv-bolum > h2 {
+  font-family: var(--cv-baslik-font);
   font-size: 0.98em;
   font-weight: 700;
   letter-spacing: 0.07em;
@@ -234,6 +360,9 @@
   margin-block-end: calc(1.6mm * var(--cv-aralik));
   break-after: avoid;
   page-break-after: avoid;
+  /* Başlık süsü (ör. kısa çizgi) başlıktan ayrılıp sonraki sayfaya düşmesin. */
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 .cv[data-baslik="alt-cizgi"] .cv-bolum > h2 {
   letter-spacing: 0.08em;
@@ -267,6 +396,71 @@
 .cv[data-baslik="sol-cubuk"] .cv-bolum > h2 {
   padding-inline-start: 2.4mm;
   border-inline-start: 1mm solid var(--cv-vurgu);
+}
+/* Vurgu renginde kutu, beyaz yazı (kontrast denetimi bunu da ölçer). */
+.cv[data-baslik="kutu"] .cv-bolum > h2 {
+  inline-size: fit-content;
+  padding: 0.6mm 2.6mm 0.5mm;
+  border-radius: 0.8mm;
+  background: var(--cv-vurgu);
+  color: #fff;
+  letter-spacing: 0.08em;
+  margin-block-end: calc(2.2mm * var(--cv-aralik));
+}
+.cv[data-baslik="ortali"] .cv-bolum > h2 {
+  display: flex;
+  align-items: center;
+  gap: 3.5mm;
+  text-align: center;
+  letter-spacing: 0.14em;
+  margin-block-end: calc(2.2mm * var(--cv-aralik));
+}
+.cv[data-baslik="ortali"] .cv-bolum > h2::before,
+.cv[data-baslik="ortali"] .cv-bolum > h2::after {
+  content: "";
+  flex: 1;
+  height: 0.6pt;
+  background: var(--cv-cizgi);
+}
+.cv[data-baslik="kisa-cizgi"] .cv-bolum > h2 {
+  margin-block-end: calc(2.2mm * var(--cv-aralik));
+}
+.cv[data-baslik="kisa-cizgi"] .cv-bolum > h2::after {
+  content: "";
+  display: block;
+  inline-size: 9mm;
+  block-size: 0.75mm;
+  margin-block-start: 1.1mm;
+  border-radius: 0.4mm;
+  background: var(--cv-vurgu);
+}
+/* Başlık harfleri yazıldığı gibi: biraz daha iri, harf aralığı dar. */
+.cv[data-baslik-harf="normal"] .cv-bolum > h2 {
+  font-size: 1.2em;
+  letter-spacing: 0.005em;
+  text-transform: none;
+}
+
+/* Başlık solda dar sütunda, içerik sağında. */
+.cv[data-bolum-duzeni="yan"] {
+  --cv-baslik-sutun: 31mm;
+}
+.cv[data-bolum-duzeni="yan"] :is(.cv-ic, .cv-ana) > .cv-bolum {
+  display: grid;
+  grid-template-columns: var(--cv-baslik-sutun) minmax(0, 1fr);
+  column-gap: 5mm;
+  align-items: start;
+}
+.cv[data-bolum-duzeni="yan"] :is(.cv-ic, .cv-ana) > .cv-bolum > * {
+  grid-column: 2;
+}
+.cv[data-bolum-duzeni="yan"] :is(.cv-ic, .cv-ana) > .cv-bolum > h2 {
+  grid-column: 1;
+  grid-row: 1 / span 40;
+  margin-block-end: 0;
+  padding-block-start: 0.2em;
+  font-size: 0.86em;
+  overflow-wrap: anywhere;
 }
 
 .cv-ozet p + p {
@@ -312,6 +506,9 @@
   font-style: italic;
   font-weight: 400;
 }
+.cv[data-kurum="vurgu"] .cv-kurum {
+  color: var(--cv-vurgu);
+}
 .cv-teknoloji {
   margin-block-start: 0.5mm;
   font-size: 0.92em;
@@ -347,6 +544,9 @@
 .cv[data-maddeler="ok"] .cv-kalem ul {
   list-style: "›  ";
 }
+.cv[data-maddeler="kare"] .cv-kalem ul {
+  list-style-type: square;
+}
 .cv[data-maddeler="yok"] .cv-kalem ul {
   list-style: none;
   padding-inline-start: 0;
@@ -354,6 +554,59 @@
 .cv-baglanti {
   font-size: 0.9em;
   color: var(--cv-vurgu);
+}
+
+/* Tarih başlığın altında */
+.cv[data-tarih="alt"] .cv-kalem-ust {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3mm;
+}
+.cv[data-tarih="alt"] .cv-tarih {
+  font-size: 0.88em;
+}
+/* Tarih solda ayrı sütunda (ana sütunda; kenar çubuğu dar olduğundan etkilenmez) */
+.cv[data-tarih="sol"] {
+  --cv-tarih-sutun: 25mm;
+}
+.cv[data-tarih="sol"] :is(.cv-ic, .cv-ana) .cv-kalem {
+  position: relative;
+  padding-inline-start: var(--cv-tarih-sutun);
+}
+.cv[data-tarih="sol"] :is(.cv-ic, .cv-ana) .cv-tarih {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0.12em;
+  inline-size: calc(var(--cv-tarih-sutun) - 4mm);
+  white-space: normal;
+  line-height: 1.3;
+}
+/* Zaman çizelgesi: kalemler dikey bir çizgi ve noktalarla bağlanır. */
+.cv[data-zaman="evet"] :is(.cv-ic, .cv-ana) .cv-kalem {
+  position: relative;
+  padding-inline-start: calc(var(--cv-tarih-sutun) + 6mm);
+}
+.cv[data-zaman="evet"] :is(.cv-ic, .cv-ana) .cv-kalem::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: calc(var(--cv-tarih-sutun) + 1.1mm);
+  inset-block-start: 0.72em;
+  inset-block-end: calc(-3mm * var(--cv-aralik) - 0.72em);
+  border-inline-start: 0.8pt solid var(--cv-cizgi);
+}
+.cv[data-zaman="evet"] :is(.cv-ic, .cv-ana) .cv-kalem:last-child::before {
+  inset-block-end: 0;
+}
+.cv[data-zaman="evet"] :is(.cv-ic, .cv-ana) .cv-kalem::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: calc(var(--cv-tarih-sutun) + 0.07mm);
+  inset-block-start: calc(0.72em - 1.15mm);
+  inline-size: 2.3mm;
+  block-size: 2.3mm;
+  border-radius: 50%;
+  border: 0.55mm solid var(--cv-vurgu);
+  background: #fff;
 }
 
 /* Yetenekler: liste */
@@ -402,6 +655,11 @@
   background: color-mix(in srgb, var(--cv-vurgu) 10%, #fff);
   color: color-mix(in srgb, var(--cv-vurgu) 85%, #000);
 }
+.cv[data-etiket="cerceve"] .cv-etiket {
+  padding: 0.3mm 1.8mm;
+  background: transparent;
+  border: 0.6pt solid color-mix(in srgb, var(--cv-vurgu) 45%, #fff);
+}
 /* Görünmez virgül: PDF'ten kopyalanan metin "React, Node.js" olarak yapışsın (ATS). */
 .cv-gizli-ayrac {
   font-size: 0;
@@ -447,40 +705,56 @@
   font-size: 0.93em;
 }
 
-/* --- Üst bant yerleşimi --- */
-.cv[data-yerlesim="ust-bant"] .cv-bas {
-  margin: calc(-1 * var(--cv-ust)) calc(-1 * var(--cv-yatay)) 0;
-  padding: calc(var(--cv-ust) + 2mm) var(--cv-yatay) 7mm;
-  background: var(--cv-vurgu);
-  color: #fff;
-}
-.cv[data-yerlesim="ust-bant"] .cv-ad,
-.cv[data-yerlesim="ust-bant"] .cv-ekler b {
-  color: #fff;
-}
-.cv[data-yerlesim="ust-bant"] .cv-unvan {
-  color: rgb(255 255 255 / 0.88);
-  font-weight: 500;
-}
-.cv[data-yerlesim="ust-bant"] .cv-iletisim,
-.cv[data-yerlesim="ust-bant"] .cv-ekler {
-  color: rgb(255 255 255 / 0.92);
-}
-.cv[data-yerlesim="ust-bant"] .cv-ikon {
-  stroke: currentColor;
-  opacity: 0.85;
-}
-.cv[data-yerlesim="ust-bant"] .cv-foto {
-  border: 0.8mm solid rgb(255 255 255 / 0.85);
-}
-
 /* --- Kenar çubuğu yerleşimi --- */
+/* Kenar çubuğu renkleri: vurgu zemininde beyaz yazı; açık zeminlerde CV'nin kendi renkleri. */
+.cv[data-yerlesim^="kenar-cubugu"] {
+  --yan-zemin: var(--cv-vurgu);
+  --yan-metin: rgb(255 255 255 / 0.93);
+  --yan-guclu: #fff;
+  --yan-baslik: #fff;
+  --yan-cizgi: rgb(255 255 255 / 0.4);
+  --yan-soluk: rgb(255 255 255 / 0.78);
+  --yan-dd: rgb(255 255 255 / 0.85);
+  --yan-etiket: rgb(255 255 255 / 0.7);
+  --yan-ikon: currentColor;
+  --yan-ikon-saydamlik: 0.85;
+  --yan-foto-cerceve: rgb(255 255 255 / 0.9);
+}
+.cv:is([data-kenar-zemin="acik"], [data-kenar-zemin="gri"], [data-kenar-zemin="cizgi"]) {
+  --yan-metin: var(--cv-metin);
+  --yan-guclu: var(--cv-koyu);
+  --yan-baslik: var(--cv-vurgu);
+  --yan-cizgi: color-mix(in srgb, var(--cv-vurgu) 25%, #fff);
+  --yan-soluk: var(--cv-soluk);
+  --yan-dd: var(--cv-metin);
+  --yan-etiket: var(--cv-soluk);
+  --yan-ikon: var(--cv-vurgu);
+  --yan-ikon-saydamlik: 1;
+  --yan-foto-cerceve: #fff;
+}
+.cv[data-kenar-zemin="acik"] {
+  --yan-zemin: color-mix(in srgb, var(--cv-vurgu) 7%, #fff);
+}
+.cv[data-kenar-zemin="gri"] {
+  --yan-zemin: #f1f3f6;
+}
+.cv[data-kenar-zemin="cizgi"] {
+  --yan-zemin: transparent;
+}
+.cv[data-yerlesim="kenar-cubugu-sol"] {
+  --ic-bas: 7.5mm;
+  --ic-son: 13mm;
+}
+.cv[data-yerlesim="kenar-cubugu-sag"] {
+  --ic-bas: 13mm;
+  --ic-son: 7.5mm;
+}
 .cv[data-yerlesim^="kenar-cubugu"] .cv-zemin {
   display: block;
   position: absolute;
   inset-block: 0;
   inline-size: var(--cv-yan);
-  background: var(--cv-vurgu);
+  background: var(--yan-zemin);
 }
 .cv[data-yerlesim="kenar-cubugu-sol"] .cv-zemin {
   inset-inline-start: 0;
@@ -513,7 +787,7 @@
   grid-row: 1;
   min-width: 0;
   padding-inline: 7.5mm;
-  color: rgb(255 255 255 / 0.93);
+  color: var(--yan-metin);
   font-size: 0.95em;
 }
 .cv[data-yerlesim="kenar-cubugu-sol"] .cv-yan {
@@ -522,12 +796,18 @@
 .cv[data-yerlesim="kenar-cubugu-sag"] .cv-yan {
   grid-column: 2;
 }
+.cv[data-kenar-zemin="cizgi"][data-yerlesim="kenar-cubugu-sol"] .cv-yan {
+  border-inline-end: 0.6pt solid var(--cv-cizgi);
+}
+.cv[data-kenar-zemin="cizgi"][data-yerlesim="kenar-cubugu-sag"] .cv-yan {
+  border-inline-start: 0.6pt solid var(--cv-cizgi);
+}
 .cv-yan .cv-foto {
   display: block;
   width: 36mm;
   height: 36mm;
   margin: 0 auto 5mm;
-  border: 1mm solid rgb(255 255 255 / 0.9);
+  border: 1mm solid var(--yan-foto-cerceve);
 }
 .cv-yan .cv-bolum {
   margin-block-start: calc(6mm * var(--cv-aralik));
@@ -537,12 +817,21 @@
 }
 .cv .cv-yan .cv-bolum > h2 {
   display: block;
-  color: #fff;
+  inline-size: auto;
+  text-align: start;
+  background: none;
+  border-radius: 0;
+  color: var(--yan-baslik);
   font-size: 0.95em;
   letter-spacing: 0.1em;
   padding: 0 0 1.3mm;
+  margin-block-end: calc(1.6mm * var(--cv-aralik));
   border: 0;
-  border-block-end: 0.6pt solid rgb(255 255 255 / 0.4);
+  border-block-end: 0.6pt solid var(--yan-cizgi);
+}
+.cv[data-baslik-harf="normal"] .cv-yan .cv-bolum > h2 {
+  font-size: 1.1em;
+  letter-spacing: 0.005em;
 }
 .cv .cv-yan .cv-bolum > h2::before,
 .cv .cv-yan .cv-bolum > h2::after {
@@ -551,14 +840,14 @@
 .cv-yan strong,
 .cv-yan dt,
 .cv-yan h3 {
-  color: #fff;
+  color: var(--yan-guclu);
 }
 .cv-yan .cv-ek {
-  color: rgb(255 255 255 / 0.78);
+  color: var(--yan-soluk);
 }
 .cv-yan .cv-ikon {
-  stroke: currentColor;
-  opacity: 0.85;
+  stroke: var(--yan-ikon);
+  opacity: var(--yan-ikon-saydamlik);
   margin-block-start: 0.15em;
 }
 .cv-yan .cv-yetenek {
@@ -573,7 +862,7 @@
 }
 .cv-yan .cv-yetenek dd {
   margin-block-start: 0.4mm;
-  color: rgb(255 255 255 / 0.85);
+  color: var(--yan-dd);
 }
 .cv-yan-iletisim {
   list-style: none;
@@ -592,10 +881,29 @@
 .cv-etiket-baslik {
   display: block;
   font-size: 0.85em;
-  color: rgb(255 255 255 / 0.7);
+  color: var(--yan-etiket);
 }
 .cv-ana .cv-bas {
   display: block;
+}
+
+/* Kenar çubuklu düzende tam genişlikte üst bilgi: beyaz zemini kenar çubuğu rengini örter. */
+.cv-tam-ust {
+  position: relative;
+  margin-block-start: calc(-1 * var(--cv-ust));
+  padding-block: var(--cv-ust) 6mm;
+  padding-inline: var(--ic-bas) var(--ic-son);
+  background: #fff;
+}
+.cv:is([data-bant="vurgu"], [data-bant="koyu"], [data-bant="acik"]) .cv-tam-ust {
+  padding-block-end: 0;
+}
+.cv[data-tam-ust] .cv-ana,
+.cv[data-tam-ust] .cv-yan {
+  padding-block-start: calc(6mm * var(--cv-aralik));
+}
+.cv[data-tam-ust] .cv-ana > .cv-bolum:first-child {
+  margin-block-start: 0;
 }
 
 /* --- Yazdırma --- */
@@ -603,7 +911,8 @@
   .cv {
     min-height: 0 !important;
   }
-  .cv[data-yerlesim^="kenar-cubugu"] .cv-zemin {
+  .cv[data-yerlesim^="kenar-cubugu"] .cv-zemin,
+  .cv[data-serit="sol"] .cv-zemin {
     position: fixed;
   }
   .cv,

@@ -3,8 +3,10 @@
 import { CheckCircle2, FileDown, ShieldCheck } from "lucide-react";
 import { AnimatePresence, m } from "motion/react";
 import { useEffect, useState } from "react";
-import { MiniCv, SABLONLAR, type SablonKimligi } from "@/bilesenler/cv-onizleme/MiniCv";
+import { SablonOnizleme } from "@/bilesenler/cv/SablonOnizleme";
 import { cn } from "@/ortak/cn";
+import type { SablonKimligi } from "@/ortak/cv/sema";
+import { ONE_CIKAN_SABLONLAR as SABLONLAR } from "@/ortak/cv/tasarim";
 
 const SURE_MS = 3600;
 
@@ -34,22 +36,24 @@ export function HeroOnizleme({ dil, adlar, etiketler }: Props) {
       onFocus={() => setDurdu(true)}
       onBlur={() => setDurdu(false)}
     >
-      {/* Arkadaki kâğıt yığını */}
-      <div aria-hidden className="absolute inset-x-6 top-6 bottom-10 rotate-[-5deg] rounded-xl bg-yuzey-2 shadow-yuksek ring-1 ring-cizgi" />
-      <div aria-hidden className="absolute inset-x-3 top-3 bottom-8 rotate-[3deg] rounded-xl bg-yuzey shadow-yuksek ring-1 ring-cizgi" />
+      {/* Arkadaki kâğıt yığını: yalnız kâğıda göre konumlanır (altındaki seçici kaç satır olursa olsun). */}
+      <div className="relative">
+        <div aria-hidden className="absolute inset-x-6 top-6 -bottom-4 rotate-[-5deg] rounded-xl bg-yuzey-2 shadow-yuksek ring-1 ring-cizgi" />
+        <div aria-hidden className="absolute inset-x-3 top-3 -bottom-2 rotate-[3deg] rounded-xl bg-yuzey shadow-yuksek ring-1 ring-cizgi" />
 
-      <div className="relative overflow-hidden rounded-xl shadow-kagit ring-1 ring-black/5">
-        <AnimatePresence mode="popLayout" initial={false}>
-          <m.div
-            key={sablon}
-            initial={{ opacity: 0, scale: 0.98, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 1.01, y: -6, transition: { duration: 0.25 } }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <MiniCv sablon={sablon} dil={dil} />
-          </m.div>
-        </AnimatePresence>
+        <div className="relative overflow-hidden rounded-xl shadow-kagit ring-1 ring-black/5">
+          <AnimatePresence mode="popLayout" initial={false}>
+            <m.div
+              key={sablon}
+              initial={{ opacity: 0, scale: 0.98, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 1.01, y: -6, transition: { duration: 0.25 } }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <SablonOnizleme kimlik={sablon} dil={dil} ilkOlcek={0.53} />
+            </m.div>
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* Yüzen rozetler */}

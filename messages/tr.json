@@ -95,8 +95,26 @@
         "ats": "ATS Klasik",
         "zarif": "Zarif",
         "teknik": "Teknik",
-        "kenar": "Kenar Çubuklu"
-      }
+        "kenar": "Kenar Çubuklu",
+        "kurumsal": "Kurumsal",
+        "ikili": "İki Sütun",
+        "kontrast": "Kontrast",
+        "isvicre": "İsviçre",
+        "akademik": "Akademik",
+        "zaman": "Zaman Çizelgesi",
+        "yaratici": "Yaratıcı",
+        "girisim": "Girişim",
+        "ferah": "Ferah",
+        "yeni-mezun": "Yeni Mezun",
+        "acik-kenar": "Açık Kenar",
+        "editoryal": "Editoryal",
+        "butik": "Butik",
+        "kompakt": "Kompakt",
+        "resmi": "Resmi",
+        "klasik": "Klasik",
+        "sade": "Sade"
+      },
+      "tumu": "{n} şablonun hepsini editörde gör"
     },
     "adimlar": {
       "ust": "Nasıl çalışır",
@@ -434,7 +452,24 @@
         "ats": "Tek sütun, siyah-beyaz, ikonsuz. Aday takip sistemlerinin en hatasız okuduğu düzen. Fotoğraf gösterilmez.",
         "zarif": "Serif yazı, ortalanmış üst bilgi, çift çizgi. Kamu, akademi, hukuk ve kurumsal başvurularda ciddi bir izlenim bırakır.",
         "teknik": "Renkli üst bant, yetenekler etiket olarak iki sütunda. Yazılım ve teknik roller için kompakt ve kolay taranır.",
-        "kenar": "İki sütun; fotoğraf, iletişim ve yetenekler renkli kenar çubuğunda. ATS için metin sırası ana sütundan başlar."
+        "kenar": "İki sütun; fotoğraf, iletişim ve yetenekler renkli kenar çubuğunda. ATS için metin sırası ana sütundan başlar.",
+        "kurumsal": "Serif başlıklar, solda ad, sağda alt alta iletişim bilgileri ve kalın ayraç. Yönetici ve kıdemli roller için ağırbaşlı bir tek sütun.",
+        "ikili": "Üst bilgi tam genişlikte; yetenekler, diller ve sertifikalar sağdaki açık gri sütunda. Çok bilgiyi tek sayfada derli toplu gösterir.",
+        "kontrast": "Koyu üst bant, altında renkli şerit ve büyük harfli ad. Güçlü bir ilk izlenim isteyen satış, pazarlama ve yönetim rolleri için.",
+        "isvicre": "Bölüm başlıkları solda dar bir sütunda, ad iri ve sade. Bol beyaz alanlı, ızgaraya oturan minimal bir tasarım.",
+        "akademik": "EB Garamond yazı, ortalanmış üst bilgi, tarihler solda ayrı sütunda. Akademik başvurular, burslar ve araştırma pozisyonları için.",
+        "zaman": "Deneyim ve eğitim, tarihleriyle dikey bir zaman çizgisinde. Kariyerindeki ilerlemeyi bir bakışta gösterir.",
+        "yaratici": "Kenarda renkli şerit, iri büyük harfli ad ve çerçeveli yetenek etiketleri. Tasarım, medya ve yaratıcı roller için.",
+        "girisim": "Üstte ince renk şeridi, iri ad, başlığın altında tarih ve etiket yetenekler. Startup ve ürün ekipleri için çağdaş bir görünüm.",
+        "ferah": "Açık renkli üst bant, yumuşak yazı ve bol boşluk. Sağlık, eğitim ve hizmet sektörlerinde temiz, güven veren bir izlenim bırakır.",
+        "yeni-mezun": "Renkli kutu başlıklar, etiket yetenekler ve sıcak bir yazı tipi. Deneyimi az olanların eğitimini ve projelerini öne çıkarır.",
+        "acik-kenar": "Fotoğraf, iletişim ve yetenekler açık renkli bir kenar çubuğunda. Kenar çubuğu sevenler için daha yumuşak ve okunaklı bir seçenek.",
+        "editoryal": "Dergi sayfasını andıran iri, ince ad; serif yazı ve ince çizgiyle ayrılmış dar bir yan sütun. İletişim, yayıncılık ve içerik rolleri için.",
+        "butik": "Ortalanmış, aralıklı büyük harfli ad ve iki yanı çizgili başlıklar. Zarif ama sade; turizm, moda ve hizmet sektörü için.",
+        "kompakt": "Küçük yazı, dar kenar boşlukları ve sıkı aralıklar. Uzun bir geçmişi tek sayfaya sığdırmak için ATS dostu tek sütun.",
+        "resmi": "Siyah-beyaz, serif yazı, ortalanmış büyük harfli ad. Hukuk, kamu ve finans gibi resmi başvurular için ölçülü bir düzen.",
+        "klasik": "Siyah-beyaz, serif yazı; ad solda, iletişim sağda, çift çizgi. Geleneksel görünüm, aday takip sistemleriyle tam uyumlu.",
+        "sade": "Siyah-beyaz, ortalanmış üst bilgi ve süssüz başlıklar. Hiçbir ayrıntının dikkat dağıtmadığı en yalın ATS seçeneği."
       },
       "renk": "Vurgu rengi",
       "ozelRenk": "Özel renk",
@@ -461,7 +496,14 @@
       "kagitIpucu": "ABD, Kanada ve Meksika için Letter; diğer ülkeler için A4.",
       "foto": "Fotoğraf",
       "fotoGoster": "CV'de göster",
-      "fotoYok": "Bu şablonda fotoğraf gösterilmez"
+      "fotoYok": "Bu şablonda fotoğraf gösterilmez",
+      "filtre": {
+        "etiket": "Şablonları filtrele",
+        "tumu": "Tümü",
+        "ats": "ATS 5/5",
+        "foto": "Fotoğraflı",
+        "ikiSutun": "İki sütun"
+      }
     },
     "pdf": {
       "baslik": "PDF olarak kaydet",
