@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FreehandCV
 
-## Getting Started
+%100 ücretsiz CV düzenleyici. Plan ve kararlar: [docs/WEB-UYGULAMA-PLANI.md](docs/WEB-UYGULAMA-PLANI.md).
 
-First, run the development server:
+## Yerelde çalıştırma
+
+Gerekenler: Node 24, pnpm 10, Docker.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+cp .env.example .env            # BETTER_AUTH_SECRET'ı doldur: openssl rand -base64 32
+pnpm db:up                      # Postgres 17, localhost:5433
+pnpm db:migrate
+pnpm yonetici:olustur <e-posta> <şifre> "Ad Soyad"
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Site: http://localhost:3000 (Türkçe), http://localhost:3000/en
+- Yönetim: http://localhost:3000/yonetim — ilk girişte iki adımlı doğrulama (TOTP) kurulur.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Komutlar
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Komut | İş |
+|---|---|
+| `pnpm dev` / `pnpm build` | Geliştirme sunucusu / üretim derlemesi |
+| `pnpm typecheck`, `pnpm lint` | Tip ve lint denetimi |
+| `pnpm db:generate` | Şema değişikliğinden SQL göçü üretir (`drizzle/`) |
+| `pnpm db:migrate` | Göçleri uygular |
+| `pnpm db:studio` | Drizzle Studio |
+| `pnpm yonetici:olustur` | Yönetici hesabı açar ya da var olanı yönetici yapar |
 
-## Learn More
+## Dizinler
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/app/[locale]/(site)       herkese açık site (statik, indekslenir)
+src/app/[locale]/(uygulama)   editör ve panel (noindex)
+src/app/[locale]/(yonetim)    yönetim paneli (rol + TOTP denetimli)
+src/sunucu/                   iş mantığı, veritabanı, auth — yalnız sunucuda
+src/sunucu/db/sema/           Drizzle şeması (planın 5. bölümündeki tüm tablolar)
+src/istemci/                  tarayıcı tarafı yardımcılar
+src/ortak/                    iki tarafın da kullandığı saf kod (SEO, site adresi)
+src/i18n/                     next-intl: diller, yerelleştirilmiş yollar
+messages/                     arayüz çevirileri
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Dağıtım
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`Dockerfile` Coolify içindir: standalone Next.js imajı, açılışta veritabanı göçlerini uygular.
+Ortam değişkenleri `.env.example` ile aynıdır; `BETTER_AUTH_URL` ve `NEXT_PUBLIC_SITE_URL`
+canlı adres (`https://freehandcv.com`) olmalıdır.

@@ -1,0 +1,202 @@
+{
+  "Meta": {
+    "siteAdi": "FreehandCV",
+    "varsayilanBaslik": "FreehandCV — Free Resume Builder, Free PDF Download",
+    "varsayilanAciklama": "Build your resume for free and download it as a PDF for free. No credit card, no trial, no watermark. ATS-friendly templates and a recruiter check."
+  },
+  "Site": {
+    "anaMenu": "Main menu",
+    "menuAc": "Open menu",
+    "menuKapat": "Close menu",
+    "icerigeGec": "Skip to content",
+    "sablonlar": "Templates",
+    "nasilCalisir": "How it works",
+    "sss": "FAQ",
+    "ucretsizMi": "Is it really free?",
+    "cvOlustur": "Create my resume",
+    "dil": "Language",
+    "tema": "Theme",
+    "temaAcik": "Light",
+    "temaKoyu": "Dark",
+    "temaSistem": "System",
+    "altBilgiSlogan": "A free resume builder. No paid features — we never ask for a credit card.",
+    "altBilgiUrun": "Product",
+    "altBilgiHaklar": "© {yil} FreehandCV",
+    "yapimAsamasinda": "The site is under construction — launching very soon."
+  },
+  "Landing": {
+    "ogBaslik": "Build your resume for free. Download it for free.",
+    "hero": {
+      "rozet": "100% free · No sign-up",
+      "baslik": "Build your resume for <vurgu>free</vurgu>. Download it for <vurgu>free</vurgu>.",
+      "altBaslik": "ATS-friendly templates, an instant recruiter check and one-click PDF. No credit card, no trial, no watermark.",
+      "anaButon": "Create my resume",
+      "ikincilButon": "See templates",
+      "maddeler": [
+        "No credit card",
+        "No watermark",
+        "Unlimited resumes"
+      ],
+      "sablon": "Template",
+      "atsUyumlu": "ATS-friendly",
+      "pdfHazir": "PDF ready",
+      "ikKontrolu": "Recruiter check passed"
+    },
+    "karsilastirma": {
+      "ust": "Is it really free?",
+      "baslik": "Free to build. Free to download.",
+      "aciklama": "Most resume sites let you work in the editor for an hour, then ask for a card when you try to download. We don’t. Ever.",
+      "konu": "Feature",
+      "diger": "Elsewhere",
+      "biz": "On FreehandCV",
+      "satirlar": [
+        {
+          "konu": "PDF download",
+          "diger": "Paid subscription",
+          "biz": "Free, unlimited"
+        },
+        {
+          "konu": "Watermark",
+          "diger": "On the free plan",
+          "biz": "Never"
+        },
+        {
+          "konu": "Credit card",
+          "diger": "Required for a trial",
+          "biz": "Never asked"
+        },
+        {
+          "konu": "Charges after trial",
+          "diger": "Auto-renewing",
+          "biz": "No trial, no charge"
+        },
+        {
+          "konu": "Number of resumes",
+          "diger": "Usually 1",
+          "biz": "Unlimited"
+        },
+        {
+          "konu": "Version history",
+          "diger": "Paid plans only",
+          "biz": "For everyone"
+        }
+      ]
+    },
+    "sablonlar": {
+      "ust": "Templates",
+      "baslik": "A template for every application",
+      "aciklama": "Every template produces real text that applicant tracking systems can read. Tune colors, fonts and spacing as you like.",
+      "ats": "ATS {puan}/5",
+      "sec": "Start with this template",
+      "adlar": {
+        "modern": "Modern",
+        "ats": "ATS Classic",
+        "zarif": "Elegant",
+        "teknik": "Technical",
+        "kenar": "Sidebar"
+      }
+    },
+    "adimlar": {
+      "ust": "How it works",
+      "baslik": "Ready in three steps",
+      "liste": [
+        {
+          "baslik": "Enter your details",
+          "metin": "Add your experience, education and skills. Not sure what to write? Start from an example."
+        },
+        {
+          "baslik": "Pick a template",
+          "metin": "The preview updates as you type. Switch templates and your content stays put."
+        },
+        {
+          "baslik": "Download as PDF",
+          "metin": "One click, no watermark. As many resumes and downloads as you like."
+        }
+      ]
+    },
+    "ozellikler": {
+      "ust": "Features",
+      "baslik": "Everything you need, nothing locked",
+      "liste": [
+        {
+          "baslik": "Recruiter check",
+          "metin": "Missing sections, long bullets, date mistakes — flagged before you send."
+        },
+        {
+          "baslik": "ATS-friendly",
+          "metin": "Clean, selectable text that application systems can parse."
+        },
+        {
+          "baslik": "Version history",
+          "metin": "Keep a version per application and roll back any time."
+        },
+        {
+          "baslik": "Many languages",
+          "metin": "Resumes in several languages in one account; section titles follow the language."
+        },
+        {
+          "baslik": "Private by design",
+          "metin": "Your data is yours. No one can see your resume — not even our admins."
+        },
+        {
+          "baslik": "Any device",
+          "metin": "Start on your phone, finish on your laptop. Nothing to install."
+        }
+      ]
+    },
+    "sss": {
+      "ust": "FAQ",
+      "baslik": "Frequently asked questions",
+      "liste": [
+        {
+          "soru": "Is it really free? Will I be charged later?",
+          "cevap": "Yes, completely free. No feature is paid, PDF download included, and we never ask for your credit card. Donations cover our costs."
+        },
+        {
+          "soru": "Do I need an account?",
+          "cevap": "No. The editor and PDF download work without one. An account is only for saving to the cloud, keeping versions and continuing on another device."
+        },
+        {
+          "soru": "What is an ATS, and is my resume compatible?",
+          "cevap": "An ATS is software companies use to screen applications. Our templates output real text, not images, so these systems read your resume correctly."
+        },
+        {
+          "soru": "Where is my data stored?",
+          "cevap": "Without an account your resume stays in your browser only. With an account it is stored on our server, accessible only to you."
+        },
+        {
+          "soru": "Should I add a photo?",
+          "cevap": "Common in Turkey and Germany, discouraged in the US and UK. Choose your target country and the editor suggests what fits."
+        }
+      ]
+    },
+    "cta": {
+      "baslik": "Your first resume is minutes away",
+      "metin": "Start without signing up. If you don’t like it, you lose nothing.",
+      "buton": "Get started"
+    }
+  },
+  "Uygulama": {
+    "editorYakinda": "The editor arrives here in phase 1."
+  },
+  "Yonetim": {
+    "baslik": "Admin",
+    "giris": "Admin sign-in",
+    "eposta": "Email",
+    "sifre": "Password",
+    "girisYap": "Sign in",
+    "dogrulamaKodu": "Verification code",
+    "dogrulamaAciklama": "Enter the 6-digit code from your authenticator app.",
+    "dogrula": "Verify",
+    "hata": "Sign-in failed. Check your details.",
+    "kodHatali": "The code is wrong or has expired.",
+    "cikis": "Sign out",
+    "ikiAdimBaslik": "Set up two-factor authentication",
+    "ikiAdimAciklama": "Two-factor authentication is required for admin accounts. Enter your password to continue.",
+    "devam": "Continue",
+    "qrAciklama": "Scan this code with an app such as Google Authenticator or 1Password, then enter the code it shows.",
+    "yedekKodlar": "Backup codes — store them somewhere safe. Each works once.",
+    "hosgeldin": "Welcome, {ad}",
+    "panelYakinda": "Site settings, the page editor, resume examples, FAQ, media and the audit log arrive here in phase 1."
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "Meta": {
+    "siteAdi": "FreehandCV",
+    "varsayilanBaslik": "FreehandCV — Ücretsiz CV Hazırla, Ücretsiz İndir",
+    "varsayilanAciklama": "CV'ni ücretsiz hazırla, PDF olarak ücretsiz indir. Kredi kartı yok, deneme süresi yok, filigran yok. ATS uyumlu şablonlar ve IK kontrolü."
+  },
+  "Site": {
+    "anaMenu": "Ana menü",
+    "menuAc": "Menüyü aç",
+    "menuKapat": "Menüyü kapat",
+    "icerigeGec": "İçeriğe geç",
+    "sablonlar": "Şablonlar",
+    "nasilCalisir": "Nasıl çalışır",
+    "sss": "SSS",
+    "ucretsizMi": "Gerçekten ücretsiz mi?",
+    "cvOlustur": "CV'mi oluştur",
+    "dil": "Dil",
+    "tema": "Tema",
+    "temaAcik": "Açık",
+    "temaKoyu": "Koyu",
+    "temaSistem": "Sistem",
+    "altBilgiSlogan": "Ücretsiz CV düzenleyici. Hiçbir özellik ücretli değil; kredi kartı istemiyoruz, hiçbir zaman.",
+    "altBilgiUrun": "Ürün",
+    "altBilgiHaklar": "© {yil} FreehandCV",
+    "yapimAsamasinda": "Site yapım aşamasında — çok yakında yayında."
+  },
+  "Landing": {
+    "ogBaslik": "CV'ni ücretsiz hazırla, ücretsiz indir.",
+    "hero": {
+      "rozet": "%100 ücretsiz · Kayıt gerekmez",
+      "baslik": "CV'ni <vurgu>ücretsiz</vurgu> hazırla, <vurgu>ücretsiz</vurgu> indir.",
+      "altBaslik": "ATS uyumlu şablonlar, anlık IK kontrolü ve tek tıkla PDF. Kredi kartı yok, deneme süresi yok, filigran yok.",
+      "anaButon": "CV'mi oluştur",
+      "ikincilButon": "Şablonları gör",
+      "maddeler": [
+        "Kredi kartı yok",
+        "Filigran yok",
+        "Sınırsız CV"
+      ],
+      "sablon": "Şablon",
+      "atsUyumlu": "ATS uyumlu",
+      "pdfHazir": "PDF hazır",
+      "ikKontrolu": "IK kontrolü geçti"
+    },
+    "karsilastirma": {
+      "ust": "Gerçekten ücretsiz mi?",
+      "baslik": "Oluşturmak ücretsiz, indirmek de ücretsiz.",
+      "aciklama": "Çoğu CV sitesi seni editörde bir saat çalıştırır, PDF indirmek istediğinde kart ister. Burada istemeyiz. Hiçbir zaman.",
+      "konu": "Özellik",
+      "diger": "Diğer sitelerde",
+      "biz": "FreehandCV'de",
+      "satirlar": [
+        {
+          "konu": "PDF indirme",
+          "diger": "Ücretli abonelik",
+          "biz": "Ücretsiz, sınırsız"
+        },
+        {
+          "konu": "Filigran",
+          "diger": "Ücretsiz planda var",
+          "biz": "Hiçbir zaman"
+        },
+        {
+          "konu": "Kredi kartı",
+          "diger": "Deneme için istenir",
+          "biz": "İstenmez"
+        },
+        {
+          "konu": "Deneme sonrası ücret",
+          "diger": "Otomatik yenilenir",
+          "biz": "Deneme yok, ücret yok"
+        },
+        {
+          "konu": "CV sayısı",
+          "diger": "Genelde 1",
+          "biz": "Sınırsız"
+        },
+        {
+          "konu": "Sürüm geçmişi",
+          "diger": "Ücretli planda",
+          "biz": "Herkese açık"
+        }
+      ]
+    },
+    "sablonlar": {
+      "ust": "Şablonlar",
+      "baslik": "Her başvuruya uygun bir şablon",
+      "aciklama": "Hepsi ATS sistemlerinin okuyabileceği gerçek metin üretir. Renk, yazı tipi ve boşlukları dilediğin gibi ayarla.",
+      "ats": "ATS {puan}/5",
+      "sec": "Bu şablonla başla",
+      "adlar": {
+        "modern": "Modern",
+        "ats": "ATS Klasik",
+        "zarif": "Zarif",
+        "teknik": "Teknik",
+        "kenar": "Kenar Çubuklu"
+      }
+    },
+    "adimlar": {
+      "ust": "Nasıl çalışır",
+      "baslik": "Üç adımda hazır",
+      "liste": [
+        {
+          "baslik": "Bilgilerini gir",
+          "metin": "Deneyim, eğitim ve yeteneklerini yaz. Ne yazacağını bilmiyorsan örnek CV'lerden başla."
+        },
+        {
+          "baslik": "Şablonunu seç",
+          "metin": "Önizleme her tuşta güncellenir. Şablonu değiştir, içerik yerinde kalır."
+        },
+        {
+          "baslik": "PDF olarak indir",
+          "metin": "Tek tık, filigransız. İstediğin kadar CV, istediğin kadar indirme."
+        }
+      ]
+    },
+    "ozellikler": {
+      "ust": "Özellikler",
+      "baslik": "İhtiyacın olan her şey, kilitsiz",
+      "liste": [
+        {
+          "baslik": "IK kontrolü",
+          "metin": "Eksik bölüm, uzun madde, tarih hatası — göndermeden önce uyarır."
+        },
+        {
+          "baslik": "ATS uyumu",
+          "metin": "Başvuru sistemlerinin okuyabildiği temiz, seçilebilir metin."
+        },
+        {
+          "baslik": "Sürüm geçmişi",
+          "metin": "Her başvuru için ayrı sürüm sakla, istediğin an geri dön."
+        },
+        {
+          "baslik": "Türkçe ve İngilizce",
+          "metin": "Aynı hesapta iki dilde CV; bölüm başlıkları dile göre gelir."
+        },
+        {
+          "baslik": "KVKK'ya uygun",
+          "metin": "Verin yalnız senin. CV'ni kimse göremez, yönetim panelinde bile."
+        },
+        {
+          "baslik": "Her cihazda",
+          "metin": "Telefonda başla, bilgisayarda bitir. Kurulum gerekmez."
+        }
+      ]
+    },
+    "sss": {
+      "ust": "SSS",
+      "baslik": "Sık sorulan sorular",
+      "liste": [
+        {
+          "soru": "Gerçekten ücretsiz mi, sonradan ücret çıkar mı?",
+          "cevap": "Evet, tamamen ücretsiz. PDF indirme dahil hiçbir özellik ücretli değil ve kredi kartı bilgini hiçbir zaman istemiyoruz. Masraflarımızı bağışlarla karşılıyoruz."
+        },
+        {
+          "soru": "Kayıt olmam gerekiyor mu?",
+          "cevap": "Hayır. Editör ve PDF indirme hesapsız çalışır. Hesap yalnızca CV'ni bulutta saklamak, sürümleri tutmak ve başka cihazdan devam etmek için gerekir."
+        },
+        {
+          "soru": "ATS nedir, CV'm ATS'ye uygun mu?",
+          "cevap": "ATS, şirketlerin başvuruları tarayan yazılımıdır. Şablonlarımız görsel değil gerçek metin ürettiği için bu sistemler CV'ni doğru okur."
+        },
+        {
+          "soru": "Verilerim nerede saklanıyor?",
+          "cevap": "Hesapsız kullanımda CV'n yalnızca tarayıcında durur. Hesap açarsan sunucumuzda, yalnızca senin erişebileceğin şekilde saklanır."
+        },
+        {
+          "soru": "CV'ye fotoğraf koymalı mıyım?",
+          "cevap": "Türkiye ve Almanya'da yaygın, ABD ve İngiltere'de önerilmez. Hedef ülkeyi seçtiğinde editör sana uygun olanı önerir."
+        }
+      ]
+    },
+    "cta": {
+      "baslik": "İlk CV'n birkaç dakika uzakta",
+      "metin": "Kayıt olmadan başla. Beğenmezsen hiçbir şey kaybetmezsin.",
+      "buton": "Hemen başla"
+    }
+  },
+  "Uygulama": {
+    "editorYakinda": "Editör Faz 1'de burada olacak."
+  },
+  "Yonetim": {
+    "baslik": "Yönetim",
+    "giris": "Yönetici girişi",
+    "eposta": "E-posta",
+    "sifre": "Şifre",
+    "girisYap": "Giriş yap",
+    "dogrulamaKodu": "Doğrulama kodu",
+    "dogrulamaAciklama": "Doğrulama uygulamandaki 6 haneli kodu gir.",
+    "dogrula": "Doğrula",
+    "hata": "Giriş başarısız. Bilgileri kontrol et.",
+    "kodHatali": "Kod hatalı ya da süresi geçmiş.",
+    "cikis": "Çıkış yap",
+    "ikiAdimBaslik": "İki adımlı doğrulamayı kur",
+    "ikiAdimAciklama": "Yönetici hesaplarında iki adımlı doğrulama zorunlu. Devam etmek için şifreni gir.",
+    "devam": "Devam",
+    "qrAciklama": "Bu kodu Google Authenticator, 1Password gibi bir uygulamayla tara, sonra uygulamadaki kodu gir.",
+    "yedekKodlar": "Yedek kodlar — güvenli bir yere kaydet. Her biri bir kez kullanılır.",
+    "hosgeldin": "Hoş geldin, {ad}",
+    "panelYakinda": "Site ayarları, sayfa düzenleyici, örnek CV'ler, SSS, medya ve günlük Faz 1'de burada olacak."
+  }
+}

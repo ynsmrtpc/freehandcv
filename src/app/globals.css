@@ -1,26 +1,144 @@
 @import "tailwindcss";
 
+/* Koyu tema: <html class="dark"> (next-themes). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Anlamsal renk token'ları. Bileşenlerde ham renk yazılmaz; bu adlar kullanılır.
+ * Kontrast (WCAG AA): metin/zemin ≥ 4.5:1, soluk/zemin ≥ 4.5:1, beyaz/ana ≥ 4.5:1.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --zemin: #f8fafc;
+  --yuzey: #ffffff;
+  --yuzey-2: #f1f5f9;
+  --cizgi: #e2e8f0;
+  --cizgi-guclu: #cbd5e1;
+  --metin: #0f172a;
+  --soluk: #475569;
+  --ana: #2563eb;
+  --ana-koyu: #1d4ed8;
+  --ana-acik: #eff6ff;
+  --ana-metin: #1d4ed8;
+  --vurgu: #047857;
+  --vurgu-acik: #ecfdf5;
+  --uyari: #9a5b00;
+  --hata: #b42318;
+  --hata-acik: #fef3f2;
+  --odak: #3b82f6;
+  --kagit: #ffffff;
+  --golge-renk: 15 23 42;
+}
+
+.dark {
+  --zemin: #0b1120;
+  --yuzey: #111827;
+  --yuzey-2: #1e293b;
+  --cizgi: #1f2a3c;
+  --cizgi-guclu: #334155;
+  --metin: #f1f5f9;
+  --soluk: #a3b1c6;
+  --ana: #2563eb;
+  --ana-koyu: #1d4ed8;
+  --ana-acik: #172554;
+  --ana-metin: #93c5fd;
+  --vurgu: #34d399;
+  --vurgu-acik: #052e22;
+  --uyari: #fbbf24;
+  --hata: #f97066;
+  --hata-acik: #3b0d0c;
+  --odak: #60a5fa;
+  --kagit: #ffffff;
+  --golge-renk: 0 0 0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-zemin: var(--zemin);
+  --color-yuzey: var(--yuzey);
+  --color-yuzey-2: var(--yuzey-2);
+  --color-cizgi: var(--cizgi);
+  --color-cizgi-guclu: var(--cizgi-guclu);
+  --color-metin: var(--metin);
+  --color-soluk: var(--soluk);
+  --color-ana: var(--ana);
+  --color-ana-koyu: var(--ana-koyu);
+  --color-ana-acik: var(--ana-acik);
+  --color-ana-metin: var(--ana-metin);
+  --color-vurgu: var(--vurgu);
+  --color-vurgu-acik: var(--vurgu-acik);
+  --color-uyari: var(--uyari);
+  --color-hata: var(--hata);
+  --color-hata-acik: var(--hata-acik);
+  --color-odak: var(--odak);
+  --color-kagit: var(--kagit);
+  --font-sans: var(--font-jakarta), "Segoe UI", system-ui, sans-serif;
+
+  /* Yükseklik (gölge) ölçeği — kartlar, açılır menüler ve önizleme kâğıdı için. */
+  --shadow-kart: 0 1px 2px rgb(var(--golge-renk) / 0.05), 0 1px 3px rgb(var(--golge-renk) / 0.08);
+  --shadow-yuksek: 0 12px 32px -8px rgb(var(--golge-renk) / 0.18), 0 4px 8px -4px rgb(var(--golge-renk) / 0.08);
+  --shadow-kagit: 0 30px 60px -20px rgb(var(--golge-renk) / 0.35), 0 12px 24px -12px rgb(var(--golge-renk) / 0.2);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background: var(--zemin);
+    color: var(--metin);
+  }
+  :focus-visible {
+    outline: 2px solid var(--odak);
+    outline-offset: 2px;
+  }
+  /* Sabit başlık çapalı bağlantıda içeriği örtmesin. */
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+  button,
+  summary,
+  a {
+    touch-action: manipulation;
+  }
+  button:not(:disabled),
+  summary {
+    cursor: pointer;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/*
+ * Belirme animasyonları — JS'siz (hidrasyonu beklemez, içerik hiçbir zaman gizli kalmaz).
+ * .belir-yukle: sayfa açılınca (hero). --gecikme ile sıralanır.
+ * .belir-kaydir: görünüme girerken, kaydırmaya bağlı (scroll-driven). Desteklemeyen
+ *   tarayıcıda animasyon yoktur, içerik doğrudan görünür. --i ile ızgarada kademelenir.
+ */
+@keyframes belir {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+  }
+}
+
+.belir-yukle {
+  animation: belir 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--gecikme, 0s);
+}
+
+@supports (animation-timeline: view()) {
+  .belir-kaydir {
+    animation: belir linear both;
+    animation-timeline: view();
+    /* Sabit mesafe: öğe ne kadar uzun olursa olsun, üst kenarı ekrana ~240px girince tamamlanır. */
+    animation-range: entry calc(16px + var(--i, 0) * 36px) entry calc(240px + var(--i, 0) * 36px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .belir-yukle,
+  .belir-kaydir {
+    animation: none;
+  }
 }

@@ -1,0 +1,26 @@
+import { useTranslations } from "next-intl";
+import { Suspense } from "react";
+import { HareketSaglayici } from "@/bilesenler/hareket/HareketSaglayici";
+import { AltBilgi } from "@/bilesenler/site/AltBilgi";
+import { SiteBasligi } from "@/bilesenler/site/SiteBasligi";
+
+export default function SiteLayout({ children }: LayoutProps<"/[locale]">) {
+  const t = useTranslations("Site");
+
+  return (
+    <HareketSaglayici>
+      <a
+        href="#icerik"
+        className="sr-only z-50 rounded-lg bg-ana px-4 py-2 font-semibold text-white focus:not-sr-only focus:fixed focus:start-4 focus:top-4"
+      >
+        {t("icerigeGec")}
+      </a>
+      {/* Dil seçici useParams okur; Cache Components'ta Suspense içinde olmalı. */}
+      <Suspense fallback={<div className="h-16" />}>
+        <SiteBasligi />
+      </Suspense>
+      <main id="icerik">{children}</main>
+      <AltBilgi />
+    </HareketSaglayici>
+  );
+}
