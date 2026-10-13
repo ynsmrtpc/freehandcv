@@ -666,5 +666,27 @@
     "aktarildi": "The resume in your browser was moved to your account.",
     "hata": "That didn’t work. Please try again.",
     "sinir": "You can keep up to 100 resumes."
+  },
+  "Riza": {
+    "serit": "If you don’t sign in, nothing is sent to our servers; your resume stays in this browser only.",
+    "seritBaglanti": "Sign in to keep your resume safe in your account",
+    "indirBaslik": "Before you download",
+    "isveren": "If you sign in and give your consent, we can share your resume with companies that are hiring and help you land a job more easily. Consent is entirely optional, and you can withdraw it at any time.",
+    "veri": "When you sign in, your resume is saved to your account: reach it from any device and never lose your edits. Your data travels over an encrypted connection and is visible only to you and the employers you consent to. We never sell your data.",
+    "misafir": "If you don’t sign in, nothing is sent to us or stored.",
+    "googleIle": "Sign in with Google",
+    "epostaIle": "Sign in with email",
+    "girissizIndir": "Download without signing in",
+    "kayitOnay": "I agree that my resume may be shared with companies that are hiring. (Optional; I can withdraw at any time.)",
+    "kayitVeriNotu": "Your account data (your email and resumes) is kept only to store your resumes and show them to you. Without your consent it is shared with no one.",
+    "panelBaslik": "Let employers see my resume",
+    "panelAciklama": "Turn this on to add your resume to a candidate pool that can be shared with hiring companies. Employer matching launches soon; only candidates who consent will be included.",
+    "panelAcik": "Consent given — your resume is in the candidate pool.",
+    "panelKapali": "No consent — your resume is shared with no one.",
+    "cvSec": "Resume to share",
+    "enGuncel": "My most recently updated resume",
+    "geriAlNot": "You can turn this off any time; your resume is removed from the pool immediately.",
+    "kaydedildi": "Your preference was saved.",
+    "hata": "Couldn’t save your preference. Please try again."
   }
 }

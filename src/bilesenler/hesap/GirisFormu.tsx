@@ -9,6 +9,7 @@ import { butonSinifi } from "@/bilesenler/ui/Buton";
 import { getPathname, Link } from "@/i18n/navigation";
 import type { Dil } from "@/i18n/routing";
 import { authIstemci, GOOGLE_ISTEMCI_KIMLIGI } from "@/istemci/auth";
+import { paylasimAyarlaEylemi } from "@/eylemler/paylasim";
 import { GoogleLogo } from "./GoogleLogo";
 
 /** Yalnız site içi göreli yollara dönülür (açık yönlendirme açığı olmasın). */
@@ -22,6 +23,7 @@ const girdi =
 
 export function GirisFormu({ mod }: { mod: "giris" | "kayit" }) {
   const t = useTranslations("Hesap");
+  const tr = useTranslations("Riza");
   const dil = useLocale() as Dil;
   const parametreler = useSearchParams();
   const donus = guvenliDonus(parametreler.get("sonra"), getPathname({ href: "/panel", locale: dil }));
@@ -56,6 +58,8 @@ export function GirisFormu({ mod }: { mod: "giris" | "kayit" }) {
     setBekliyor(false);
     if (sonuc.error) return setHata(hataCevir(sonuc.error.code, sonuc.error.status));
     if (sonuc.data && "twoFactorRedirect" in sonuc.data && sonuc.data.twoFactorRedirect) return setAdim("kod");
+    // İsteğe bağlı açık rıza: yalnız kişi kutuyu kendisi işaretlediyse kaydedilir.
+    if (mod === "kayit" && form.get("isverenRiza") === "on") await paylasimAyarlaEylemi(true, null, "kayit");
     window.location.replace(donus);
   }
 
@@ -173,7 +177,16 @@ export function GirisFormu({ mod }: { mod: "giris" | "kayit" }) {
                   {bekliyor && <Loader2 className="size-4 animate-spin" />}
                   {mod === "giris" ? t("girisYap") : t("kayitOl")}
                 </button>
-                {mod === "kayit" && <p className="text-center text-xs leading-relaxed text-soluk">{t("kosullar")}</p>}
+                {mod === "kayit" && (
+                  <>
+                    <label className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-cizgi bg-zemin p-3 text-[13px] leading-relaxed text-metin">
+                      <input type="checkbox" name="isverenRiza" className="mt-0.5 size-4 shrink-0 accent-[var(--ana)]" />
+                      {tr("kayitOnay")}
+                    </label>
+                    <p className="text-xs leading-relaxed text-soluk">{tr("kayitVeriNotu")}</p>
+                    <p className="text-center text-xs leading-relaxed text-soluk">{t("kosullar")}</p>
+                  </>
+                )}
               </form>
             </>
           )}

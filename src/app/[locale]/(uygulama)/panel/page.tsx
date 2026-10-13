@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { getPathname, redirect } from "@/i18n/navigation";
 import { routing, type Dil } from "@/i18n/routing";
 import { cvListesi } from "@/sunucu/cvler";
+import { paylasimDurumu } from "@/sunucu/rizalar";
 import { oturumGetir } from "@/sunucu/yetki";
 import { PanelGovdesi } from "./PanelGovdesi";
 
@@ -30,9 +31,10 @@ export default async function Panel({ params }: PageProps<"/[locale]/panel">) {
 async function Liste({ dil }: { dil: Dil }) {
   const oturum = await oturumGetir();
   if (!oturum) redirect({ href: { pathname: "/giris", query: { sonra: getPathname({ href: "/panel", locale: dil }) } }, locale: dil });
-  const liste = await cvListesi(oturum!.user.id);
+  const [liste, paylasim] = await Promise.all([cvListesi(oturum!.user.id), paylasimDurumu(oturum!.user.id)]);
   return (
     <PanelGovdesi
+      paylasim={paylasim}
       cvler={liste.map((c) => ({ id: c.id, baslik: c.baslik, icerik: c.icerik, guncelleme: c.guncelleme.toISOString() }))}
     />
   );

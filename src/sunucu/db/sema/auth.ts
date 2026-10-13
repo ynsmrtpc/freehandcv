@@ -31,6 +31,10 @@ export const user = pgTable("user", {
   arayuzDili: text(),
   pazar: text(),
   rol: text().$type<Rol>().notNull().default("kullanici"),
+  /** İşverenlerle paylaşım için güncel açık rıza (geçmişi: rizalar tablosu). Varsayılan kapalı. */
+  isverenPaylasimi: boolean().notNull().default(false),
+  /** Paylaşıma açılan CV (cvler.id). Döngüsel içe aktarma olmasın diye yabancı anahtar kodda denetlenir. */
+  paylasilanCvId: text(),
 });
 
 export const session = pgTable(

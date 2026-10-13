@@ -1,0 +1,2485 @@
+{
+  "id": "10507282-0a64-4ba1-b54d-a7e82dadb22f",
+  "prevId": "2ac884f1-af96-4fdb-94e9-a5b1ac8681eb",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.account": {
+      "name": "account",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "provider_id": {
+          "name": "provider_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "access_token": {
+          "name": "access_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_token": {
+          "name": "id_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "access_token_expires_at": {
+          "name": "access_token_expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "refresh_token_expires_at": {
+          "name": "refresh_token_expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scope": {
+          "name": "scope",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "account_user_id_index": {
+          "name": "account_user_id_index",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "account_user_id_user_id_fk": {
+          "name": "account_user_id_user_id_fk",
+          "tableFrom": "account",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.session": {
+      "name": "session",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ip_address": {
+          "name": "ip_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_agent": {
+          "name": "user_agent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "session_user_id_index": {
+          "name": "session_user_id_index",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "session_user_id_user_id_fk": {
+          "name": "session_user_id_user_id_fk",
+          "tableFrom": "session",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "session_token_unique": {
+          "name": "session_token_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "token"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.two_factor": {
+      "name": "two_factor",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "secret": {
+          "name": "secret",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "backup_codes": {
+          "name": "backup_codes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "verified": {
+          "name": "verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "failed_verification_count": {
+          "name": "failed_verification_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "locked_until": {
+          "name": "locked_until",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "two_factor_secret_index": {
+          "name": "two_factor_secret_index",
+          "columns": [
+            {
+              "expression": "secret",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "two_factor_user_id_index": {
+          "name": "two_factor_user_id_index",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "two_factor_user_id_user_id_fk": {
+          "name": "two_factor_user_id_user_id_fk",
+          "tableFrom": "two_factor",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.user": {
+      "name": "user",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_verified": {
+          "name": "email_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "two_factor_enabled": {
+          "name": "two_factor_enabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "kullanici_adi": {
+          "name": "kullanici_adi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "arayuz_dili": {
+          "name": "arayuz_dili",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pazar": {
+          "name": "pazar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rol": {
+          "name": "rol",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'kullanici'"
+        },
+        "isveren_paylasimi": {
+          "name": "isveren_paylasimi",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "paylasilan_cv_id": {
+          "name": "paylasilan_cv_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_email_unique": {
+          "name": "user_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        },
+        "user_kullaniciAdi_unique": {
+          "name": "user_kullaniciAdi_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "kullanici_adi"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.verification": {
+      "name": "verification",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "identifier": {
+          "name": "identifier",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "verification_identifier_index": {
+          "name": "verification_identifier_index",
+          "columns": [
+            {
+              "expression": "identifier",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.cv_surumleri": {
+      "name": "cv_surumleri",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "cv_id": {
+          "name": "cv_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "icerik": {
+          "name": "icerik",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tur": {
+          "name": "tur",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "etiket": {
+          "name": "etiket",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "cv_surumleri_cv_id_olusturma_index": {
+          "name": "cv_surumleri_cv_id_olusturma_index",
+          "columns": [
+            {
+              "expression": "cv_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "olusturma",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "cv_surumleri_cv_id_cvler_id_fk": {
+          "name": "cv_surumleri_cv_id_cvler_id_fk",
+          "tableFrom": "cv_surumleri",
+          "tableTo": "cvler",
+          "columnsFrom": [
+            "cv_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.cvler": {
+      "name": "cvler",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "kullanici_id": {
+          "name": "kullanici_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "baslik": {
+          "name": "baslik",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "icerik": {
+          "name": "icerik",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dil": {
+          "name": "dil",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pazar": {
+          "name": "pazar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "durum": {
+          "name": "durum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'taslak'"
+        },
+        "kaynak_ornek_id": {
+          "name": "kaynak_ornek_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "surum": {
+          "name": "surum",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "guncelleme": {
+          "name": "guncelleme",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "silinme": {
+          "name": "silinme",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sablon_id": {
+          "name": "sablon_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sablon_tanim": {
+          "name": "sablon_tanim",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "cvler_kullanici_id_index": {
+          "name": "cvler_kullanici_id_index",
+          "columns": [
+            {
+              "expression": "kullanici_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "cvler_kullanici_id_user_id_fk": {
+          "name": "cvler_kullanici_id_user_id_fk",
+          "tableFrom": "cvler",
+          "tableTo": "user",
+          "columnsFrom": [
+            "kullanici_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "cvler_kaynak_ornek_id_ornek_cvler_id_fk": {
+          "name": "cvler_kaynak_ornek_id_ornek_cvler_id_fk",
+          "tableFrom": "cvler",
+          "tableTo": "ornek_cvler",
+          "columnsFrom": [
+            "kaynak_ornek_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "cvler_sablon_id_sablonlar_id_fk": {
+          "name": "cvler_sablon_id_sablonlar_id_fk",
+          "tableFrom": "cvler",
+          "tableTo": "sablonlar",
+          "columnsFrom": [
+            "sablon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.dosyalar": {
+      "name": "dosyalar",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "kullanici_id": {
+          "name": "kullanici_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "anahtar": {
+          "name": "anahtar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tur": {
+          "name": "tur",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "boyut": {
+          "name": "boyut",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "dosyalar_kullanici_id_index": {
+          "name": "dosyalar_kullanici_id_index",
+          "columns": [
+            {
+              "expression": "kullanici_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "dosyalar_kullanici_id_user_id_fk": {
+          "name": "dosyalar_kullanici_id_user_id_fk",
+          "tableFrom": "dosyalar",
+          "tableTo": "user",
+          "columnsFrom": [
+            "kullanici_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "dosyalar_anahtar_unique": {
+          "name": "dosyalar_anahtar_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "anahtar"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ornek_cvler": {
+      "name": "ornek_cvler",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "baslik": {
+          "name": "baslik",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "meslek": {
+          "name": "meslek",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kategori": {
+          "name": "kategori",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dil": {
+          "name": "dil",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pazar": {
+          "name": "pazar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ceviri_grubu": {
+          "name": "ceviri_grubu",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deneyim_seviyesi": {
+          "name": "deneyim_seviyesi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "icerik": {
+          "name": "icerik",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sablon_id": {
+          "name": "sablon_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "meta_baslik": {
+          "name": "meta_baslik",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "meta_aciklama": {
+          "name": "meta_aciklama",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rehber": {
+          "name": "rehber",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kullanim_sayisi": {
+          "name": "kullanim_sayisi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "sira": {
+          "name": "sira",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "aktif": {
+          "name": "aktif",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "guncelleme": {
+          "name": "guncelleme",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "ornek_cvler_dil_slug_index": {
+          "name": "ornek_cvler_dil_slug_index",
+          "columns": [
+            {
+              "expression": "dil",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "ornek_cvler_kategori_index": {
+          "name": "ornek_cvler_kategori_index",
+          "columns": [
+            {
+              "expression": "kategori",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "ornek_cvler_ceviri_grubu_index": {
+          "name": "ornek_cvler_ceviri_grubu_index",
+          "columns": [
+            {
+              "expression": "ceviri_grubu",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ornek_cvler_sablon_id_sablonlar_id_fk": {
+          "name": "ornek_cvler_sablon_id_sablonlar_id_fk",
+          "tableFrom": "ornek_cvler",
+          "tableTo": "sablonlar",
+          "columnsFrom": [
+            "sablon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.rizalar": {
+      "name": "rizalar",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "kullanici_id": {
+          "name": "kullanici_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tur": {
+          "name": "tur",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "verildi": {
+          "name": "verildi",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "metin_surumu": {
+          "name": "metin_surumu",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kaynak": {
+          "name": "kaynak",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "rizalar_kullanici_id_tur_olusturma_index": {
+          "name": "rizalar_kullanici_id_tur_olusturma_index",
+          "columns": [
+            {
+              "expression": "kullanici_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "tur",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "olusturma",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "rizalar_kullanici_id_user_id_fk": {
+          "name": "rizalar_kullanici_id_user_id_fk",
+          "tableFrom": "rizalar",
+          "tableTo": "user",
+          "columnsFrom": [
+            "kullanici_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sablon_favorileri": {
+      "name": "sablon_favorileri",
+      "schema": "",
+      "columns": {
+        "sablon_id": {
+          "name": "sablon_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kullanici_id": {
+          "name": "kullanici_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sablon_favorileri_sablon_id_sablonlar_id_fk": {
+          "name": "sablon_favorileri_sablon_id_sablonlar_id_fk",
+          "tableFrom": "sablon_favorileri",
+          "tableTo": "sablonlar",
+          "columnsFrom": [
+            "sablon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "sablon_favorileri_kullanici_id_user_id_fk": {
+          "name": "sablon_favorileri_kullanici_id_user_id_fk",
+          "tableFrom": "sablon_favorileri",
+          "tableTo": "user",
+          "columnsFrom": [
+            "kullanici_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "sablon_favorileri_sablon_id_kullanici_id_pk": {
+          "name": "sablon_favorileri_sablon_id_kullanici_id_pk",
+          "columns": [
+            "sablon_id",
+            "kullanici_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sablon_puanlari": {
+      "name": "sablon_puanlari",
+      "schema": "",
+      "columns": {
+        "sablon_id": {
+          "name": "sablon_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kullanici_id": {
+          "name": "kullanici_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "puan": {
+          "name": "puan",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "yorum": {
+          "name": "yorum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gizlendi": {
+          "name": "gizlendi",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "guncelleme": {
+          "name": "guncelleme",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sablon_puanlari_sablon_id_sablonlar_id_fk": {
+          "name": "sablon_puanlari_sablon_id_sablonlar_id_fk",
+          "tableFrom": "sablon_puanlari",
+          "tableTo": "sablonlar",
+          "columnsFrom": [
+            "sablon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "sablon_puanlari_kullanici_id_user_id_fk": {
+          "name": "sablon_puanlari_kullanici_id_user_id_fk",
+          "tableFrom": "sablon_puanlari",
+          "tableTo": "user",
+          "columnsFrom": [
+            "kullanici_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "sablon_puanlari_sablon_id_kullanici_id_pk": {
+          "name": "sablon_puanlari_sablon_id_kullanici_id_pk",
+          "columns": [
+            "sablon_id",
+            "kullanici_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sablon_sikayetleri": {
+      "name": "sablon_sikayetleri",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "sablon_id": {
+          "name": "sablon_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kullanici_id": {
+          "name": "kullanici_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "neden": {
+          "name": "neden",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "aciklama": {
+          "name": "aciklama",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "durum": {
+          "name": "durum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'acik'"
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "sablon_sikayetleri_sablon_id_durum_index": {
+          "name": "sablon_sikayetleri_sablon_id_durum_index",
+          "columns": [
+            {
+              "expression": "sablon_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "durum",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sablon_sikayetleri_sablon_id_sablonlar_id_fk": {
+          "name": "sablon_sikayetleri_sablon_id_sablonlar_id_fk",
+          "tableFrom": "sablon_sikayetleri",
+          "tableTo": "sablonlar",
+          "columnsFrom": [
+            "sablon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "sablon_sikayetleri_kullanici_id_user_id_fk": {
+          "name": "sablon_sikayetleri_kullanici_id_user_id_fk",
+          "tableFrom": "sablon_sikayetleri",
+          "tableTo": "user",
+          "columnsFrom": [
+            "kullanici_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sablonlar": {
+      "name": "sablonlar",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "sahip_id": {
+          "name": "sahip_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ad": {
+          "name": "ad",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "aciklama": {
+          "name": "aciklama",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tanim": {
+          "name": "tanim",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "surum": {
+          "name": "surum",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "gorunurluk": {
+          "name": "gorunurluk",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'ozel'"
+        },
+        "durum": {
+          "name": "durum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'aktif'"
+        },
+        "resmi": {
+          "name": "resmi",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "kaynak_sablon_id": {
+          "name": "kaynak_sablon_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ats_puani": {
+          "name": "ats_puani",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "onizleme_anahtari": {
+          "name": "onizleme_anahtari",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kullanim_sayisi": {
+          "name": "kullanim_sayisi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "puan_toplam": {
+          "name": "puan_toplam",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "puan_sayisi": {
+          "name": "puan_sayisi",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "guncelleme": {
+          "name": "guncelleme",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "yayinlanma": {
+          "name": "yayinlanma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "silinme": {
+          "name": "silinme",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "sablonlar_sahip_id_index": {
+          "name": "sablonlar_sahip_id_index",
+          "columns": [
+            {
+              "expression": "sahip_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "sablonlar_gorunurluk_durum_index": {
+          "name": "sablonlar_gorunurluk_durum_index",
+          "columns": [
+            {
+              "expression": "gorunurluk",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "durum",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sablonlar_sahip_id_user_id_fk": {
+          "name": "sablonlar_sahip_id_user_id_fk",
+          "tableFrom": "sablonlar",
+          "tableTo": "user",
+          "columnsFrom": [
+            "sahip_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "sablonlar_kaynak_sablon_id_sablonlar_id_fk": {
+          "name": "sablonlar_kaynak_sablon_id_sablonlar_id_fk",
+          "tableFrom": "sablonlar",
+          "tableTo": "sablonlar",
+          "columnsFrom": [
+            "kaynak_sablon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.site_yorumlari": {
+      "name": "site_yorumlari",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "kullanici_id": {
+          "name": "kullanici_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "puan": {
+          "name": "puan",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "metin": {
+          "name": "metin",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "meslek": {
+          "name": "meslek",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "izin_verildi": {
+          "name": "izin_verildi",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "onaylandi": {
+          "name": "onaylandi",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "site_yorumlari_kullanici_id_user_id_fk": {
+          "name": "site_yorumlari_kullanici_id_user_id_fk",
+          "tableFrom": "site_yorumlari",
+          "tableTo": "user",
+          "columnsFrom": [
+            "kullanici_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.medya": {
+      "name": "medya",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "anahtar": {
+          "name": "anahtar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alt_metin": {
+          "name": "alt_metin",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "genislik": {
+          "name": "genislik",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "yukseklik": {
+          "name": "yukseklik",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "boyut": {
+          "name": "boyut",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "yukleyen_id": {
+          "name": "yukleyen_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "medya_yukleyen_id_user_id_fk": {
+          "name": "medya_yukleyen_id_user_id_fk",
+          "tableFrom": "medya",
+          "tableTo": "user",
+          "columnsFrom": [
+            "yukleyen_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "medya_anahtar_unique": {
+          "name": "medya_anahtar_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "anahtar"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.reklam_alanlari": {
+      "name": "reklam_alanlari",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "kod": {
+          "name": "kod",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "saglayici": {
+          "name": "saglayici",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'kapali'"
+        },
+        "icerik": {
+          "name": "icerik",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "boyut": {
+          "name": "boyut",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "aktif": {
+          "name": "aktif",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "guncelleme": {
+          "name": "guncelleme",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "reklam_alanlari_kod_unique": {
+          "name": "reklam_alanlari_kod_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "kod"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sayfa_surumleri": {
+      "name": "sayfa_surumleri",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "sayfa_id": {
+          "name": "sayfa_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bloklar": {
+          "name": "bloklar",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "meta": {
+          "name": "meta",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "yayinlayan_id": {
+          "name": "yayinlayan_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "sayfa_surumleri_sayfa_id_olusturma_index": {
+          "name": "sayfa_surumleri_sayfa_id_olusturma_index",
+          "columns": [
+            {
+              "expression": "sayfa_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "olusturma",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sayfa_surumleri_sayfa_id_sayfalar_id_fk": {
+          "name": "sayfa_surumleri_sayfa_id_sayfalar_id_fk",
+          "tableFrom": "sayfa_surumleri",
+          "tableTo": "sayfalar",
+          "columnsFrom": [
+            "sayfa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "sayfa_surumleri_yayinlayan_id_user_id_fk": {
+          "name": "sayfa_surumleri_yayinlayan_id_user_id_fk",
+          "tableFrom": "sayfa_surumleri",
+          "tableTo": "user",
+          "columnsFrom": [
+            "yayinlayan_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sayfalar": {
+      "name": "sayfalar",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tur": {
+          "name": "tur",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dil": {
+          "name": "dil",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ceviri_grubu": {
+          "name": "ceviri_grubu",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ceviri_durumu": {
+          "name": "ceviri_durumu",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'gozden_gecirildi'"
+        },
+        "baslik": {
+          "name": "baslik",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "meta_baslik": {
+          "name": "meta_baslik",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "meta_aciklama": {
+          "name": "meta_aciklama",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "og_gorsel_id": {
+          "name": "og_gorsel_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "canonical": {
+          "name": "canonical",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "indeks": {
+          "name": "indeks",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "durum": {
+          "name": "durum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'taslak'"
+        },
+        "yayin_tarihi": {
+          "name": "yayin_tarihi",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bloklar": {
+          "name": "bloklar",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "yayindaki_bloklar": {
+          "name": "yayindaki_bloklar",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "surum": {
+          "name": "surum",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "guncelleyen_id": {
+          "name": "guncelleyen_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "guncelleme": {
+          "name": "guncelleme",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "sayfalar_dil_slug_index": {
+          "name": "sayfalar_dil_slug_index",
+          "columns": [
+            {
+              "expression": "dil",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "sayfalar_ceviri_grubu_index": {
+          "name": "sayfalar_ceviri_grubu_index",
+          "columns": [
+            {
+              "expression": "ceviri_grubu",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sayfalar_og_gorsel_id_medya_id_fk": {
+          "name": "sayfalar_og_gorsel_id_medya_id_fk",
+          "tableFrom": "sayfalar",
+          "tableTo": "medya",
+          "columnsFrom": [
+            "og_gorsel_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "sayfalar_guncelleyen_id_user_id_fk": {
+          "name": "sayfalar_guncelleyen_id_user_id_fk",
+          "tableFrom": "sayfalar",
+          "tableTo": "user",
+          "columnsFrom": [
+            "guncelleyen_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.site_ayarlari": {
+      "name": "site_ayarlari",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "default": 1
+        },
+        "ayarlar": {
+          "name": "ayarlar",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "ceviriler": {
+          "name": "ceviriler",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "surum": {
+          "name": "surum",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "guncelleyen_id": {
+          "name": "guncelleyen_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guncelleme": {
+          "name": "guncelleme",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "site_ayarlari_guncelleyen_id_user_id_fk": {
+          "name": "site_ayarlari_guncelleyen_id_user_id_fk",
+          "tableFrom": "site_ayarlari",
+          "tableTo": "user",
+          "columnsFrom": [
+            "guncelleyen_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "site_ayarlari_tek_satir": {
+          "name": "site_ayarlari_tek_satir",
+          "value": "\"site_ayarlari\".\"id\" = 1"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.sss": {
+      "name": "sss",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "dil": {
+          "name": "dil",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ceviri_grubu": {
+          "name": "ceviri_grubu",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "soru": {
+          "name": "soru",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cevap": {
+          "name": "cevap",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kategori": {
+          "name": "kategori",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sira": {
+          "name": "sira",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "aktif": {
+          "name": "aktif",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        }
+      },
+      "indexes": {
+        "sss_dil_kategori_index": {
+          "name": "sss_dil_kategori_index",
+          "columns": [
+            {
+              "expression": "dil",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "kategori",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.yonetim_gunlugu": {
+      "name": "yonetim_gunlugu",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "kullanici_id": {
+          "name": "kullanici_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "islem": {
+          "name": "islem",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hedef_tur": {
+          "name": "hedef_tur",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hedef_id": {
+          "name": "hedef_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "once": {
+          "name": "once",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sonra": {
+          "name": "sonra",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "yonetim_gunlugu_olusturma_index": {
+          "name": "yonetim_gunlugu_olusturma_index",
+          "columns": [
+            {
+              "expression": "olusturma",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "yonetim_gunlugu_hedef_tur_hedef_id_index": {
+          "name": "yonetim_gunlugu_hedef_tur_hedef_id_index",
+          "columns": [
+            {
+              "expression": "hedef_tur",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "hedef_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "yonetim_gunlugu_kullanici_id_user_id_fk": {
+          "name": "yonetim_gunlugu_kullanici_id_user_id_fk",
+          "tableFrom": "yonetim_gunlugu",
+          "tableTo": "user",
+          "columnsFrom": [
+            "kullanici_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.yonlendirmeler": {
+      "name": "yonlendirmeler",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "kaynak": {
+          "name": "kaynak",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hedef": {
+          "name": "hedef",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kod": {
+          "name": "kod",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 301
+        },
+        "olusturma": {
+          "name": "olusturma",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "yonlendirmeler_kaynak_unique": {
+          "name": "yonlendirmeler_kaynak_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "kaynak"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

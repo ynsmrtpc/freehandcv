@@ -194,3 +194,23 @@ export const sablonSikayetleri = pgTable(
   },
   (t) => [index().on(t.sablonId, t.durum)],
 );
+
+/**
+ * Açık rıza kayıtları (KVKK): her verme/geri çekme ayrı satırdır; silinmez. Hangi metin sürümüne
+ * onay verildiği ve zamanı kanıt olarak tutulur.
+ */
+export const rizalar = pgTable(
+  "rizalar",
+  {
+    id: uuid().primaryKey().defaultRandom(),
+    kullaniciId: text()
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    tur: text().$type<"isveren_paylasimi">().notNull(),
+    verildi: boolean().notNull(),
+    metinSurumu: text().notNull(),
+    kaynak: text().$type<"kayit" | "panel" | "indirme">().notNull(),
+    olusturma: olusturma(),
+  },
+  (t) => [index().on(t.kullaniciId, t.tur, t.olusturma)],
+);

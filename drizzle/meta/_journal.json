@@ -8,6 +8,13 @@
       "when": 1791877580640,
       "tag": "0000_ilk_sema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791895154901,
+      "tag": "0001_isveren_paylasimi_rizasi",
+      "breakpoints": true
     }
   ]
 }

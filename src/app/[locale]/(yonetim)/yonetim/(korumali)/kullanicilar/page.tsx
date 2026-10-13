@@ -32,7 +32,7 @@ export default async function Kullanicilar({ searchParams }: PageProps<"/[locale
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-cizgi text-xs text-soluk uppercase">
-                {["Kullanıcı", "Rol", "2FA", "CV", "Kayıt"].map((b) => (
+                {["Kullanıcı", "Rol", "2FA", "CV", "İşveren paylaşımı", "Kayıt"].map((b) => (
                   <th key={b} className="px-4 py-3 text-start font-semibold">
                     {b}
                   </th>
@@ -62,6 +62,9 @@ export default async function Kullanicilar({ searchParams }: PageProps<"/[locale
                     {k.ikiAdim ? <span className="text-vurgu">Açık</span> : <span className="text-soluk">Kapalı</span>}
                   </td>
                   <td className="px-4 py-3 text-metin tabular-nums">{k.cv}</td>
+                  <td className="px-4 py-3">
+                    {k.paylasim ? <span className="font-medium text-vurgu">Onaylı</span> : <span className="text-soluk">—</span>}
+                  </td>
                   <td className="px-4 py-3 whitespace-nowrap text-soluk tabular-nums">
                     {k.olusturma.toLocaleDateString("tr-TR")}
                   </td>
@@ -69,7 +72,7 @@ export default async function Kullanicilar({ searchParams }: PageProps<"/[locale
               ))}
               {!satirlar.length && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-10 text-center text-soluk">
+                  <td colSpan={6} className="px-4 py-10 text-center text-soluk">
                     Kullanıcı bulunamadı.
                   </td>
                 </tr>

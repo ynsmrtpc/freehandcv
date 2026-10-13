@@ -33,6 +33,7 @@ import { bosCv, type CvVerisi } from "@/ortak/cv/sema";
 import { dosyaAdi } from "@/ortak/cv/yardimci";
 import { IcerikPaneli } from "./IcerikPaneli";
 import { KontrolPaneli, useKontrol } from "./KontrolPaneli";
+import { MisafirIndirDiyalogu, MisafirSeridi } from "./MisafirBilgi";
 import { Onizleme } from "./Onizleme";
 import { TasarimPaneli } from "./TasarimPaneli";
 import { IkonButon } from "./ui";
@@ -55,6 +56,7 @@ export function Editor({ hesap }: { hesap?: HesapCv }) {
   const [gorunum, setGorunum] = useState<"duzenle" | "onizle">("duzenle");
   const [bildirim, setBildirim] = useState<{ metin: string; no: number } | null>(null);
   const [pdfAcik, setPdfAcik] = useState(false);
+  const [misafirIndirAcik, setMisafirIndirAcik] = useState(false);
 
   useEffect(() => {
     if (hesap) useEditor.getState().hesapBaslat(hesap.id, hesap.veri, hesap.surum);
@@ -91,7 +93,8 @@ export function Editor({ hesap }: { hesap?: HesapCv }) {
     document.fonts.ready.then(() => window.print());
   }, []);
 
-  const pdfIndir = useCallback(
+  // Yazdırma ipucu (bir kez "gösterme" denebilir) ardından tarayıcının yazdırma penceresi.
+  const ipucuylaYazdir = useCallback(
     (dogrudan = false) => {
       let gizli = false;
       try {
@@ -101,6 +104,15 @@ export function Editor({ hesap }: { hesap?: HesapCv }) {
       else setPdfAcik(true);
     },
     [yazdir],
+  );
+
+  // Misafir her indirmede giriş/paylaşım bilgisini görür; "Giriş yapmadan indir" her zaman var.
+  const pdfIndir = useCallback(
+    (dogrudan = false) => {
+      if (!hesap && !dogrudan) setMisafirIndirAcik(true);
+      else ipucuylaYazdir(dogrudan);
+    },
+    [hesap, ipucuylaYazdir],
   );
 
   // Kısayollar: Ctrl+Z / Ctrl+Shift+Z (Ctrl+Y) geri-ileri al, Ctrl+P PDF.
@@ -137,6 +149,7 @@ export function Editor({ hesap }: { hesap?: HesapCv }) {
         <style>{`@page { size: ${veri.ayarlar.kagit === "Letter" ? "letter" : "A4"}; margin: 0; }`}</style>
         <div className="editor-kabuk flex h-dvh flex-col bg-zemin">
           <UstCubuk bildir={bildir} pdfIndir={() => pdfIndir()} />
+          {!hesap && <MisafirSeridi />}
 
           <div className="editor-calisma grid min-h-0 flex-1 lg:grid-cols-[minmax(380px,460px)_1fr]">
             <section
@@ -203,6 +216,13 @@ export function Editor({ hesap }: { hesap?: HesapCv }) {
 
           <PdfDiyalogu acik={pdfAcik} kapat={() => setPdfAcik(false)} devam={yazdir} />
           <CakismaDiyalogu />
+          {!hesap && (
+            <MisafirIndirDiyalogu
+              acik={misafirIndirAcik}
+              kapat={() => setMisafirIndirAcik(false)}
+              girissizIndir={() => setTimeout(() => ipucuylaYazdir(), 80)}
+            />
+          )}
           {!hesap && <GoogleTekDokunus donus={getPathname({ href: "/panel", locale: dil as Dil })} />}
         </div>
       </MotionConfig>

@@ -15,6 +15,7 @@ import { MISAFIR_ANAHTARI } from "@/istemci/editor/depo";
 import { ornekCv } from "@/ortak/cv/ornek";
 import { bosCv, cvNormalize, type CvVerisi } from "@/ortak/cv/sema";
 import { sistemTanimi } from "@/ortak/cv/tasarim";
+import { PaylasimKarti } from "./PaylasimKarti";
 
 type Kart = { id: string; baslik: string; icerik: unknown; guncelleme: string };
 
@@ -26,7 +27,13 @@ function ornekMi(v: CvVerisi) {
 
 let aktarimBasladi = false;
 
-export function PanelGovdesi({ cvler }: { cvler: Kart[] }) {
+export function PanelGovdesi({
+  cvler,
+  paylasim,
+}: {
+  cvler: Kart[];
+  paylasim: { acik: boolean; cvId: string | null };
+}) {
   const t = useTranslations("Panel");
   const dil = useLocale();
   const router = useRouter();
@@ -150,6 +157,8 @@ export function PanelGovdesi({ cvler }: { cvler: Kart[] }) {
             {mesaj.metin}
           </p>
         )}
+
+        <PaylasimKarti baslangic={paylasim} cvler={cvler.map((c) => ({ id: c.id, baslik: c.baslik }))} />
 
         {cvler.length === 0 ? (
           <div className="mt-10 rounded-2xl border border-dashed border-cizgi-guclu p-12 text-center">

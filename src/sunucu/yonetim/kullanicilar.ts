@@ -24,6 +24,7 @@ export async function kullaniciListesi(arama = "", sayfa = 0, boyut = 50) {
         rol: user.rol,
         ikiAdim: user.twoFactorEnabled,
         dogrulandi: user.emailVerified,
+        paylasim: user.isverenPaylasimi,
         olusturma: user.createdAt,
         cv: sql<number>`coalesce(${cvSayisi.n}, 0)`.mapWith(Number),
       })

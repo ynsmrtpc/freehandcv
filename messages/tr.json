@@ -666,5 +666,27 @@
     "aktarildi": "Tarayıcındaki CV hesabına aktarıldı.",
     "hata": "İşlem yapılamadı. Tekrar dene.",
     "sinir": "En fazla 100 CV saklayabilirsin."
+  },
+  "Riza": {
+    "serit": "Giriş yapmazsan hiçbir verin sunucumuza gönderilmez; CV'n yalnız bu tarayıcıda durur.",
+    "seritBaglanti": "Giriş yap, CV'n hesabında güvende olsun",
+    "indirBaslik": "İndirmeden önce bir şey söyleyelim",
+    "isveren": "Giriş yapıp onay verirsen CV'ni işe alım yapan firmalarla paylaşabilir, daha kolay işe yerleşmene yardımcı olabiliriz. Onay tamamen isteğe bağlı; istediğin an geri alabilirsin.",
+    "veri": "Giriş yaparsan CV'n hesabına kaydedilir: her cihazdan ulaşırsın, düzenlemelerin kaybolmaz. Verilerin şifreli bağlantıyla iletilir, yalnız sana ve onay verdiğin işverenlere açılır. Verilerini satmayız.",
+    "misafir": "Giriş yapmazsan hiçbir verin bize gönderilmez ve saklanmaz.",
+    "googleIle": "Google ile giriş yap",
+    "epostaIle": "E-postayla giriş yap",
+    "girissizIndir": "Giriş yapmadan indir",
+    "kayitOnay": "CV'min işe alım yapan firmalarla paylaşılmasına onay veriyorum. (İsteğe bağlı; istediğim an geri alabilirim.)",
+    "kayitVeriNotu": "Hesabındaki bilgiler (e-posta adresin ve CV'lerin) yalnız CV'lerini saklamak ve sana sunmak için tutulur. Onay vermezsen kimseyle paylaşılmaz.",
+    "panelBaslik": "İşverenler CV'mi görebilsin",
+    "panelAciklama": "Açarsan CV'n, işe alım yapan firmalarla paylaşılabilecek aday havuzuna alınır. İşveren eşleştirmesi yakında başlıyor; başladığında yalnız onay veren adaylar dahil edilir.",
+    "panelAcik": "Onay verildi — CV'n aday havuzunda.",
+    "panelKapali": "Onay yok — CV'n kimseyle paylaşılmaz.",
+    "cvSec": "Paylaşılacak CV",
+    "enGuncel": "En son güncellediğim CV",
+    "geriAlNot": "İstediğin an kapatabilirsin; kapatınca CV'n havuzdan hemen çıkarılır.",
+    "kaydedildi": "Tercihin kaydedildi.",
+    "hata": "Tercih kaydedilemedi. Tekrar dene."
   }
 }

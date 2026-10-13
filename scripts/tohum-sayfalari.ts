@@ -46,8 +46,8 @@ export function tohumSayfalari(dil: "tr" | "en"): TohumSayfa[] {
           "veri",
           tr ? "Verilerim satılıyor mu?" : "Is my data being sold?",
           tr
-            ? "Hayır. Hesap açmadan kullandığında CV'n yalnızca **senin tarayıcında** durur; bize gelmez. Hesap açarsan CV'n sunucumuzda yalnız senin hesabına bağlı olarak saklanır; içeriği yönetim panelimizde bile görünmez. Ziyaret istatistikleri çerez kullanmayan bir araçla, kişiyi tanımlamadan tutulur."
-            : "No. Without an account your resume stays **in your browser** only; it never reaches us. With an account it is stored on our server, tied only to your account — its content isn’t shown even in our admin panel. Visit statistics are collected with a cookie-free tool that doesn’t identify you.",
+            ? "Hayır. Hesap açmadan kullandığında CV'n yalnızca **senin tarayıcında** durur; bize gelmez. Hesap açarsan CV'n sunucumuzda yalnız senin hesabına bağlı olarak saklanır; içeriği yönetim panelimizde bile görünmez. CV'n yalnızca sen **açıkça onay verirsen** işe alım yapan firmalarla paylaşılabilir; bu onayı istediğin an geri alırsın. Ziyaret istatistikleri çerez kullanmayan bir araçla, kişiyi tanımlamadan tutulur."
+            : "No. Without an account your resume stays **in your browser** only; it never reaches us. With an account it is stored on our server, tied only to your account — its content isn’t shown even in our admin panel. Your resume is shared with hiring companies only if you **explicitly consent**, and you can withdraw that consent at any time. Visit statistics are collected with a cookie-free tool that doesn’t identify you.",
           { arkaPlan: "hafif" },
         ),
         {
@@ -141,15 +141,15 @@ export function tohumSayfalari(dil: "tr" | "en"): TohumSayfa[] {
           "amac",
           tr ? "Neden işliyoruz?" : "Why we process it",
           tr
-            ? "Hesabını oluşturmak ve güvenliğini sağlamak, CV'lerini senin için saklamak, şifre sıfırlama gibi işlemleri yapmak ve hizmeti iyileştirmek için. Hukuki sebep: [KVKK m.5 kapsamındaki dayanak — hukukçu tarafından belirlenecek]."
-            : "To create and secure your account, store your resumes for you, handle things like password resets, and improve the service. Legal basis: [to be determined by legal counsel].",
+            ? "Hesabını oluşturmak ve güvenliğini sağlamak, CV'lerini senin için saklamak, şifre sıfırlama gibi işlemleri yapmak ve hizmeti iyileştirmek için. Hukuki sebep: [KVKK m.5 kapsamındaki dayanak — hukukçu tarafından belirlenecek].\n\n**İşverenlerle paylaşım (isteğe bağlı):** Açık rızan varsa, seçtiğin CV'n işe alım yapan firmalarla paylaşılabilir; böylece iş fırsatlarına daha kolay ulaşırsın. Bu işlemenin dayanağı yalnızca **açık rızandır** (KVKK m.5/1, m.8). Rıza vermemen hiçbir özelliği kısıtlamaz; rızanı hesabındaki panelden istediğin an geri alabilirsin. Ne zaman ve hangi metne onay verdiğin kayıt altında tutulur."
+            : "To create and secure your account, store your resumes for you, handle things like password resets, and improve the service. Legal basis: [to be determined by legal counsel].\n\n**Sharing with employers (optional):** With your explicit consent, the resume you choose may be shared with hiring companies so job opportunities reach you more easily. The only basis for this is your **explicit consent**. Declining limits no feature, and you can withdraw consent from your dashboard at any time. We record when and to which text you consented.",
         ),
         metin(
           "aktarim",
           tr ? "Kimlerle paylaşıyoruz?" : "Who we share it with",
           tr
-            ? "Verilerini satmayız. Hizmeti sunmak için yalnızca altyapı sağlayıcılarımızla (sunucu barındırma [sağlayıcı ve ülke], e-posta gönderimi [sağlayıcı], dosya depolama [sağlayıcı]) gerekli ölçüde paylaşılır. Yurt dışına aktarım: [varsa açıklama]."
-            : "We never sell your data. It is shared only as needed with infrastructure providers (hosting [provider, country], email delivery [provider], file storage [provider]). International transfers: [details].",
+            ? "Verilerini satmayız. Açık rızan varsa CV'n işe alım yapan firmalarla paylaşılır (yukarıda). Bunun dışında yalnızca hizmeti sunmak için altyapı sağlayıcılarımızla (sunucu barındırma [sağlayıcı ve ülke], e-posta gönderimi [sağlayıcı], dosya depolama [sağlayıcı]) gerekli ölçüde paylaşılır. Yurt dışına aktarım: [varsa açıklama]."
+            : "We never sell your data. With your explicit consent your resume is shared with hiring companies (see above). Otherwise it is shared only as needed with infrastructure providers (hosting [provider, country], email delivery [provider], file storage [provider]). International transfers: [details].",
         ),
         metin(
           "saklama",
