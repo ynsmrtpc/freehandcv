@@ -4,6 +4,8 @@ import {
   Check,
   ChevronDown,
   CloudOff,
+  CloudUpload,
+  Loader2,
   Download,
   Eye,
   FileJson,
@@ -17,13 +19,17 @@ import {
 import { AnimatePresence, domAnimation, LazyMotion, m, MotionConfig } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { GoogleTekDokunus } from "@/bilesenler/hesap/GoogleTekDokunus";
+import { KullaniciMenusu } from "@/bilesenler/hesap/KullaniciMenusu";
 import { Logo } from "@/bilesenler/site/Logo";
 import { butonSinifi } from "@/bilesenler/ui/Buton";
-import { Link } from "@/i18n/navigation";
+import { getPathname, Link, useRouter } from "@/i18n/navigation";
+import type { Dil } from "@/i18n/routing";
+import { authIstemci } from "@/istemci/auth";
 import { useEditor } from "@/istemci/editor/depo";
 import { cn } from "@/ortak/cn";
 import { ornekCv } from "@/ortak/cv/ornek";
-import { bosCv } from "@/ortak/cv/sema";
+import { bosCv, type CvVerisi } from "@/ortak/cv/sema";
 import { dosyaAdi } from "@/ortak/cv/yardimci";
 import { IcerikPaneli } from "./IcerikPaneli";
 import { KontrolPaneli, useKontrol } from "./KontrolPaneli";
@@ -36,17 +42,35 @@ const SEKMELER = ["icerik", "tasarim", "kontrol"] as const;
 type Sekme = (typeof SEKMELER)[number];
 const PDF_IPUCU_ANAHTARI = "freehandcv:pdf-ipucu-gizle";
 
-export function Editor() {
+export type HesapCv = { id: string; veri: CvVerisi; surum: number };
+
+/** `hesap` verilirse CV hesaptan açılır ve sunucuya kaydedilir; verilmezse misafir modudur. */
+export function Editor({ hesap }: { hesap?: HesapCv }) {
   const t = useTranslations("Editor");
   const dil = useLocale();
-  const veri = useEditor((d) => d.veri);
-  const baslat = useEditor((d) => d.baslat);
+  const kaynak = useEditor((d) => d.kaynak);
+  const hazir = hesap ? kaynak.tur === "hesap" && kaynak.id === hesap.id : kaynak.tur === "misafir";
+  const veri = useEditor((d) => (hazir ? d.veri : null));
   const [sekme, setSekme] = useState<Sekme>("icerik");
   const [gorunum, setGorunum] = useState<"duzenle" | "onizle">("duzenle");
   const [bildirim, setBildirim] = useState<{ metin: string; no: number } | null>(null);
   const [pdfAcik, setPdfAcik] = useState(false);
 
-  useEffect(() => baslat(dil), [baslat, dil]);
+  useEffect(() => {
+    if (hesap) useEditor.getState().hesapBaslat(hesap.id, hesap.veri, hesap.surum);
+    else useEditor.getState().misafirBaslat(dil);
+  }, [hesap, dil]);
+
+  // Girişliyken misafir editörü açılırsa kişinin paneline gidilir (CV'ler hesapta tutulur;
+  // tarayıcıda kalmış misafir CV'si panelde hesaba aktarılır).
+  const oturum = authIstemci.useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (!hesap && oturum.data) {
+      useEditor.getState().simdiKaydet();
+      router.replace("/panel");
+    }
+  }, [hesap, oturum.data, router]);
 
   const bildir = useCallback((metin: string) => setBildirim({ metin, no: Date.now() }), []);
   useEffect(() => {
@@ -178,6 +202,8 @@ export function Editor() {
           </div>
 
           <PdfDiyalogu acik={pdfAcik} kapat={() => setPdfAcik(false)} devam={yazdir} />
+          <CakismaDiyalogu />
+          {!hesap && <GoogleTekDokunus donus={getPathname({ href: "/panel", locale: dil as Dil })} />}
         </div>
       </MotionConfig>
     </LazyMotion>
@@ -263,6 +289,8 @@ function UstCubuk({ bildir, pdfIndir }: { bildir: (m: string) => void; pdfIndir:
     bildir(t("bildirim.jsonIndi"));
   };
 
+  const kaynak = useEditor((d) => d.kaynak);
+  const hesapta = kaynak.tur === "hesap";
   const saat =
     kayit.tur === "kaydedildi"
       ? new Date(kayit.zaman).toLocaleTimeString(dil, { hour: "2-digit", minute: "2-digit" })
@@ -281,15 +309,22 @@ function UstCubuk({ bildir, pdfIndir }: { bildir: (m: string) => void; pdfIndir:
         {kayit.tur === "hata" ? (
           <span className="flex items-center gap-1.5 font-medium text-hata">
             <CloudOff className="size-3.5" />
-            {t("kayit.hata")}
+            {hesapta && kayit.neden !== "depolama" ? t(`kayit.${kayit.neden}`) : t("kayit.hata")}
           </span>
+        ) : kayit.tur === "kaydediliyor" ? (
+          <span className="flex items-center gap-1.5">
+            <Loader2 className="size-3.5 animate-spin" />
+            {t("kayit.kaydediliyor")}
+          </span>
+        ) : kayit.tur === "bekliyor" ? (
+          <span>{t("kayit.bekliyor")}</span>
         ) : kayit.tur === "kaydedildi" ? (
-          <span className="flex items-center gap-1.5" title={t("kayit.misafir")}>
+          <span className="flex items-center gap-1.5" title={hesapta ? undefined : t("kayit.misafir")}>
             <Check className="size-3.5 text-vurgu" />
-            {t("kayit.kaydedildi", { saat })}
+            {hesapta ? t("kayit.hesapKaydedildi", { saat }) : t("kayit.kaydedildi", { saat })}
           </span>
-        ) : (
-          <span>{t("kayit.misafir")}</span>
+        ) : kayit.tur === "cakisma" ? null : (
+          <span>{hesapta ? "" : t("kayit.misafir")}</span>
         )}
       </div>
 
@@ -364,10 +399,20 @@ function UstCubuk({ bildir, pdfIndir }: { bildir: (m: string) => void; pdfIndir:
           }}
         />
 
+        {!hesapta && (
+          <Link
+            href={{ pathname: "/giris", query: { sonra: getPathname({ href: "/panel", locale: dil as Dil }) } }}
+            className={butonSinifi("ikincil", "kucuk", "ms-1 max-md:hidden")}
+          >
+            <CloudUpload className="size-4" />
+            {t("arac.hesabaKaydet")}
+          </Link>
+        )}
         <button type="button" onClick={pdfIndir} className={butonSinifi("ana", "kucuk", "ms-1")}>
           <Download className="size-4" />
           <span className="max-sm:sr-only">{t("arac.pdf")}</span>
         </button>
+        <KullaniciMenusu girisGoster={false} className="ms-1" />
       </div>
     </header>
   );
@@ -418,6 +463,36 @@ function PdfDiyalogu({ acik, kapat, devam }: { acik: boolean; kapat: () => void;
         </button>
         <button type="button" onClick={() => bitir(true)} className={butonSinifi("ana", "kucuk")} autoFocus>
           {t("devam")}
+        </button>
+      </div>
+    </dialog>
+  );
+}
+
+function CakismaDiyalogu() {
+  const t = useTranslations("Editor.cakisma");
+  const kayit = useEditor((d) => d.kayit);
+  const ref = useRef<HTMLDialogElement>(null);
+  const acik = kayit.tur === "cakisma";
+  useEffect(() => {
+    const d = ref.current;
+    if (acik && d && !d.open) d.showModal();
+    if (!acik && d?.open) d.close();
+  }, [acik]);
+  return (
+    <dialog
+      ref={ref}
+      onCancel={(e) => e.preventDefault()}
+      className="m-auto w-[min(440px,calc(100vw-2rem))] rounded-2xl border border-cizgi bg-yuzey p-6 text-metin shadow-yuksek backdrop:bg-black/50"
+    >
+      <h2 className="text-lg font-bold">{t("baslik")}</h2>
+      <p className="mt-2 text-sm text-soluk">{t("aciklama")}</p>
+      <div className="mt-6 flex flex-wrap justify-end gap-2">
+        <button type="button" onClick={() => window.location.reload()} className={butonSinifi("ikincil", "kucuk")}>
+          {t("yenile")}
+        </button>
+        <button type="button" onClick={() => useEditor.getState().benimkiniKoru()} className={butonSinifi("ana", "kucuk")}>
+          {t("koru")}
         </button>
       </div>
     </dialog>

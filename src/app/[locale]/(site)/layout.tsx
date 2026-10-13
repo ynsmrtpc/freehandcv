@@ -2,7 +2,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { Suspense } from "react";
 import { HareketSaglayici } from "@/bilesenler/hareket/HareketSaglayici";
 import { AltBilgi } from "@/bilesenler/site/AltBilgi";
+import { GoogleTekDokunus } from "@/bilesenler/hesap/GoogleTekDokunus";
 import { DuyuruCubugu } from "@/bilesenler/site/DuyuruCubugu";
+import { getPathname } from "@/i18n/navigation";
+import type { Dil } from "@/i18n/routing";
 import { SiteBasligi } from "@/bilesenler/site/SiteBasligi";
 
 export default function SiteLayout({ children }: LayoutProps<"/[locale]">) {
@@ -24,6 +27,7 @@ export default function SiteLayout({ children }: LayoutProps<"/[locale]">) {
       </Suspense>
       <main id="icerik">{children}</main>
       <AltBilgi />
+      <GoogleTekDokunus donus={getPathname({ href: "/panel", locale: dil as Dil })} />
     </HareketSaglayici>
   );
 }

@@ -24,7 +24,8 @@
     "altBilgiHaklar": "© {yil} FreehandCV",
     "yapimAsamasinda": "The site is under construction — launching very soon.",
     "destek": "Support us",
-    "gizlilik": "Privacy"
+    "gizlilik": "Privacy",
+    "girisYap": "Sign in"
   },
   "Landing": {
     "ogBaslik": "Build your resume for free. Download it for free.",
@@ -230,7 +231,13 @@
     "kayit": {
       "kaydedildi": "Saved in your browser · {saat}",
       "hata": "Couldn’t save — download as JSON",
-      "misafir": "No account needed. Your resume is stored only in this browser."
+      "misafir": "No account needed. Your resume is stored only in this browser.",
+      "bekliyor": "Unsaved changes",
+      "kaydediliyor": "Saving…",
+      "hesapKaydedildi": "Saved to your account · {saat}",
+      "baglanti": "Offline — will save when you’re back online",
+      "buyuk": "Resume too large; try a smaller photo",
+      "oturum": "You were signed out — sign in again"
     },
     "arac": {
       "geriAl": "Undo",
@@ -246,7 +253,8 @@
       "uzaklas": "Zoom out",
       "yakinlas": "Zoom in",
       "sigdir": "Fit",
-      "anaSayfa": "Home"
+      "anaSayfa": "Home",
+      "hesabaKaydet": "Save to account"
     },
     "onay": {
       "ornek": "Replace your current resume with the example? Downloading it as JSON first is recommended.",
@@ -514,6 +522,12 @@
       "devam": "Continue",
       "vazgec": "Cancel",
       "tekrarGosterme": "Don’t show again"
+    },
+    "cakisma": {
+      "baslik": "This resume changed elsewhere",
+      "aciklama": "It was saved in another tab or device. Which version do you want to keep?",
+      "yenile": "Load the other version",
+      "koru": "Keep mine"
     }
   },
   "Kontrol": {
@@ -596,5 +610,61 @@
       "Open the PDF, select all text and paste it somewhere; if it pastes cleanly, ATS can read it.",
       "Leave out salary expectations or referee phone numbers unless the ad asks for them."
     ]
+  },
+  "Hesap": {
+    "girisMeta": "Sign in",
+    "kayitMeta": "Create an account",
+    "girisBaslik": "Welcome back",
+    "girisAlt": "Reach your resumes from any device.",
+    "kayitBaslik": "Create a free account",
+    "kayitAlt": "Your resumes are saved to the cloud with version history. No credit card.",
+    "google": "Continue with Google",
+    "veya": "or",
+    "ad": "Full name (optional)",
+    "eposta": "Email",
+    "sifre": "Password",
+    "sifreKurali": "At least 10 characters",
+    "sifreGoster": "Show password",
+    "sifreGizle": "Hide password",
+    "girisYap": "Sign in",
+    "kayitOl": "Create account",
+    "hesapYok": "Don’t have an account?",
+    "hesapVar": "Already have an account?",
+    "kayitOlBaglanti": "Create a free account",
+    "girisBaglanti": "Sign in",
+    "kosullar": "By creating an account you confirm you’ve read our privacy notice.",
+    "hatalar": {
+      "hatali": "Wrong email or password.",
+      "kayitli": "An account with this email already exists. Try signing in.",
+      "sifreKisa": "Password must be at least 10 characters.",
+      "cokDeneme": "Too many attempts. Wait a moment and try again.",
+      "genel": "Something went wrong. Please try again."
+    },
+    "ikiAdim": "Two-factor authentication is on for this account. Enter the 6-digit code from your app.",
+    "kod": "Verification code",
+    "dogrula": "Verify",
+    "misafirNot": "You can also build a resume without signing in.",
+    "misafirDevam": "Continue without an account",
+    "menu": "Account menu",
+    "girisKisa": "Sign in",
+    "panel": "My resumes",
+    "cikis": "Sign out"
+  },
+  "Panel": {
+    "meta": "My resumes",
+    "baslik": "My resumes",
+    "alt": "{n, plural, =0 {No resumes yet} one {# resume} other {# resumes}}",
+    "yeni": "New resume",
+    "yeniOrnek": "Start from example",
+    "yeniBos": "Blank resume",
+    "ac": "Edit",
+    "cogalt": "Duplicate",
+    "sil": "Delete",
+    "silOnay": "Delete \"{ad}\"? It stays in the trash for 30 days.",
+    "guncellendi": "Updated {zaman}",
+    "bos": "Create your first resume. Start from the example or a blank page.",
+    "aktarildi": "The resume in your browser was moved to your account.",
+    "hata": "That didn’t work. Please try again.",
+    "sinir": "You can keep up to 100 resumes."
   }
 }

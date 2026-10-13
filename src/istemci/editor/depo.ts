@@ -1,8 +1,11 @@
 "use client";
 
-// Editör durumu (plan bölüm 4: Zustand). Misafir modunda veri localStorage'da durur (plan 10);
-// Faz 2'de aynı depo otomatik kayıt kuyruğuyla sunucuya yazar (plan 12).
+// Editör durumu (plan bölüm 4: Zustand). İki kayıt kaynağı vardır:
+// - misafir: veri tarayıcının localStorage'ında durur (plan 10),
+// - hesap: değişiklikler 1 sn bekleyip sunucuya yazılır; sürüm farklıysa çakışma bildirilir,
+//   bağlantı yoksa bekler ve bağlantı gelince yeniden dener (plan 12).
 import { create } from "zustand";
+import { cvKaydetEylemi } from "@/eylemler/cv";
 import { ornekCv } from "@/ortak/cv/ornek";
 import { cvNormalize, type CvVerisi } from "@/ortak/cv/sema";
 
@@ -10,45 +13,71 @@ export const MISAFIR_ANAHTARI = "freehandcv:misafir-cv:v1";
 const GECMIS_SINIRI = 80;
 /** Bu süre içindeki ardışık değişiklikler tek geri alma adımı sayılır (yazarken her tuş değil). */
 const BIRLESTIRME_MS = 700;
+const MISAFIR_GECIKME = 400;
+const HESAP_GECIKME = 1000;
 
-type KayitDurumu = { tur: "bos" } | { tur: "kaydedildi"; zaman: number } | { tur: "hata" };
+export type Kaynak = { tur: "misafir" } | { tur: "hesap"; id: string; surum: number };
+
+export type KayitDurumu =
+  | { tur: "bos" }
+  | { tur: "bekliyor" }
+  | { tur: "kaydediliyor" }
+  | { tur: "kaydedildi"; zaman: number }
+  | { tur: "hata"; neden: "depolama" | "baglanti" | "buyuk" | "oturum" }
+  | { tur: "cakisma"; sunucuSurumu: number };
 
 type Depo = {
   veri: CvVerisi | null;
+  kaynak: Kaynak;
   gecmis: CvVerisi[];
   gelecek: CvVerisi[];
   sonDegisiklik: number;
   kayit: KayitDurumu;
   /** Önizlemenin ölçtüğü yaklaşık sayfa sayısı (IK kontrolü kullanır; geçmişe girmez). */
   sayfaSayisi: number;
-  /** Tarayıcıdan yükler; kayıt yoksa arayüz dilindeki örnek CV ile başlar. */
-  baslat: (arayuzDili: string) => void;
+  /** Misafir: tarayıcıdan yükler; kayıt yoksa arayüz dilindeki örnek CV ile başlar. */
+  misafirBaslat: (arayuzDili: string) => void;
+  /** Hesap: sunucudan gelen CV ile başlar. */
+  hesapBaslat: (id: string, veri: CvVerisi, surum: number) => void;
   /** Taslağı değiştiren işlev alır; kopya üzerinde çalışır, eski hali geçmişe yazar. */
   degistir: (tarif: (taslak: CvVerisi) => void, birlestir?: boolean) => void;
   /** Tüm CV'yi değiştirir (örnek yükle, JSON içe aktar, boş başla). */
   yerineKoy: (veri: unknown) => void;
   geriAl: () => void;
   ileriAl: () => void;
+  /** Çakışmada "benimkini koru": sunucudaki sürümün üzerine yazar. */
+  benimkiniKoru: () => void;
+  /** Bekleyen kaydı hemen yazar (sekme kapanırken). */
+  simdiKaydet: () => void;
 };
+
+const SIFIR = { gecmis: [], gelecek: [], sonDegisiklik: 0, kayit: { tur: "bos" } as KayitDurumu, sayfaSayisi: 1 };
 
 export const useEditor = create<Depo>((set, get) => ({
   veri: null,
-  gecmis: [],
-  gelecek: [],
-  sonDegisiklik: 0,
-  kayit: { tur: "bos" },
-  sayfaSayisi: 1,
+  kaynak: { tur: "misafir" },
+  ...SIFIR,
 
-  baslat(arayuzDili) {
-    if (get().veri) return;
-    let veri: CvVerisi | null = null;
+  misafirBaslat(arayuzDili) {
+    const { veri, kaynak } = get();
+    if (veri && kaynak.tur === "misafir") return;
+    if (veri) get().simdiKaydet(); // önceki CV'nin bekleyen kaydı kaybolmasın
+    let yuklu: CvVerisi | null = null;
     try {
       const ham = localStorage.getItem(MISAFIR_ANAHTARI);
-      if (ham) veri = cvNormalize(JSON.parse(ham));
+      if (ham) yuklu = cvNormalize(JSON.parse(ham));
     } catch {
       // bozuk ya da erişilemeyen depolama: örneğe düş
     }
-    set({ veri: veri ?? ornekCv(arayuzDili) });
+    set({ ...SIFIR, veri: yuklu ?? ornekCv(arayuzDili), kaynak: { tur: "misafir" } });
+  },
+
+  hesapBaslat(id, veri, surum) {
+    const k = get().kaynak;
+    if (k.tur === "hesap" && k.id === id && get().veri) return;
+    if (get().veri) get().simdiKaydet();
+    kirli = false;
+    set({ ...SIFIR, veri, kaynak: { tur: "hesap", id, surum } });
   },
 
   degistir(tarif, birlestir = true) {
@@ -87,32 +116,102 @@ export const useEditor = create<Depo>((set, get) => ({
     if (!veri || !gelecek.length) return;
     set({ veri: gelecek[0], gecmis: [...gecmis, veri], gelecek: gelecek.slice(1), sonDegisiklik: 0 });
   },
+
+  benimkiniKoru() {
+    const { kaynak, kayit } = get();
+    if (kaynak.tur !== "hesap" || kayit.tur !== "cakisma") return;
+    kirli = true;
+    set({ kaynak: { ...kaynak, surum: kayit.sunucuSurumu }, kayit: { tur: "bekliyor" } });
+    void hesabaYaz();
+  },
+
+  simdiKaydet() {
+    clearTimeout(zamanlayici);
+    if (get().kaynak.tur === "misafir") misafireYaz();
+    else void hesabaYaz();
+  },
 }));
 
-// Otomatik kayıt: değişiklikten 400 ms sonra tarayıcıya yazar; sayfa kapanırken bekleyen kayıt
-// hemen yazılır (sekme kapatma, yenileme, mobilde arka plana alma).
-let zamanlayici: ReturnType<typeof setTimeout> | undefined;
-let bekleyen: CvVerisi | null = null;
+/* ---------------- Otomatik kayıt ---------------- */
 
-function yaz() {
-  clearTimeout(zamanlayici);
-  if (!bekleyen) return;
+let zamanlayici: ReturnType<typeof setTimeout> | undefined;
+let kirli = false;
+let yaziliyor = false;
+
+function misafireYaz() {
+  const { veri, kaynak } = useEditor.getState();
+  if (!kirli || !veri || kaynak.tur !== "misafir") return;
   try {
-    localStorage.setItem(MISAFIR_ANAHTARI, JSON.stringify(bekleyen));
+    localStorage.setItem(MISAFIR_ANAHTARI, JSON.stringify(veri));
+    kirli = false;
     useEditor.setState({ kayit: { tur: "kaydedildi", zaman: Date.now() } });
   } catch {
-    useEditor.setState({ kayit: { tur: "hata" } });
+    useEditor.setState({ kayit: { tur: "hata", neden: "depolama" } });
   }
-  bekleyen = null;
+}
+
+async function hesabaYaz() {
+  const durum = useEditor.getState();
+  if (durum.kaynak.tur !== "hesap" || !durum.veri || durum.kayit.tur === "cakisma" || !kirli) return;
+  if (yaziliyor) {
+    // Bir yazım sürerken gelen değişiklik, o bitince yazılır.
+    clearTimeout(zamanlayici);
+    zamanlayici = setTimeout(() => void hesabaYaz(), 300);
+    return;
+  }
+  const { id, surum } = durum.kaynak;
+  const gonderilen = durum.veri;
+  yaziliyor = true;
+  kirli = false;
+  useEditor.setState({ kayit: { tur: "kaydediliyor" } });
+  try {
+    const s = await cvKaydetEylemi(id, gonderilen, surum);
+    const k = useEditor.getState().kaynak;
+    if (k.tur !== "hesap" || k.id !== id) return; // bu arada başka CV açıldı
+    if (s.tamam) {
+      const degisti = useEditor.getState().veri !== gonderilen;
+      if (degisti) kirli = true;
+      useEditor.setState({
+        kaynak: { ...k, surum: s.surum },
+        kayit: degisti ? { tur: "bekliyor" } : { tur: "kaydedildi", zaman: Date.now() },
+      });
+      if (degisti) zamanlayici = setTimeout(() => void hesabaYaz(), HESAP_GECIKME);
+    } else {
+      kirli = true;
+      useEditor.setState({
+        kayit:
+          s.neden === "cakisma"
+            ? { tur: "cakisma", sunucuSurumu: s.sunucuSurumu ?? surum }
+            : { tur: "hata", neden: s.neden === "buyuk" ? "buyuk" : s.neden === "oturum" ? "oturum" : "baglanti" },
+      });
+    }
+  } catch {
+    kirli = true;
+    useEditor.setState({ kayit: { tur: "hata", neden: "baglanti" } });
+  } finally {
+    yaziliyor = false;
+  }
 }
 
 if (typeof window !== "undefined") {
   useEditor.subscribe((durum, onceki) => {
-    if (!durum.veri || durum.veri === onceki.veri) return;
-    bekleyen = durum.veri;
+    // Yalnız aynı CV üzerindeki içerik değişiklikleri kayıt tetikler (yeni CV açmak değil).
+    if (!durum.veri || durum.veri === onceki.veri || !onceki.veri) return;
+    if (durum.kaynak.tur !== onceki.kaynak.tur) return;
+    if (durum.kaynak.tur === "hesap" && onceki.kaynak.tur === "hesap" && durum.kaynak.id !== onceki.kaynak.id) return;
+    kirli = true;
     clearTimeout(zamanlayici);
-    zamanlayici = setTimeout(yaz, 400);
+    if (durum.kaynak.tur === "misafir") {
+      zamanlayici = setTimeout(misafireYaz, MISAFIR_GECIKME);
+    } else if (durum.kayit.tur !== "cakisma") {
+      if (durum.kayit.tur !== "kaydediliyor") useEditor.setState({ kayit: { tur: "bekliyor" } });
+      zamanlayici = setTimeout(() => void hesabaYaz(), HESAP_GECIKME);
+    }
   });
-  window.addEventListener("pagehide", yaz);
-  document.addEventListener("visibilitychange", () => document.visibilityState === "hidden" && yaz());
+  const kapanirken = () => useEditor.getState().simdiKaydet();
+  window.addEventListener("pagehide", kapanirken);
+  document.addEventListener("visibilitychange", () => document.visibilityState === "hidden" && kapanirken());
+  window.addEventListener("online", () => {
+    if (useEditor.getState().kayit.tur === "hata") useEditor.getState().simdiKaydet();
+  });
 }

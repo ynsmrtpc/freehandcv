@@ -8,6 +8,7 @@ import { butonSinifi } from "@/bilesenler/ui/Buton";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/ortak/cn";
 import { DilSecici } from "../DilSecici";
+import { KullaniciMenusu } from "../hesap/KullaniciMenusu";
 import { Logo } from "./Logo";
 import { TemaDegistirici } from "./TemaDegistirici";
 
@@ -70,6 +71,7 @@ export function SiteBasligi() {
         <div className="ms-auto flex items-center gap-1">
           <DilSecici className="hidden sm:flex" />
           <TemaDegistirici />
+          <KullaniciMenusu />
           <Link href="/cv-olustur" className={butonSinifi("ana", "kucuk", "ms-2 hidden sm:inline-flex")}>
             {t("cvOlustur")}
           </Link>

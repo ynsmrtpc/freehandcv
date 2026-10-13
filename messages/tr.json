@@ -24,7 +24,8 @@
     "altBilgiHaklar": "© {yil} FreehandCV",
     "yapimAsamasinda": "Site yapım aşamasında — çok yakında yayında.",
     "destek": "Destek ol",
-    "gizlilik": "Gizlilik ve KVKK"
+    "gizlilik": "Gizlilik ve KVKK",
+    "girisYap": "Giriş yap"
   },
   "Landing": {
     "ogBaslik": "CV'ni ücretsiz hazırla, ücretsiz indir.",
@@ -230,7 +231,13 @@
     "kayit": {
       "kaydedildi": "Tarayıcına kaydedildi · {saat}",
       "hata": "Kaydedilemedi — JSON olarak indir",
-      "misafir": "Hesap gerekmez. CV'n yalnızca bu tarayıcıda saklanır."
+      "misafir": "Hesap gerekmez. CV'n yalnızca bu tarayıcıda saklanır.",
+      "bekliyor": "Kaydedilmemiş değişiklik",
+      "kaydediliyor": "Kaydediliyor…",
+      "hesapKaydedildi": "Hesabına kaydedildi · {saat}",
+      "baglanti": "Bağlantı yok — bağlanınca kaydedilecek",
+      "buyuk": "CV çok büyük; daha küçük bir fotoğraf dene",
+      "oturum": "Oturumun kapanmış — yeniden giriş yap"
     },
     "arac": {
       "geriAl": "Geri al",
@@ -246,7 +253,8 @@
       "uzaklas": "Uzaklaştır",
       "yakinlas": "Yakınlaştır",
       "sigdir": "Sığdır",
-      "anaSayfa": "Ana sayfa"
+      "anaSayfa": "Ana sayfa",
+      "hesabaKaydet": "Hesabına kaydet"
     },
     "onay": {
       "ornek": "Mevcut CV örnek CV ile değiştirilsin mi? Önce JSON olarak indirmen önerilir.",
@@ -514,6 +522,12 @@
       "devam": "Devam et",
       "vazgec": "Vazgeç",
       "tekrarGosterme": "Bir daha gösterme"
+    },
+    "cakisma": {
+      "baslik": "Bu CV başka bir yerde değişti",
+      "aciklama": "CV başka bir sekmede ya da cihazda kaydedilmiş. Hangisini tutmak istersin?",
+      "yenile": "Diğer sürümü yükle",
+      "koru": "Benimkini koru"
     }
   },
   "Kontrol": {
@@ -596,5 +610,61 @@
       "PDF'i açıp tüm metni seçip kopyala; düzgün yapışıyorsa ATS de okur.",
       "Maaş beklentisi, referans telefonları gibi bilgileri ilan istemedikçe CV'ye koyma."
     ]
+  },
+  "Hesap": {
+    "girisMeta": "Giriş yap",
+    "kayitMeta": "Hesap oluştur",
+    "girisBaslik": "Tekrar hoş geldin",
+    "girisAlt": "CV'lerine her cihazdan ulaş.",
+    "kayitBaslik": "Ücretsiz hesap oluştur",
+    "kayitAlt": "CV'lerin bulutta saklanır, sürümlerin kaybolmaz. Kredi kartı yok.",
+    "google": "Google ile devam et",
+    "veya": "veya",
+    "ad": "Ad soyad (isteğe bağlı)",
+    "eposta": "E-posta",
+    "sifre": "Şifre",
+    "sifreKurali": "En az 10 karakter",
+    "sifreGoster": "Şifreyi göster",
+    "sifreGizle": "Şifreyi gizle",
+    "girisYap": "Giriş yap",
+    "kayitOl": "Hesap oluştur",
+    "hesapYok": "Hesabın yok mu?",
+    "hesapVar": "Zaten hesabın var mı?",
+    "kayitOlBaglanti": "Ücretsiz hesap oluştur",
+    "girisBaglanti": "Giriş yap",
+    "kosullar": "Hesap oluşturarak gizlilik ve KVKK aydınlatma metnini okuduğunu kabul edersin.",
+    "hatalar": {
+      "hatali": "E-posta ya da şifre hatalı.",
+      "kayitli": "Bu e-postayla kayıtlı bir hesap var. Giriş yapmayı dene.",
+      "sifreKisa": "Şifre en az 10 karakter olmalı.",
+      "cokDeneme": "Çok fazla deneme yaptın. Biraz bekleyip tekrar dene.",
+      "genel": "Bir şeyler ters gitti. Tekrar dene."
+    },
+    "ikiAdim": "Bu hesapta iki adımlı doğrulama açık. Doğrulama uygulamandaki 6 haneli kodu gir.",
+    "kod": "Doğrulama kodu",
+    "dogrula": "Doğrula",
+    "misafirNot": "Giriş yapmadan da CV hazırlayabilirsin.",
+    "misafirDevam": "Hesapsız devam et",
+    "menu": "Hesap menüsü",
+    "girisKisa": "Giriş",
+    "panel": "CV'lerim",
+    "cikis": "Çıkış yap"
+  },
+  "Panel": {
+    "meta": "CV'lerim",
+    "baslik": "CV'lerim",
+    "alt": "{n, plural, =0 {Henüz CV yok} one {# CV} other {# CV}}",
+    "yeni": "Yeni CV",
+    "yeniOrnek": "Örnekten başla",
+    "yeniBos": "Boş CV",
+    "ac": "Düzenle",
+    "cogalt": "Çoğalt",
+    "sil": "Sil",
+    "silOnay": "\"{ad}\" silinsin mi? Çöp kutusunda 30 gün kalır.",
+    "guncellendi": "{zaman} güncellendi",
+    "bos": "İlk CV'ni oluştur. Örnekten başlayabilir ya da boş sayfayla açabilirsin.",
+    "aktarildi": "Tarayıcındaki CV hesabına aktarıldı.",
+    "hata": "İşlem yapılamadı. Tekrar dene.",
+    "sinir": "En fazla 100 CV saklayabilirsin."
   }
 }

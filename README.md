@@ -60,3 +60,12 @@ kullanılır (aynı Postgres içinde). Sunucuyu ona bağlamak için:
 ```bash
 DATABASE_URL=postgres://freehandcv:freehandcv@localhost:5433/freehandcv_test pnpm start
 ```
+
+## Google ile giriş ve One Tap
+
+1. [Google Cloud Console](https://console.cloud.google.com/apis/credentials) → **Kimlik bilgileri oluştur → OAuth istemci kimliği → Web uygulaması**.
+2. **Yetkili JavaScript kaynakları:** `http://localhost:3000`, `https://freehandcv.com`
+3. **Yetkili yönlendirme URI'leri:** `http://localhost:3000/api/auth/callback/google`,
+   `https://freehandcv.com/api/auth/callback/google`
+4. `.env`'e `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` ve aynı kimliği `NEXT_PUBLIC_GOOGLE_CLIENT_ID`
+   olarak yaz; sunucuyu yeniden başlat. Değişkenler boşsa Google düğmeleri görünmez.
