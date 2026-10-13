@@ -6,6 +6,7 @@ import { updateTag } from "next/cache";
 import { z } from "zod";
 import { blokListesiSemasi, type Blok } from "@/ortak/bloklar";
 import {
+  YAYIN_LISTESI_ETIKETI,
   sayfaEtiketi,
   surumuTaslagaAl,
   SurumCakismasi,
@@ -63,6 +64,7 @@ export async function yayinlaEylemi(id: string): Promise<EylemSonucu> {
     const { dil, slug } = await yayinla(id, kullanici.id);
     // Yalnız bu sayfanın önbelleği yenilenir; sonraki ziyaretçi yeni içeriği görür.
     updateTag(sayfaEtiketi(dil, slug));
+    updateTag(YAYIN_LISTESI_ETIKETI);
     return { tamam: true };
   } catch (hata) {
     return hataSonucu(hata);

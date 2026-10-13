@@ -7,6 +7,24 @@ import { sayfalar, sayfaSurumleri, user, yonetimGunlugu } from "../db/sema";
 
 export const ANA_SAYFA = "ana-sayfa";
 export const sayfaEtiketi = (dil: string, slug: string) => `sayfa:${dil}:${slug}`;
+export const YAYIN_LISTESI_ETIKETI = "sayfalar:yayinda";
+
+/** Yayındaki sayfaların (dil, slug, güncelleme) listesi — site haritası ve alt bilgi için. */
+export async function yayindakiSayfalar(): Promise<{ dil: string; slug: string; guncelleme: string }[]> {
+  "use cache";
+  cacheTag(YAYIN_LISTESI_ETIKETI);
+  try {
+    const l = await db
+      .select({ dil: sayfalar.dil, slug: sayfalar.slug, guncelleme: sayfalar.guncelleme })
+      .from(sayfalar)
+      .where(and(eq(sayfalar.durum, "yayinda"), eq(sayfalar.indeks, true)));
+    return l.map((s) => ({ ...s, guncelleme: s.guncelleme.toISOString() }));
+  } catch (hata) {
+    console.error("yayindakiSayfalar: veritabanına ulaşılamadı", hata);
+    cacheLife("seconds");
+    return [];
+  }
+}
 
 export type YayindakiSayfa = {
   baslik: string;

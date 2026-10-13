@@ -61,6 +61,11 @@ export const BLOK_SEMALARI = {
     ikincilButon: buton("İkincil buton"),
     maddeler: m(z.array(metin("Madde")).max(5), { etiket: "Onay maddeleri" }),
   }),
+  sayfa_basligi: z.object({
+    ust: metin("Üst etiket"),
+    baslik: metin("Başlık (h1)", "Sayfanın tek h1 başlığı; landing'de hero kullanılır"),
+    aciklama: uzunMetin("Açıklama"),
+  }),
   sablon_vitrini: z.object({
     ...bolumUstu,
     aciklama: uzunMetin("Açıklama"),
@@ -101,6 +106,11 @@ export const BLOK_SEMALARI = {
     }),
   }),
   cta: z.object({ baslik: metin("Başlık"), metin: uzunMetin("Metin"), buton: buton("Buton") }),
+  bagis: z.object({
+    baslik: metin("Başlık"),
+    metin: uzunMetin("Metin"),
+    buton: metin("Buton metni", "Bağlantı site ayarlarındaki bağış adresidir"),
+  }),
   zengin_metin: z.object({
     baslik: metin("Başlık (h2)"),
     metin: uzunMetin("Metin", "Boş satır yeni paragraf; **kalın**"),
@@ -112,12 +122,14 @@ export const BLOK_TURLERI = Object.keys(BLOK_SEMALARI) as BlokTuru[];
 
 export const BLOK_ADLARI: Record<BlokTuru, string> = {
   hero: "Hero (sayfa girişi)",
+  sayfa_basligi: "Sayfa başlığı",
   sablon_vitrini: "Şablon vitrini",
   adimlar: "Adımlar",
   karsilastirma: "Karşılaştırma tablosu",
   ozellikler: "Özellikler",
   sss: "SSS",
   cta: "Son çağrı (CTA)",
+  bagis: "Bağış çağrısı",
   zengin_metin: "Metin",
 };
 

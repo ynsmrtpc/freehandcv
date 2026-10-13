@@ -1,19 +1,23 @@
 import type { MetadataRoute } from "next";
-import { routing } from "@/i18n/routing";
+import { routing, type Dil } from "@/i18n/routing";
+import { CMS_SAYFALARI } from "@/ortak/cmsSayfalari";
 import { alternatifler, tamAdres } from "@/ortak/seo";
+import { ANA_SAYFA, yayindakiSayfalar } from "@/sunucu/icerik/sayfalar";
 
-// Yayındaki sabit site sayfaları. Faz 1'de örnek CV'ler, şablonlar ve rehberler
-// veritabanından eklenir (lastmod gerçek güncelleme tarihi olacak). Sayfa hazır
-// olmadan buraya eklenmez; site haritasında 404 olmamalı.
-const SABIT_YOLLAR = ["/"] as const;
+// Yalnız yayındaki ve indekslenen sayfalar; lastmod gerçek güncelleme tarihi (plan 6.4).
+// Örnek CV'ler, şablonlar ve rehberler eklendikçe buraya katılır.
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const yayinda = await yayindakiSayfalar();
+  const yollar = [{ href: "/" as const, slug: ANA_SAYFA }, ...CMS_SAYFALARI];
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return SABIT_YOLLAR.flatMap((yol) =>
-    routing.locales.map((dil) => ({
-      url: tamAdres(yol, dil),
-      alternates: {
-        languages: alternatifler(yol, dil)?.languages as Record<string, string>,
-      },
-    })),
-  );
+  return yollar.flatMap(({ href, slug }) => {
+    const kayitlar = yayinda.filter((s) => s.slug === slug);
+    // Veritabanına ulaşılamazsa ana sayfa yine de listelenir.
+    const diller = (kayitlar.length ? kayitlar.map((k) => k.dil) : slug === ANA_SAYFA ? routing.locales : []) as Dil[];
+    return diller.map((dil) => ({
+      url: tamAdres(href, dil),
+      lastModified: kayitlar.find((k) => k.dil === dil)?.guncelleme,
+      alternates: { languages: alternatifler(href, dil, diller)?.languages as Record<string, string> },
+    }));
+  });
 }

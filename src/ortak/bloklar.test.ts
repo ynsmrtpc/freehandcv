@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { BLOK_SEMALARI, BLOK_TURLERI, blokListesiSemasi, yeniBlok } from "./bloklar";
 import { varsayilanLandingBloklari } from "./varsayilanIcerik";
+import { tohumSayfalari } from "../../scripts/tohum-sayfalari";
 
 describe("bloklar", () => {
   it("varsayılan landing blokları şemaya uyar", () => {
@@ -8,6 +9,14 @@ describe("bloklar", () => {
       const sonuc = blokListesiSemasi.safeParse(varsayilanLandingBloklari(dil));
       expect(sonuc.error?.issues ?? []).toEqual([]);
     }
+  });
+
+  it("tohum sayfaları şemaya uyar", () => {
+    for (const dil of ["tr", "en"] as const)
+      for (const s of tohumSayfalari(dil)) {
+        const sonuc = blokListesiSemasi.safeParse(s.bloklar);
+        expect([s.slug, sonuc.error?.issues ?? []]).toEqual([s.slug, []]);
+      }
   });
 
   it("her türden yeni blok şemaya uyar", () => {

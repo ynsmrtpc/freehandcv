@@ -1,6 +1,7 @@
 import { ArrowUpRight, Heart, Mail } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { yayindakiSayfalar } from "@/sunucu/icerik/sayfalar";
 import { siteAyarlariGetir } from "@/sunucu/icerik/siteAyarlari";
 import { Logo } from "./Logo";
 
@@ -13,7 +14,13 @@ async function yilGetir() {
 // Slogan, sosyal bağlantılar, iletişim ve bağış site ayarlarından (yönetim paneli) gelir.
 export async function AltBilgi() {
   const dil = await getLocale();
-  const [t, yil, ayar] = await Promise.all([getTranslations("Site"), yilGetir(), siteAyarlariGetir(dil)]);
+  const [t, yil, ayar, yayinda] = await Promise.all([
+    getTranslations("Site"),
+    yilGetir(),
+    siteAyarlariGetir(dil),
+    yayindakiSayfalar(),
+  ]);
+  const yayindaMi = (slug: string) => yayinda.some((s) => s.dil === dil && s.slug === slug);
   const sosyal = [
     { ad: "LinkedIn", adres: ayar.genel.sosyal.linkedin },
     { ad: "X", adres: ayar.genel.sosyal.x },
@@ -82,10 +89,30 @@ export async function AltBilgi() {
               </Link>
             </li>
             <li>
-              <Link href={{ pathname: "/", hash: "karsilastirma" }} className={baglanti}>
-                {t("ucretsizMi")}
-              </Link>
+              {yayindaMi("ucretsiz-mi") ? (
+                <Link href="/ucretsiz-mi" className={baglanti}>
+                  {t("ucretsizMi")}
+                </Link>
+              ) : (
+                <Link href={{ pathname: "/", hash: "karsilastirma" }} className={baglanti}>
+                  {t("ucretsizMi")}
+                </Link>
+              )}
             </li>
+            {yayindaMi("destek") && (
+              <li>
+                <Link href="/destek" className={baglanti}>
+                  {t("destek")}
+                </Link>
+              </li>
+            )}
+            {yayindaMi("gizlilik") && (
+              <li>
+                <Link href="/gizlilik" className={baglanti}>
+                  {t("gizlilik")}
+                </Link>
+              </li>
+            )}
             <li>
               <Link href={{ pathname: "/", hash: "sss" }} className={baglanti}>
                 {t("sss")}

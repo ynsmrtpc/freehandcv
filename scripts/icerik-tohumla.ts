@@ -7,6 +7,7 @@ import { db } from "../src/sunucu/db";
 import { sayfalar, siteAyarlari } from "../src/sunucu/db/sema";
 import { ANA_SAYFA } from "../src/sunucu/icerik/sayfalar";
 import { varsayilanLandingBloklari } from "../src/ortak/varsayilanIcerik";
+import { tohumSayfalari } from "./tohum-sayfalari";
 import en from "../messages/en.json";
 import tr from "../messages/tr.json";
 
@@ -37,6 +38,36 @@ async function main() {
       yayindakiBloklar: bloklar,
     });
     console.log(`ana sayfa (${dil}) eklendi`);
+  }
+  // Diğer sabit sayfalar: her slug için diller aynı çeviri grubunda.
+  const gruplar = new Map<string, string>();
+  for (const dil of ["tr", "en"] as const) {
+    for (const s of tohumSayfalari(dil)) {
+      const var_ = await db
+        .select({ id: sayfalar.id })
+        .from(sayfalar)
+        .where(and(eq(sayfalar.dil, dil), eq(sayfalar.slug, s.slug)))
+        .limit(1);
+      if (var_.length) {
+        console.log(`${s.slug} (${dil}) zaten var, atlandı`);
+        continue;
+      }
+      if (!gruplar.has(s.slug)) gruplar.set(s.slug, randomUUID());
+      await db.insert(sayfalar).values({
+        slug: s.slug,
+        tur: s.tur,
+        dil,
+        ceviriGrubu: gruplar.get(s.slug),
+        baslik: s.baslik,
+        metaBaslik: s.metaBaslik,
+        metaAciklama: s.metaAciklama,
+        durum: s.yayinla ? "yayinda" : "taslak",
+        indeks: s.yayinla,
+        bloklar: s.bloklar,
+        yayindakiBloklar: s.yayinla ? s.bloklar : null,
+      });
+      console.log(`${s.slug} (${dil}) eklendi${s.yayinla ? "" : " — TASLAK, yayınlanmadı"}`);
+    }
   }
   await db.insert(siteAyarlari).values({ id: 1 }).onConflictDoNothing();
   console.log("site ayarları satırı hazır");

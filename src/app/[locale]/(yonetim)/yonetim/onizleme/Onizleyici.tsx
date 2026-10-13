@@ -44,7 +44,7 @@ export function Onizleyici() {
             window.parent.postMessage({ tur: "freehandcv-onizleme-sec", id: blok.dataset.blok }, window.location.origin);
         }}
       >
-        {gecerli && <BlokCizici bloklar={bloklar} onizleme />}
+        {gecerli && <BlokCizici bloklar={bloklar} onizleme baglam={{ bagisBaglantisi: "#" }} />}
       </main>
     </HareketSaglayici>
   );

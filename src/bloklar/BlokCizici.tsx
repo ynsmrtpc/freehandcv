@@ -7,11 +7,13 @@ import type { Blok } from "@/ortak/bloklar";
 import { cn } from "@/ortak/cn";
 import { zenginParcalar } from "@/ortak/cv/yardimci";
 import { Adimlar } from "./Adimlar";
+import { Bagis } from "./Bagis";
 import { Cta } from "./Cta";
 import { Hero } from "./Hero";
 import { Karsilastirma } from "./Karsilastirma";
 import { Ozellikler } from "./Ozellikler";
 import { SablonVitrini } from "./SablonVitrini";
+import { SayfaBasligi } from "./SayfaBasligi";
 import { Sss } from "./Sss";
 import { ZenginMetin } from "./ZenginMetin";
 
@@ -34,7 +36,10 @@ function Vurgulu({ metin }: { metin: string }) {
   );
 }
 
-function BlokIcerigi({ blok }: { blok: Blok }) {
+/** Bloğun dışarıdan aldığı site verisi (istemci önizlemesinde de çizilebilsin diye prop ile). */
+export type BlokBaglami = { bagisBaglantisi?: string };
+
+function BlokIcerigi({ blok, baglam }: { blok: Blok; baglam: BlokBaglami }) {
   const t = useTranslations("Landing");
   const dil = useLocale() === "tr" ? "tr" : "en";
   const adlar = {
@@ -65,6 +70,8 @@ function BlokIcerigi({ blok }: { blok: Blok }) {
           }}
         />
       );
+    case "sayfa_basligi":
+      return <SayfaBasligi icerik={blok.icerik} />;
     case "sablon_vitrini":
       return (
         <SablonVitrini
@@ -81,12 +88,22 @@ function BlokIcerigi({ blok }: { blok: Blok }) {
       return <Sss icerik={blok.icerik} />;
     case "cta":
       return <Cta icerik={blok.icerik} />;
+    case "bagis":
+      return <Bagis icerik={blok.icerik} baglanti={baglam.bagisBaglantisi} />;
     case "zengin_metin":
       return <ZenginMetin icerik={blok.icerik} />;
   }
 }
 
-export function BlokCizici({ bloklar, onizleme = false }: { bloklar: Blok[]; onizleme?: boolean }) {
+export function BlokCizici({
+  bloklar,
+  onizleme = false,
+  baglam = {},
+}: {
+  bloklar: Blok[];
+  onizleme?: boolean;
+  baglam?: BlokBaglami;
+}) {
   return (
     <>
       {bloklar
@@ -102,7 +119,7 @@ export function BlokCizici({ bloklar, onizleme = false }: { bloklar: Blok[]; oni
               onizleme && !b.ayarlar.gorunur && "opacity-40",
             )}
           >
-            <BlokIcerigi blok={b} />
+            <BlokIcerigi blok={b} baglam={baglam} />
           </div>
         ))}
     </>

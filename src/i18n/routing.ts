@@ -24,6 +24,7 @@ export const routing = defineRouting({
     "/rehber/[konu]": { tr: "/rehber/[konu]", en: "/guides/[konu]" },
     "/ucretsiz-mi": { tr: "/ucretsiz-mi", en: "/is-it-free" },
     "/destek": { tr: "/destek", en: "/support" },
+    "/gizlilik": { tr: "/gizlilik-ve-kvkk", en: "/privacy" },
     "/yonetim": "/yonetim",
     "/yonetim/giris": "/yonetim/giris",
     "/yonetim/iki-adim": "/yonetim/iki-adim",

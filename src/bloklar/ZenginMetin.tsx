@@ -6,7 +6,7 @@ import { Bolum } from "./ortak";
 // liste, görsel, tablo) rehber sayfalarıyla birlikte gelir (plan 4, 7.1).
 export function ZenginMetin({ icerik }: { icerik: { baslik: string; metin: string } }) {
   return (
-    <Bolum>
+    <Bolum className="py-12 sm:py-16">
       <Belir className="mx-auto max-w-3xl">
         {icerik.baslik && <h2 className="text-3xl font-bold tracking-tight text-balance text-metin">{icerik.baslik}</h2>}
         <div className="mt-5 space-y-4 text-lg leading-relaxed text-soluk">
