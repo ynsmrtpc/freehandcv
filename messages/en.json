@@ -198,5 +198,359 @@
     "yedekKodlar": "Backup codes — store them somewhere safe. Each works once.",
     "hosgeldin": "Welcome, {ad}",
     "panelYakinda": "Site settings, the page editor, resume examples, FAQ, media and the audit log arrive here in phase 1."
+  },
+  "Editor": {
+    "meta": "Create a resume",
+    "yukleniyor": "Loading the editor…",
+    "sekmeler": {
+      "icerik": "Content",
+      "tasarim": "Design",
+      "kontrol": "Recruiter check"
+    },
+    "kayit": {
+      "kaydedildi": "Saved in your browser · {saat}",
+      "hata": "Couldn’t save — download as JSON",
+      "misafir": "No account needed. Your resume is stored only in this browser."
+    },
+    "arac": {
+      "geriAl": "Undo",
+      "ileriAl": "Redo",
+      "dosya": "File",
+      "jsonDisa": "Download as JSON",
+      "jsonIce": "Load JSON",
+      "ornekYukle": "Load the example resume",
+      "bosBasla": "Start from blank",
+      "pdf": "Download PDF",
+      "duzenle": "Edit",
+      "onizle": "Preview",
+      "uzaklas": "Zoom out",
+      "yakinlas": "Zoom in",
+      "sigdir": "Fit",
+      "anaSayfa": "Home"
+    },
+    "onay": {
+      "ornek": "Replace your current resume with the example? Downloading it as JSON first is recommended.",
+      "bos": "Delete everything and start from a blank resume? Downloading it as JSON first is recommended.",
+      "kalemSil": "Delete \"{ad}\"? To just leave it out of the resume, hide it with the eye icon instead."
+    },
+    "bildirim": {
+      "jsonIndi": "JSON downloaded",
+      "yuklendi": "Resume loaded",
+      "gecersizJson": "This file isn’t a FreehandCV JSON",
+      "gorselHata": "Couldn’t read the image",
+      "geriAlindi": "Undone"
+    },
+    "sayfa": {
+      "bilgi": "{kagit} · about {n, plural, one {# page} other {# pages}}",
+      "uzun": "Try to stay within 2 pages",
+      "sonraki": "Page {n}"
+    },
+    "bolumNot": "Reorder sections with the arrows; hide them with the eye icon. Changes are saved instantly.",
+    "kisisel": {
+      "baslik": "Personal details",
+      "fotoYukle": "Upload photo",
+      "fotoDegistir": "Change photo",
+      "fotoKaldir": "Remove",
+      "fotoIpucu": "Cropped to a square. Choose whether it shows in the Design tab.",
+      "ekler": "Additional details",
+      "eklerIpucu": "Things like a driving licence or work permit. Don’t include an ID number, marital status or home address.",
+      "ekEkle": "Add detail",
+      "ekEtiket": "Label",
+      "ekDeger": "Value",
+      "ekSil": "Remove detail"
+    },
+    "bolumler": {
+      "ozet": "Summary",
+      "deneyim": "Experience",
+      "projeler": "Projects",
+      "yetenekler": "Skills",
+      "egitim": "Education",
+      "sertifikalar": "Certifications",
+      "diller": "Languages",
+      "referanslar": "References",
+      "ilgi": "Interests"
+    },
+    "tekil": {
+      "deneyim": "Experience",
+      "projeler": "Project",
+      "yetenekler": "Skill group",
+      "egitim": "Education",
+      "sertifikalar": "Certification",
+      "diller": "Language",
+      "referanslar": "Reference"
+    },
+    "bolumBasligi": "Section title",
+    "ekle": "Add {tur}",
+    "goster": "Show on resume",
+    "gizle": "Hide from resume",
+    "yukari": "Move up",
+    "asagi": "Move down",
+    "cogalt": "Duplicate",
+    "sil": "Delete",
+    "adsiz": "({tur} {n})",
+    "ozetEtiket": "Summary",
+    "karakter": "{n} characters",
+    "ozetIpucu": "Ideal: 250–700 characters. Recruiters read this and your title in the first few seconds.",
+    "ozetOrnek": "3–4 sentences: who you are, years of experience, your 2–3 strongest skills and your goal.",
+    "ilgiEtiket": "Interests",
+    "ilgiOrnek": "Keep it short; lead with what relates to the role.",
+    "maddeIpucu": "One bullet per line. Wrap text in two asterisks for **bold**. Bullets that start with a verb and include numbers stand out.",
+    "gunumuz": "Present",
+    "devamEdiyor": "empty = ongoing",
+    "alanlar": {
+      "kisisel": {
+        "ad": "Full name",
+        "unvan": "Target job title",
+        "eposta": "Email",
+        "telefon": "Phone",
+        "konum": "Location (city is enough)",
+        "linkedin": "LinkedIn",
+        "github": "GitHub",
+        "web": "Website / portfolio"
+      },
+      "deneyim": {
+        "pozisyon": "Position / title",
+        "kurum": "Company",
+        "konum": "Location",
+        "devam": "I currently work here",
+        "baslangic": "Start",
+        "bitis": "End",
+        "aciklama": "Short description (optional)",
+        "maddeler": "Responsibilities and achievements"
+      },
+      "projeler": {
+        "ad": "Project name",
+        "rol": "Your role",
+        "baslangic": "Start",
+        "bitis": "End",
+        "teknolojiler": "Technologies",
+        "baglanti": "Link",
+        "aciklama": "Short description",
+        "maddeler": "Highlights"
+      },
+      "yetenekler": {
+        "kategori": "Group name",
+        "liste": "Skills (comma-separated)"
+      },
+      "egitim": {
+        "okul": "School",
+        "bolum": "Field / programme",
+        "derece": "Degree",
+        "baslangic": "Start",
+        "bitis": "End",
+        "not": "GPA",
+        "konum": "Location",
+        "aciklama": "More (thesis, honours…)"
+      },
+      "sertifikalar": {
+        "ad": "Certification",
+        "kurum": "Issuer",
+        "tarih": "Date",
+        "baglanti": "Verification link"
+      },
+      "diller": {
+        "dil": "Language",
+        "seviye": "Level"
+      },
+      "referanslar": {
+        "ad": "Full name",
+        "unvan": "Title",
+        "kurum": "Company",
+        "telefon": "Phone",
+        "eposta": "Email"
+      }
+    },
+    "ornekler": {
+      "kisisel": {
+        "ad": "Full Name",
+        "unvan": "Software Engineer",
+        "eposta": "name@example.com",
+        "telefon": "+44 7700 900000",
+        "konum": "London, UK",
+        "linkedin": "linkedin.com/in/username",
+        "github": "github.com/username",
+        "web": "example.com"
+      },
+      "deneyim": {
+        "pozisyon": "Software Developer",
+        "kurum": "Company name",
+        "konum": "London",
+        "baslangic": "Dec 2022",
+        "bitis": "Jun 2024",
+        "aciklama": "",
+        "maddeler": ""
+      },
+      "projeler": {
+        "ad": "Project name",
+        "rol": "Founding developer",
+        "baslangic": "Jan 2026",
+        "bitis": "",
+        "teknolojiler": "React, Node.js, PostgreSQL",
+        "baglanti": "github.com/username/project",
+        "aciklama": "",
+        "maddeler": ""
+      },
+      "yetenekler": {
+        "kategori": "Backend",
+        "liste": "Node.js, PostgreSQL, REST APIs"
+      },
+      "egitim": {
+        "okul": "University name",
+        "bolum": "Computer Science",
+        "derece": "BSc",
+        "baslangic": "Sep 2018",
+        "bitis": "Jun 2022",
+        "not": "3.6 / 4.0",
+        "konum": "London",
+        "aciklama": ""
+      },
+      "sertifikalar": {
+        "ad": "AWS Certified Developer",
+        "kurum": "Issuer",
+        "tarih": "Oct 2022",
+        "baglanti": "https://…"
+      },
+      "diller": {
+        "dil": "Spanish",
+        "seviye": "B2 – Upper intermediate"
+      },
+      "referanslar": {
+        "ad": "Full Name",
+        "unvan": "Engineering Manager",
+        "kurum": "Company",
+        "telefon": "+44 …",
+        "eposta": "name@company.com"
+      },
+      "ekEtiket": "Work permit",
+      "ekDeger": "UK"
+    },
+    "tasarim": {
+      "sablon": "Template",
+      "ats": "ATS {puan}/5",
+      "aciklamalar": {
+        "modern": "Single column, accent-coloured headings, optional photo. The most balanced choice for most private-sector applications.",
+        "ats": "Single column, black and white, no icons. The layout applicant tracking systems read most reliably. No photo.",
+        "zarif": "Serif type, centred header, double rule. Makes a serious impression in public sector, academia, law and corporate roles.",
+        "teknik": "Coloured top band, skills as tags in two columns. Compact and easy to scan for software and technical roles.",
+        "kenar": "Two columns; photo, contact and skills in a coloured sidebar. Reading order for ATS starts with the main column."
+      },
+      "renk": "Accent colour",
+      "ozelRenk": "Custom colour",
+      "tekRenk": "This template is black and white; the accent colour isn’t applied.",
+      "yazi": "Type",
+      "font": "Font",
+      "fontVarsayilan": "Template default ({ad})",
+      "boyut": "Font size",
+      "boyutlar": {
+        "kucuk": "Small",
+        "orta": "Medium",
+        "buyuk": "Large"
+      },
+      "aralik": "Line spacing",
+      "araliklar": {
+        "siki": "Tight",
+        "normal": "Normal",
+        "ferah": "Relaxed"
+      },
+      "belge": "Document",
+      "cvDili": "Resume language",
+      "cvDiliIpucu": "Section titles and “Present” are written in this language. Write your content in it too.",
+      "kagit": "Paper size",
+      "kagitIpucu": "Letter for the US, Canada and Mexico; A4 everywhere else.",
+      "foto": "Photo",
+      "fotoGoster": "Show on resume",
+      "fotoYok": "This template doesn’t show a photo"
+    },
+    "pdf": {
+      "baslik": "Save as PDF",
+      "aciklama": "The print dialog will open. For the best result:",
+      "adim1": "Choose “Save as PDF” as the destination.",
+      "adim2": "Set margins to “None”.",
+      "adim3": "Turn on “Background graphics”.",
+      "devam": "Continue",
+      "vazgec": "Cancel",
+      "tekrarGosterme": "Don’t show again"
+    }
+  },
+  "Kontrol": {
+    "hazir": "Ready to send",
+    "iyiDurumda": "In good shape, a few improvements left",
+    "gelistir": "Some things need work",
+    "puanOzeti": "{iyi} of {toplam} checks passed. The list updates as you edit.",
+    "unvan": {
+      "baslik": "Name and target title",
+      "var": "Your title is the most-read line on a first scan. Use the same wording as the job ad.",
+      "yok": "Add the title of the role you’re applying for under your name."
+    },
+    "iletisim": {
+      "baslik": "Contact details",
+      "var": "Email and phone are present.",
+      "yok": "Include both an email and a phone number."
+    },
+    "profil": {
+      "baslik": "Profile link",
+      "var": "Links are clickable in the PDF.",
+      "yok": "Add a LinkedIn, GitHub or portfolio link; recruiters usually check."
+    },
+    "ozet": {
+      "baslik": "Summary",
+      "yok": "Add a 3–4 sentence summary.",
+      "kisa": "{n} characters. Could be more specific.",
+      "uzun": "{n} characters. Trim it to under 700.",
+      "ideal": "{n} characters. Ideal length."
+    },
+    "olcum": {
+      "baslik": "Measurable results",
+      "yok": "No experience bullets yet.",
+      "az": "{yuzde}% of bullets contain a number. Quantify at least a third (%, count, time, users).",
+      "iyi": "{yuzde}% of bullets contain a number. Good."
+    },
+    "madde": {
+      "baslik": "Bullet length",
+      "uzun": "{n, plural, one {# bullet exceeds} other {# bullets exceed}} {sinir} characters; bullets over two lines get skipped.",
+      "iyi": "Bullets are short and scannable."
+    },
+    "tarih": {
+      "baslik": "Dates",
+      "eksik": "{n, plural, one {# entry is} other {# entries are}} missing dates.",
+      "tam": "Every experience and education entry has dates."
+    },
+    "yetenek": {
+      "baslik": "Skills",
+      "var": "Skill groups help ATS keyword matching. Use the exact spelling from the job ad.",
+      "yok": "Add a skills section; ATS match keywords from it."
+    },
+    "uzunluk": {
+      "baslik": "Length",
+      "iyi": "About {n, plural, one {# page} other {# pages}}. 1–2 pages is ideal.",
+      "uzun": "About {n, plural, one {# page} other {# pages}}. Hide old or unrelated entries with the eye icon."
+    },
+    "kvkk": {
+      "baslik": "Personal data",
+      "var": "ID numbers, marital status or date of birth don’t belong on a resume; remove them.",
+      "yok": "No unnecessary sensitive data."
+    },
+    "kontrast": {
+      "baslik": "Colour contrast",
+      "iyi": "White text on the coloured area has {oran}:1 contrast. Readable.",
+      "dusuk": "White text on the coloured area has {oran}:1 contrast. Pick a darker colour (at least 4.5:1)."
+    },
+    "foto": {
+      "baslik": "Photo",
+      "var": "Common in Turkey and Germany. Turn it off for the US, UK and Canada.",
+      "yok": "No photo shown. Recommended off for the US, UK and Canada."
+    },
+    "ats": {
+      "baslik": "ATS compatibility: {puan}/5",
+      "tam": "Single-column template; applicant tracking systems read it without issues.",
+      "orta": "For large companies using ATS, prefer the ATS Classic or Modern template."
+    },
+    "rehberBaslik": "Before you send",
+    "rehber": [
+      "Tailor the title, summary and skill order to each job; reuse the ad’s keywords with the same spelling.",
+      "Name the file Firstname_Lastname_CV.pdf (Download PDF suggests this for you).",
+      "Open the PDF, select all text and paste it somewhere; if it pastes cleanly, ATS can read it.",
+      "Leave out salary expectations or referee phone numbers unless the ad asks for them."
+    ]
   }
 }
