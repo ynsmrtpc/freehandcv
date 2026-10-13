@@ -30,7 +30,30 @@ export const LISTE_BOLUMLERI = [
 ] as const;
 export type ListeBolumu = (typeof LISTE_BOLUMLERI)[number];
 
-export const SABLON_KIMLIKLERI = ["modern", "ats", "zarif", "teknik", "kenar"] as const;
+export const SABLON_KIMLIKLERI = [
+  "modern",
+  "ats",
+  "zarif",
+  "teknik",
+  "kenar",
+  "kurumsal",
+  "ikili",
+  "kontrast",
+  "isvicre",
+  "akademik",
+  "zaman",
+  "yaratici",
+  "girisim",
+  "ferah",
+  "yeni-mezun",
+  "acik-kenar",
+  "editoryal",
+  "butik",
+  "kompakt",
+  "resmi",
+  "klasik",
+  "sade",
+] as const;
 export type SablonKimligi = (typeof SABLON_KIMLIKLERI)[number];
 
 export const BOYUTLAR = ["kucuk", "orta", "buyuk"] as const;

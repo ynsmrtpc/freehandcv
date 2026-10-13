@@ -88,6 +88,7 @@ export default async function Landing({ params }: PageProps<"/[locale]">) {
           aciklama: t("sablonlar.aciklama"),
           sec: t("sablonlar.sec"),
           atsEtiketi: (puan) => t("sablonlar.ats", { puan }),
+          tumu: (n) => t("sablonlar.tumu", { n }),
           adlar,
           dil: locale,
         }}
