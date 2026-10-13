@@ -20,7 +20,7 @@ import { CikisButonu } from "./CikisButonu";
 
 type Oge = {
   ad: string;
-  href?: "/yonetim" | "/yonetim/sayfalar" | "/yonetim/site-ayarlari" | "/yonetim/gunluk";
+  href?: "/yonetim" | "/yonetim/sayfalar" | "/yonetim/site-ayarlari" | "/yonetim/gunluk" | "/yonetim/kullanicilar";
   ikon: typeof Gauge;
 };
 
@@ -31,7 +31,7 @@ const MENU: Oge[] = [
   { ad: "Şablonlar", ikon: LayoutTemplate },
   { ad: "SSS", ikon: HelpCircle },
   { ad: "Medya", ikon: ImageIcon },
-  { ad: "Kullanıcılar", ikon: Users },
+  { ad: "Kullanıcılar", href: "/yonetim/kullanicilar", ikon: Users },
   { ad: "Site ayarları", href: "/yonetim/site-ayarlari", ikon: Settings },
   { ad: "Günlük", href: "/yonetim/gunluk", ikon: ScrollText },
 ];

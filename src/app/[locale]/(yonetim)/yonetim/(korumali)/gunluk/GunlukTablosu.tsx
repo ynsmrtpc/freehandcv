@@ -3,6 +3,7 @@ const ISLEMLER: Record<string, string> = {
   yayinla: "Yayınlandı",
   surume_don: "Eski sürüm taslağa alındı",
   site_ayarlari: "Site ayarları değişti",
+  rol_degistir: "Rol değişti",
 };
 
 type Satir = {

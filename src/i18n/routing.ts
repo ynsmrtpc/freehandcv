@@ -33,6 +33,7 @@ export const routing = defineRouting({
     "/yonetim/onizleme": "/yonetim/onizleme",
     "/yonetim/site-ayarlari": "/yonetim/site-ayarlari",
     "/yonetim/gunluk": "/yonetim/gunluk",
+    "/yonetim/kullanicilar": "/yonetim/kullanicilar",
   },
 });
 
