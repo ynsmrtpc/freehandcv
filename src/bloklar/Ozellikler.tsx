@@ -14,7 +14,7 @@ const IKONLAR = [ScanSearch, ShieldCheck, History, Languages, Lock, Smartphone];
 // Bento ızgara: ilk iki kart geniş (lg'de 2 sütun), kalanlar tek.
 export function Ozellikler({ icerik }: { icerik: OzelliklerIcerik }) {
   return (
-    <Bolum className="bg-yuzey-2/50">
+    <Bolum>
       <BolumBasligi ust={icerik.ust} baslik={icerik.baslik} />
       <Kademeli className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {icerik.liste.map((o, i) => {

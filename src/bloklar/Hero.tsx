@@ -2,15 +2,15 @@ import { ArrowRight, Check } from "lucide-react";
 import { Belir } from "@/bilesenler/hareket/Belir";
 import type { SablonKimligi } from "@/bilesenler/cv-onizleme/MiniCv";
 import { butonSinifi } from "@/bilesenler/ui/Buton";
-import { Link } from "@/i18n/navigation";
+import NextLink from "next/link";
 import { HeroOnizleme } from "./HeroOnizleme";
 
 export type HeroIcerik = {
   rozet: string;
   baslik: React.ReactNode;
   altBaslik: string;
-  anaButon: string;
-  ikincilButon: string;
+  anaButon: { metin: string; baglanti: string };
+  ikincilButon: { metin: string; baglanti: string };
   maddeler: string[];
   onizleme: {
     dil: "tr" | "en";
@@ -57,16 +57,18 @@ export function Hero({ icerik }: { icerik: HeroIcerik }) {
 
           <Belir mod="yukle" gecikme={0.16}>
             <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <Link href="/cv-olustur" className={butonSinifi("ana", "buyuk", "group w-full sm:w-auto")}>
-                {icerik.anaButon}
+              <NextLink href={icerik.anaButon.baglanti || "#"} className={butonSinifi("ana", "buyuk", "group w-full sm:w-auto")}>
+                {icerik.anaButon.metin}
                 <ArrowRight className="size-[18px] transition-transform duration-200 group-hover:translate-x-0.5 rtl:rotate-180" />
-              </Link>
-              <Link
-                href={{ pathname: "/", hash: "sablonlar" }}
-                className={butonSinifi("ikincil", "buyuk", "w-full sm:w-auto")}
-              >
-                {icerik.ikincilButon}
-              </Link>
+              </NextLink>
+              {icerik.ikincilButon.metin && (
+                <NextLink
+                  href={icerik.ikincilButon.baglanti || "#"}
+                  className={butonSinifi("ikincil", "buyuk", "w-full sm:w-auto")}
+                >
+                  {icerik.ikincilButon.metin}
+                </NextLink>
+              )}
             </div>
           </Belir>
 

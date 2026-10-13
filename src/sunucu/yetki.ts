@@ -38,3 +38,12 @@ export async function yonetimDurumu(): Promise<YonetimDurumu> {
     },
   };
 }
+
+export class YetkiHatasi extends Error {}
+
+/** Server Action'ların başında çağrılır: yetkisizse hata atar, yetkiliyse kullanıcıyı döndürür. */
+export async function yonetimYetkisi(roller: readonly Rol[] = ["yonetici", "editor"]) {
+  const d = await yonetimDurumu();
+  if (d.durum !== "tamam" || !roller.includes(d.kullanici.rol)) throw new YetkiHatasi("Yetkisiz");
+  return d.kullanici;
+}

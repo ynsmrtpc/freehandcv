@@ -13,7 +13,7 @@ export type SssIcerik = {
 // FAQPage yapılandırılmış verisi aynı listeden üretilir (plan 6.4).
 export function Sss({ icerik }: { icerik: SssIcerik }) {
   return (
-    <Bolum id="sss">
+    <Bolum>
       <JsonLd
         veri={{
           "@context": "https://schema.org",

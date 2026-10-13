@@ -12,7 +12,7 @@ const IKONLAR = [PenLine, LayoutTemplate, FileDown];
 
 export function Adimlar({ icerik }: { icerik: AdimlarIcerik }) {
   return (
-    <Bolum id="nasil-calisir">
+    <Bolum>
       <BolumBasligi ust={icerik.ust} baslik={icerik.baslik} />
       <Kademeli as="ol" className="relative mt-14 grid gap-6 md:grid-cols-3 md:gap-8">
         {/* Adımları bağlayan çizgi (masaüstü) */}

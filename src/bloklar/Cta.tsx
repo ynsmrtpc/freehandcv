@@ -1,8 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { Belir } from "@/bilesenler/hareket/Belir";
-import { Link } from "@/i18n/navigation";
+import NextLink from "next/link";
 
-export type CtaIcerik = { baslik: string; metin: string; buton: string };
+export type CtaIcerik = { baslik: string; metin: string; buton: { metin: string; baglanti: string } };
 
 export function Cta({ icerik }: { icerik: CtaIcerik }) {
   return (
@@ -18,13 +18,13 @@ export function Cta({ icerik }: { icerik: CtaIcerik }) {
         />
         <h2 className="relative text-3xl font-bold tracking-tight text-balance sm:text-4xl">{icerik.baslik}</h2>
         <p className="relative mx-auto mt-4 max-w-xl text-lg text-white/85">{icerik.metin}</p>
-        <Link
-          href="/cv-olustur"
+        <NextLink
+          href={icerik.buton.baglanti || "#"}
           className="group relative mt-9 inline-flex h-12 items-center gap-2 rounded-xl bg-white px-7 font-semibold text-ana-koyu shadow-yuksek transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.97]"
         >
-          {icerik.buton}
+          {icerik.buton.metin}
           <ArrowRight className="size-[18px] transition-transform duration-200 group-hover:translate-x-0.5 rtl:rotate-180" />
-        </Link>
+        </NextLink>
       </Belir>
     </section>
   );

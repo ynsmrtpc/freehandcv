@@ -17,7 +17,7 @@ export type SablonVitriniIcerik = {
 // Faz 1'de liste `sablonlar` tablosundan kullanım ve puana göre gelir (plan 6.3/4).
 export function SablonVitrini({ icerik }: { icerik: SablonVitriniIcerik }) {
   return (
-    <Bolum id="sablonlar" className="bg-yuzey-2/50">
+    <Bolum>
       <BolumBasligi ust={icerik.ust} baslik={icerik.baslik} aciklama={icerik.aciklama} />
       <Kademeli as="ul" className="mt-14 grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-5">
         {SABLONLAR.map((s, i) => (

@@ -1,41 +1,40 @@
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
-import { getMessages, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/bilesenler/JsonLd";
-import { Adimlar } from "@/bloklar/Adimlar";
-import { Cta } from "@/bloklar/Cta";
-import { Hero } from "@/bloklar/Hero";
-import { Karsilastirma } from "@/bloklar/Karsilastirma";
-import { Ozellikler } from "@/bloklar/Ozellikler";
-import { SablonVitrini } from "@/bloklar/SablonVitrini";
-import { Sss } from "@/bloklar/Sss";
+import { BlokCizici } from "@/bloklar/BlokCizici";
 import { routing } from "@/i18n/routing";
 import { alternatifler } from "@/ortak/seo";
 import { SITE_URL } from "@/ortak/site";
+import { varsayilanLandingBloklari } from "@/ortak/varsayilanIcerik";
+import { ANA_SAYFA, yayindakiSayfa } from "@/sunucu/icerik/sayfalar";
+
+async function sayfaGetir(locale: "tr" | "en") {
+  const s = await yayindakiSayfa(locale, ANA_SAYFA);
+  return s ?? { baslik: null, metaBaslik: null, metaAciklama: null, indeks: true, bloklar: varsayilanLandingBloklari(locale) };
+}
 
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
-  const t = await getTranslations({ locale, namespace: "Meta" });
+  const [t, s] = await Promise.all([getTranslations({ locale, namespace: "Meta" }), sayfaGetir(locale)]);
   return {
-    title: { absolute: t("varsayilanBaslik") },
+    title: { absolute: s.metaBaslik || t("varsayilanBaslik") },
+    description: s.metaAciklama || t("varsayilanAciklama"),
     alternates: alternatifler("/", locale),
+    robots: s.indeks ? undefined : { index: false },
   };
 }
 
-// Bloklar şimdilik çeviri dosyasından beslenir. Faz 1'de aynı bloklar `sayfalar.yayindaki_bloklar`
-// listesinden, yönetim panelinde belirlenen sırayla çizilir (plan 6.3, 7.1).
+// Landing blokları yönetim panelinden düzenlenir ve yayınlanır (plan 6.3, 7). Veritabanında
+// yayında kayıt yoksa başlangıç blokları gösterilir.
 export default async function Landing({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
-  const [t, { Landing: L }] = await Promise.all([
-    getTranslations({ locale, namespace: "Landing" }),
-    getMessages({ locale }),
-  ]);
-  const adlar = L.sablonlar.adlar;
+  const s = await sayfaGetir(locale);
 
   return (
     <>
@@ -54,49 +53,7 @@ export default async function Landing({ params }: PageProps<"/[locale]">) {
       <JsonLd
         veri={{ "@context": "https://schema.org", "@type": "Organization", name: "FreehandCV", url: SITE_URL }}
       />
-
-      <Hero
-        icerik={{
-          rozet: t("hero.rozet"),
-          baslik: t.rich("hero.baslik", {
-            vurgu: (parca) => (
-              <span className="bg-gradient-to-r from-ana to-[#7c3aed] bg-clip-text text-transparent dark:from-[#93c5fd] dark:to-[#c4b5fd]">
-                {parca}
-              </span>
-            ),
-          }),
-          altBaslik: t("hero.altBaslik"),
-          anaButon: t("hero.anaButon"),
-          ikincilButon: t("hero.ikincilButon"),
-          maddeler: L.hero.maddeler,
-          onizleme: {
-            dil: locale,
-            adlar,
-            etiketler: {
-              sablon: t("hero.sablon"),
-              atsUyumlu: t("hero.atsUyumlu"),
-              pdfHazir: t("hero.pdfHazir"),
-              ikKontrolu: t("hero.ikKontrolu"),
-            },
-          },
-        }}
-      />
-      <SablonVitrini
-        icerik={{
-          ust: t("sablonlar.ust"),
-          baslik: t("sablonlar.baslik"),
-          aciklama: t("sablonlar.aciklama"),
-          sec: t("sablonlar.sec"),
-          atsEtiketi: (puan) => t("sablonlar.ats", { puan }),
-          adlar,
-          dil: locale,
-        }}
-      />
-      <Adimlar icerik={L.adimlar} />
-      <Karsilastirma icerik={L.karsilastirma} />
-      <Ozellikler icerik={L.ozellikler} />
-      <Sss icerik={L.sss} />
-      <Cta icerik={L.cta} />
+      <BlokCizici bloklar={s.bloklar} />
     </>
   );
 }

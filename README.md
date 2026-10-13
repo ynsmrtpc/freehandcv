@@ -11,6 +11,7 @@ pnpm install
 cp .env.example .env            # BETTER_AUTH_SECRET'ı doldur: openssl rand -base64 32
 pnpm db:up                      # Postgres 17, localhost:5433
 pnpm db:migrate
+pnpm icerik:tohumla             # landing (tr, en) ve site ayarları başlangıç içeriği
 pnpm yonetici:olustur <e-posta> <şifre> "Ad Soyad"
 pnpm dev
 ```
@@ -28,6 +29,8 @@ pnpm dev
 | `pnpm db:migrate` | Göçleri uygular |
 | `pnpm db:studio` | Drizzle Studio |
 | `pnpm yonetici:olustur` | Yönetici hesabı açar ya da var olanı yönetici yapar |
+| `pnpm icerik:tohumla` | Başlangıç içeriğini yazar (var olan kayda dokunmaz) |
+| `pnpm test` | Vitest birim testleri |
 
 ## Dizinler
 
@@ -48,3 +51,12 @@ messages/                     arayüz çevirileri
 `Dockerfile` Coolify içindir: standalone Next.js imajı, açılışta veritabanı göçlerini uygular.
 Ortam değişkenleri `.env.example` ile aynıdır; `BETTER_AUTH_URL` ve `NEXT_PUBLIC_SITE_URL`
 canlı adres (`https://freehandcv.com`) olmalıdır.
+
+## Testler ve veritabanı
+
+Uçtan uca denemeler geliştirme veritabanını **kullanmaz**; ayrı bir `freehandcv_test` veritabanı
+kullanılır (aynı Postgres içinde). Sunucuyu ona bağlamak için:
+
+```bash
+DATABASE_URL=postgres://freehandcv:freehandcv@localhost:5433/freehandcv_test pnpm start
+```

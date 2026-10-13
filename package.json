@@ -14,7 +14,8 @@
     "db:studio": "drizzle-kit studio",
     "yonetici:olustur": "tsx --conditions=react-server scripts/yonetici-olustur.ts",
     "build:goc": "esbuild scripts/goc.mjs --bundle --platform=node --format=esm --outfile=.next/goc.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "icerik:tohumla": "tsx --conditions=react-server scripts/icerik-tohumla.ts"
   },
   "dependencies": {
     "better-auth": "^1.7.7",

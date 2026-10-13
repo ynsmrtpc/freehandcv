@@ -15,7 +15,7 @@ export type KarsilastirmaIcerik = {
 // Plan 6.3/3: "Diğer sitelerde / Burada" — marka adı verilmez.
 export function Karsilastirma({ icerik }: { icerik: KarsilastirmaIcerik }) {
   return (
-    <Bolum id="karsilastirma">
+    <Bolum>
       <BolumBasligi ust={icerik.ust} baslik={icerik.baslik} aciklama={icerik.aciklama} />
       {/* Dar ekranda tablo sığmaz: her satır bir kart olur. */}
       <Belir className="mx-auto mt-12 max-w-3xl space-y-3 sm:hidden">

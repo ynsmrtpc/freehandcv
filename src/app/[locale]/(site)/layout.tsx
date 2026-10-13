@@ -1,11 +1,13 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Suspense } from "react";
 import { HareketSaglayici } from "@/bilesenler/hareket/HareketSaglayici";
 import { AltBilgi } from "@/bilesenler/site/AltBilgi";
+import { DuyuruCubugu } from "@/bilesenler/site/DuyuruCubugu";
 import { SiteBasligi } from "@/bilesenler/site/SiteBasligi";
 
 export default function SiteLayout({ children }: LayoutProps<"/[locale]">) {
   const t = useTranslations("Site");
+  const dil = useLocale();
 
   return (
     <HareketSaglayici>
@@ -15,6 +17,7 @@ export default function SiteLayout({ children }: LayoutProps<"/[locale]">) {
       >
         {t("icerigeGec")}
       </a>
+      <DuyuruCubugu dil={dil} />
       {/* Dil seçici useParams okur; Cache Components'ta Suspense içinde olmalı. */}
       <Suspense fallback={<div className="h-16" />}>
         <SiteBasligi />
