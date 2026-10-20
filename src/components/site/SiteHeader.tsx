@@ -136,7 +136,7 @@ export function SiteHeader({ showExamples = false, showGuides = false }: { showE
               </ul>
             </nav>
             <div className="mt-6 flex items-center gap-2 border-t border-border pt-6">
-              <LanguageSwitcher />
+              <LanguageSwitcher align="start" />
             </div>
             <Link
               href="/create-resume"
