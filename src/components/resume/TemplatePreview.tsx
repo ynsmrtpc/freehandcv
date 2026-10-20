@@ -5,7 +5,7 @@
 import { cn } from "@/lib/cn";
 import { sampleResume } from "@/lib/resume/sample";
 import type { ResumeData, TemplateId } from "@/lib/resume/schema";
-import { SYSTEM_TEMPLATES } from "@/lib/resume/design";
+import { SYSTEM_TEMPLATES, type DesignDefinition } from "@/lib/resume/design";
 import { ResumeDocument } from "./ResumeDocument";
 import { resumeFontClasses } from "./resumeFonts";
 import { ScaledPaper } from "./ScaledPaper";
@@ -45,6 +45,31 @@ export function TemplatePreview({
   className?: string;
 }) {
   return (
+    <ResumeThumbnail
+      data={sampleData(templateId, locale)}
+      definition={SYSTEM_TEMPLATES[templateId].definition}
+      initialScale={initialScale}
+      className={className}
+    />
+  );
+}
+
+/**
+ * The first page of a resume as a decorative thumbnail (template cards, example cards). Hidden from
+ * screen readers, search snippets and the keyboard; the card around it carries the accessible name.
+ */
+export function ResumeThumbnail({
+  data,
+  definition,
+  initialScale = 0.2,
+  className,
+}: {
+  data: ResumeData;
+  definition: DesignDefinition;
+  initialScale?: number;
+  className?: string;
+}) {
+  return (
     <div
       aria-hidden
       inert
@@ -56,12 +81,7 @@ export function TemplatePreview({
       )}
     >
       <ScaledPaper initialScale={initialScale}>
-        <ResumeDocument
-          data={sampleData(templateId, locale)}
-          definition={SYSTEM_TEMPLATES[templateId].definition}
-          noLinks
-          embedded
-        />
+        <ResumeDocument data={data} definition={definition} noLinks embedded />
       </ScaledPaper>
     </div>
   );

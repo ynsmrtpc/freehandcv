@@ -11,7 +11,7 @@ import { routing, type Locale } from "@/i18n/routing";
 import { absoluteUrl } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { getPublishedGuide, getPublishedGuides, type GuideSummary } from "@/server/content/pages";
-import { getApprovedReviews } from "@/server/reviews";
+import { loadBlockContext } from "@/server/content/blockContext";
 
 // Guides (plan 6.2 /rehber/[konu]): CMS pages of kind "guide", edited with the block editor.
 
@@ -69,7 +69,7 @@ async function Content({ params }: { params: PageProps<"/[locale]/guides/[topic]
   ]);
   if (!guide) notFound();
   const related = all.filter((g) => g.locale === locale && g.slug !== topic).slice(0, RELATED_MAX);
-  const reviews = guide.blocks.some((b) => b.type === "reviews") ? await getApprovedReviews() : undefined;
+  const context = await loadBlockContext(guide.blocks, locale);
   const date = new Date(guide.updatedAt).toLocaleDateString(locale, { dateStyle: "long" });
 
   return (
@@ -94,7 +94,7 @@ async function Content({ params }: { params: PageProps<"/[locale]/guides/[topic]
           ]}
         />
       </div>
-      <BlockRenderer blocks={guide.blocks} context={{ reviews }} />
+      <BlockRenderer blocks={guide.blocks} context={context} />
       <p className="mx-auto max-w-3xl px-4 pb-6 text-sm text-muted sm:px-6">{t("updated", { date })}</p>
       {related.length > 0 && (
         <nav aria-labelledby="related-guides" className="mx-auto max-w-3xl px-4 pt-6 pb-20 sm:px-6">

@@ -147,5 +147,13 @@
     "anonymous": "FreehandCV user",
     "rating": "Rated {n} out of 5",
     "previewEmpty": "No approved reviews — this block is hidden from visitors."
+  },
+  "examples": {
+    "eyebrow": "Resume examples",
+    "title": "Start from an example for your job",
+    "description": "Each example is written around what hiring managers in that field look for. Open one and replace it with your details.",
+    "viewAll": "See all {n} resume examples",
+    "cardButton": "View example",
+    "previewEmpty": "No published resume examples — this block is hidden from visitors."
   }
 }

@@ -53,6 +53,32 @@ export async function getPublishedExamples(locale: string): Promise<ExampleSumma
   }
 }
 
+export type ShowcaseExample = { slug: string; title: string; occupation: string; content: ResumeData };
+
+/** The landing's example showcase: the first examples in list order, with content for the thumbnails. */
+export async function getShowcaseExamples(locale: string, limit: number): Promise<ShowcaseExample[]> {
+  "use cache";
+  cacheTag(EXAMPLES_TAG);
+  try {
+    const rows = await db
+      .select({
+        slug: exampleResumes.slug,
+        title: exampleResumes.title,
+        occupation: exampleResumes.occupation,
+        content: exampleResumes.content,
+      })
+      .from(exampleResumes)
+      .where(and(eq(exampleResumes.locale, locale), eq(exampleResumes.active, true)))
+      .orderBy(asc(exampleResumes.sortOrder), desc(exampleResumes.usageCount), asc(exampleResumes.occupation))
+      .limit(limit);
+    return rows.map((r) => ({ ...r, content: normalizeResume(r.content) }));
+  } catch (error) {
+    console.error("getShowcaseExamples: database unreachable", error);
+    cacheLife("seconds");
+    return [];
+  }
+}
+
 export type PublishedExample = ExampleSummary & {
   content: ResumeData;
   metaTitle: string | null;

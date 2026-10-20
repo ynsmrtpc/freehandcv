@@ -5,23 +5,36 @@ import { AnimatePresence, m, useMotionValueEvent, useScroll } from "motion/react
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { buttonClass } from "@/components/ui/Button";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { LanguageSwitcher } from "../LanguageSwitcher";
 import { UserMenu } from "../account/UserMenu";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 
-// Hashes are public anchors (block `anchor` values) and stay as they are.
-const NAV_LINKS = [
-  { hash: "sablonlar", labelKey: "templates" },
-  { hash: "nasil-calisir", labelKey: "howItWorks" },
-  { hash: "karsilastirma", labelKey: "isItFree" },
-  { hash: "sss", labelKey: "faq" },
-] as const;
+// Hashes are public anchors on the landing (block `anchor` values) and stay as they are.
+type NavLink = {
+  labelKey: "templates" | "howItWorks" | "isItFree" | "faq" | "navExamples" | "navGuides";
+  href: React.ComponentProps<typeof Link>["href"];
+  /** Internal route on which the link is marked as the current page. */
+  route?: "/resume-examples" | "/guides";
+  /** Shown only in the mobile menu (the desktop bar stays short). */
+  mobileOnly?: boolean;
+};
 
-export function SiteHeader() {
+/** Sections with published content get a header link; empty ones are not advertised. */
+export function SiteHeader({ showExamples = false, showGuides = false }: { showExamples?: boolean; showGuides?: boolean }) {
   const t = useTranslations("Site");
+  const pathname = usePathname();
+  const links: NavLink[] = [
+    { labelKey: "templates", href: { pathname: "/", hash: "sablonlar" } },
+    ...(showExamples ? [{ labelKey: "navExamples", href: "/resume-examples", route: "/resume-examples" } as const] : []),
+    ...(showGuides ? [{ labelKey: "navGuides", href: "/guides", route: "/guides" } as const] : []),
+    { labelKey: "howItWorks", href: { pathname: "/", hash: "nasil-calisir" }, mobileOnly: true },
+    { labelKey: "isItFree", href: { pathname: "/", hash: "karsilastirma" } },
+    { labelKey: "faq", href: { pathname: "/", hash: "sss" } },
+  ];
+  const isCurrent = (l: NavLink) => !!l.route && (pathname === l.route || pathname.startsWith(l.route + "/"));
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -56,16 +69,22 @@ export function SiteHeader() {
 
         <nav aria-label={t("mainMenu")} className="hidden lg:block">
           <ul className="flex items-center gap-1">
-            {NAV_LINKS.map((link) => (
-              <li key={link.hash}>
-                <Link
-                  href={{ pathname: "/", hash: link.hash }}
-                  className="rounded-lg px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-surface-2 hover:text-foreground"
-                >
-                  {t(link.labelKey)}
-                </Link>
-              </li>
-            ))}
+            {links
+              .filter((l) => !l.mobileOnly)
+              .map((link) => (
+                <li key={link.labelKey}>
+                  <Link
+                    href={link.href}
+                    aria-current={isCurrent(link) ? "page" : undefined}
+                    className={cn(
+                      "rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-surface-2 hover:text-foreground",
+                      isCurrent(link) ? "bg-surface-2 text-foreground" : "text-muted",
+                    )}
+                  >
+                    {t(link.labelKey)}
+                  </Link>
+                </li>
+              ))}
           </ul>
         </nav>
 
@@ -102,10 +121,11 @@ export function SiteHeader() {
           >
             <nav aria-label={t("mainMenu")}>
               <ul className="space-y-1">
-                {NAV_LINKS.map((link) => (
-                  <li key={link.hash}>
+                {links.map((link) => (
+                  <li key={link.labelKey}>
                     <Link
-                      href={{ pathname: "/", hash: link.hash }}
+                      href={link.href}
+                      aria-current={isCurrent(link) ? "page" : undefined}
                       onClick={() => setMenuOpen(false)}
                       className="flex h-12 items-center rounded-xl px-3 text-base font-semibold text-foreground hover:bg-surface-2"
                     >

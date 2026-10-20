@@ -2,5 +2,13 @@
   "home": "Ana sayfa",
   "updated": "Son güncelleme: {date}",
   "related": "Diğer rehberler",
-  "footer": "Rehberler"
+  "footer": "Rehberler",
+  "indexEyebrow": "Rehberler",
+  "indexTitle": "CV ve iş başvurusu rehberleri",
+  "indexDescription": "CV hazırlamaktan ön yazıya, ATS uyumundan İngilizce CV'ye kadar adım adım, örnekli rehberler.",
+  "metaTitle": "CV Rehberleri: CV Nasıl Hazırlanır, Ön Yazı, ATS",
+  "metaDescription": "CV nasıl hazırlanır, ATS uyumlu CV, ön yazı, İngilizce CV ve daha fazlası: işe alım uzmanlarının aradığına göre yazılmış ücretsiz rehberler.",
+  "read": "Rehberi oku",
+  "empty": "Henüz yayında rehber yok.",
+  "all": "Tüm rehberler"
 }

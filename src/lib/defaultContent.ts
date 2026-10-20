@@ -26,6 +26,12 @@ export function defaultLandingBlocks(locale: "tr" | "en"): Block[] {
       },
     },
     {
+      id: "examples",
+      type: "example_showcase",
+      settings: settings({ anchor: "cv-ornekleri" }),
+      content: { eyebrow: L.examples.eyebrow, title: L.examples.title, description: L.examples.description, count: "6" },
+    },
+    {
       id: "templates",
       type: "template_showcase",
       settings: settings({ anchor: "sablonlar", background: "subtle" }),

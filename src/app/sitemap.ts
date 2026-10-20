@@ -65,5 +65,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  return [...pages, ...examplePages, ...guidePages];
+  // The guides index of each locale that has guides.
+  const guideIndexes = routing.locales
+    .map((locale) => ({ locale, list: guides.filter((g) => g.locale === locale) }))
+    .filter(({ list }) => list.length)
+    .map(({ locale, list }) => ({
+      url: absoluteUrl("/guides", locale),
+      lastModified: list.reduce((a, g) => (g.updatedAt > a ? g.updatedAt : a), list[0].updatedAt),
+    }));
+
+  return [...pages, ...examplePages, ...guideIndexes, ...guidePages];
 }

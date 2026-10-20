@@ -74,6 +74,7 @@ export type GuideSummary = {
   locale: string;
   slug: string;
   title: string;
+  description: string | null;
   translationGroup: string | null;
   updatedAt: string;
 };
@@ -88,6 +89,7 @@ export async function getPublishedGuides(): Promise<GuideSummary[]> {
         locale: pages.locale,
         slug: pages.slug,
         title: pages.title,
+        description: pages.metaDescription,
         translationGroup: pages.translationGroup,
         updatedAt: pages.updatedAt,
       })

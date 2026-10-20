@@ -70,6 +70,14 @@ export const BLOCK_SCHEMAS = {
     description: longText("Açıklama"),
     cardButton: text("Kart düğmesi"),
   }),
+  example_showcase: z.object({
+    ...sectionHeading,
+    description: longText("Açıklama"),
+    count: m(z.enum(["6", "4", "8"]), {
+      label: "Kaç örnek",
+      hint: "Yayındaki örnekler, örnek listesindeki sırayla (sıra → en çok kullanılan); hiç yoksa blok görünmez",
+    }),
+  }),
   steps: z.object({
     ...sectionHeading,
     items: m(z.array(z.object({ title: text("Başlık"), text: longText("Metin") })).max(6), {
@@ -143,6 +151,7 @@ export const BLOCK_NAMES: Record<BlockType, string> = {
   hero: "Hero (sayfa girişi)",
   page_title: "Sayfa başlığı",
   template_showcase: "Şablon vitrini",
+  example_showcase: "CV örnekleri vitrini",
   steps: "Adımlar",
   comparison: "Karşılaştırma tablosu",
   features: "Özellikler",

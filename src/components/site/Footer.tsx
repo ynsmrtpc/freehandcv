@@ -145,6 +145,11 @@ export async function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/guides" className={`${linkClass} font-semibold`}>
+                  {tGuides("all")}
+                </Link>
+              </li>
             </ul>
           </nav>
         )}

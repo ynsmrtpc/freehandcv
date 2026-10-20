@@ -2,5 +2,13 @@
   "home": "Home",
   "updated": "Last updated {date}",
   "related": "More guides",
-  "footer": "Guides"
+  "footer": "Guides",
+  "indexEyebrow": "Guides",
+  "indexTitle": "Resume and job application guides",
+  "indexDescription": "Step-by-step guides with examples, from writing a resume and cover letter to ATS and English resumes.",
+  "metaTitle": "Resume Guides: How to Write a Resume, Cover Letters, ATS",
+  "metaDescription": "How to write a resume, ATS-friendly resumes, cover letters and more: free guides written around what recruiters look for.",
+  "read": "Read the guide",
+  "empty": "No guides published yet.",
+  "all": "All guides"
 }

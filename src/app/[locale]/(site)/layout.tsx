@@ -6,7 +6,7 @@ import { GoogleOneTap } from "@/components/account/GoogleOneTap";
 import { AnnouncementBar } from "@/components/site/AnnouncementBar";
 import { getPathname } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { SiteHeader } from "@/components/site/SiteHeader";
+import { SiteHeaderContainer } from "@/components/site/SiteHeaderContainer";
 
 export default function SiteLayout({ children }: LayoutProps<"/[locale]">) {
   const t = useTranslations("Site");
@@ -23,7 +23,7 @@ export default function SiteLayout({ children }: LayoutProps<"/[locale]">) {
       <AnnouncementBar locale={locale} />
       {/* The language switcher reads useParams; with Cache Components it must sit inside Suspense. */}
       <Suspense fallback={<div className="h-16" />}>
-        <SiteHeader />
+        <SiteHeaderContainer />
       </Suspense>
       <main id="main-content">{children}</main>
       <Footer />

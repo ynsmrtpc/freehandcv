@@ -18,6 +18,7 @@ import { PageTitle } from "./PageTitle";
 import { Faq } from "./Faq";
 import { RichText } from "./RichText";
 import { Article } from "./Article";
+import { ExampleShowcase, type ShowcaseItem } from "./ExampleShowcase";
 import { Reviews, type ReviewItem } from "./Reviews";
 
 function Highlighted({ text }: { text: string }) {
@@ -40,7 +41,12 @@ function Highlighted({ text }: { text: string }) {
 }
 
 /** Site data a block receives from outside (passed as a prop so the client preview can render it too). */
-export type BlockContext = { donationUrl?: string; reviews?: ReviewItem[] };
+export type BlockContext = {
+  donationUrl?: string;
+  reviews?: ReviewItem[];
+  /** Published examples for the showcase, and how many are published in total. */
+  examples?: { items: ShowcaseItem[]; total: number };
+};
 
 function BlockContent({ block, context, preview }: { block: Block; context: BlockContext; preview: boolean }) {
   const t = useTranslations("Landing");
@@ -84,6 +90,22 @@ function BlockContent({ block, context, preview }: { block: Block; context: Bloc
           }}
         />
       );
+    case "example_showcase": {
+      const items = (context.examples?.items ?? []).slice(0, Number(block.content.count));
+      // Without published examples the block shows nothing (a note in the admin preview).
+      if (!items.length)
+        return preview ? <p className="px-4 py-10 text-center text-sm text-muted">{t("examples.previewEmpty")}</p> : null;
+      return (
+        <ExampleShowcase
+          content={{
+            ...block.content,
+            items,
+            cardButton: t("examples.cardButton"),
+            viewAll: t("examples.viewAll", { n: context.examples?.total ?? items.length }),
+          }}
+        />
+      );
+    }
     case "steps":
       return <Steps content={block.content} />;
     case "comparison":

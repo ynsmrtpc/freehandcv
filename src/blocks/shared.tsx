@@ -44,3 +44,11 @@ export function SectionHeader({
     </Reveal>
   );
 }
+
+/**
+ * One row of resume cards (template and example showcases): six side by side on wide screens; on
+ * narrower ones the same row scrolls sideways with snapping instead of wrapping into more rows.
+ */
+export const cardRowClass =
+  "-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 [scrollbar-width:thin] sm:-mx-6 sm:gap-5 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-6 lg:overflow-visible lg:px-0 lg:pb-0";
+export const cardRowItemClass = "w-[44%] shrink-0 snap-start sm:w-[30%] lg:w-auto";
