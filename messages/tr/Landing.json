@@ -160,5 +160,9 @@
     "picker": "Gösterilecek öğeyi seç",
     "previous": "Önceki",
     "next": "Sonraki"
+  },
+  "testimonials": {
+    "eyebrow": "Kullanıcı yorumları",
+    "title": "Kullananlar ne diyor?"
   }
 }

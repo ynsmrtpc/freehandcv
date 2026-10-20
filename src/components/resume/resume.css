@@ -53,8 +53,8 @@
   box-sizing: border-box;
 }
 .resume h1,
-.resume h2,
-.resume h3,
+.resume :is(h2, .resume-h2),
+.resume :is(h3, .resume-h3),
 .resume p,
 .resume ul,
 .resume dl,
@@ -351,7 +351,7 @@
 .resume-section {
   margin-block-start: calc(5.2mm * var(--resume-spacing));
 }
-.resume-section > h2 {
+.resume-section > :is(h2, .resume-h2) {
   font-family: var(--resume-heading-font);
   font-size: 0.98em;
   font-weight: 700;
@@ -365,41 +365,41 @@
   break-inside: avoid;
   page-break-inside: avoid;
 }
-.resume[data-heading="underline"] .resume-section > h2 {
+.resume[data-heading="underline"] .resume-section > :is(h2, .resume-h2) {
   letter-spacing: 0.08em;
   padding-block-end: 1mm;
   border-block-end: 0.6pt solid var(--resume-border);
 }
-.resume[data-heading="extended-rule"] .resume-section > h2 {
+.resume[data-heading="extended-rule"] .resume-section > :is(h2, .resume-h2) {
   display: flex;
   align-items: center;
   gap: 3mm;
 }
-.resume[data-heading="extended-rule"] .resume-section > h2::after {
+.resume[data-heading="extended-rule"] .resume-section > :is(h2, .resume-h2)::after {
   content: "";
   flex: 1;
   height: 0.6pt;
   background: var(--resume-border);
 }
-.resume[data-heading="square-marker"] .resume-section > h2 {
+.resume[data-heading="square-marker"] .resume-section > :is(h2, .resume-h2) {
   display: flex;
   align-items: center;
   gap: 2.2mm;
   letter-spacing: 0.05em;
 }
-.resume[data-heading="square-marker"] .resume-section > h2::before {
+.resume[data-heading="square-marker"] .resume-section > :is(h2, .resume-h2)::before {
   content: "";
   width: 2.2mm;
   height: 2.2mm;
   border-radius: 0.5mm;
   background: var(--resume-accent);
 }
-.resume[data-heading="left-bar"] .resume-section > h2 {
+.resume[data-heading="left-bar"] .resume-section > :is(h2, .resume-h2) {
   padding-inline-start: 2.4mm;
   border-inline-start: 1mm solid var(--resume-accent);
 }
 /* Accent-coloured box with white text (the contrast check measures this too). */
-.resume[data-heading="box"] .resume-section > h2 {
+.resume[data-heading="box"] .resume-section > :is(h2, .resume-h2) {
   inline-size: fit-content;
   padding: 0.6mm 2.6mm 0.5mm;
   border-radius: 0.8mm;
@@ -408,7 +408,7 @@
   letter-spacing: 0.08em;
   margin-block-end: calc(2.2mm * var(--resume-spacing));
 }
-.resume[data-heading="centered"] .resume-section > h2 {
+.resume[data-heading="centered"] .resume-section > :is(h2, .resume-h2) {
   display: flex;
   align-items: center;
   gap: 3.5mm;
@@ -416,17 +416,17 @@
   letter-spacing: 0.14em;
   margin-block-end: calc(2.2mm * var(--resume-spacing));
 }
-.resume[data-heading="centered"] .resume-section > h2::before,
-.resume[data-heading="centered"] .resume-section > h2::after {
+.resume[data-heading="centered"] .resume-section > :is(h2, .resume-h2)::before,
+.resume[data-heading="centered"] .resume-section > :is(h2, .resume-h2)::after {
   content: "";
   flex: 1;
   height: 0.6pt;
   background: var(--resume-border);
 }
-.resume[data-heading="short-rule"] .resume-section > h2 {
+.resume[data-heading="short-rule"] .resume-section > :is(h2, .resume-h2) {
   margin-block-end: calc(2.2mm * var(--resume-spacing));
 }
-.resume[data-heading="short-rule"] .resume-section > h2::after {
+.resume[data-heading="short-rule"] .resume-section > :is(h2, .resume-h2)::after {
   content: "";
   display: block;
   inline-size: 9mm;
@@ -436,7 +436,7 @@
   background: var(--resume-accent);
 }
 /* Heading letters as written: slightly larger, tighter letter spacing. */
-.resume[data-heading-case="normal"] .resume-section > h2 {
+.resume[data-heading-case="normal"] .resume-section > :is(h2, .resume-h2) {
   font-size: 1.2em;
   letter-spacing: 0.005em;
   text-transform: none;
@@ -455,7 +455,7 @@
 .resume[data-section-layout="side"] :is(.resume-inner, .resume-main) > .resume-section > * {
   grid-column: 2;
 }
-.resume[data-section-layout="side"] :is(.resume-inner, .resume-main) > .resume-section > h2 {
+.resume[data-section-layout="side"] :is(.resume-inner, .resume-main) > .resume-section > :is(h2, .resume-h2) {
   grid-column: 1;
   grid-row: 1 / span 40;
   margin-block-end: 0;
@@ -471,7 +471,7 @@
 .resume-entry {
   margin-block-start: calc(3mm * var(--resume-spacing));
 }
-.resume-section > h2 + .resume-entry {
+.resume-section > :is(h2, .resume-h2) + .resume-entry {
   margin-block-start: 0;
 }
 .resume-entry.short {
@@ -486,7 +486,7 @@
   break-after: avoid;
   page-break-after: avoid;
 }
-.resume-entry h3 {
+.resume-entry :is(h3, .resume-h3) {
   font-size: 1.04em;
   font-weight: 700;
   color: var(--resume-dark);
@@ -495,7 +495,7 @@
   font-weight: 500;
   color: var(--resume-muted);
 }
-.resume-entry h3 a {
+.resume-entry :is(h3, .resume-h3) a {
   border-block-end: 0.5pt solid currentColor;
 }
 .resume-company {
@@ -637,7 +637,7 @@
   break-inside: avoid;
   page-break-inside: avoid;
 }
-.resume-skill-group h3 {
+.resume-skill-group :is(h3, .resume-h3) {
   font-size: 0.92em;
   font-weight: 700;
   color: var(--resume-dark);
@@ -816,7 +816,7 @@
 .resume-side .resume-section:first-of-type {
   margin-block-start: 0;
 }
-.resume .resume-side .resume-section > h2 {
+.resume .resume-side .resume-section > :is(h2, .resume-h2) {
   display: block;
   inline-size: auto;
   text-align: start;
@@ -830,17 +830,17 @@
   border: 0;
   border-block-end: 0.6pt solid var(--side-border);
 }
-.resume[data-heading-case="normal"] .resume-side .resume-section > h2 {
+.resume[data-heading-case="normal"] .resume-side .resume-section > :is(h2, .resume-h2) {
   font-size: 1.1em;
   letter-spacing: 0.005em;
 }
-.resume .resume-side .resume-section > h2::before,
-.resume .resume-side .resume-section > h2::after {
+.resume .resume-side .resume-section > :is(h2, .resume-h2)::before,
+.resume .resume-side .resume-section > :is(h2, .resume-h2)::after {
   display: none;
 }
 .resume-side strong,
 .resume-side dt,
-.resume-side h3 {
+.resume-side :is(h3, .resume-h3) {
   color: var(--side-strong);
 }
 .resume-side .resume-meta {

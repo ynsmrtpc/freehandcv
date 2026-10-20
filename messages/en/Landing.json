@@ -160,5 +160,9 @@
     "picker": "Choose which one to show",
     "previous": "Previous",
     "next": "Next"
+  },
+  "testimonials": {
+    "eyebrow": "Reviews",
+    "title": "What people say"
   }
 }

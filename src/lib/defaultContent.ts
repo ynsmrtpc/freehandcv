@@ -25,16 +25,20 @@ export function defaultLandingBlocks(locale: "tr" | "en"): Block[] {
         bullets: L.hero.bullets,
       },
     },
+    // Order (UX + SEO): how it works right after the promise; examples (internal links to every
+    // example page) above templates; the "why free" comparison once the product has been seen; social
+    // proof and FAQ (FAQPage data) just before the final call. Backgrounds alternate for rhythm.
+    { id: "steps", type: "steps", settings: settings({ anchor: "how-it-works" }), content: L.steps },
     {
       id: "examples",
       type: "example_showcase",
-      settings: settings({ anchor: "resume-examples" }),
+      settings: settings({ anchor: "resume-examples", background: "subtle" }),
       content: { eyebrow: L.examples.eyebrow, title: L.examples.title, description: L.examples.description, count: "6" },
     },
     {
       id: "templates",
       type: "template_showcase",
-      settings: settings({ anchor: "templates", background: "subtle" }),
+      settings: settings({ anchor: "templates" }),
       content: {
         eyebrow: L.templates.eyebrow,
         title: L.templates.title,
@@ -42,9 +46,14 @@ export function defaultLandingBlocks(locale: "tr" | "en"): Block[] {
         cardButton: L.templates.cardButton,
       },
     },
-    { id: "steps", type: "steps", settings: settings({ anchor: "how-it-works" }), content: L.steps },
-    { id: "comparison", type: "comparison", settings: settings({ anchor: "comparison" }), content: L.comparison },
-    { id: "features", type: "features", settings: settings({ background: "subtle" }), content: L.features },
+    { id: "comparison", type: "comparison", settings: settings({ anchor: "comparison", background: "subtle" }), content: L.comparison },
+    { id: "features", type: "features", settings: settings(), content: L.features },
+    {
+      id: "reviews",
+      type: "reviews",
+      settings: settings({ anchor: "reviews", background: "subtle" }),
+      content: { eyebrow: L.testimonials.eyebrow, title: L.testimonials.title, count: "6" },
+    },
     { id: "faq", type: "faq", settings: settings({ anchor: "faq" }), content: L.faq },
     {
       id: "cta",

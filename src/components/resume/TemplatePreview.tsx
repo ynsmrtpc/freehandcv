@@ -81,7 +81,7 @@ export function ResumeThumbnail({
       )}
     >
       <ScaledPaper initialScale={initialScale}>
-        <ResumeDocument data={data} definition={definition} noLinks embedded />
+        <ResumeDocument data={data} definition={definition} noLinks decorative />
       </ScaledPaper>
     </div>
   );

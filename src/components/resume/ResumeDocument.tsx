@@ -32,7 +32,20 @@ type Context = {
   l: ReturnType<typeof resumeLabels>;
   noLinks: boolean;
   embedded: boolean;
+  decorative: boolean;
 };
+
+/**
+ * Section and entry headings. In a decorative thumbnail they are plain elements with a class (styled
+ * the same through :is() in resume.css), so the host page's heading outline is not filled with the
+ * thumbnail's "Experience", "Education"… (SEO, screen readers).
+ */
+function H2({ c, children }: { c: Context; children: ReactNode }) {
+  return c.decorative ? <div className="resume-h2">{children}</div> : <h2>{children}</h2>;
+}
+function H3({ c, children }: { c: Context; children: ReactNode }) {
+  return c.decorative ? <div className="resume-h3">{children}</div> : <h3>{children}</h3>;
+}
 
 function RichText({ text }: { text: string }) {
   return (
@@ -204,7 +217,7 @@ function SidebarContact({ c }: { c: Context }) {
   if (!items.length && !extras.length) return null;
   return (
     <section className="resume-section resume-section-contact">
-      <h2>{c.l.sectionTitles.contact}</h2>
+      <H2 c={c}>{c.l.sectionTitles.contact}</H2>
       <ul className="resume-side-contact">
         {items.map((x) => (
           <li key={x.icon}>
@@ -280,7 +293,7 @@ function sectionBody(id: SectionId, c: Context, inSidebar: boolean): ReactNode {
             <EntryHead
               start={
                 <>
-                  <h3>{i.position}</h3>
+                  <H3 c={c}>{i.position}</H3>
                   {sub && <p className="resume-company">{sub}</p>}
                 </>
               }
@@ -304,10 +317,10 @@ function sectionBody(id: SectionId, c: Context, inSidebar: boolean): ReactNode {
           <EntryHead
             start={
               <>
-                <h3>
+                <H3 c={c}>
                   {i.link ? <ResumeLink disabled={c.noLinks} href={i.link}>{i.name}</ResumeLink> : i.name}
                   {i.role && <span className="resume-role"> · {i.role}</span>}
-                </h3>
+                </H3>
                 {(i.technologies || i.link) && (
                   <p className="resume-tech">
                     {i.technologies}
@@ -343,7 +356,7 @@ function sectionBody(id: SectionId, c: Context, inSidebar: boolean): ReactNode {
             <EntryHead
               start={
                 <>
-                  <h3>{i.school}</h3>
+                  <H3 c={c}>{i.school}</H3>
                   {sub && <p className="resume-company">{sub}</p>}
                 </>
               }
@@ -378,7 +391,7 @@ function sectionBody(id: SectionId, c: Context, inSidebar: boolean): ReactNode {
         <div className={style === "two-column" ? "resume-skills-grid" : "resume-skills-flow"}>
           {list.map((i) => (
             <div key={i.id} className="resume-skill-group">
-              {i.category && <h3>{i.category}</h3>}
+              {i.category && <H3 c={c}>{i.category}</H3>}
               <p className="resume-tags">
                 {commaList(i.items).map((e, j) => (
                   <Fragment key={j}>
@@ -474,7 +487,7 @@ function Section({ id, c, inSidebar }: { id: SectionId; c: Context; inSidebar: b
   const title = c.v.settings.sectionTitles[id]?.trim() || c.l.sectionTitles[id];
   return (
     <section className={`resume-section resume-section-${id}`}>
-      <h2>{title}</h2>
+      <H2 c={c}>{title}</H2>
       {body}
     </section>
   );
@@ -488,6 +501,7 @@ export function ResumeDocument({
   className,
   noLinks = false,
   embedded = false,
+  decorative = false,
 }: {
   data: ResumeData;
   definition: DesignDefinition;
@@ -496,10 +510,12 @@ export function ResumeDocument({
   noLinks?: boolean;
   /** Inside another page that has its own h1 (example pages, thumbnails): the name is not a heading. */
   embedded?: boolean;
+  /** A thumbnail (implies embedded): headings become plain elements. */
+  decorative?: boolean;
 }) {
   const d = resolveDesign(definition, data.settings);
   const l = resumeLabels(data.settings.locale);
-  const c: Context = { v: data, d, l, noLinks, embedded };
+  const c: Context = { v: data, d, l, noLinks, embedded: embedded || decorative, decorative };
   const paper = PAPER_SIZES[d.paper];
   const visible = data.settings.sectionOrder.filter((id) => !data.settings.hiddenSections.includes(id));
   const sidebarLayout = hasSidebar(d);
