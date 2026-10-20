@@ -6,6 +6,7 @@ import { CMS_PAGES, type CmsPageHref } from "@/lib/cmsPages";
 import { alternates } from "@/lib/seo";
 import { getPublishedPage } from "@/server/content/pages";
 import { getSiteSettings } from "@/server/content/siteSettings";
+import { getApprovedReviews } from "@/server/reviews";
 
 const slugFor = (href: CmsPageHref) => CMS_PAGES.find((p) => p.href === href)!.slug;
 
@@ -25,5 +26,11 @@ export async function CmsPage({ href, locale }: { href: CmsPageHref; locale: Loc
   const [page, settings] = await Promise.all([getPublishedPage(locale, slugFor(href)), getSiteSettings(locale)]);
   if (!page) notFound();
   const { donation } = settings.global;
-  return <BlockRenderer blocks={page.blocks} context={{ donationUrl: donation.enabled ? donation.url : undefined }} />;
+  const reviews = page.blocks.some((b) => b.type === "reviews") ? await getApprovedReviews() : undefined;
+  return (
+    <BlockRenderer
+      blocks={page.blocks}
+      context={{ donationUrl: donation.enabled ? donation.url : undefined, reviews }}
+    />
+  );
 }

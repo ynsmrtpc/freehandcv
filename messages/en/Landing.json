@@ -142,5 +142,10 @@
     "title": "Your first resume is minutes away",
     "text": "Start without signing up. If you don’t like it, you lose nothing.",
     "button": "Get started"
+  },
+  "reviews": {
+    "anonymous": "FreehandCV user",
+    "rating": "Rated {n} out of 5",
+    "previewEmpty": "No approved reviews — this block is hidden from visitors."
   }
 }

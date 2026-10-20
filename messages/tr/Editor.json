@@ -304,5 +304,17 @@
       "manual": "Elle",
       "pdf": "PDF"
     }
+  },
+  "review": {
+    "title": "FreehandCV işine yaradı mı? Bizi puanlar mısın?",
+    "close": "Kapat",
+    "ratingLabel": "Puan",
+    "stars": "{n} yıldız",
+    "bodyPlaceholder": "Kısa bir yorum (isteğe bağlı)",
+    "occupationPlaceholder": "Mesleğin (isteğe bağlı)",
+    "displayAllowed": "Yorumum sitede gösterilebilir (soyadım kısaltılarak, mesleğimle birlikte)",
+    "send": "Gönder",
+    "thanks": "Teşekkürler!",
+    "error": "Gönderilemedi, sonra tekrar dene"
   }
 }

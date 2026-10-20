@@ -4,10 +4,12 @@ const ACTION_LABELS: Record<string, string> = {
   restore_version: "Eski sürüm taslağa alındı",
   update_site_settings: "Site ayarları değişti",
   change_role: "Rol değişti",
+  approve_review: "Yorum onaylandı",
+  hide_review: "Yorum gizlendi",
 };
 
 // Target types are shown with the Turkish values the table always displayed.
-const TARGET_LABELS: Record<string, string> = { page: "sayfa", site_settings: "site_ayarlari", user: "kullanici" };
+const TARGET_LABELS: Record<string, string> = { page: "sayfa", site_settings: "site_ayarlari", user: "kullanici", site_review: "site_yorumu" };
 
 type Row = {
   id: string;

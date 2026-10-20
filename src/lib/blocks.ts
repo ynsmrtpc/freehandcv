@@ -110,6 +110,13 @@ export const BLOCK_SCHEMAS = {
     text: longText("Metin"),
     buttonLabel: text("Buton metni", "Bağlantı site ayarlarındaki bağış adresidir"),
   }),
+  reviews: z.object({
+    ...sectionHeading,
+    count: m(z.enum(["3", "6", "9"]), {
+      label: "En fazla kaç yorum",
+      hint: "Yalnız yazarın izin verdiği ve yönetimde onaylanan gerçek yorumlar; hiç yoksa blok görünmez",
+    }),
+  }),
   rich_text: z.object({
     title: text("Başlık (h2)"),
     text: longText("Metin", "Boş satır yeni paragraf; **kalın**"),
@@ -129,6 +136,7 @@ export const BLOCK_NAMES: Record<BlockType, string> = {
   faq: "SSS",
   cta: "Son çağrı (CTA)",
   donation: "Bağış çağrısı",
+  reviews: "Kullanıcı yorumları",
   rich_text: "Metin",
 };
 

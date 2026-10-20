@@ -8,6 +8,7 @@ import {
   HelpCircle,
   Image as ImageIcon,
   LayoutTemplate,
+  MessageSquareQuote,
   ScrollText,
   Settings,
   Users,
@@ -20,7 +21,7 @@ import { SignOutButton } from "./SignOutButton";
 
 type MenuItem = {
   name: string;
-  href?: "/admin" | "/admin/pages" | "/admin/settings" | "/admin/audit-log" | "/admin/users";
+  href?: "/admin" | "/admin/pages" | "/admin/settings" | "/admin/audit-log" | "/admin/users" | "/admin/reviews";
   icon: typeof Gauge;
 };
 
@@ -30,6 +31,7 @@ const MENU: MenuItem[] = [
   { name: "Örnek CV'ler", icon: FileText },
   { name: "Şablonlar", icon: LayoutTemplate },
   { name: "SSS", icon: HelpCircle },
+  { name: "Yorumlar", href: "/admin/reviews", icon: MessageSquareQuote },
   { name: "Medya", icon: ImageIcon },
   { name: "Kullanıcılar", href: "/admin/users", icon: Users },
   { name: "Site ayarları", href: "/admin/settings", icon: Settings },

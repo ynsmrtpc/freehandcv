@@ -689,6 +689,7 @@ en baştan tam haliyle kurulduğu için sonraki fazlar köklü değişiklik gere
 3. **Faz 2 — Hesaplar:** kullanıcı girişi (Google + e-posta/şifre), misafir CV'sinin hesaba
    aktarılması, `/panel`, birden çok CV, otomatik kayıt, sürüm geçmişi, sunucu tarafı PDF,
    site yorumu toplama.
+   *Durum: kod tarafı tamam (Ekim 2026). Sunucu PDF'i Docker imajında (Alpine Chromium) henüz denenmedi.*
 4. **Faz 3 — Kullanıcı şablonları:** görsel şablon editörü, özel / bağlantılı / herkese açık
    görünürlük, galeri, puanlama ve yorum, kopyala-düzenle, otomatik ATS puanı, önizleme görseli,
    şikâyet ve yönetici moderasyonu.

@@ -142,5 +142,10 @@
     "title": "İlk CV'n birkaç dakika uzakta",
     "text": "Kayıt olmadan başla. Beğenmezsen hiçbir şey kaybetmezsin.",
     "button": "Hemen başla"
+  },
+  "reviews": {
+    "anonymous": "FreehandCV kullanıcısı",
+    "rating": "5 üzerinden {n} puan",
+    "previewEmpty": "Onaylı yorum yok — bu blok ziyaretçilere gösterilmez."
   }
 }

@@ -40,6 +40,7 @@ import { Preview } from "./Preview";
 import { DesignPanel } from "./DesignPanel";
 import { IconButton } from "./ui";
 import { VersionsDialog } from "./VersionsDialog";
+import { ReviewPrompt, shouldAskForReview } from "./ReviewPrompt";
 import "./editor.css";
 
 const TABS = ["content", "design", "checks"] as const;
@@ -63,6 +64,7 @@ export function Editor({ account }: { account?: AccountResume }) {
   const [pdfOpen, setPdfOpen] = useState(false);
   const [guestDownloadOpen, setGuestDownloadOpen] = useState(false);
   const [versionsOpen, setVersionsOpen] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
 
   useEffect(() => {
     if (account) useEditor.getState().startAccount(account.id, account.data, account.version);
@@ -135,6 +137,7 @@ export function Editor({ account }: { account?: AccountResume }) {
       a.remove();
       setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       if (source.kind === "account") void createVersionAction(source.id, v, "pdf").catch(() => {});
+      if (shouldAskForReview()) setReviewOpen(true);
     } catch {
       notify(t("toast.pdfFallback"));
       printWithHint();
@@ -258,6 +261,7 @@ export function Editor({ account }: { account?: AccountResume }) {
 
           <PdfDialog open={pdfOpen} onClose={() => setPdfOpen(false)} onContinue={print} />
           <ConflictDialog />
+          <ReviewPrompt open={reviewOpen} onClose={() => setReviewOpen(false)} notify={notify} />
           {account && (
             <VersionsDialog
               resumeId={account.id}

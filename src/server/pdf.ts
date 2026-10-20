@@ -4,6 +4,7 @@ import { getPathname } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { PDF_DATA_KEY, PDF_READY_ATTRIBUTE } from "@/lib/pdf";
 import type { ResumeData } from "@/lib/resume/schema";
+import { createRateLimiter } from "./rateLimit";
 
 // Server-side PDF (plan 4, phase 2): a headless Chromium opens the app's own print page, which draws
 // the resume with the same component and CSS as the editor preview, and prints it. Text stays
@@ -19,26 +20,8 @@ const TIMEOUT_MS = 20_000;
 
 export class PdfBusyError extends Error {}
 
-/* ---------------- Per-client limit (guests can download too, so it is keyed by IP) ---------------- */
-
-const RATE_WINDOW_MS = 10 * 60 * 1000;
-const RATE_MAX = 30;
-const hits = new Map<string, number[]>();
-
-/** In-memory sliding window; enough for a single app instance. */
-export function allowPdfRequest(clientKey: string, now = Date.now()) {
-  const recent = (hits.get(clientKey) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
-  if (recent.length >= RATE_MAX) {
-    hits.set(clientKey, recent);
-    return false;
-  }
-  recent.push(now);
-  hits.set(clientKey, recent);
-  if (hits.size > 10_000) {
-    for (const [key, times] of hits) if (!times.some((t) => now - t < RATE_WINDOW_MS)) hits.delete(key);
-  }
-  return true;
-}
+/** Guests can download too, so the limit is per client IP: 30 PDFs per 10 minutes. */
+export const allowPdfRequest = createRateLimiter(10 * 60 * 1000, 30);
 
 const globalForPdf = globalThis as unknown as { pdfBrowser?: Promise<Browser> };
 

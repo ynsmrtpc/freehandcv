@@ -304,5 +304,17 @@
       "manual": "Manual",
       "pdf": "PDF"
     }
+  },
+  "review": {
+    "title": "Did FreehandCV help? Would you rate us?",
+    "close": "Close",
+    "ratingLabel": "Rating",
+    "stars": "{n} stars",
+    "bodyPlaceholder": "A short review (optional)",
+    "occupationPlaceholder": "Your occupation (optional)",
+    "displayAllowed": "My review may be shown on the site (with my last name shortened and my occupation)",
+    "send": "Send",
+    "thanks": "Thank you!",
+    "error": "Couldn’t send it; try again later"
   }
 }

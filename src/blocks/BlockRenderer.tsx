@@ -17,6 +17,7 @@ import { TemplateShowcase } from "./TemplateShowcase";
 import { PageTitle } from "./PageTitle";
 import { Faq } from "./Faq";
 import { RichText } from "./RichText";
+import { Reviews, type ReviewItem } from "./Reviews";
 
 function Highlighted({ text }: { text: string }) {
   return (
@@ -38,9 +39,9 @@ function Highlighted({ text }: { text: string }) {
 }
 
 /** Site data a block receives from outside (passed as a prop so the client preview can render it too). */
-export type BlockContext = { donationUrl?: string };
+export type BlockContext = { donationUrl?: string; reviews?: ReviewItem[] };
 
-function BlockContent({ block, context }: { block: Block; context: BlockContext }) {
+function BlockContent({ block, context, preview }: { block: Block; context: BlockContext; preview: boolean }) {
   const t = useTranslations("Landing");
   const tTemplates = useTranslations("Templates");
   const locale = useLocale() === "tr" ? "tr" : "en";
@@ -94,6 +95,22 @@ function BlockContent({ block, context }: { block: Block; context: BlockContext 
       return <Cta content={block.content} />;
     case "donation":
       return <Donation content={block.content} href={context.donationUrl} />;
+    case "reviews": {
+      const items = (context.reviews ?? []).slice(0, Number(block.content.count));
+      // No placeholder or invented reviews: without approved ones the block shows nothing (a note in the admin preview).
+      if (!items.length)
+        return preview ? <p className="px-4 py-10 text-center text-sm text-muted">{t("reviews.previewEmpty")}</p> : null;
+      return (
+        <Reviews
+          content={{
+            ...block.content,
+            items,
+            anonymous: t("reviews.anonymous"),
+            ratingLabel: (n) => t("reviews.rating", { n }),
+          }}
+        />
+      );
+    }
     case "rich_text":
       return <RichText content={block.content} />;
   }
@@ -123,7 +140,7 @@ export function BlockRenderer({
               preview && !b.settings.visible && "opacity-40",
             )}
           >
-            <BlockContent block={b} context={context} />
+            <BlockContent block={b} context={context} preview={preview} />
           </div>
         ))}
     </>

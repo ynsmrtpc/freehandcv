@@ -9,6 +9,7 @@ import { alternates } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { defaultLandingBlocks } from "@/lib/defaultContent";
 import { HOME_SLUG, getPublishedPage } from "@/server/content/pages";
+import { getApprovedReviews } from "@/server/reviews";
 
 async function getHomePage(locale: "tr" | "en") {
   const page = await getPublishedPage(locale, HOME_SLUG);
@@ -35,6 +36,7 @@ export default async function Landing({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   const page = await getHomePage(locale);
+  const reviews = page.blocks.some((b) => b.type === "reviews") ? await getApprovedReviews() : undefined;
 
   return (
     <>
@@ -53,7 +55,7 @@ export default async function Landing({ params }: PageProps<"/[locale]">) {
       <JsonLd
         data={{ "@context": "https://schema.org", "@type": "Organization", name: "FreehandCV", url: SITE_URL }}
       />
-      <BlockRenderer blocks={page.blocks} />
+      <BlockRenderer blocks={page.blocks} context={{ reviews }} />
     </>
   );
 }

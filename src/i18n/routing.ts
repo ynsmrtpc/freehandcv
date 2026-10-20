@@ -36,6 +36,7 @@ export const routing = defineRouting({
     "/admin/settings": "/admin/settings",
     "/admin/audit-log": "/admin/audit-log",
     "/admin/users": "/admin/users",
+    "/admin/reviews": "/admin/reviews",
   },
 });
 

@@ -4,6 +4,7 @@ import { routing } from "@/i18n/routing";
 import { fileName } from "@/lib/resume/utils";
 import { normalizeResume } from "@/lib/resume/schema";
 import { allowPdfRequest, PdfBusyError, renderResumePdf } from "@/server/pdf";
+import { clientIp } from "@/server/rateLimit";
 import { RESUME_MAX_BYTES } from "@/server/resumes";
 
 // PDF download for guests and accounts alike (plan: the editor and the PDF work without an account).
@@ -12,8 +13,7 @@ import { RESUME_MAX_BYTES } from "@/server/resumes";
 const bodySchema = z.object({ locale: z.string(), data: z.unknown() });
 
 export async function POST(request: Request) {
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() || request.headers.get("x-real-ip") || "local";
-  if (!allowPdfRequest(ip)) return new Response("Too many requests", { status: 429, headers: { "Retry-After": "600" } });
+  if (!allowPdfRequest(clientIp(request.headers))) return new Response("Too many requests", { status: 429, headers: { "Retry-After": "600" } });
 
   const text = await request.text();
   if (text.length > RESUME_MAX_BYTES * 1.5) return new Response("Too large", { status: 413 });
