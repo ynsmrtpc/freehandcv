@@ -121,7 +121,7 @@ describe("legacy content", () => {
     const result = blockListSchema.safeParse(converted);
     expect(result.error?.issues ?? []).toEqual([]);
     // Block types added after the English rename never had Turkish-keyed data.
-    const addedAfterRename = new Set(["reviews"]);
+    const addedAfterRename = new Set(["reviews", "article"]);
     expect(new Set((converted as { type: string }[]).map((b) => b.type))).toEqual(
       new Set(BLOCK_TYPES.filter((t) => !addedAfterRename.has(t))),
     );

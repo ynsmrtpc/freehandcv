@@ -1,5 +1,5 @@
 {
-  "notice": "Giriş yapmazsan hiçbir verin sunucumuza gönderilmez; CV'n yalnız bu tarayıcıda durur.",
+  "notice": "Giriş yapmazsan CV'n yalnız bu tarayıcıda saklanır. PDF indirirken içerik yalnızca dosyayı oluşturmak için sunucumuza gönderilir, kaydedilmez.",
   "noticeLink": "Giriş yap, CV'n hesabında güvende olsun",
   "downloadTitle": "İndirmeden önce bir şey söyleyelim",
   "employerSharing": "Giriş yapıp onay verirsen CV'ni işe alım yapan firmalarla paylaşabilir, daha kolay işe yerleşmene yardımcı olabiliriz. Onay tamamen isteğe bağlı; istediğin an geri alabilirsin.",

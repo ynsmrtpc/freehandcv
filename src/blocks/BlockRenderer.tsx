@@ -17,6 +17,7 @@ import { TemplateShowcase } from "./TemplateShowcase";
 import { PageTitle } from "./PageTitle";
 import { Faq } from "./Faq";
 import { RichText } from "./RichText";
+import { Article } from "./Article";
 import { Reviews, type ReviewItem } from "./Reviews";
 
 function Highlighted({ text }: { text: string }) {
@@ -111,6 +112,8 @@ function BlockContent({ block, context, preview }: { block: Block; context: Bloc
         />
       );
     }
+    case "article":
+      return <Article content={block.content} />;
     case "rich_text":
       return <RichText content={block.content} />;
   }

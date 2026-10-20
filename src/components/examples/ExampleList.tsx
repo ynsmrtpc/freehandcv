@@ -1,14 +1,12 @@
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { JsonLd } from "@/components/JsonLd";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
 import { categorySlug, EXAMPLE_CATEGORIES } from "@/lib/examples";
-import { absoluteUrl } from "@/lib/seo";
 import type { ExampleSummary } from "@/server/content/examples";
 
-// Shared pieces of the example pages (plan 6.2): cards, category links, breadcrumbs.
+// Shared pieces of the example pages (plan 6.2): cards and category links.
 
 export function ExampleCards({ items }: { items: ExampleSummary[] }) {
   const t = useTranslations("Examples");
@@ -69,45 +67,4 @@ export function countByCategory(items: ExampleSummary[]) {
   const counts: Record<string, number> = {};
   for (const e of items) counts[e.category] = (counts[e.category] ?? 0) + 1;
   return counts;
-}
-
-type Crumb = { name: string; href: Parameters<typeof absoluteUrl>[0] };
-
-/** Visible breadcrumb + BreadcrumbList JSON-LD (plan 6.4). The last item is the current page. */
-export function Breadcrumbs({ items }: { items: Crumb[] }) {
-  const locale = useLocale() as Locale;
-  return (
-    <>
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: items.map((c, i) => ({
-            "@type": "ListItem",
-            position: i + 1,
-            name: c.name,
-            item: absoluteUrl(c.href, locale),
-          })),
-        }}
-      />
-      <nav aria-label="Breadcrumb">
-        <ol className="flex flex-wrap items-center gap-1 text-sm text-muted">
-          {items.map((c, i) => (
-            <li key={i} className="flex items-center gap-1">
-              {i > 0 && <ChevronRight aria-hidden className="size-3.5 rtl:rotate-180" />}
-              {i < items.length - 1 ? (
-                <Link href={c.href} className="hover:text-foreground">
-                  {c.name}
-                </Link>
-              ) : (
-                <span aria-current="page" className="text-foreground">
-                  {c.name}
-                </span>
-              )}
-            </li>
-          ))}
-        </ol>
-      </nav>
-    </>
-  );
 }

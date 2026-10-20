@@ -2,7 +2,7 @@ import { ArrowUpRight, Heart, Mail } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getPublishedExamples } from "@/server/content/examples";
-import { getPublishedPages } from "@/server/content/pages";
+import { getPublishedGuides, getPublishedPages } from "@/server/content/pages";
 import { getSiteSettings } from "@/server/content/siteSettings";
 import { Logo } from "./Logo";
 
@@ -15,13 +15,17 @@ async function getYear() {
 // Tagline, social links, contact and donation come from site settings (admin panel).
 export async function Footer() {
   const locale = await getLocale();
-  const [t, year, settings, published, examples] = await Promise.all([
+  const [t, tGuides, year, settings, published, examples, allGuides] = await Promise.all([
     getTranslations("Site"),
+    getTranslations("Guides"),
     getYear(),
     getSiteSettings(locale),
     getPublishedPages(),
     getPublishedExamples(locale),
+    getPublishedGuides(),
   ]);
+  // Internal links to the guides (plan 6.3 footer); at most 6.
+  const guides = allGuides.filter((g) => g.locale === locale).slice(0, 6);
   const { global, localized } = settings;
   const isPublished = (slug: string) => published.some((p) => p.locale === locale && p.slug === slug);
   const social = [
@@ -34,7 +38,7 @@ export async function Footer() {
 
   return (
     <footer className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[2fr_1fr]">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[2fr_1fr_1fr]">
         <div>
           <Logo />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">{localized.footerTagline || t("footerTagline")}</p>
@@ -130,6 +134,20 @@ export async function Footer() {
             </li>
           </ul>
         </nav>
+        {guides.length > 0 && (
+          <nav aria-label={tGuides("footer")}>
+            <p className="text-sm font-semibold text-foreground">{tGuides("footer")}</p>
+            <ul className="mt-4 space-y-3">
+              {guides.map((g) => (
+                <li key={g.slug}>
+                  <Link href={{ pathname: "/guides/[topic]", params: { topic: g.slug } }} className={linkClass}>
+                    {g.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </div>
       <div className="border-t border-border">
         <p className="mx-auto max-w-6xl px-4 py-6 text-xs text-muted sm:px-6">

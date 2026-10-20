@@ -1,7 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { PageTitle } from "@/blocks/PageTitle";
 import { Section } from "@/blocks/shared";
-import { Breadcrumbs, CategoryLinks, countByCategory, ExampleCards } from "@/components/examples/ExampleList";
+import { CategoryLinks, countByCategory, ExampleCards } from "@/components/examples/ExampleList";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import type { Locale } from "@/i18n/routing";
 import { categorySlug } from "@/lib/examples";
 import { getPublishedExamples } from "@/server/content/examples";

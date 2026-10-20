@@ -1,17 +1,27 @@
 import { Fragment } from "react";
-import { richTextParts } from "@/lib/resume/utils";
+import { inlineParts } from "@/lib/prose";
 
-// Long-form text (example guides, plan 6.4): a blank line starts a paragraph, lines starting with
-// "- " form a list, **bold**. No HTML is accepted, so admin-entered text cannot inject markup.
+// Long-form text (example and guide pages, plan 6.4): a blank line starts a paragraph, lines starting
+// with "- " form a list, **bold**, [text](/path) a link. No HTML is accepted, so admin-entered text
+// cannot inject markup; links may only point inside the site ("/…") or to an https:// address.
 
 function Inline({ text }: { text: string }) {
   return (
     <>
-      {richTextParts(text).map((p, i) =>
-        p.bold ? (
+      {inlineParts(text).map((p, i) =>
+        p.kind === "bold" ? (
           <strong key={i} className="font-semibold text-foreground">
             {p.text}
           </strong>
+        ) : p.kind === "link" ? (
+          <a
+            key={i}
+            href={p.href}
+            {...(p.href.startsWith("https://") ? { rel: "noopener noreferrer", target: "_blank" } : {})}
+            className="font-medium text-primary-text underline underline-offset-2 hover:no-underline"
+          >
+            {p.text}
+          </a>
         ) : (
           <Fragment key={i}>{p.text}</Fragment>
         ),

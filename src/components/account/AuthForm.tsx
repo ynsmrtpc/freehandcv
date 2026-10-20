@@ -187,7 +187,15 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
                       {tc("signUpConsent")}
                     </label>
                     <p className="text-xs leading-relaxed text-muted">{tc("signUpDataNote")}</p>
-                    <p className="text-center text-xs leading-relaxed text-muted">{t("terms")}</p>
+                    <p className="text-center text-xs leading-relaxed text-muted">
+                      {t.rich("terms", {
+                        link: (chunks) => (
+                          <Link href="/privacy" target="_blank" className="font-medium text-primary-text underline underline-offset-2">
+                            {chunks}
+                          </Link>
+                        ),
+                      })}
+                    </p>
                   </>
                 )}
               </form>

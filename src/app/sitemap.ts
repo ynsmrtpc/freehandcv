@@ -4,13 +4,14 @@ import { CMS_PAGES } from "@/lib/cmsPages";
 import { categorySlug, EXAMPLE_CATEGORIES } from "@/lib/examples";
 import { alternates, absoluteUrl } from "@/lib/seo";
 import { getPublishedExamples } from "@/server/content/examples";
-import { HOME_SLUG, getPublishedPages } from "@/server/content/pages";
+import { HOME_SLUG, getPublishedGuides, getPublishedPages } from "@/server/content/pages";
 
 // Only published, indexable pages; lastmod is the real update time (plan 6.4).
-// Templates and guides join here as they are added.
+// Templates join here as they are added.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [published, examples] = await Promise.all([
+  const [published, guides, examples] = await Promise.all([
     getPublishedPages(),
+    getPublishedGuides(),
     Promise.all(routing.locales.map(async (locale) => ({ locale, items: await getPublishedExamples(locale) }))),
   ]);
   const routes = [{ href: "/" as const, slug: HOME_SLUG }, ...CMS_PAGES];
@@ -46,5 +47,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ];
   });
 
-  return [...pages, ...examplePages];
+  // Guides: the same guide in other locales shares a translation group (hreflang).
+  const guidePages = guides.map((g) => {
+    const href = { pathname: "/guides/[topic]" as const, params: { topic: g.slug } };
+    const siblings = g.translationGroup ? guides.filter((x) => x.translationGroup === g.translationGroup) : [g];
+    return {
+      url: absoluteUrl(href, g.locale as Locale),
+      lastModified: g.updatedAt,
+      alternates:
+        siblings.length > 1
+          ? {
+              languages: Object.fromEntries(
+                siblings.map((s) => [s.locale, absoluteUrl({ pathname: "/guides/[topic]", params: { topic: s.slug } }, s.locale as Locale)]),
+              ),
+            }
+          : undefined,
+    };
+  });
+
+  return [...pages, ...examplePages, ...guidePages];
 }

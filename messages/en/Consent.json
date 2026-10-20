@@ -1,5 +1,5 @@
 {
-  "notice": "If you don’t sign in, nothing is sent to our servers; your resume stays in this browser only.",
+  "notice": "If you don’t sign in, your resume is stored in this browser only. When you download a PDF, the content is sent to our server just to create the file and is not kept.",
   "noticeLink": "Sign in to keep your resume safe in your account",
   "downloadTitle": "Before you download",
   "employerSharing": "If you sign in and give your consent, we can share your resume with companies that are hiring and help you land a job more easily. Consent is entirely optional, and you can withdraw it at any time.",

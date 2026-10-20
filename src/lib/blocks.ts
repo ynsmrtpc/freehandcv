@@ -117,6 +117,19 @@ export const BLOCK_SCHEMAS = {
       hint: "Yalnız yazarın izin verdiği ve yönetimde onaylanan gerçek yorumlar; hiç yoksa blok görünmez",
     }),
   }),
+  article: z.object({
+    sections: m(
+      z
+        .array(
+          z.object({
+            heading: text("Bölüm başlığı (h2)"),
+            body: longText("Metin", "Boş satır yeni paragraf, “- ” ile başlayan satırlar liste, **kalın**"),
+          }),
+        )
+        .max(20),
+      { label: "Bölümler", summaryField: "heading" },
+    ),
+  }),
   rich_text: z.object({
     title: text("Başlık (h2)"),
     text: longText("Metin", "Boş satır yeni paragraf; **kalın**"),
@@ -138,6 +151,7 @@ export const BLOCK_NAMES: Record<BlockType, string> = {
   donation: "Bağış çağrısı",
   reviews: "Kullanıcı yorumları",
   rich_text: "Metin",
+  article: "Makale (rehber metni)",
 };
 
 export type Block = {

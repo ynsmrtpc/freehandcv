@@ -1,6 +1,7 @@
 import { FilePen } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { Breadcrumbs, ExampleCards } from "@/components/examples/ExampleList";
+import { ExampleCards } from "@/components/examples/ExampleList";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
 import { resumeFontClasses } from "@/components/resume/resumeFonts";
 import { ScaledPaper } from "@/components/resume/ScaledPaper";

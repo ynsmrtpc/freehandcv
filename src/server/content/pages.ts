@@ -70,6 +70,64 @@ export async function getPublishedPage(locale: string, slug: string): Promise<Pu
   }
 }
 
+export type GuideSummary = {
+  locale: string;
+  slug: string;
+  title: string;
+  translationGroup: string | null;
+  updatedAt: string;
+};
+
+/** Published guides of every locale (/rehber: links, sitemap, hreflang via translation_group). */
+export async function getPublishedGuides(): Promise<GuideSummary[]> {
+  "use cache";
+  cacheTag(PUBLISHED_PAGES_TAG);
+  try {
+    const rows = await db
+      .select({
+        locale: pages.locale,
+        slug: pages.slug,
+        title: pages.title,
+        translationGroup: pages.translationGroup,
+        updatedAt: pages.updatedAt,
+      })
+      .from(pages)
+      .where(and(eq(pages.kind, "guide"), eq(pages.status, "published"), eq(pages.indexable, true)))
+      .orderBy(pages.title);
+    return rows.map((r) => ({ ...r, updatedAt: r.updatedAt.toISOString() }));
+  } catch (error) {
+    console.error("getPublishedGuides: database unreachable", error);
+    cacheLife("seconds");
+    return [];
+  }
+}
+
+/** A published guide; static and legal pages never resolve under /rehber. */
+export async function getPublishedGuide(locale: string, slug: string): Promise<(PublishedPage & { updatedAt: string }) | null> {
+  "use cache";
+  cacheTag(pageTag(locale, slug));
+  try {
+    const [p] = await db
+      .select({
+        title: pages.title,
+        metaTitle: pages.metaTitle,
+        metaDescription: pages.metaDescription,
+        indexable: pages.indexable,
+        blocks: pages.publishedBlocks,
+        updatedAt: pages.updatedAt,
+      })
+      .from(pages)
+      .where(and(eq(pages.locale, locale), eq(pages.slug, slug), eq(pages.kind, "guide"), eq(pages.status, "published")))
+      .limit(1);
+    if (!p?.blocks) return null;
+    return { ...p, blocks: parseBlocks(p.blocks), updatedAt: p.updatedAt.toISOString() };
+  } catch (error) {
+    console.error("getPublishedGuide: database unreachable", error);
+    cacheLife("seconds");
+    return null;
+  }
+}
+
 /* ---------------- Admin (uncached; the caller checks authorization) ---------------- */
 
 export async function listPages() {
