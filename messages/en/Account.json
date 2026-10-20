@@ -1,0 +1,36 @@
+{
+  "meta": "My account",
+  "title": "My account",
+  "save": "Save",
+  "saved": "Saved",
+  "error": "Something went wrong, please try again",
+  "profile": {
+    "title": "Profile",
+    "name": "Full name"
+  },
+  "password": {
+    "title": "Password",
+    "current": "Current password",
+    "new": "New password",
+    "hint": "At least 10 characters. Changing it signs you out on other devices.",
+    "submit": "Change password",
+    "changed": "Your password has been changed",
+    "failed": "Couldn’t change the password; check your current password",
+    "tooShort": "The new password must be at least 10 characters",
+    "googleOnly": "You sign in with Google; your password is managed by your Google account.",
+    "none": "This account has no password."
+  },
+  "data": {
+    "title": "My data",
+    "description": "Download everything stored in your account (profile, resumes and their versions, consents, reviews) as one JSON file. Your password and session keys are never included.",
+    "download": "Download my data (JSON)"
+  },
+  "close": {
+    "title": "Close account",
+    "description": "Your resumes and their versions are deleted for good, your personal details are anonymised and you are signed out. This can’t be undone; download your data first.",
+    "admin": "Admin or editor accounts can’t be closed here; the role must be removed first.",
+    "confirm": "Type your e-mail address to confirm ({email})",
+    "submit": "Close my account for good",
+    "mismatch": "The e-mail address doesn’t match"
+  }
+}

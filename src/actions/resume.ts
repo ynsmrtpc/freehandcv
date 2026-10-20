@@ -16,6 +16,7 @@ import {
   createVersion,
   restoreVersion,
   VERSION_LABEL_MAX,
+  restoreResume,
 } from "@/server/resumes";
 import type { ResumeData } from "@/lib/resume/schema";
 import { getSession } from "@/server/authz";
@@ -131,6 +132,17 @@ export async function restoreVersionAction(
   if (!userId) return { ok: false, reason: "unauthenticated" };
   try {
     return { ok: true, data: await restoreVersion(idSchema.parse(resumeId), idSchema.parse(versionId), userId, current) };
+  } catch (e) {
+    return toError(e);
+  }
+}
+
+export async function restoreResumeAction(id: string): Promise<ResumeActionResult> {
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: "unauthenticated" };
+  try {
+    await restoreResume(idSchema.parse(id), userId);
+    return { ok: true };
   } catch (e) {
     return toError(e);
   }

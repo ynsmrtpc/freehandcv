@@ -686,6 +686,9 @@ en baştan tam haliyle kurulduğu için sonraki fazlar köklü değişiklik gere
    ve yönetim paneli** (site ayarları, sayfa düzenleyici, örnek CV, SSS, medya, günlük), landing ve
    diğer sayfaların panelden doldurulması, ilk 50 örnek CV sayfası, ilk 10 rehber, `/ucretsiz-mi`,
    `/destek`, KVKK metinleri, alan adı → **canlı**.
+   *Durum (Ekim 2026): kod tamam. İçerik: 50+ Türkçe örnek CV taslağı (`content/examples/tr`, panelden
+   yayınlanır), 10 rehber taslağı (`content/guides/tr`), gizlilik metni taslağı (köşeli parantezli
+   alanlar ve hukukçu kontrolü bekliyor). Kalan: alan adı ve dağıtım.*
 3. **Faz 2 — Hesaplar:** kullanıcı girişi (Google + e-posta/şifre), misafir CV'sinin hesaba
    aktarılması, `/panel`, birden çok CV, otomatik kayıt, sürüm geçmişi, sunucu tarafı PDF,
    site yorumu toplama.
@@ -693,7 +696,9 @@ en baştan tam haliyle kurulduğu için sonraki fazlar köklü değişiklik gere
 4. **Faz 3 — Kullanıcı şablonları:** görsel şablon editörü, özel / bağlantılı / herkese açık
    görünürlük, galeri, puanlama ve yorum, kopyala-düzenle, otomatik ATS puanı, önizleme görseli,
    şikâyet ve yönetici moderasyonu.
-5. **Faz 4 — Büyüme:** örnek CV sayısını 200+'e çıkarma, `/ats-cv-kontrolu` aracı, Search Console
+5. **Faz 4 — Büyüme:** örnek CV sayısını 200+'e çıkarma (devam ediyor: taslaklar alt-ajanlarla 10'arlı
+   partiler halinde `content/examples/tr` altına yazılır, `pnpm content:seed-examples` ile yüklenir,
+   panelde gözden geçirilip yayınlanır; sıradaki meslekler Search Console verisine göre seçilir), `/ats-cv-kontrolu` aracı, Search Console
    verisine göre içerik, **dil dalgaları 2–4** (bölüm 8.1).
 6. **Sonrası (fikir):** herkese açık paylaşım bağlantısı, ilana göre yapay zekâ ile CV
    uyarlama, ön yazı (cover letter) şablonları.

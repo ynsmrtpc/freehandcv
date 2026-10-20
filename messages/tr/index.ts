@@ -12,6 +12,7 @@ import Consent from "./Consent.json";
 import Templates from "./Templates.json";
 import Examples from "./Examples.json";
 import Guides from "./Guides.json";
+import Account from "./Account.json";
 
-const messages = { Meta, Site, Landing, App, Admin, Editor, Checks, Auth, Dashboard, Consent, Templates, Examples, Guides };
+const messages = { Meta, Site, Landing, App, Admin, Editor, Checks, Auth, Dashboard, Consent, Templates, Examples, Guides, Account };
 export default messages;

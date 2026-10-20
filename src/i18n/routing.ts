@@ -24,6 +24,7 @@ export const routing = defineRouting({
     "/sign-up": { tr: "/kayit", en: "/sign-up" },
     "/dashboard": { tr: "/panel", en: "/dashboard" },
     "/resume/[id]": { tr: "/cv/[id]", en: "/resume/[id]" },
+    "/account": { tr: "/hesap", en: "/account" },
     // Opened only by the server's headless browser to make the PDF (not linked, not indexed).
     "/print": "/print",
     // Admin is not indexed and English for both locales.

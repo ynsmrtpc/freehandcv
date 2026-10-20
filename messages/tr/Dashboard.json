@@ -13,5 +13,13 @@
   "empty": "İlk CV'ni oluştur. Örnekten başlayabilir ya da boş sayfayla açabilirsin.",
   "imported": "Tarayıcındaki CV hesabına aktarıldı.",
   "error": "İşlem yapılamadı. Tekrar dene.",
-  "limit": "En fazla 100 CV saklayabilirsin."
+  "limit": "En fazla 100 CV saklayabilirsin.",
+  "trash": {
+    "title": "Çöp kutusu ({n})",
+    "description": "Silinen CV'ler 30 gün burada kalır ve geri alınabilir; sonra kalıcı olarak silinir.",
+    "purgeOn": "{date} tarihinde kalıcı olarak silinecek",
+    "restore": "Geri al",
+    "limit": "CV sınırına ulaştın; önce bir CV sil",
+    "error": "Geri alınamadı, tekrar dene"
+  }
 }

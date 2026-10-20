@@ -15,6 +15,7 @@ import { GUEST_STORAGE_KEY } from "@/client/editor/store";
 import { sampleResume } from "@/lib/resume/sample";
 import { emptyResume, normalizeResume, type ResumeData } from "@/lib/resume/schema";
 import { systemDefinition } from "@/lib/resume/design";
+import { TrashList, type TrashItem } from "./TrashList";
 import { SharingCard } from "./SharingCard";
 
 type ResumeCard = { id: string; title: string; content: unknown; updatedAt: string };
@@ -30,9 +31,11 @@ let importStarted = false;
 export function DashboardView({
   resumes,
   sharing,
+  trash,
 }: {
   resumes: ResumeCard[];
   sharing: { enabled: boolean; resumeId: string | null };
+  trash: TrashItem[];
 }) {
   const t = useTranslations("Dashboard");
   const locale = useLocale();
@@ -223,6 +226,7 @@ export function DashboardView({
             })}
           </ul>
         )}
+        <TrashList items={trash} />
       </main>
     </div>
   );

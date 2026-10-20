@@ -1,0 +1,36 @@
+{
+  "meta": "Hesabım",
+  "title": "Hesabım",
+  "save": "Kaydet",
+  "saved": "Kaydedildi",
+  "error": "Bir hata oluştu, tekrar dene",
+  "profile": {
+    "title": "Profil",
+    "name": "Ad soyad"
+  },
+  "password": {
+    "title": "Şifre",
+    "current": "Mevcut şifre",
+    "new": "Yeni şifre",
+    "hint": "En az 10 karakter. Değiştirdiğinde diğer cihazlardaki oturumların kapanır.",
+    "submit": "Şifreyi değiştir",
+    "changed": "Şifren değiştirildi",
+    "failed": "Şifre değiştirilemedi; mevcut şifreni kontrol et",
+    "tooShort": "Yeni şifre en az 10 karakter olmalı",
+    "googleOnly": "Google ile giriş yapıyorsun; şifren Google hesabında yönetilir.",
+    "none": "Bu hesapta şifre tanımlı değil."
+  },
+  "data": {
+    "title": "Verilerim",
+    "description": "Hesabında saklanan her şeyi (profil, CV'ler ve sürümleri, rızalar, yorumlar) tek bir JSON dosyası olarak indir. Şifren ve oturum anahtarların dosyaya eklenmez.",
+    "download": "Verilerimi indir (JSON)"
+  },
+  "close": {
+    "title": "Hesabı kapat",
+    "description": "CV'lerin ve sürümleri kalıcı olarak silinir, kişisel bilgilerin anonimleştirilir ve oturumların kapanır. Bu işlem geri alınamaz; önce verilerini indirmen önerilir.",
+    "admin": "Yönetici ya da editör hesapları buradan kapatılamaz; önce rolünün kaldırılması gerekir.",
+    "confirm": "Onaylamak için e-posta adresini yaz ({email})",
+    "submit": "Hesabımı kalıcı olarak kapat",
+    "mismatch": "E-posta adresi eşleşmiyor"
+  }
+}

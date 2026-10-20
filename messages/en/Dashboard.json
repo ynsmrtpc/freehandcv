@@ -13,5 +13,13 @@
   "empty": "Create your first resume. Start from the example or a blank page.",
   "imported": "The resume in your browser was moved to your account.",
   "error": "That didn’t work. Please try again.",
-  "limit": "You can keep up to 100 resumes."
+  "limit": "You can keep up to 100 resumes.",
+  "trash": {
+    "title": "Trash ({n})",
+    "description": "Deleted resumes stay here for 30 days and can be restored; then they are removed for good.",
+    "purgeOn": "Removed for good on {date}",
+    "restore": "Restore",
+    "limit": "You’ve reached the resume limit; delete one first",
+    "error": "Couldn’t restore it; try again"
+  }
 }

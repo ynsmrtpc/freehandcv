@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, isNull, notInArray, sql } from "drizzle-orm";
+import { and, desc, eq, isNotNull, isNull, notInArray, sql } from "drizzle-orm";
 import { normalizeResume, type ResumeData } from "@/lib/resume/schema";
 import { db, type Db } from "./db";
 import { resumes, resumeVersions } from "./db/schema";
@@ -119,6 +119,27 @@ export async function deleteResume(id: string, userId: string) {
     .update(resumes)
     .set({ deletedAt: new Date() })
     .where(ownedBy(id, userId))
+    .returning({ id: resumes.id });
+  if (!r.length) throw new ResumeNotFoundError();
+}
+
+/** The trash (plan 5): deleted resumes, newest first; the purge job removes them after 30 days. */
+export async function listTrash(userId: string) {
+  return db
+    .select({ id: resumes.id, title: resumes.title, deletedAt: resumes.deletedAt })
+    .from(resumes)
+    .where(and(eq(resumes.userId, userId), isNotNull(resumes.deletedAt)))
+    .orderBy(desc(resumes.deletedAt))
+    .limit(RESUME_MAX_COUNT);
+}
+
+export async function restoreResume(id: string, userId: string) {
+  const n = await db.$count(resumes, and(eq(resumes.userId, userId), isNull(resumes.deletedAt)));
+  if (n >= RESUME_MAX_COUNT) throw new ResumeLimitError();
+  const r = await db
+    .update(resumes)
+    .set({ deletedAt: null })
+    .where(and(eq(resumes.id, id), eq(resumes.userId, userId), isNotNull(resumes.deletedAt)))
     .returning({ id: resumes.id });
   if (!r.length) throw new ResumeNotFoundError();
 }

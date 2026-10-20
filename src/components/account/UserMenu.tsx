@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, LogOut } from "lucide-react";
+import { FileText, LogOut, UserRound } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -85,6 +85,15 @@ export function UserMenu({ className, showSignIn = true }: { className?: string;
           >
             <FileText className="size-4 text-muted" />
             {t("dashboard")}
+          </Link>
+          <Link
+            role="menuitem"
+            href="/account"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-foreground hover:bg-surface-2"
+          >
+            <UserRound className="size-4 text-muted" />
+            {t("account")}
           </Link>
           <button
             role="menuitem"
