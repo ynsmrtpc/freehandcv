@@ -120,7 +120,11 @@ describe("legacy content", () => {
     const converted = migrateLegacyBlocks(LEGACY_BLOCKS);
     const result = blockListSchema.safeParse(converted);
     expect(result.error?.issues ?? []).toEqual([]);
-    expect(new Set((converted as { type: string }[]).map((b) => b.type))).toEqual(new Set(BLOCK_TYPES));
+    // Block types added after the English rename never had Turkish-keyed data.
+    const addedAfterRename = new Set(["reviews"]);
+    expect(new Set((converted as { type: string }[]).map((b) => b.type))).toEqual(
+      new Set(BLOCK_TYPES.filter((t) => !addedAfterRename.has(t))),
+    );
   });
 
   it("maps block keys and values per the glossary", () => {
