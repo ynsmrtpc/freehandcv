@@ -1,14 +1,13 @@
 "use client";
 
 import { CheckCircle2, FileDown, ShieldCheck } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { PaperStack, usePaperStack } from "@/components/motion/PaperStack";
 import { TemplatePreview } from "@/components/resume/TemplatePreview";
 import { cn } from "@/lib/cn";
 import type { TemplateId } from "@/lib/resume/schema";
 import { FEATURED_TEMPLATES } from "@/lib/resume/design";
 
 const INTERVAL_MS = 4000;
-const COUNT = FEATURED_TEMPLATES.length;
 
 type Props = {
   locale: "tr" | "en";
@@ -16,64 +15,21 @@ type Props = {
   labels: { template: string; atsFriendly: string; pdfReady: string; checksPassed: string };
 };
 
-/**
- * Preview that cycles through templates on its own; the buttons below also select one manually.
- * Smoothness: previews are mounted once and kept (the current one and the next are ready before they
- * show), and switching only changes opacity/scale (CSS, compositor). The incoming preview fades in on
- * top while the previous one stays fully opaque underneath, so two resumes never show through each other.
- */
+/** Preview that cycles through templates on its own; the buttons below also select one manually. */
 export function HeroPreview({ locale, names, labels }: Props) {
-  const [index, setIndex] = useState(0);
-  const [previous, setPrevious] = useState<number | null>(null);
-  const [mounted, setMounted] = useState<ReadonlySet<number>>(() => new Set([0, 1 % COUNT]));
-  const [paused, setPaused] = useState(false);
-
-  const show = useCallback(
-    (next: number) => {
-      if (next === index) return;
-      setPrevious(index);
-      setIndex(next);
-      // Mount the next one too, so it is laid out before its turn.
-      setMounted((m) => (m.has(next) && m.has((next + 1) % COUNT) ? m : new Set([...m, next, (next + 1) % COUNT])));
-    },
-    [index],
-  );
-
-  useEffect(() => {
-    if (paused) return;
-    const timer = setTimeout(() => show((index + 1) % COUNT), INTERVAL_MS);
-    return () => clearTimeout(timer);
-  }, [paused, index, show]);
+  const { index, previous, mounted, show, pauseProps } = usePaperStack(FEATURED_TEMPLATES.length, INTERVAL_MS);
 
   return (
-    <div
-      className="relative mx-auto w-full max-w-[420px]"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
-      {/* Paper stack behind: positioned against the paper only (however many rows the picker below wraps to). */}
-      <div className="relative">
-        <div aria-hidden className="absolute inset-x-6 top-6 -bottom-4 rotate-[-5deg] rounded-xl bg-surface-2 shadow-elevated ring-1 ring-border" />
-        <div aria-hidden className="absolute inset-x-3 top-3 -bottom-2 rotate-[3deg] rounded-xl bg-surface shadow-elevated ring-1 ring-border" />
-
-        <div className="relative isolate aspect-[210/297] overflow-hidden rounded-xl bg-white shadow-paper ring-1 ring-black/5">
-          {FEATURED_TEMPLATES.map((id, i) =>
-            mounted.has(i) ? (
-              <div
-                key={id}
-                className={cn(
-                  "hero-slide absolute inset-0",
-                  i === index ? "z-20 scale-100 opacity-100" : i === previous ? "z-10 scale-100 opacity-100" : "z-0 scale-[0.985] opacity-0",
-                )}
-              >
-                <TemplatePreview templateId={id} locale={locale} initialScale={0.53} />
-              </div>
-            ) : null,
-          )}
-        </div>
-      </div>
+    <div className="relative mx-auto w-full max-w-[420px]" {...pauseProps}>
+      <PaperStack
+        index={index}
+        previous={previous}
+        mounted={mounted}
+        slides={FEATURED_TEMPLATES.map((id) => ({
+          key: id,
+          node: <TemplatePreview templateId={id} locale={locale} initialScale={0.53} />,
+        }))}
+      />
 
       {/* Floating badges: kept to the paper's edges (mostly outside it) so they cover little text. */}
       <div

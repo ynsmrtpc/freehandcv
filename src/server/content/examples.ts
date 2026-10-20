@@ -53,7 +53,16 @@ export async function getPublishedExamples(locale: string): Promise<ExampleSumma
   }
 }
 
-export type ShowcaseExample = { slug: string; title: string; occupation: string; content: ResumeData };
+export type ShowcaseExample = {
+  slug: string;
+  title: string;
+  occupation: string;
+  category: string;
+  experienceLevel: string | null;
+  /** Meta description, or the start of the guide intro. */
+  summary: string;
+  content: ResumeData;
+};
 
 /** The landing's example showcase: the first examples in list order, with content for the thumbnails. */
 export async function getShowcaseExamples(locale: string, limit: number): Promise<ShowcaseExample[]> {
@@ -65,13 +74,21 @@ export async function getShowcaseExamples(locale: string, limit: number): Promis
         slug: exampleResumes.slug,
         title: exampleResumes.title,
         occupation: exampleResumes.occupation,
+        category: exampleResumes.category,
+        experienceLevel: exampleResumes.experienceLevel,
+        metaDescription: exampleResumes.metaDescription,
+        guide: exampleResumes.guide,
         content: exampleResumes.content,
       })
       .from(exampleResumes)
       .where(and(eq(exampleResumes.locale, locale), eq(exampleResumes.active, true)))
       .orderBy(asc(exampleResumes.sortOrder), desc(exampleResumes.usageCount), asc(exampleResumes.occupation))
       .limit(limit);
-    return rows.map((r) => ({ ...r, content: normalizeResume(r.content) }));
+    return rows.map(({ metaDescription, guide, ...r }) => ({
+      ...r,
+      summary: metaDescription || parseGuide(guide).intro,
+      content: normalizeResume(r.content),
+    }));
   } catch (error) {
     console.error("getShowcaseExamples: database unreachable", error);
     cacheLife("seconds");

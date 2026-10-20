@@ -155,5 +155,10 @@
     "viewAll": "See all {n} resume examples",
     "cardButton": "View example",
     "previewEmpty": "No published resume examples — this block is hidden from visitors."
+  },
+  "showcase": {
+    "picker": "Choose which one to show",
+    "previous": "Previous",
+    "next": "Next"
   }
 }

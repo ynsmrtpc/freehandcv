@@ -55,6 +55,15 @@ function BlockContent({ block, context, preview }: { block: Block; context: Bloc
   const names = Object.fromEntries(
     TEMPLATE_IDS.map((id) => [id, tTemplates(`names.${id}` as never)]),
   ) as Record<TemplateId, string>;
+  const descriptions = Object.fromEntries(
+    TEMPLATE_IDS.map((id) => [id, tTemplates(`descriptions.${id}` as never)]),
+  ) as Record<TemplateId, string>;
+  const tExamples = useTranslations("Examples");
+  const stackLabels = {
+    picker: t("showcase.picker"),
+    previous: t("showcase.previous"),
+    next: t("showcase.next"),
+  };
 
   switch (block.type) {
     case "hero":
@@ -85,6 +94,8 @@ function BlockContent({ block, context, preview }: { block: Block; context: Bloc
             ...block.content,
             names,
             locale,
+            descriptions,
+            labels: stackLabels,
             atsLabel: (score) => t("templates.atsScore", { score }),
             viewAll: (n) => t("templates.viewAll", { n }),
           }}
@@ -100,8 +111,11 @@ function BlockContent({ block, context, preview }: { block: Block; context: Bloc
           content={{
             ...block.content,
             items,
-            cardButton: t("examples.cardButton"),
+            itemLink: t("examples.cardButton"),
             viewAll: t("examples.viewAll", { n: context.examples?.total ?? items.length }),
+            labels: stackLabels,
+            categoryName: (id) => tExamples(`categories.${id}.name` as never),
+            levelName: (id) => tExamples(`levels.${id}` as never),
           }}
         />
       );

@@ -155,5 +155,10 @@
     "viewAll": "{n} CV örneğinin hepsini gör",
     "cardButton": "Örneği incele",
     "previewEmpty": "Yayında örnek CV yok — bu blok ziyaretçilere gösterilmez."
+  },
+  "showcase": {
+    "picker": "Gösterilecek öğeyi seç",
+    "previous": "Önceki",
+    "next": "Sonraki"
   }
 }
