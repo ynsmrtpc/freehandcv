@@ -32,7 +32,9 @@
     "zoomIn": "Yakınlaştır",
     "fit": "Sığdır",
     "home": "Ana sayfa",
-    "saveToAccount": "Hesabına kaydet"
+    "saveToAccount": "Hesabına kaydet",
+    "versions": "Sürüm geçmişi",
+    "pdfPreparing": "PDF hazırlanıyor…"
   },
   "confirm": {
     "loadSample": "Mevcut CV örnek CV ile değiştirilsin mi? Önce JSON olarak indirmen önerilir.",
@@ -44,7 +46,8 @@
     "loaded": "CV yüklendi",
     "invalidJson": "Bu dosya bir FreehandCV JSON'u değil",
     "imageError": "Görsel okunamadı",
-    "undone": "Geri alındı"
+    "undone": "Geri alındı",
+    "pdfFallback": "PDF oluşturulamadı; tarayıcının yazdırma penceresi açılıyor"
   },
   "page": {
     "info": "{paper} · yaklaşık {n} sayfa",
@@ -282,5 +285,24 @@
     "description": "CV başka bir sekmede ya da cihazda kaydedilmiş. Hangisini tutmak istersin?",
     "reload": "Diğer sürümü yükle",
     "keepMine": "Benimkini koru"
+  },
+  "versions": {
+    "title": "Sürüm geçmişi",
+    "description": "Kaydettiğin her değişiklik en fazla 10 dakikada bir otomatik sürüm olarak saklanır (son 50). Elle kaydettiğin ve PDF indirirken oluşan sürümler silinmez.",
+    "labelPlaceholder": "Sürüme ad ver (isteğe bağlı), ör. Trendyol başvurusu",
+    "saveCurrent": "Bu hali kaydet",
+    "saved": "Sürüm kaydedildi",
+    "loading": "Sürümler yükleniyor…",
+    "empty": "Henüz sürüm yok. Düzenlemeye devam ettikçe otomatik sürümler burada görünür.",
+    "error": "Sürümler yüklenemedi",
+    "restore": "Geri yükle",
+    "restoreConfirm": "Bu sürüm geri yüklensin mi? Şu anki hali de bir sürüm olarak saklanır.",
+    "restored": "Sürüm geri yüklendi",
+    "close": "Kapat",
+    "kind": {
+      "auto": "Otomatik",
+      "manual": "Elle",
+      "pdf": "PDF"
+    }
   }
 }

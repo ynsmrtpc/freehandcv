@@ -11,6 +11,7 @@ import {
   FileJson,
   FilePlus2,
   FileUp,
+  History,
   PencilLine,
   Redo2,
   Sparkles,
@@ -19,6 +20,7 @@ import {
 import { AnimatePresence, domAnimation, LazyMotion, m, MotionConfig } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createVersionAction } from "@/actions/resume";
 import { GoogleOneTap } from "@/components/account/GoogleOneTap";
 import { UserMenu } from "@/components/account/UserMenu";
 import { Logo } from "@/components/site/Logo";
@@ -37,6 +39,7 @@ import { GuestDownloadDialog, GuestNotice } from "./GuestNotice";
 import { Preview } from "./Preview";
 import { DesignPanel } from "./DesignPanel";
 import { IconButton } from "./ui";
+import { VersionsDialog } from "./VersionsDialog";
 import "./editor.css";
 
 const TABS = ["content", "design", "checks"] as const;
@@ -59,6 +62,7 @@ export function Editor({ account }: { account?: AccountResume }) {
   const [toast, setToast] = useState<{ text: string; id: number } | null>(null);
   const [pdfOpen, setPdfOpen] = useState(false);
   const [guestDownloadOpen, setGuestDownloadOpen] = useState(false);
+  const [versionsOpen, setVersionsOpen] = useState(false);
 
   useEffect(() => {
     if (account) useEditor.getState().startAccount(account.id, account.data, account.version);
@@ -84,7 +88,9 @@ export function Editor({ account }: { account?: AccountResume }) {
   }, [toast]);
 
   const print = useCallback(() => {
-    const v = useEditor.getState().data;
+    const { data: v, source } = useEditor.getState();
+    // Account resumes keep what was downloaded as a PDF version (identical repeats are skipped on the server).
+    if (v && source.kind === "account") void createVersionAction(source.id, v, "pdf").catch(() => {});
     const previousTitle = document.title;
     document.title = fileName(v?.personal.name ?? ""); // browsers suggest the PDF file name from the title
     const restore = () => {
@@ -108,13 +114,42 @@ export function Editor({ account }: { account?: AccountResume }) {
     [print],
   );
 
+  // The PDF is made on the server and downloaded as a file; if that fails, the browser's print dialog is the fallback.
+  const [pdfBusy, setPdfBusy] = useState(false);
+  const savePdf = useCallback(async () => {
+    const { data: v, source } = useEditor.getState();
+    if (!v || pdfBusy) return;
+    setPdfBusy(true);
+    try {
+      const res = await fetch("/api/pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ locale, data: v }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(await res.blob());
+      a.download = fileName(v.personal.name, "pdf");
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      if (source.kind === "account") void createVersionAction(source.id, v, "pdf").catch(() => {});
+    } catch {
+      notify(t("toast.pdfFallback"));
+      printWithHint();
+    } finally {
+      setPdfBusy(false);
+    }
+  }, [locale, notify, pdfBusy, printWithHint, t]);
+
   // Guests see the sign-in/sharing info on every download; "Download without signing in" is always there.
   const downloadPdf = useCallback(
     (direct = false) => {
       if (!account && !direct) setGuestDownloadOpen(true);
-      else printWithHint(direct);
+      else void savePdf();
     },
-    [account, printWithHint],
+    [account, savePdf],
   );
 
   // Shortcuts: Ctrl+Z / Ctrl+Shift+Z (Ctrl+Y) undo/redo, Ctrl+P PDF.
@@ -150,7 +185,12 @@ export function Editor({ account }: { account?: AccountResume }) {
         {/* The @page size comes from the resume's paper setting. */}
         <style>{`@page { size: ${data.settings.paper === "Letter" ? "letter" : "A4"}; margin: 0; }`}</style>
         <div className="editor-shell flex h-dvh flex-col bg-background">
-          <TopBar notify={notify} downloadPdf={() => downloadPdf()} />
+          <TopBar
+            notify={notify}
+            downloadPdf={() => downloadPdf()}
+            pdfBusy={pdfBusy}
+            openVersions={() => setVersionsOpen(true)}
+          />
           {!account && <GuestNotice />}
 
           <div className="editor-workspace grid min-h-0 flex-1 lg:grid-cols-[minmax(380px,460px)_1fr]">
@@ -218,11 +258,19 @@ export function Editor({ account }: { account?: AccountResume }) {
 
           <PdfDialog open={pdfOpen} onClose={() => setPdfOpen(false)} onContinue={print} />
           <ConflictDialog />
+          {account && (
+            <VersionsDialog
+              resumeId={account.id}
+              open={versionsOpen}
+              onClose={() => setVersionsOpen(false)}
+              notify={notify}
+            />
+          )}
           {!account && (
             <GuestDownloadDialog
               open={guestDownloadOpen}
               onClose={() => setGuestDownloadOpen(false)}
-              onDownloadWithoutSignIn={() => setTimeout(() => printWithHint(), 80)}
+              onDownloadWithoutSignIn={() => void savePdf()}
             />
           )}
           {!account && <GoogleOneTap returnTo={getPathname({ href: "/dashboard", locale: locale as Locale })} />}
@@ -273,7 +321,17 @@ function TabButton({ tab, selected, select }: { tab: Tab; selected: boolean; sel
   );
 }
 
-function TopBar({ notify, downloadPdf }: { notify: (text: string) => void; downloadPdf: () => void }) {
+function TopBar({
+  notify,
+  downloadPdf,
+  pdfBusy,
+  openVersions,
+}: {
+  notify: (text: string) => void;
+  downloadPdf: () => void;
+  pdfBusy: boolean;
+  openVersions: () => void;
+}) {
   const t = useTranslations("Editor");
   const locale = useLocale();
   const saveStatus = useEditor((s) => s.saveStatus);
@@ -372,6 +430,12 @@ function TopBar({ notify, downloadPdf }: { notify: (text: string) => void; downl
               <FileUp className="size-4 text-muted" />
               {t("toolbar.importJson")}
             </button>
+            {isAccount && (
+              <button type="button" className={menuItem} onClick={() => (closeMenu(), openVersions())}>
+                <History className="size-4 text-muted" />
+                {t("toolbar.versions")}
+              </button>
+            )}
             <div className="my-1 h-px bg-border" />
             <button
               type="button"
@@ -431,9 +495,15 @@ function TopBar({ notify, downloadPdf }: { notify: (text: string) => void; downl
             {t("toolbar.saveToAccount")}
           </Link>
         )}
-        <button type="button" onClick={downloadPdf} className={buttonClass("primary", "sm", "ms-1")}>
-          <Download className="size-4" />
-          <span className="max-sm:sr-only">{t("toolbar.pdf")}</span>
+        <button
+          type="button"
+          onClick={downloadPdf}
+          disabled={pdfBusy}
+          aria-busy={pdfBusy}
+          className={buttonClass("primary", "sm", "ms-1")}
+        >
+          {pdfBusy ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
+          <span className="max-sm:sr-only">{pdfBusy ? t("toolbar.pdfPreparing") : t("toolbar.pdf")}</span>
         </button>
         <UserMenu showSignIn={false} className="ms-1" />
       </div>

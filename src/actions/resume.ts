@@ -12,7 +12,12 @@ import {
   ResumeConflictError,
   ResumeTooLargeError,
   ResumeLimitError,
+  listVersions,
+  createVersion,
+  restoreVersion,
+  VERSION_LABEL_MAX,
 } from "@/server/resumes";
+import type { ResumeData } from "@/lib/resume/schema";
 import { getSession } from "@/server/authz";
 
 export type ResumeActionError = "unauthenticated" | "not_found" | "conflict" | "too_large" | "limit" | "error";
@@ -77,6 +82,55 @@ export async function deleteResumeAction(id: string): Promise<ResumeActionResult
   try {
     await deleteResume(idSchema.parse(id), userId);
     return { ok: true };
+  } catch (e) {
+    return toError(e);
+  }
+}
+
+export type ResumeVersionItem = { id: string; kind: "auto" | "manual" | "pdf"; label: string | null; createdAt: string };
+
+export async function listVersionsAction(resumeId: string): Promise<ResumeActionResult<{ versions: ResumeVersionItem[] }>> {
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: "unauthenticated" };
+  try {
+    return { ok: true, versions: await listVersions(idSchema.parse(resumeId), userId) };
+  } catch (e) {
+    return toError(e);
+  }
+}
+
+export async function createVersionAction(
+  resumeId: string,
+  data: unknown,
+  kind: "manual" | "pdf",
+  label?: string,
+): Promise<ResumeActionResult> {
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: "unauthenticated" };
+  try {
+    await createVersion(
+      idSchema.parse(resumeId),
+      userId,
+      data,
+      z.enum(["manual", "pdf"]).parse(kind),
+      z.string().max(VERSION_LABEL_MAX).optional().parse(label),
+    );
+    return { ok: true };
+  } catch (e) {
+    return toError(e);
+  }
+}
+
+/** `current` is what the editor shows now; it is kept as a version before the restored one is returned. */
+export async function restoreVersionAction(
+  resumeId: string,
+  versionId: string,
+  current: unknown,
+): Promise<ResumeActionResult<{ data: ResumeData }>> {
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: "unauthenticated" };
+  try {
+    return { ok: true, data: await restoreVersion(idSchema.parse(resumeId), idSchema.parse(versionId), userId, current) };
   } catch (e) {
     return toError(e);
   }

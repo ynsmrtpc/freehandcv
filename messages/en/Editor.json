@@ -32,7 +32,9 @@
     "zoomIn": "Zoom in",
     "fit": "Fit",
     "home": "Home",
-    "saveToAccount": "Save to account"
+    "saveToAccount": "Save to account",
+    "versions": "Version history",
+    "pdfPreparing": "Preparing PDF…"
   },
   "confirm": {
     "loadSample": "Replace your current resume with the example? Downloading it as JSON first is recommended.",
@@ -44,7 +46,8 @@
     "loaded": "Resume loaded",
     "invalidJson": "This file isn’t a FreehandCV JSON",
     "imageError": "Couldn’t read the image",
-    "undone": "Undone"
+    "undone": "Undone",
+    "pdfFallback": "Couldn’t create the PDF; opening the browser’s print dialog"
   },
   "page": {
     "info": "{paper} · about {n, plural, one {# page} other {# pages}}",
@@ -282,5 +285,24 @@
     "description": "It was saved in another tab or device. Which version do you want to keep?",
     "reload": "Load the other version",
     "keepMine": "Keep mine"
+  },
+  "versions": {
+    "title": "Version history",
+    "description": "Your changes are kept as an automatic version at most every 10 minutes (the last 50). Versions you save yourself and those made when downloading a PDF are never deleted.",
+    "labelPlaceholder": "Name this version (optional), e.g. Acme application",
+    "saveCurrent": "Save this version",
+    "saved": "Version saved",
+    "loading": "Loading versions…",
+    "empty": "No versions yet. Automatic versions appear here as you keep editing.",
+    "error": "Couldn’t load versions",
+    "restore": "Restore",
+    "restoreConfirm": "Restore this version? The current state is kept as a version too.",
+    "restored": "Version restored",
+    "close": "Close",
+    "kind": {
+      "auto": "Automatic",
+      "manual": "Manual",
+      "pdf": "PDF"
+    }
   }
 }

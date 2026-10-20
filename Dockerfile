@@ -16,6 +16,9 @@ RUN pnpm build && pnpm build:migrate
 FROM node:24-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0
+# Server PDF (src/server/pdf.ts): Playwright's own Chromium doesn't run on Alpine (musl), so the system one is used.
+RUN apk add --no-cache chromium
+ENV CHROMIUM_PATH=/usr/bin/chromium-browser
 RUN addgroup -S -g 1001 nodejs && adduser -S -u 1001 -G nodejs nextjs
 COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
