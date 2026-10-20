@@ -24,7 +24,7 @@ const link = (label: string) =>
       .string()
       .max(500)
       .refine((v) => !v || /^(\/|#|https?:\/\/|mailto:)/.test(v), "Bağlantı /, #, https:// ya da mailto: ile başlamalı"),
-    { label, display: "link", hint: "Örn. /cv-olustur, /en/create-resume, #sss" },
+    { label, display: "link", hint: "Örn. /cv-olustur, /en/create-resume, #faq" },
   );
 
 const button = (label: string) => m(z.object({ label: text("Metin"), href: link("Bağlantı") }), { label });
@@ -46,7 +46,7 @@ export const blockSettingsSchema = z.object({
       .string()
       .max(40)
       .regex(/^[a-z0-9-]*$/, "Yalnız küçük harf, rakam ve tire"),
-    { label: "Bağlantı çapası", hint: "Örn. sss → sayfa/#sss" },
+    { label: "Bağlantı çapası", hint: "İngilizce yaz, tüm dillerde aynı olsun. Örn. faq → sayfa/#faq" },
   ),
 });
 export type BlockSettings = z.infer<typeof blockSettingsSchema>;

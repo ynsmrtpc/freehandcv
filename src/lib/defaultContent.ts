@@ -1,6 +1,6 @@
 // Initial landing blocks (plan 6.3 order). Used when seeding the database and as a fallback in a
 // build environment without database access. In production the content changes from the admin panel.
-// Anchors (`#sablonlar`, `#sss` …) are public URL fragments and stay Turkish.
+// Anchors (`#templates`, `#faq` …) are English in every locale, so in-page links read the same everywhere.
 import en from "../../messages/en";
 import tr from "../../messages/tr";
 import { DEFAULT_BLOCK_SETTINGS, type Block } from "./blocks";
@@ -21,20 +21,20 @@ export function defaultLandingBlocks(locale: "tr" | "en"): Block[] {
         title: L.hero.title.replace(/<highlight>(.*?)<\/highlight>/g, "**$1**"),
         subtitle: L.hero.subtitle,
         primaryButton: { label: L.hero.primaryButton, href: createResume },
-        secondaryButton: { label: L.hero.secondaryButton, href: `${root === "/" ? "" : root}#sablonlar` },
+        secondaryButton: { label: L.hero.secondaryButton, href: `${root === "/" ? "" : root}#templates` },
         bullets: L.hero.bullets,
       },
     },
     {
       id: "examples",
       type: "example_showcase",
-      settings: settings({ anchor: "cv-ornekleri" }),
+      settings: settings({ anchor: "resume-examples" }),
       content: { eyebrow: L.examples.eyebrow, title: L.examples.title, description: L.examples.description, count: "6" },
     },
     {
       id: "templates",
       type: "template_showcase",
-      settings: settings({ anchor: "sablonlar", background: "subtle" }),
+      settings: settings({ anchor: "templates", background: "subtle" }),
       content: {
         eyebrow: L.templates.eyebrow,
         title: L.templates.title,
@@ -42,10 +42,10 @@ export function defaultLandingBlocks(locale: "tr" | "en"): Block[] {
         cardButton: L.templates.cardButton,
       },
     },
-    { id: "steps", type: "steps", settings: settings({ anchor: "nasil-calisir" }), content: L.steps },
-    { id: "comparison", type: "comparison", settings: settings({ anchor: "karsilastirma" }), content: L.comparison },
+    { id: "steps", type: "steps", settings: settings({ anchor: "how-it-works" }), content: L.steps },
+    { id: "comparison", type: "comparison", settings: settings({ anchor: "comparison" }), content: L.comparison },
     { id: "features", type: "features", settings: settings({ background: "subtle" }), content: L.features },
-    { id: "faq", type: "faq", settings: settings({ anchor: "sss" }), content: L.faq },
+    { id: "faq", type: "faq", settings: settings({ anchor: "faq" }), content: L.faq },
     {
       id: "cta",
       type: "cta",

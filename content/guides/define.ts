@@ -46,7 +46,7 @@ export function guideBlocks(g: GuideDraft, editorHref: string): Block[] {
           {
             id: "faq",
             type: "faq",
-            settings: settings({ anchor: "sss" }),
+            settings: settings({ anchor: "faq" }),
             content: { eyebrow: "", title: "Sık sorulan sorular", items: g.faq },
           } as Block,
         ]

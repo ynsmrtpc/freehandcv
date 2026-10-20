@@ -91,7 +91,7 @@ export async function Footer() {
               </Link>
             </li>
             <li>
-              <Link href={{ pathname: "/", hash: "sablonlar" }} className={linkClass}>
+              <Link href={{ pathname: "/", hash: "templates" }} className={linkClass}>
                 {t("templates")}
               </Link>
             </li>
@@ -108,7 +108,7 @@ export async function Footer() {
                   {t("isItFree")}
                 </Link>
               ) : (
-                <Link href={{ pathname: "/", hash: "karsilastirma" }} className={linkClass}>
+                <Link href={{ pathname: "/", hash: "comparison" }} className={linkClass}>
                   {t("isItFree")}
                 </Link>
               )}
@@ -128,7 +128,7 @@ export async function Footer() {
               </li>
             )}
             <li>
-              <Link href={{ pathname: "/", hash: "sss" }} className={linkClass}>
+              <Link href={{ pathname: "/", hash: "faq" }} className={linkClass}>
                 {t("faq")}
               </Link>
             </li>

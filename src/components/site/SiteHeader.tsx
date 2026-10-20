@@ -12,7 +12,7 @@ import { UserMenu } from "../account/UserMenu";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 
-// Hashes are public anchors on the landing (block `anchor` values) and stay as they are.
+// Hashes are anchors on the landing (block `anchor` values); English in every locale.
 type NavLink = {
   labelKey: "templates" | "howItWorks" | "isItFree" | "faq" | "navExamples" | "navGuides";
   href: React.ComponentProps<typeof Link>["href"];
@@ -27,12 +27,12 @@ export function SiteHeader({ showExamples = false, showGuides = false }: { showE
   const t = useTranslations("Site");
   const pathname = usePathname();
   const links: NavLink[] = [
-    { labelKey: "templates", href: { pathname: "/", hash: "sablonlar" } },
+    { labelKey: "templates", href: { pathname: "/", hash: "templates" } },
     ...(showExamples ? [{ labelKey: "navExamples", href: "/resume-examples", route: "/resume-examples" } as const] : []),
     ...(showGuides ? [{ labelKey: "navGuides", href: "/guides", route: "/guides" } as const] : []),
-    { labelKey: "howItWorks", href: { pathname: "/", hash: "nasil-calisir" }, mobileOnly: true },
-    { labelKey: "isItFree", href: { pathname: "/", hash: "karsilastirma" } },
-    { labelKey: "faq", href: { pathname: "/", hash: "sss" } },
+    { labelKey: "howItWorks", href: { pathname: "/", hash: "how-it-works" }, mobileOnly: true },
+    { labelKey: "isItFree", href: { pathname: "/", hash: "comparison" } },
+    { labelKey: "faq", href: { pathname: "/", hash: "faq" } },
   ];
   const isCurrent = (l: NavLink) => !!l.route && (pathname === l.route || pathname.startsWith(l.route + "/"));
   const { scrollY } = useScroll();
