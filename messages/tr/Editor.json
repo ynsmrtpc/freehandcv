@@ -15,7 +15,8 @@
     "savedToAccount": "Hesabına kaydedildi · {time}",
     "network": "Bağlantı yok — bağlanınca kaydedilecek",
     "tooLarge": "CV çok büyük; daha küçük bir fotoğraf dene",
-    "session": "Oturumun kapanmış — yeniden giriş yap"
+    "session": "Oturumun kapanmış — yeniden giriş yap",
+    "savedExample": "Kaydedildi · {time}"
   },
   "toolbar": {
     "undo": "Geri al",
@@ -316,5 +317,11 @@
     "send": "Gönder",
     "thanks": "Teşekkürler!",
     "error": "Gönderilemedi, sonra tekrar dene"
+  },
+  "example": {
+    "confirmReplace": "Tarayıcındaki CV bu örnekle değiştirilsin mi? Geri al ile dönebilirsin.",
+    "loaded": "Örnek yüklendi — şimdi kendi bilgilerinle değiştir",
+    "error": "Örnek yüklenemedi",
+    "limit": "CV sınırına ulaştın; önce bir CV sil"
   }
 }

@@ -21,14 +21,14 @@ import { SignOutButton } from "./SignOutButton";
 
 type MenuItem = {
   name: string;
-  href?: "/admin" | "/admin/pages" | "/admin/settings" | "/admin/audit-log" | "/admin/users" | "/admin/reviews";
+  href?: "/admin" | "/admin/pages" | "/admin/settings" | "/admin/audit-log" | "/admin/users" | "/admin/reviews" | "/admin/examples";
   icon: typeof Gauge;
 };
 
 const MENU: MenuItem[] = [
   { name: "Genel bakış", href: "/admin", icon: Gauge },
   { name: "Sayfalar", href: "/admin/pages", icon: Files },
-  { name: "Örnek CV'ler", icon: FileText },
+  { name: "Örnek CV'ler", href: "/admin/examples", icon: FileText },
   { name: "Şablonlar", icon: LayoutTemplate },
   { name: "SSS", icon: HelpCircle },
   { name: "Yorumlar", href: "/admin/reviews", icon: MessageSquareQuote },

@@ -37,6 +37,11 @@ export const routing = defineRouting({
     "/admin/audit-log": "/admin/audit-log",
     "/admin/users": "/admin/users",
     "/admin/reviews": "/admin/reviews",
+    "/admin/examples": "/admin/examples",
+    "/admin/examples/new": "/admin/examples/new",
+    "/admin/examples/[id]": "/admin/examples/[id]",
+    "/admin/examples/[id]/preview": "/admin/examples/[id]/preview",
+    "/admin/example-editor/[id]": "/admin/example-editor/[id]",
   },
 });
 

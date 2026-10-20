@@ -16,7 +16,8 @@
     "build:migrate": "esbuild scripts/migrate.mjs --bundle --platform=node --format=esm --outfile=.next/migrate.mjs",
     "admin:create": "tsx --conditions=react-server scripts/create-admin.ts",
     "content:seed": "tsx --conditions=react-server scripts/seed-content.ts",
-    "data:convert-legacy": "tsx --conditions=react-server scripts/convert-legacy-data.ts"
+    "data:convert-legacy": "tsx --conditions=react-server scripts/convert-legacy-data.ts",
+    "content:seed-examples": "tsx --conditions=react-server scripts/seed-examples.ts"
   },
   "dependencies": {
     "better-auth": "^1.7.7",

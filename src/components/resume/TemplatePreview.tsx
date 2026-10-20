@@ -60,6 +60,7 @@ export function TemplatePreview({
           data={sampleData(templateId, locale)}
           definition={SYSTEM_TEMPLATES[templateId].definition}
           noLinks
+          embedded
         />
       </ScaledPaper>
     </div>

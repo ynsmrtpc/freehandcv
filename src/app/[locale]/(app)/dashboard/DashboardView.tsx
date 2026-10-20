@@ -186,7 +186,7 @@ export function DashboardView({
                       className="pointer-events-none aspect-[210/297] w-full overflow-hidden rounded-lg bg-white ring-1 ring-black/5"
                     >
                       <ScaledPaper initialScale={0.25}>
-                        <ResumeDocument data={data} definition={systemDefinition(data.settings.template)} noLinks />
+                        <ResumeDocument data={data} definition={systemDefinition(data.settings.template)} noLinks embedded />
                       </ScaledPaper>
                     </div>
                     <p className="mt-3 truncate px-1 text-sm font-semibold text-foreground">{r.title}</p>

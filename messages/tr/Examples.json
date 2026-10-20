@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "title": "CV Örnekleri: Meslek Meslek Ücretsiz CV Örnekleri",
+    "description": "Yazılımdan sağlığa, öğretmenlikten satışa {n} meslek için hazır CV örnekleri. Beğendiğin örnekle başla, kendi bilgilerinle düzenle, ücretsiz PDF indir.",
+    "categoryTitle": "{name} CV Örnekleri",
+    "categoryDescription": "{name} alanında meslek meslek ücretsiz CV örnekleri ve yazım ipuçları. Beğendiğin örnekle başla, ücretsiz PDF indir."
+  },
+  "index": {
+    "eyebrow": "CV örnekleri",
+    "title": "Meslek meslek CV örnekleri",
+    "description": "Her örnek, o meslekte işe alım yapanların aradığı bilgilerle yazıldı. Beğendiğini seç, kendi bilgilerinle değiştir ve ücretsiz PDF olarak indir.",
+    "count": "{n} örnek",
+    "empty": "Henüz yayında örnek yok.",
+    "categoriesLabel": "Kategoriler"
+  },
+  "category": {
+    "others": "Diğer kategoriler",
+    "empty": "Bu kategoride henüz örnek yok."
+  },
+  "detail": {
+    "eyebrow": "CV örneği",
+    "home": "Ana sayfa",
+    "examples": "CV örnekleri",
+    "start": "Bu örnekle başla",
+    "startHint": "Ücretsiz, hesap gerekmez. Örnek editöre yüklenir; kendi bilgilerinle değiştirirsin.",
+    "template": "Şablon: {name}",
+    "guideTitle": "{occupation} CV'si yazarken",
+    "similar": "Benzer CV örnekleri",
+    "updated": "Güncelleme: {date}",
+    "resumeLabel": "{occupation} CV örneği"
+  },
+  "levels": {
+    "entry": "Yeni mezun",
+    "mid": "Deneyimli",
+    "senior": "Kıdemli"
+  },
+  "categories": {
+    "technology": {
+      "name": "Bilişim ve Yazılım",
+      "intro": "Yazılım geliştirici, veri analisti, sistem yöneticisi ve diğer bilişim meslekleri için CV örnekleri. Teknik yetkinlikleri, projeleri ve ölçülebilir sonuçları öne çıkaran örneklerle başla."
+    },
+    "healthcare": {
+      "name": "Sağlık",
+      "intro": "Hemşire, doktor, eczacı, fizyoterapist ve diğer sağlık çalışanları için CV örnekleri. Klinik deneyimi, sertifikaları ve hasta bakımı becerilerini doğru yerde gösteren örneklerle başla."
+    },
+    "education": {
+      "name": "Eğitim",
+      "intro": "Öğretmen, akademisyen, eğitim koordinatörü ve diğer eğitim meslekleri için CV örnekleri. Branşını, sınıf deneyimini ve öğrenci başarılarını öne çıkaran örneklerle başla."
+    },
+    "finance": {
+      "name": "Finans ve Muhasebe",
+      "intro": "Muhasebeci, finans analisti, bankacı ve denetçi gibi meslekler için CV örnekleri. Mevzuat bilgisini, kullandığın programları ve sayısal sonuçları açıkça gösteren örneklerle başla."
+    },
+    "sales-marketing": {
+      "name": "Satış ve Pazarlama",
+      "intro": "Satış temsilcisi, dijital pazarlama uzmanı, marka yöneticisi ve diğer satış-pazarlama meslekleri için CV örnekleri. Hedefleri, büyüme oranlarını ve kampanya sonuçlarını rakamlarla anlatan örneklerle başla."
+    },
+    "engineering": {
+      "name": "Mühendislik",
+      "intro": "İnşaat, makine, elektrik, endüstri ve diğer mühendislik dalları için CV örnekleri. Projeleri, teknik araçları ve sertifikaları işverenin hızla bulacağı biçimde sunan örneklerle başla."
+    },
+    "operations": {
+      "name": "Lojistik ve Üretim",
+      "intro": "Lojistik uzmanı, depo sorumlusu, üretim planlamacı ve diğer operasyon meslekleri için CV örnekleri. Süreç iyileştirmelerini, verimlilik artışlarını ve güvenlik belgelerini gösteren örneklerle başla."
+    },
+    "hospitality": {
+      "name": "Turizm ve Hizmet",
+      "intro": "Ön büro, aşçı, garson, mağaza çalışanı ve çağrı merkezi gibi hizmet meslekleri için CV örnekleri. Müşteri deneyimini, yabancı dil becerisini ve vardiya esnekliğini öne çıkaran örneklerle başla."
+    },
+    "administration": {
+      "name": "İdari İşler ve İK",
+      "intro": "İnsan kaynakları uzmanı, yönetici asistanı, sekreter ve idari işler sorumlusu için CV örnekleri. Organizasyon becerilerini, kullandığın sistemleri ve süreç sorumluluklarını gösteren örneklerle başla."
+    },
+    "design-media": {
+      "name": "Tasarım ve Medya",
+      "intro": "Grafik tasarımcı, UX/UI tasarımcı, içerik üreticisi ve editör gibi yaratıcı meslekler için CV örnekleri. Portfolyonu, araçlarını ve projelerinin etkisini öne çıkaran örneklerle başla."
+    },
+    "law-public": {
+      "name": "Hukuk ve Kamu",
+      "intro": "Avukat, hukuk müşaviri, memur ve kamu kurumlarında çalışanlar için CV örnekleri. Uzmanlık alanını, baro ve sınav bilgilerini, görev tanımlarını açık ve resmî bir dille sunan örneklerle başla."
+    }
+  }
+}

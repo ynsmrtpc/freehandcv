@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { AnimatePresence, domAnimation, LazyMotion, m, MotionConfig } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { createVersionAction } from "@/actions/resume";
 import { GoogleOneTap } from "@/components/account/GoogleOneTap";
 import { UserMenu } from "@/components/account/UserMenu";
@@ -41,6 +41,7 @@ import { DesignPanel } from "./DesignPanel";
 import { IconButton } from "./ui";
 import { VersionsDialog } from "./VersionsDialog";
 import { ReviewPrompt, shouldAskForReview } from "./ReviewPrompt";
+import { EXAMPLE_PARAM, StartFromExample } from "./StartFromExample";
 import "./editor.css";
 
 const TABS = ["content", "design", "checks"] as const;
@@ -51,12 +52,22 @@ const LEGACY_PDF_HINT_KEY = "freehandcv:pdf-ipucu-gizle";
 
 export type AccountResume = { id: string; data: ResumeData; version: number };
 
-/** With `account` the resume opens from the account and saves to the server; without it, guest mode. */
-export function Editor({ account }: { account?: AccountResume }) {
+export type ExampleResume = { id: string; data: ResumeData };
+
+/**
+ * With `account` the resume opens from the account and saves to the server; with `example` an
+ * example resume is edited in the admin panel; with neither, guest mode.
+ */
+export function Editor({ account, example }: { account?: AccountResume; example?: ExampleResume }) {
   const t = useTranslations("Editor");
   const locale = useLocale();
   const source = useEditor((s) => s.source);
-  const ready = account ? source.kind === "account" && source.id === account.id : source.kind === "guest";
+  const isGuest = !account && !example;
+  const ready = account
+    ? source.kind === "account" && source.id === account.id
+    : example
+      ? source.kind === "example" && source.id === example.id
+      : source.kind === "guest";
   const data = useEditor((s) => (ready ? s.data : null));
   const [tab, setTab] = useState<Tab>("content");
   const [view, setView] = useState<"edit" | "preview">("edit");
@@ -68,19 +79,21 @@ export function Editor({ account }: { account?: AccountResume }) {
 
   useEffect(() => {
     if (account) useEditor.getState().startAccount(account.id, account.data, account.version);
+    else if (example) useEditor.getState().startExample(example.id, example.data);
     else useEditor.getState().startGuest(locale);
-  }, [account, locale]);
+  }, [account, example, locale]);
 
   // A signed-in user opening the guest editor goes to their dashboard (resumes live in the account;
   // a guest resume left in the browser is moved to the account there).
   const session = authClient.useSession();
   const router = useRouter();
   useEffect(() => {
-    if (!account && session.data) {
+    // "Start from this example" creates the resume in the account and opens it (StartFromExample).
+    if (isGuest && session.data && !new URLSearchParams(window.location.search).has(EXAMPLE_PARAM)) {
       useEditor.getState().saveNow();
       router.replace("/dashboard");
     }
-  }, [account, session.data, router]);
+  }, [isGuest, session.data, router]);
 
   const notify = useCallback((text: string) => setToast({ text, id: Date.now() }), []);
   useEffect(() => {
@@ -137,7 +150,7 @@ export function Editor({ account }: { account?: AccountResume }) {
       a.remove();
       setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       if (source.kind === "account") void createVersionAction(source.id, v, "pdf").catch(() => {});
-      if (shouldAskForReview()) setReviewOpen(true);
+      if (source.kind !== "example" && shouldAskForReview()) setReviewOpen(true);
     } catch {
       notify(t("toast.pdfFallback"));
       printWithHint();
@@ -149,10 +162,10 @@ export function Editor({ account }: { account?: AccountResume }) {
   // Guests see the sign-in/sharing info on every download; "Download without signing in" is always there.
   const downloadPdf = useCallback(
     (direct = false) => {
-      if (!account && !direct) setGuestDownloadOpen(true);
+      if (isGuest && !direct) setGuestDownloadOpen(true);
       else void savePdf();
     },
-    [account, savePdf],
+    [isGuest, savePdf],
   );
 
   // Shortcuts: Ctrl+Z / Ctrl+Shift+Z (Ctrl+Y) undo/redo, Ctrl+P PDF.
@@ -194,7 +207,7 @@ export function Editor({ account }: { account?: AccountResume }) {
             pdfBusy={pdfBusy}
             openVersions={() => setVersionsOpen(true)}
           />
-          {!account && <GuestNotice />}
+          {isGuest && <GuestNotice />}
 
           <div className="editor-workspace grid min-h-0 flex-1 lg:grid-cols-[minmax(380px,460px)_1fr]">
             <section
@@ -261,6 +274,11 @@ export function Editor({ account }: { account?: AccountResume }) {
 
           <PdfDialog open={pdfOpen} onClose={() => setPdfOpen(false)} onContinue={print} />
           <ConflictDialog />
+          {isGuest && (
+            <Suspense fallback={null}>
+              <StartFromExample notify={notify} />
+            </Suspense>
+          )}
           <ReviewPrompt open={reviewOpen} onClose={() => setReviewOpen(false)} notify={notify} />
           {account && (
             <VersionsDialog
@@ -270,14 +288,14 @@ export function Editor({ account }: { account?: AccountResume }) {
               notify={notify}
             />
           )}
-          {!account && (
+          {isGuest && (
             <GuestDownloadDialog
               open={guestDownloadOpen}
               onClose={() => setGuestDownloadOpen(false)}
               onDownloadWithoutSignIn={() => void savePdf()}
             />
           )}
-          {!account && <GoogleOneTap returnTo={getPathname({ href: "/dashboard", locale: locale as Locale })} />}
+          {isGuest && <GoogleOneTap returnTo={getPathname({ href: "/dashboard", locale: locale as Locale })} />}
         </div>
       </MotionConfig>
     </LazyMotion>
@@ -375,6 +393,7 @@ function TopBar({
 
   const source = useEditor((s) => s.source);
   const isAccount = source.kind === "account";
+  const isGuest = source.kind === "guest";
   const time =
     saveStatus.kind === "saved"
       ? new Date(saveStatus.at).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" })
@@ -393,7 +412,7 @@ function TopBar({
         {saveStatus.kind === "error" ? (
           <span className="flex items-center gap-1.5 font-medium text-danger">
             <CloudOff className="size-3.5" />
-            {isAccount && saveStatus.reason !== "storage" ? t(`save.${saveStatus.reason}`) : t("save.error")}
+            {!isGuest && saveStatus.reason !== "storage" ? t(`save.${saveStatus.reason}`) : t("save.error")}
           </span>
         ) : saveStatus.kind === "saving" ? (
           <span className="flex items-center gap-1.5">
@@ -403,12 +422,16 @@ function TopBar({
         ) : saveStatus.kind === "pending" ? (
           <span>{t("save.pending")}</span>
         ) : saveStatus.kind === "saved" ? (
-          <span className="flex items-center gap-1.5" title={isAccount ? undefined : t("save.guest")}>
+          <span className="flex items-center gap-1.5" title={isGuest ? t("save.guest") : undefined}>
             <Check className="size-3.5 text-accent" />
-            {isAccount ? t("save.savedToAccount", { time }) : t("save.saved", { time })}
+            {isAccount
+              ? t("save.savedToAccount", { time })
+              : isGuest
+                ? t("save.saved", { time })
+                : t("save.savedExample", { time })}
           </span>
         ) : saveStatus.kind === "conflict" ? null : (
-          <span>{isAccount ? "" : t("save.guest")}</span>
+          <span>{isGuest ? t("save.guest") : ""}</span>
         )}
       </div>
 
@@ -490,7 +513,7 @@ function TopBar({
           }}
         />
 
-        {!isAccount && (
+        {isGuest && (
           <Link
             href={{ pathname: "/sign-in", query: { next: getPathname({ href: "/dashboard", locale: locale as Locale }) } }}
             className={buttonClass("secondary", "sm", "ms-1 max-md:hidden")}

@@ -15,7 +15,8 @@
     "savedToAccount": "Saved to your account · {time}",
     "network": "Offline — will save when you’re back online",
     "tooLarge": "Resume too large; try a smaller photo",
-    "session": "You were signed out — sign in again"
+    "session": "You were signed out — sign in again",
+    "savedExample": "Saved · {time}"
   },
   "toolbar": {
     "undo": "Undo",
@@ -316,5 +317,11 @@
     "send": "Send",
     "thanks": "Thank you!",
     "error": "Couldn’t send it; try again later"
+  },
+  "example": {
+    "confirmReplace": "Replace the resume in this browser with this example? You can undo it.",
+    "loaded": "Example loaded — now replace it with your details",
+    "error": "Couldn’t load the example",
+    "limit": "You’ve reached the resume limit; delete one first"
   }
 }

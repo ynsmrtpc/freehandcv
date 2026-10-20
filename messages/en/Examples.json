@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "title": "Resume Examples for Every Job — Free Templates",
+    "description": "Free resume examples for {n} jobs, from software to nursing, teaching to sales. Start from an example, edit it with your details and download a free PDF.",
+    "categoryTitle": "{name} Resume Examples",
+    "categoryDescription": "Free {name} resume examples with writing tips. Start from an example and download a free PDF."
+  },
+  "index": {
+    "eyebrow": "Resume examples",
+    "title": "Resume examples for every job",
+    "description": "Each example is written around what hiring managers in that field look for. Pick one, replace the details with yours and download it as a free PDF.",
+    "count": "{n} examples",
+    "empty": "No examples published yet.",
+    "categoriesLabel": "Categories"
+  },
+  "category": {
+    "others": "Other categories",
+    "empty": "No examples in this category yet."
+  },
+  "detail": {
+    "eyebrow": "Resume example",
+    "home": "Home",
+    "examples": "Resume examples",
+    "start": "Start from this example",
+    "startHint": "Free, no account needed. The example opens in the editor and you replace it with your details.",
+    "template": "Template: {name}",
+    "guideTitle": "Writing a {occupation} resume",
+    "similar": "Similar resume examples",
+    "updated": "Updated {date}",
+    "resumeLabel": "{occupation} resume example"
+  },
+  "levels": {
+    "entry": "Entry level",
+    "mid": "Experienced",
+    "senior": "Senior"
+  },
+  "categories": {
+    "technology": { "name": "Technology", "intro": "Resume examples for software developers, data analysts, system administrators and other tech roles." },
+    "healthcare": { "name": "Healthcare", "intro": "Resume examples for nurses, physicians, pharmacists, physiotherapists and other healthcare professionals." },
+    "education": { "name": "Education", "intro": "Resume examples for teachers, lecturers, education coordinators and other education roles." },
+    "finance": { "name": "Finance & Accounting", "intro": "Resume examples for accountants, financial analysts, bankers and auditors." },
+    "sales-marketing": { "name": "Sales & Marketing", "intro": "Resume examples for sales representatives, digital marketers, brand managers and other sales and marketing roles." },
+    "engineering": { "name": "Engineering", "intro": "Resume examples for civil, mechanical, electrical, industrial and other engineers." },
+    "operations": { "name": "Logistics & Manufacturing", "intro": "Resume examples for logistics specialists, warehouse leads, production planners and other operations roles." },
+    "hospitality": { "name": "Hospitality & Service", "intro": "Resume examples for front desk, kitchen, retail, call centre and other service roles." },
+    "administration": { "name": "Administration & HR", "intro": "Resume examples for HR specialists, executive assistants, office managers and administrative staff." },
+    "design-media": { "name": "Design & Media", "intro": "Resume examples for graphic designers, UX/UI designers, content creators and editors." },
+    "law-public": { "name": "Law & Public Sector", "intro": "Resume examples for lawyers, legal counsel, civil servants and public sector employees." }
+  }
+}

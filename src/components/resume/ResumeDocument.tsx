@@ -31,6 +31,7 @@ type Context = {
   d: ResolvedDesign;
   l: ReturnType<typeof resumeLabels>;
   noLinks: boolean;
+  embedded: boolean;
 };
 
 function RichText({ text }: { text: string }) {
@@ -160,7 +161,11 @@ function Header({ c, inSidebarLayout }: { c: Context; inSidebarLayout: boolean }
     <header className="resume-header">
       {!inSidebarLayout && d.showPhoto && p.photo && <Photo p={p} />}
       <div className="resume-header-text">
-        <h1 className="resume-name">{p.name || l.fullName}</h1>
+        {c.embedded ? (
+          <p className="resume-name">{p.name || l.fullName}</p>
+        ) : (
+          <h1 className="resume-name">{p.name || l.fullName}</h1>
+        )}
         {p.title && <p className="resume-title">{p.title}</p>}
         {contact.length > 0 && (
           <ul className="resume-contact">
@@ -482,16 +487,19 @@ export function ResumeDocument({
   definition,
   className,
   noLinks = false,
+  embedded = false,
 }: {
   data: ResumeData;
   definition: DesignDefinition;
   className?: string;
   /** Renders links as plain text (small previews inside a clickable element). */
   noLinks?: boolean;
+  /** Inside another page that has its own h1 (example pages, thumbnails): the name is not a heading. */
+  embedded?: boolean;
 }) {
   const d = resolveDesign(definition, data.settings);
   const l = resumeLabels(data.settings.locale);
-  const c: Context = { v: data, d, l, noLinks };
+  const c: Context = { v: data, d, l, noLinks, embedded };
   const paper = PAPER_SIZES[d.paper];
   const visible = data.settings.sectionOrder.filter((id) => !data.settings.hiddenSections.includes(id));
   const sidebarLayout = hasSidebar(d);

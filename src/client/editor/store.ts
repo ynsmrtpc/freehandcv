@@ -3,8 +3,10 @@
 // Editor state (plan section 4: Zustand). There are two storage sources:
 // - guest: data lives in the browser's localStorage (plan 10),
 // - account: changes are written to the server after 1 s; a version mismatch reports a conflict,
-//   and when offline it waits and retries once the connection is back (plan 12).
+//   and when offline it waits and retries once the connection is back (plan 12),
+// - example: an example resume edited in the admin panel; written after 1 s, last write wins.
 import { create } from "zustand";
+import { saveExampleContentAction } from "@/actions/exampleContent";
 import { saveResumeAction } from "@/actions/resume";
 import { sampleResume } from "@/lib/resume/sample";
 import { normalizeResume, type ResumeData } from "@/lib/resume/schema";
@@ -18,7 +20,10 @@ const MERGE_MS = 700;
 const GUEST_DELAY = 400;
 const ACCOUNT_DELAY = 1000;
 
-export type StorageSource = { kind: "guest" } | { kind: "account"; id: string; version: number };
+export type StorageSource =
+  | { kind: "guest" }
+  | { kind: "account"; id: string; version: number }
+  | { kind: "example"; id: string };
 
 export type SaveStatus =
   | { kind: "idle" }
@@ -41,6 +46,8 @@ type EditorStore = {
   startGuest: (uiLocale: string) => void;
   /** Account: starts with the resume from the server. */
   startAccount: (id: string, data: ResumeData, version: number) => void;
+  /** Admin panel: edits an example resume. */
+  startExample: (id: string, data: ResumeData) => void;
   /** Takes a function that edits a draft; works on a copy and pushes the old state to history. */
   update: (recipe: (draft: ResumeData) => void, merge?: boolean) => void;
   /** Replaces the whole resume (load sample, import JSON, start blank). */
@@ -97,6 +104,14 @@ export const useEditor = create<EditorStore>((set, get) => ({
     set({ ...RESET, data, source: { kind: "account", id, version } });
   },
 
+  startExample(id, data) {
+    const s = get().source;
+    if (s.kind === "example" && s.id === id && get().data) return;
+    if (get().data) get().saveNow();
+    dirty = false;
+    set({ ...RESET, data, source: { kind: "example", id } });
+  },
+
   update(recipe, merge = true) {
     const { data, past, lastChange } = get();
     if (!data) return;
@@ -144,7 +159,9 @@ export const useEditor = create<EditorStore>((set, get) => ({
 
   saveNow() {
     clearTimeout(timer);
-    if (get().source.kind === "guest") writeToGuest();
+    const kind = get().source.kind;
+    if (kind === "guest") writeToGuest();
+    else if (kind === "example") void writeToExample();
     else void writeToAccount();
   },
 }));
@@ -213,6 +230,45 @@ async function writeToAccount() {
   }
 }
 
+async function writeToExample() {
+  const { source, data } = useEditor.getState();
+  if (source.kind !== "example" || !data || !dirty) return;
+  if (writing) {
+    clearTimeout(timer);
+    timer = setTimeout(() => void writeToExample(), 300);
+    return;
+  }
+  writing = true;
+  dirty = false;
+  useEditor.setState({ saveStatus: { kind: "saving" } });
+  try {
+    const r = await saveExampleContentAction(source.id, data);
+    const s = useEditor.getState();
+    if (s.source.kind !== "example" || s.source.id !== source.id) return;
+    if (r.ok) {
+      const changed = s.data !== data;
+      if (changed) {
+        dirty = true;
+        timer = setTimeout(() => void writeToExample(), ACCOUNT_DELAY);
+      }
+      useEditor.setState({ saveStatus: changed ? { kind: "pending" } : { kind: "saved", at: Date.now() } });
+    } else {
+      dirty = true;
+      useEditor.setState({
+        saveStatus: {
+          kind: "error",
+          reason: r.reason === "too_large" ? "tooLarge" : r.reason === "unauthenticated" ? "session" : "network",
+        },
+      });
+    }
+  } catch {
+    dirty = true;
+    useEditor.setState({ saveStatus: { kind: "error", reason: "network" } });
+  } finally {
+    writing = false;
+  }
+}
+
 if (typeof window !== "undefined") {
   // Runs on import so every reader of GUEST_STORAGE_KEY (editor, dashboard) sees migrated data.
   migrateGuestStorage();
@@ -220,11 +276,14 @@ if (typeof window !== "undefined") {
     // Only content changes on the same resume trigger a save (not opening a new one).
     if (!state.data || state.data === prev.data || !prev.data) return;
     if (state.source.kind !== prev.source.kind) return;
-    if (state.source.kind === "account" && prev.source.kind === "account" && state.source.id !== prev.source.id) return;
+    if (state.source.kind !== "guest" && prev.source.kind !== "guest" && state.source.id !== prev.source.id) return;
     dirty = true;
     clearTimeout(timer);
     if (state.source.kind === "guest") {
       timer = setTimeout(writeToGuest, GUEST_DELAY);
+    } else if (state.source.kind === "example") {
+      if (state.saveStatus.kind !== "saving") useEditor.setState({ saveStatus: { kind: "pending" } });
+      timer = setTimeout(() => void writeToExample(), ACCOUNT_DELAY);
     } else if (state.saveStatus.kind !== "conflict") {
       if (state.saveStatus.kind !== "saving") useEditor.setState({ saveStatus: { kind: "pending" } });
       timer = setTimeout(() => void writeToAccount(), ACCOUNT_DELAY);

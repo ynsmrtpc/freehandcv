@@ -62,7 +62,7 @@ export async function getResume(id: string, userId: string) {
   return { ...resume, content: normalizeResume(resume.content) };
 }
 
-export async function createResume(userId: string, raw: unknown) {
+export async function createResume(userId: string, raw: unknown, sourceExampleId?: string) {
   const data = validate(raw);
   const n = await db.$count(resumes, and(eq(resumes.userId, userId), isNull(resumes.deletedAt)));
   if (n >= RESUME_MAX_COUNT) throw new ResumeLimitError();
@@ -74,6 +74,7 @@ export async function createResume(userId: string, raw: unknown) {
       content: data,
       locale: data.settings.locale,
       market: data.settings.locale === "tr" ? "tr-TR" : "en-US",
+      sourceExampleId,
     })
     .returning({ id: resumes.id });
   return resume.id;

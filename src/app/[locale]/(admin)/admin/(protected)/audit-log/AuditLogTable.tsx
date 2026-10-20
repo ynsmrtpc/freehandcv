@@ -6,10 +6,14 @@ const ACTION_LABELS: Record<string, string> = {
   change_role: "Rol değişti",
   approve_review: "Yorum onaylandı",
   hide_review: "Yorum gizlendi",
+  create_example: "Örnek CV eklendi",
+  update_example: "Örnek CV bilgileri değişti",
+  publish_example: "Örnek CV yayınlandı",
+  unpublish_example: "Örnek CV yayından kaldırıldı",
 };
 
 // Target types are shown with the Turkish values the table always displayed.
-const TARGET_LABELS: Record<string, string> = { page: "sayfa", site_settings: "site_ayarlari", user: "kullanici", site_review: "site_yorumu" };
+const TARGET_LABELS: Record<string, string> = { page: "sayfa", site_settings: "site_ayarlari", user: "kullanici", site_review: "site_yorumu", example_resume: "ornek_cv" };
 
 type Row = {
   id: string;

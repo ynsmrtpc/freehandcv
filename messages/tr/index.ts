@@ -10,6 +10,7 @@ import Auth from "./Auth.json";
 import Dashboard from "./Dashboard.json";
 import Consent from "./Consent.json";
 import Templates from "./Templates.json";
+import Examples from "./Examples.json";
 
-const messages = { Meta, Site, Landing, App, Admin, Editor, Checks, Auth, Dashboard, Consent, Templates };
+const messages = { Meta, Site, Landing, App, Admin, Editor, Checks, Auth, Dashboard, Consent, Templates, Examples };
 export default messages;

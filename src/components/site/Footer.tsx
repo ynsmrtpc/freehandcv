@@ -1,6 +1,7 @@
 import { ArrowUpRight, Heart, Mail } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { getPublishedExamples } from "@/server/content/examples";
 import { getPublishedPages } from "@/server/content/pages";
 import { getSiteSettings } from "@/server/content/siteSettings";
 import { Logo } from "./Logo";
@@ -14,11 +15,12 @@ async function getYear() {
 // Tagline, social links, contact and donation come from site settings (admin panel).
 export async function Footer() {
   const locale = await getLocale();
-  const [t, year, settings, published] = await Promise.all([
+  const [t, year, settings, published, examples] = await Promise.all([
     getTranslations("Site"),
     getYear(),
     getSiteSettings(locale),
     getPublishedPages(),
+    getPublishedExamples(locale),
   ]);
   const { global, localized } = settings;
   const isPublished = (slug: string) => published.some((p) => p.locale === locale && p.slug === slug);
@@ -89,6 +91,13 @@ export async function Footer() {
                 {t("templates")}
               </Link>
             </li>
+            {examples.length > 0 && (
+              <li>
+                <Link href="/resume-examples" className={linkClass}>
+                  {t("resumeExamples")}
+                </Link>
+              </li>
+            )}
             <li>
               {isPublished("is-it-free") ? (
                 <Link href="/is-it-free" className={linkClass}>
