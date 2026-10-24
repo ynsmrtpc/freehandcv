@@ -35,7 +35,8 @@
     "invalid": "Give the template a name.",
     "limit": "You can have up to 50 templates. Delete one to add another.",
     "username_required": "To make a template public, first choose a username; it is shown as the owner in the gallery.",
-    "error": "Something went wrong. Try again."
+    "error": "Something went wrong. Try again.",
+    "resume_limit": "You can have up to 100 resumes. Delete one to add another."
   },
   "groups": {
     "about": "Template",

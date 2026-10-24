@@ -46,5 +46,90 @@
     "formal": "Black and white, serif type and a centred all-caps name. A measured layout for formal applications in law, government and finance.",
     "classic": "Black and white serif type; name on the left, contact on the right, double rule. A traditional look that is fully ATS-compatible.",
     "minimal": "Black and white, centred header and undecorated headings. The plainest ATS option, with nothing to distract the reader."
+  },
+  "gallery": {
+    "meta": {
+      "title": "Resume Templates — Free, ATS-Friendly | FreehandCV",
+      "description": "Free, ATS-friendly resume templates: single column, sidebar, with or without a photo. Templates designed by the community too. Pick one, write your content, download a PDF."
+    },
+    "home": "Home",
+    "breadcrumb": "Resume templates",
+    "eyebrow": "Resume templates",
+    "title": "Free, ATS-friendly resume templates",
+    "description": "All {n} templates are free and produce real text that applicant tracking systems can read. Pick one, write your content, download a PDF.",
+    "official": "FreehandCV",
+    "ats": "ATS {score}/5",
+    "rating": "{average} ({count})",
+    "usage": "{n, plural, one {# use} other {# uses}}",
+    "filterLabel": "Filter templates",
+    "sortLabel": "Sort",
+    "results": "{n, plural, =0 {No templates found} one {Showing # template} other {Showing # templates}}",
+    "filters": {
+      "all": "All",
+      "official": "FreehandCV",
+      "community": "Community",
+      "ats": "ATS 5/5",
+      "photo": "With photo",
+      "twoColumn": "Two columns"
+    },
+    "sorts": {
+      "popular": "Most used",
+      "rating": "Highest rated",
+      "newest": "Newest",
+      "ats": "ATS fit"
+    },
+    "createTitle": "Didn't find the design you want?",
+    "createDescription": "Start from a ready-made template and change the fonts, colours and layout without any code. Share it with everyone in the gallery if you like.",
+    "createButton": "Create your own template"
+  },
+  "detail": {
+    "meta": {
+      "title": "{name} Resume Template — Free",
+      "description": "The {name} resume template, free: write your content, adjust its colour and font, and download an ATS-friendly PDF."
+    },
+    "official": "FreehandCV template",
+    "community": "Community template",
+    "by": "Designed by <owner></owner>",
+    "byOfficial": "Designed by the FreehandCV team",
+    "use": "Create a resume with this template",
+    "signInToUse": "Sign in with a free account to use community templates.",
+    "favorite": "Add to favorites",
+    "favorited": "In favorites",
+    "copy": "Copy and edit",
+    "chooseTitle": "Where should we apply the template?",
+    "chooseDescription": "Start a new resume or apply it to one you already have. Your content stays the same; only the look changes.",
+    "newResume": "Create a new resume",
+    "cancel": "Cancel",
+    "sampleNote": "Shown with sample content. You can change the colour, font and size in your own resume.",
+    "similar": "Similar templates",
+    "atsFull": "With its plain single-column structure, applicant tracking systems (ATS) read this template's text in the right order. A safe choice for large employers and the public sector.",
+    "atsPartial": "The PDF text is selectable and readable by ATS software, but columns, tags or coloured areas can mix up the reading order in some older systems. For online application forms, an ATS 5/5 template is the safer choice.",
+    "facts": {
+      "layout": "Layout",
+      "photo": "Photo",
+      "photoYes": "Can be shown",
+      "photoNo": "Not shown",
+      "font": "Font",
+      "colour": "Colour",
+      "monochrome": "Black and white",
+      "anyColour": "Any colour you like"
+    },
+    "errors": {
+      "unauthenticated": "Your session has ended. Sign in again.",
+      "not_found": "This template is no longer available.",
+      "invalid": "Something went wrong. Try again.",
+      "limit": "You can have up to 50 templates. Delete one to make a copy.",
+      "resume_limit": "You can have up to 100 resumes. Delete one to add another.",
+      "username_required": "Choose a username first.",
+      "error": "Something went wrong. Try again."
+    }
+  },
+  "profile": {
+    "meta": {
+      "title": "@{username} — resume templates",
+      "description": "{n, plural, one {# free resume template} other {# free resume templates}} shared by @{username} on FreehandCV."
+    },
+    "summary": "{n, plural, =0 {No public templates yet} one {# public template} other {# public templates}}{uses, plural, =0 {} one { · # use} other { · # uses}}",
+    "empty": "This user has no public templates yet."
   }
 }

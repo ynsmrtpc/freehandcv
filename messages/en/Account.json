@@ -32,5 +32,13 @@
     "confirm": "Type your e-mail address to confirm ({email})",
     "submit": "Close my account for good",
     "mismatch": "The e-mail address doesn’t match"
+  },
+  "username": {
+    "label": "Username",
+    "hint": "Shown as the owner of templates you make public, and used for your profile address. 3–30 characters; lowercase letters, digits, - and _.",
+    "length": "Usernames are 3–30 characters long.",
+    "format": "Use only lowercase English letters, digits, - and _; start with a letter and don't end with - or _.",
+    "reserved": "This username is reserved; choose another.",
+    "taken": "This username is taken; choose another."
   }
 }

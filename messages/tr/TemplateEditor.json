@@ -35,7 +35,8 @@
     "invalid": "Şablona bir ad ver.",
     "limit": "En fazla 50 şablonun olabilir. Yenisi için birini sil.",
     "username_required": "Şablonu herkese açmak için önce bir kullanıcı adı seçmelisin; galeride sahibi olarak bu ad görünür.",
-    "error": "Bir sorun oluştu. Tekrar dene."
+    "error": "Bir sorun oluştu. Tekrar dene.",
+    "resume_limit": "En fazla 100 CV'n olabilir. Yenisi için birini sil."
   },
   "groups": {
     "about": "Şablon",

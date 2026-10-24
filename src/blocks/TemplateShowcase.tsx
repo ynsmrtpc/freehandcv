@@ -18,8 +18,8 @@ export type TemplateShowcaseContent = {
   labels: StackShowcaseContent["labels"];
 };
 
-// In phase 1 the list comes from the `templates` table, ranked by usage and rating (plan 6.3/4).
-// For now: the featured system templates; previews are rendered by the real resume renderer.
+// The featured system templates; each links to its template page, "see all" to the gallery.
+// Previews are rendered by the real resume renderer.
 export function TemplateShowcase({ content }: { content: TemplateShowcaseContent }) {
   return (
     <StackShowcase
@@ -29,14 +29,14 @@ export function TemplateShowcase({ content }: { content: TemplateShowcaseContent
         title: content.title,
         description: content.description,
         itemLink: content.cardButton,
-        viewAll: { label: content.viewAll(SYSTEM_TEMPLATE_LIST.length), href: "/create-resume" },
+        viewAll: { label: content.viewAll(SYSTEM_TEMPLATE_LIST.length), href: "/resume-templates" },
         labels: content.labels,
         items: FEATURED_TEMPLATES.map((id) => ({
           key: id,
           name: content.names[id],
           summary: content.descriptions[id],
           badges: [{ label: content.atsLabel(SYSTEM_TEMPLATES[id].ats), icon: <ShieldCheck className="size-3.5 text-accent" aria-hidden /> }],
-          href: "/create-resume",
+          href: { pathname: "/resume-templates/[slug]", params: { slug: id } },
           thumbnail: <TemplatePreview templateId={id} locale={content.locale} initialScale={0.58} />,
         })),
       }}

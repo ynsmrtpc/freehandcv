@@ -32,5 +32,13 @@
     "confirm": "Onaylamak için e-posta adresini yaz ({email})",
     "submit": "Hesabımı kalıcı olarak kapat",
     "mismatch": "E-posta adresi eşleşmiyor"
+  },
+  "username": {
+    "label": "Kullanıcı adı",
+    "hint": "Herkese açtığın şablonlarda sahibi olarak görünür ve profil adresin olur. 3–30 karakter; küçük harf, rakam, - ve _.",
+    "length": "Kullanıcı adı 3–30 karakter olmalı.",
+    "format": "Yalnızca küçük İngilizce harf, rakam, - ve _ kullan; bir harfle başlamalı ve - ya da _ ile bitmemeli.",
+    "reserved": "Bu kullanıcı adı ayrılmış, başka bir ad seç.",
+    "taken": "Bu kullanıcı adı alınmış, başka bir ad seç."
   }
 }

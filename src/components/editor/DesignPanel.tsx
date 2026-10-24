@@ -1,21 +1,20 @@
 "use client";
 
-import { Check, Pencil, Pipette, Plus, RefreshCw, ShieldCheck } from "lucide-react";
+import { Check, Heart, Pencil, Pipette, Plus, RefreshCw, ShieldCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { memo, useEffect, useRef, useState } from "react";
 import {
   applyTemplateAction,
   clearResumeTemplateAction,
-  listOwnTemplatesAction,
+  listPickerTemplatesAction,
   templateUpdateAction,
-  type OwnTemplateItem,
 } from "@/actions/template";
 import { DefinitionPreview, TemplatePreview } from "@/components/resume/TemplatePreview";
 import { Link } from "@/i18n/navigation";
 import { useEditor } from "@/client/editor/store";
 import { cn } from "@/lib/cn";
 import { RESUME_LOCALES } from "@/lib/resume/labels";
-import { SPACINGS, SIZES, PAPERS, type ResumeData, type TemplateId } from "@/lib/resume/schema";
+import { SPACINGS, SIZES, PAPERS, type TemplateId } from "@/lib/resume/schema";
 import {
   FONTS,
   SYSTEM_TEMPLATE_LIST,
@@ -23,6 +22,7 @@ import {
   ACCENT_COLORS,
   hasSidebar,
   resumeDefinition,
+  switchTemplateColor,
   type DesignDefinition,
   type FontId,
   type SystemTemplate,
@@ -178,17 +178,17 @@ type Filter = keyof typeof FILTERS;
 // Thumbnails re-render only when the template or locale changes (the editor re-renders on every keystroke).
 const Thumbnail = memo(TemplatePreview);
 
-/**
- * Switching designs: a resume still in the previous design's default colour moves to the new one's
- * colour; a colour the user picked is kept.
- */
-function switchColor(v: ResumeData, next: DesignDefinition) {
-  const previous = resumeDefinition(v);
-  const onDefault = previous.monochrome || v.settings.color.toLowerCase() === previous.colors.accent.toLowerCase();
-  if (onDefault && !next.monochrome) v.settings.color = next.colors.accent;
-}
-
 const MemoDefinitionPreview = memo(DefinitionPreview);
+
+/** A template in "My templates": one of mine, or a favorite of someone else's. */
+type PickerTemplate = {
+  id: string;
+  name: string;
+  definition: DesignDefinition;
+  atsScore: number | null;
+  ownerUsername: string | null;
+  own: boolean;
+};
 
 /**
  * Template picker: thumbnails from the real rendering engine, a scrollable grid and filters.
@@ -203,7 +203,7 @@ function TemplatePicker({ locale }: { locale: "tr" | "en" }) {
   const custom = useEditor((s) => s.data!.settings.customTemplate);
   const resumeId = useEditor((s) => (s.source.kind === "account" ? s.source.id : null));
   const [filter, setFilter] = useState<Filter | "mine">(custom ? "mine" : "all");
-  const [mine, setMine] = useState<OwnTemplateItem[] | null>(null);
+  const [mine, setMine] = useState<PickerTemplate[] | null>(null);
   const [pending, setPending] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
   /** Which applied template (id:version) the server reported a newer version for. */
@@ -214,7 +214,17 @@ function TemplatePicker({ locale }: { locale: "tr" | "en" }) {
   useEffect(() => {
     if (!resumeId) return;
     let cancelled = false;
-    void listOwnTemplatesAction().then((r) => !cancelled && setMine(r.ok ? r.templates : []));
+    void listPickerTemplatesAction().then((r) => {
+      if (cancelled) return;
+      setMine(
+        r.ok
+          ? [
+              ...r.own.map((t) => ({ ...t, ownerUsername: null, own: true })),
+              ...r.favorites.map((t) => ({ ...t, own: false })),
+            ]
+          : [],
+      );
+    });
     return () => {
       cancelled = true;
     };
@@ -246,7 +256,7 @@ function TemplatePicker({ locale }: { locale: "tr" | "en" }) {
   const choose = (id: TemplateId) => {
     if (custom && resumeId) void clearResumeTemplateAction(resumeId);
     update((v) => {
-      switchColor(v, SYSTEM_TEMPLATES[id].definition);
+      switchTemplateColor(v, SYSTEM_TEMPLATES[id].definition);
       v.settings.template = id;
       v.settings.customTemplate = null;
     }, false);
@@ -260,7 +270,7 @@ function TemplatePicker({ locale }: { locale: "tr" | "en" }) {
     setPending(null);
     if (!r.ok) return setFailed(true);
     update((v) => {
-      switchColor(v, r.template.definition);
+      switchTemplateColor(v, r.template.definition);
       v.settings.customTemplate = r.template;
     }, false);
   };
@@ -349,14 +359,22 @@ function TemplatePicker({ locale }: { locale: "tr" | "en" }) {
                   </span>
                   {isSelected && tick}
                 </button>
-                <Link
-                  href={{ pathname: "/template-editor/[id]", params: { id: m.id } }}
-                  aria-label={t("mine.edit", { name: m.name })}
-                  title={t("mine.edit", { name: m.name })}
-                  className="absolute end-2 bottom-2 grid size-6 place-items-center rounded-md text-muted hover:bg-surface-2 hover:text-foreground"
-                >
-                  <Pencil className="size-3.5" aria-hidden />
-                </Link>
+                {m.own ? (
+                  <Link
+                    href={{ pathname: "/template-editor/[id]", params: { id: m.id } }}
+                    aria-label={t("mine.edit", { name: m.name })}
+                    title={t("mine.edit", { name: m.name })}
+                    className="absolute end-2 bottom-2 grid size-6 place-items-center rounded-md text-muted hover:bg-surface-2 hover:text-foreground"
+                  >
+                    <Pencil className="size-3.5" aria-hidden />
+                  </Link>
+                ) : (
+                  <Heart
+                    role="img"
+                    aria-label={t("mine.favorite", { owner: m.ownerUsername ?? "" })}
+                    className="absolute end-3.5 bottom-3.5 size-3 fill-current text-danger"
+                  />
+                )}
               </li>
             );
           })}

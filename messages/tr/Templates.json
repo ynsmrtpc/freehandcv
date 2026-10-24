@@ -46,5 +46,90 @@
     "formal": "Siyah-beyaz, serif yazı, ortalanmış büyük harfli ad. Hukuk, kamu ve finans gibi resmi başvurular için ölçülü bir düzen.",
     "classic": "Siyah-beyaz, serif yazı; ad solda, iletişim sağda, çift çizgi. Geleneksel görünüm, aday takip sistemleriyle tam uyumlu.",
     "minimal": "Siyah-beyaz, ortalanmış üst bilgi ve süssüz başlıklar. Hiçbir ayrıntının dikkat dağıtmadığı en yalın ATS seçeneği."
+  },
+  "gallery": {
+    "meta": {
+      "title": "CV Şablonları — Ücretsiz, ATS Uyumlu | FreehandCV",
+      "description": "Ücretsiz ve ATS uyumlu CV şablonları: tek sütun, kenar çubuklu, fotoğraflı ya da sade. Topluluğun tasarladığı şablonlar da burada. Seç, içeriğini yaz, PDF olarak indir."
+    },
+    "home": "Ana sayfa",
+    "breadcrumb": "CV şablonları",
+    "eyebrow": "CV şablonları",
+    "title": "Ücretsiz, ATS uyumlu CV şablonları",
+    "description": "{n} şablonun hepsi ücretsiz ve aday takip sistemlerinin okuyabildiği gerçek metin üretir. Birini seç, içeriğini yaz, PDF olarak indir.",
+    "official": "FreehandCV",
+    "ats": "ATS {score}/5",
+    "rating": "{average} ({count})",
+    "usage": "{n, plural, other {# kullanım}}",
+    "filterLabel": "Şablonları süz",
+    "sortLabel": "Sırala",
+    "results": "{n, plural, =0 {Şablon bulunamadı} other {# şablon gösteriliyor}}",
+    "filters": {
+      "all": "Tümü",
+      "official": "FreehandCV",
+      "community": "Topluluk",
+      "ats": "ATS 5/5",
+      "photo": "Fotoğraflı",
+      "twoColumn": "İki sütun"
+    },
+    "sorts": {
+      "popular": "En çok kullanılan",
+      "rating": "En yüksek puan",
+      "newest": "En yeni",
+      "ats": "ATS uyumu"
+    },
+    "createTitle": "Aradığın tasarımı bulamadın mı?",
+    "createDescription": "Hazır bir şablonu temel al; yazı tipini, renkleri ve yerleşimi kod bilmeden değiştir. İstersen galeride herkesle paylaş.",
+    "createButton": "Kendi şablonunu oluştur"
+  },
+  "detail": {
+    "meta": {
+      "title": "{name} CV Şablonu — Ücretsiz",
+      "description": "{name} CV şablonu ücretsiz: içeriğini yaz, şablonun renk ve yazı tipini ayarla, ATS uyumlu PDF olarak indir."
+    },
+    "official": "FreehandCV şablonu",
+    "community": "Topluluk şablonu",
+    "by": "<owner></owner> tarafından tasarlandı",
+    "byOfficial": "FreehandCV ekibi tarafından tasarlandı",
+    "use": "Bu şablonla CV oluştur",
+    "signInToUse": "Topluluk şablonlarını kullanmak için ücretsiz bir hesapla giriş yap.",
+    "favorite": "Favorilere ekle",
+    "favorited": "Favorilerde",
+    "copy": "Kopyala ve düzenle",
+    "chooseTitle": "Şablonu nereye uygulayalım?",
+    "chooseDescription": "Yeni bir CV başlatabilir ya da mevcut bir CV'ne uygulayabilirsin. İçeriğin değişmez; yalnızca görünümü değişir.",
+    "newResume": "Yeni CV oluştur",
+    "cancel": "Vazgeç",
+    "sampleNote": "Örnek içerikle gösterilmiştir. Renk, yazı tipi ve boyutu kendi CV'nde değiştirebilirsin.",
+    "similar": "Benzer şablonlar",
+    "atsFull": "Tek sütunlu, süssüz yapısıyla aday takip sistemleri (ATS) bu şablondaki metni en hatasız sırayla okur. Büyük şirket ve kamu başvuruları için güvenli bir seçim.",
+    "atsPartial": "PDF'teki metin seçilebilir ve ATS'ler tarafından okunur; ancak sütunlar, etiketler ya da renkli alanlar bazı eski sistemlerde okuma sırasını karıştırabilir. Çevrim içi başvuru formlarında ATS 5/5 bir şablon daha güvenlidir.",
+    "facts": {
+      "layout": "Yerleşim",
+      "photo": "Fotoğraf",
+      "photoYes": "Gösterilebilir",
+      "photoNo": "Gösterilmez",
+      "font": "Yazı tipi",
+      "colour": "Renk",
+      "monochrome": "Siyah-beyaz",
+      "anyColour": "İstediğin renk"
+    },
+    "errors": {
+      "unauthenticated": "Oturumun kapanmış. Yeniden giriş yap.",
+      "not_found": "Bu şablon artık kullanılamıyor.",
+      "invalid": "Bir sorun oluştu. Tekrar dene.",
+      "limit": "En fazla 50 şablonun olabilir. Kopyalamak için birini sil.",
+      "resume_limit": "En fazla 100 CV'n olabilir. Yenisi için birini sil.",
+      "username_required": "Önce bir kullanıcı adı seçmelisin.",
+      "error": "Bir sorun oluştu. Tekrar dene."
+    }
+  },
+  "profile": {
+    "meta": {
+      "title": "@{username} — CV şablonları",
+      "description": "@{username} kullanıcısının FreehandCV'de paylaştığı {n, plural, other {# ücretsiz CV şablonu}}."
+    },
+    "summary": "{n, plural, =0 {Henüz herkese açık şablonu yok} other {# herkese açık şablon}}{uses, plural, =0 {} other { · # kullanım}}",
+    "empty": "Bu kullanıcının henüz herkese açık bir şablonu yok."
   }
 }

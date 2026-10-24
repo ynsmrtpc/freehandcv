@@ -5,14 +5,17 @@ import { categorySlug, EXAMPLE_CATEGORIES } from "@/lib/examples";
 import { alternates, absoluteUrl } from "@/lib/seo";
 import { getPublishedExamples } from "@/server/content/examples";
 import { HOME_SLUG, getPublishedGuides, getPublishedPages } from "@/server/content/pages";
+import { SYSTEM_TEMPLATE_LIST } from "@/lib/resume/design";
+import { templateSlug } from "@/lib/templates";
+import { getPublicTemplates } from "@/server/templates";
 
 // Only published, indexable pages; lastmod is the real update time (plan 6.4).
-// Templates join here as they are added.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [published, guides, examples] = await Promise.all([
+  const [published, guides, examples, community] = await Promise.all([
     getPublishedPages(),
     getPublishedGuides(),
     Promise.all(routing.locales.map(async (locale) => ({ locale, items: await getPublishedExamples(locale) }))),
+    getPublicTemplates(),
   ]);
   const routes = [{ href: "/" as const, slug: HOME_SLUG }, ...CMS_PAGES];
 
@@ -74,5 +77,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: list.reduce((a, g) => (g.updatedAt > a ? g.updatedAt : a), list[0].updatedAt),
     }));
 
-  return [...pages, ...examplePages, ...guideIndexes, ...guidePages];
+  // Templates look the same in every locale, so each page lists its other-locale versions.
+  const everyLocale = (href: Parameters<typeof absoluteUrl>[0], lastModified?: string) =>
+    routing.locales.map((locale) => ({
+      url: absoluteUrl(href, locale),
+      lastModified,
+      alternates: { languages: alternates(href, locale)?.languages as Record<string, string> },
+    }));
+  const owners = [...new Set(community.map((t) => t.ownerUsername).filter((u) => u !== null))];
+  const templatePages = [
+    ...everyLocale("/resume-templates", community[0]?.updatedAt),
+    ...SYSTEM_TEMPLATE_LIST.flatMap((t) =>
+      everyLocale({ pathname: "/resume-templates/[slug]", params: { slug: templateSlug({ kind: "system", id: t.id }) } }),
+    ),
+    ...community.flatMap((t) =>
+      everyLocale(
+        { pathname: "/resume-templates/[slug]", params: { slug: templateSlug({ kind: "user", id: t.id }, t.name) } },
+        t.updatedAt,
+      ),
+    ),
+    ...owners.flatMap((username) => everyLocale({ pathname: "/users/[username]", params: { username } })),
+  ];
+
+  return [...pages, ...examplePages, ...guideIndexes, ...guidePages, ...templatePages];
 }

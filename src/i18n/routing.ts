@@ -16,6 +16,7 @@ export const routing = defineRouting({
     "/resume-examples/[slug]": { tr: "/cv-ornekleri/[slug]", en: "/resume-examples/[slug]" },
     "/resume-templates": { tr: "/cv-sablonlari", en: "/resume-templates" },
     "/resume-templates/[slug]": { tr: "/cv-sablonlari/[slug]", en: "/resume-templates/[slug]" },
+    "/users/[username]": { tr: "/kullanici/[username]", en: "/users/[username]" },
     "/guides": { tr: "/rehber", en: "/guides" },
     "/guides/[topic]": { tr: "/rehber/[topic]", en: "/guides/[topic]" },
     "/is-it-free": { tr: "/ucretsiz-mi", en: "/is-it-free" },

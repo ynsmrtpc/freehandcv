@@ -17,7 +17,7 @@ type NavLink = {
   labelKey: "templates" | "howItWorks" | "isItFree" | "faq" | "navExamples" | "navGuides";
   href: React.ComponentProps<typeof Link>["href"];
   /** Internal route on which the link is marked as the current page. */
-  route?: "/resume-examples" | "/guides";
+  route?: "/resume-templates" | "/resume-examples" | "/guides";
   /** Shown only in the mobile menu (the desktop bar stays short). */
   mobileOnly?: boolean;
 };
@@ -27,7 +27,7 @@ export function SiteHeader({ showExamples = false, showGuides = false }: { showE
   const t = useTranslations("Site");
   const pathname = usePathname();
   const links: NavLink[] = [
-    { labelKey: "templates", href: { pathname: "/", hash: "templates" } },
+    { labelKey: "templates", href: "/resume-templates", route: "/resume-templates" },
     ...(showExamples ? [{ labelKey: "navExamples", href: "/resume-examples", route: "/resume-examples" } as const] : []),
     ...(showGuides ? [{ labelKey: "navGuides", href: "/guides", route: "/guides" } as const] : []),
     { labelKey: "howItWorks", href: { pathname: "/", hash: "how-it-works" }, mobileOnly: true },

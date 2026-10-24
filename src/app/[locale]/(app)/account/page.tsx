@@ -34,7 +34,12 @@ async function Loader({ locale }: { locale: Locale }) {
   const methods = await getSignInMethods(session!.user.id);
   return (
     <AccountView
-      user={{ name: session!.user.name, email: session!.user.email, isAdmin: session!.user.role !== "user" }}
+      user={{
+        name: session!.user.name,
+        email: session!.user.email,
+        username: session!.user.username ?? null,
+        isAdmin: session!.user.role !== "user",
+      }}
       hasPassword={methods.includes("credential")}
       hasGoogle={methods.includes("google")}
     />

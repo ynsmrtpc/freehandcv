@@ -735,6 +735,16 @@ export function withDefaults(d: DesignDefinition): DesignDefinition {
   };
 }
 
+/**
+ * Before switching a resume to another design: a resume still in the current design's default
+ * colour moves to the new one's colour; a colour the user picked is kept.
+ */
+export function switchTemplateColor(data: ResumeData, next: DesignDefinition) {
+  const previous = resumeDefinition(data);
+  const onDefault = previous.monochrome || data.settings.color.toLowerCase() === previous.colors.accent.toLowerCase();
+  if (onDefault && !next.monochrome) data.settings.color = next.colors.accent;
+}
+
 /** The definition a resume is drawn with: its applied user template, else its system template. */
 export function resumeDefinition(data: ResumeData): DesignDefinition {
   return data.settings.customTemplate?.definition ?? systemDefinition(data.settings.template);

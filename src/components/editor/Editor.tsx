@@ -42,6 +42,8 @@ import { IconButton } from "./ui";
 import { VersionsDialog } from "./VersionsDialog";
 import { ReviewPrompt, shouldAskForReview } from "./ReviewPrompt";
 import { EXAMPLE_PARAM, StartFromExample } from "./StartFromExample";
+import { StartFromTemplate } from "./StartFromTemplate";
+import { TEMPLATE_PARAM } from "@/lib/templates";
 import "./editor.css";
 
 const TABS = ["content", "design", "checks"] as const;
@@ -88,8 +90,9 @@ export function Editor({ account, example }: { account?: AccountResume; example?
   const session = authClient.useSession();
   const router = useRouter();
   useEffect(() => {
-    // "Start from this example" creates the resume in the account and opens it (StartFromExample).
-    if (isGuest && session.data && !new URLSearchParams(window.location.search).has(EXAMPLE_PARAM)) {
+    // "Start from this example/template" creates the resume in the account and opens it instead.
+    const query = new URLSearchParams(window.location.search);
+    if (isGuest && session.data && !query.has(EXAMPLE_PARAM) && !query.has(TEMPLATE_PARAM)) {
       useEditor.getState().saveNow();
       router.replace("/dashboard");
     }
@@ -277,6 +280,7 @@ export function Editor({ account, example }: { account?: AccountResume; example?
           {isGuest && (
             <Suspense fallback={null}>
               <StartFromExample notify={notify} />
+              <StartFromTemplate notify={notify} signedIn={!!session.data} />
             </Suspense>
           )}
           <ReviewPrompt open={reviewOpen} onClose={() => setReviewOpen(false)} notify={notify} />

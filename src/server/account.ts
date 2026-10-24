@@ -1,5 +1,6 @@
 import "server-only";
-import { and, asc, eq, inArray, isNotNull, lt } from "drizzle-orm";
+import { and, asc, eq, inArray, isNotNull, isNull, lt, ne } from "drizzle-orm";
+import { normalizeUsername, usernameProblem, type UsernameProblem } from "@/lib/username";
 import { db } from "./db";
 import {
   account,
@@ -9,6 +10,8 @@ import {
   resumeVersions,
   session,
   siteReviews,
+  templateFavorites,
+  templates,
   twoFactor,
   user,
 } from "./db/schema";
@@ -43,7 +46,7 @@ export async function exportAccountData(userId: string) {
     .where(eq(user.id, userId))
     .limit(1);
   if (!u) return null;
-  const [linked, resumeRows, consentRows, reviewRows] = await Promise.all([
+  const [linked, resumeRows, consentRows, reviewRows, templateRows] = await Promise.all([
     db.select({ provider: account.providerId, createdAt: account.createdAt }).from(account).where(eq(account.userId, userId)),
     db
       .select({
@@ -73,6 +76,19 @@ export async function exportAccountData(userId: string) {
       })
       .from(siteReviews)
       .where(eq(siteReviews.userId, userId)),
+    db
+      .select({
+        name: templates.name,
+        description: templates.description,
+        definition: templates.definition,
+        version: templates.version,
+        visibility: templates.visibility,
+        createdAt: templates.createdAt,
+        updatedAt: templates.updatedAt,
+      })
+      .from(templates)
+      .where(and(eq(templates.ownerId, userId), isNull(templates.deletedAt)))
+      .orderBy(asc(templates.createdAt)),
   ]);
   const versions = resumeRows.length
     ? await db
@@ -98,7 +114,33 @@ export async function exportAccountData(userId: string) {
     })),
     consents: consentRows,
     reviews: reviewRows,
+    templates: templateRows,
   };
+}
+
+export class UsernameTakenError extends Error {}
+export class UsernameInvalidError extends Error {
+  constructor(public problem: UsernameProblem) {
+    super(problem);
+  }
+}
+
+/** Sets the username (plan 5); unique regardless of case, because it is stored lowercase. */
+export async function setUsername(userId: string, raw: string) {
+  const username = normalizeUsername(raw);
+  const problem = usernameProblem(username);
+  if (problem) throw new UsernameInvalidError(problem);
+  const taken = await db.$count(user, and(eq(user.username, username), ne(user.id, userId)));
+  if (taken) throw new UsernameTakenError();
+  try {
+    await db.update(user).set({ username }).where(eq(user.id, userId));
+  } catch (e) {
+    // Two people claiming the same name at once: the unique index decides.
+    if ((e as { code?: string }).code === "23505" || (e as { cause?: { code?: string } }).cause?.code === "23505")
+      throw new UsernameTakenError();
+    throw e;
+  }
+  return username;
 }
 
 export class AdminAccountError extends Error {}
@@ -119,6 +161,12 @@ export async function closeAccount(userId: string) {
     if (u.role !== "user") throw new AdminAccountError();
     await tx.delete(resumes).where(eq(resumes.userId, userId));
     await tx.update(siteReviews).set({ userId: null }).where(eq(siteReviews.userId, userId));
+    // Templates leave the gallery and can no longer be applied; resumes using them keep their copy.
+    await tx
+      .update(templates)
+      .set({ deletedAt: new Date(), visibility: "private" })
+      .where(and(eq(templates.ownerId, userId), isNull(templates.deletedAt)));
+    await tx.delete(templateFavorites).where(eq(templateFavorites.userId, userId));
     if (u.employerSharing)
       await tx.insert(consents).values({
         userId,

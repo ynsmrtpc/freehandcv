@@ -274,11 +274,12 @@
     "mine": {
       "create": "Yeni şablon",
       "edit": "{name} şablonunu düzenle",
-      "empty": "Henüz kendi şablonun yok. Görsel şablon editörüyle, kod bilmeden kendi tasarımını oluşturabilirsin.",
+      "empty": "Henüz kendi şablonun ya da favorin yok. Görsel şablon editörüyle kendi tasarımını oluşturabilir ya da şablon galerisinden beğendiklerini favorilerine ekleyebilirsin.",
       "applyError": "Şablon uygulanamadı. Tekrar dene.",
       "applied": "Kendi şablonun. Renk, yazı tipi ve boyut ayarları bu şablonun üzerine uygulanır.",
       "newVersion": "Bu şablonun yeni bir sürümü var.",
-      "applyNewVersion": "Yeni sürümü uygula"
+      "applyNewVersion": "Yeni sürümü uygula",
+      "favorite": "Favorin · @{owner}"
     }
   },
   "pdf": {
@@ -333,5 +334,9 @@
     "loaded": "Örnek yüklendi — şimdi kendi bilgilerinle değiştir",
     "error": "Örnek yüklenemedi",
     "limit": "CV sınırına ulaştın; önce bir CV sil"
+  },
+  "templateStart": {
+    "applied": "Şablon uygulandı — Geri al ile önceki görünüme dönebilirsin",
+    "error": "Şablon uygulanamadı"
   }
 }

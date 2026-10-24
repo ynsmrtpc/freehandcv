@@ -1,11 +1,15 @@
 import "server-only";
-import { and, desc, eq, inArray, isNull, or, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, isNotNull, isNull, ne, or, sql } from "drizzle-orm";
+import { cacheLife, cacheTag } from "next/cache";
 import { z } from "zod";
 import { atsScore } from "@/lib/resume/checks";
-import { designSchema, type DesignDefinition } from "@/lib/resume/design";
+import { designSchema, switchTemplateColor, systemDefinition, type DesignDefinition } from "@/lib/resume/design";
+import { sampleResume } from "@/lib/resume/sample";
 import type { ResumeSettings } from "@/lib/resume/schema";
+import type { TemplateRef } from "@/lib/templates";
 import { db } from "./db";
-import { resumes, templates, user } from "./db/schema";
+import { resumes, templateFavorites, templates, user } from "./db/schema";
+import { createResume, getResume, saveResume } from "./resumes";
 
 // User templates (plan 11). Access is decided here, never on screen: a template id coming from the
 // client is only trusted after `usable()` (plan 11.2). Delete = deleted_at (like resumes).
@@ -208,4 +212,174 @@ export async function copyTemplate(id: string, userId: string) {
     { name: t.name.slice(0, TEMPLATE_NAME_MAX), description: "", definition: t.definition },
     t.id,
   );
+}
+
+/* ---------------- Using a template from its page ---------------- */
+
+/**
+ * "Use this template" (plan 11.2): applies a system or user template to one of my resumes, or to a
+ * new resume started from the sample. Returns the resume id to open in the editor.
+ */
+export async function startWithTemplate(userId: string, ref: TemplateRef, locale: string, resumeId?: string) {
+  // Checked before a new resume is created, so a refused template leaves nothing behind.
+  if (ref.kind === "user") await getUsable(ref.id, userId);
+  const id = resumeId ?? (await createResume(userId, sampleResume(locale)));
+  const resume = await getResume(id, userId);
+  const data = resume.content;
+  if (ref.kind === "system") {
+    await clearResumeTemplate(id, userId);
+    switchTemplateColor(data, systemDefinition(ref.id));
+    data.settings.template = ref.id;
+    data.settings.customTemplate = null;
+  } else {
+    const snapshot = await applyTemplate(ref.id, userId, id);
+    switchTemplateColor(data, snapshot.definition);
+    data.settings.customTemplate = snapshot;
+  }
+  await saveResume(id, userId, data, resume.version);
+  return id;
+}
+
+/* ---------------- Favorites ---------------- */
+
+/** Favorites of templates I may use; my own templates are not favorited (they are already mine). */
+export async function setFavorite(userId: string, templateId: string, favorite: boolean) {
+  if (!favorite) {
+    await db
+      .delete(templateFavorites)
+      .where(and(eq(templateFavorites.userId, userId), eq(templateFavorites.templateId, templateId)));
+    return;
+  }
+  const [t] = await db
+    .select({ ownerId: templates.ownerId })
+    .from(templates)
+    .where(and(eq(templates.id, templateId), usable(userId)))
+    .limit(1);
+  if (!t) throw new TemplateNotFoundError();
+  if (t.ownerId === userId) return;
+  await db.insert(templateFavorites).values({ userId, templateId }).onConflictDoNothing();
+}
+
+export async function isFavorite(userId: string, templateId: string) {
+  return (
+    (await db.$count(templateFavorites, and(eq(templateFavorites.userId, userId), eq(templateFavorites.templateId, templateId)))) > 0
+  );
+}
+
+/** My favorites that I can still use (hidden or deleted ones drop out). */
+export async function listFavoriteTemplates(userId: string) {
+  const rows = await db
+    .select({ ...summary, ownerUsername: user.username })
+    .from(templateFavorites)
+    .innerJoin(templates, eq(templates.id, templateFavorites.templateId))
+    .leftJoin(user, eq(user.id, templates.ownerId))
+    .where(and(eq(templateFavorites.userId, userId), usable(userId), ne(templates.ownerId, userId)))
+    .orderBy(desc(templateFavorites.createdAt))
+    .limit(TEMPLATE_MAX_COUNT);
+  return rows.map(parse);
+}
+
+/* ---------------- Public pages (cached) ---------------- */
+
+/** Tag of everything public about user templates: gallery, template pages, profiles. */
+export const TEMPLATES_TAG = "templates";
+
+export type SharedTemplate = {
+  id: string;
+  name: string;
+  description: string | null;
+  definition: DesignDefinition;
+  visibility: Visibility;
+  atsScore: number;
+  usageCount: number;
+  ratingSum: number;
+  ratingCount: number;
+  ownerUsername: string | null;
+  publishedAt: string | null;
+  updatedAt: string;
+};
+
+const shared = {
+  id: templates.id,
+  name: templates.name,
+  description: templates.description,
+  definition: templates.definition,
+  visibility: templates.visibility,
+  atsScore: templates.atsScore,
+  usageCount: templates.usageCount,
+  ratingSum: templates.ratingSum,
+  ratingCount: templates.ratingCount,
+  ownerUsername: user.username,
+  publishedAt: templates.publishedAt,
+  updatedAt: templates.updatedAt,
+};
+const visible = (...visibility: Visibility[]) =>
+  and(live, eq(templates.status, "active"), inArray(templates.visibility, visibility));
+
+function toShared(row: {
+  definition: unknown;
+  atsScore: number | null;
+  publishedAt: Date | null;
+  updatedAt: Date;
+} & Omit<SharedTemplate, "definition" | "atsScore" | "publishedAt" | "updatedAt">): SharedTemplate | null {
+  const definition = designSchema.safeParse(row.definition);
+  if (!definition.success) return null;
+  return {
+    ...row,
+    definition: definition.data,
+    atsScore: row.atsScore ?? atsScore(definition.data),
+    publishedAt: row.publishedAt?.toISOString() ?? null,
+    updatedAt: row.updatedAt.toISOString(),
+  };
+}
+
+const GALLERY_LIMIT = 500;
+
+/** The community part of the gallery (plan 11.4): public, active templates whose owner has a username. */
+export async function getPublicTemplates(): Promise<SharedTemplate[]> {
+  "use cache";
+  cacheTag(TEMPLATES_TAG);
+  try {
+    const rows = await db
+      .select(shared)
+      .from(templates)
+      .innerJoin(user, eq(user.id, templates.ownerId))
+      .where(and(visible("public"), isNotNull(user.username)))
+      .orderBy(desc(templates.usageCount), desc(templates.publishedAt))
+      .limit(GALLERY_LIMIT);
+    return rows.map(toShared).filter((t) => t !== null);
+  } catch (error) {
+    console.error("getPublicTemplates: database unreachable", error);
+    cacheLife("seconds");
+    return [];
+  }
+}
+
+/** A template page: public ones are indexed, unlisted ones open only for those with the link. */
+export async function getSharedTemplate(id: string): Promise<SharedTemplate | null> {
+  "use cache";
+  cacheTag(TEMPLATES_TAG);
+  const [row] = await db
+    .select(shared)
+    .from(templates)
+    .leftJoin(user, eq(user.id, templates.ownerId))
+    .where(and(eq(templates.id, id), visible("public", "unlisted")))
+    .limit(1);
+  return row ? toShared(row) : null;
+}
+
+/** A profile page (plan 6.2 /kullanici/[kullanici-adi]): the owner's public templates only, never resumes. */
+export async function getProfile(username: string) {
+  "use cache";
+  cacheTag(TEMPLATES_TAG);
+  const [owner] = await db.select({ id: user.id, username: user.username }).from(user).where(eq(user.username, username)).limit(1);
+  if (!owner) return null;
+  const rows = await db
+    .select(shared)
+    .from(templates)
+    .innerJoin(user, eq(user.id, templates.ownerId))
+    .where(and(eq(templates.ownerId, owner.id), visible("public")))
+    .orderBy(desc(templates.publishedAt))
+    .limit(TEMPLATE_MAX_COUNT);
+  return { username: owner.username!, templates: rows.map(toShared).filter((t) => t !== null) };
 }

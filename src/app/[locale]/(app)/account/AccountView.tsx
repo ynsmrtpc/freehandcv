@@ -3,13 +3,14 @@
 import { Download, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { closeAccountAction } from "@/actions/account";
+import { closeAccountAction, setUsernameAction } from "@/actions/account";
 import { UserMenu } from "@/components/account/UserMenu";
 import { Logo } from "@/components/site/Logo";
 import { buttonClass } from "@/components/ui/Button";
 import { authClient } from "@/client/auth";
 import { Link, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
+import { normalizeUsername, USERNAME_MAX, usernameProblem } from "@/lib/username";
 
 const input =
   "mt-1.5 block h-11 w-full rounded-xl border border-border-strong bg-surface px-3.5 text-base text-foreground outline-none transition-[border-color,box-shadow] focus:border-primary focus:ring-4 focus:ring-primary/15";
@@ -43,7 +44,7 @@ export function AccountView({
   hasPassword,
   hasGoogle,
 }: {
-  user: { name: string; email: string; isAdmin: boolean };
+  user: { name: string; email: string; username: string | null; isAdmin: boolean };
   hasPassword: boolean;
   hasGoogle: boolean;
 }) {
@@ -53,6 +54,10 @@ export function AccountView({
   const [name, setName] = useState(user.name);
   const [nameState, setNameState] = useState<{ text: string; error?: boolean }>({ text: "" });
   const [savingName, setSavingName] = useState(false);
+
+  const [username, setUsername] = useState(user.username ?? "");
+  const [usernameState, setUsernameState] = useState<{ text: string; error?: boolean }>({ text: "" });
+  const [savingUsername, setSavingUsername] = useState(false);
 
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
@@ -104,6 +109,53 @@ export function AccountView({
                 {t("save")}
               </button>
               <Status {...nameState} />
+            </div>
+          </form>
+          <form
+            className="mt-6 space-y-4 border-t border-border pt-6"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const value = normalizeUsername(username);
+              const problem = usernameProblem(value);
+              if (problem) return setUsernameState({ text: t(`username.${problem}`), error: true });
+              setSavingUsername(true);
+              const r = await setUsernameAction(value).catch(() => null);
+              setSavingUsername(false);
+              if (r?.ok) {
+                setUsername(r.username);
+                setUsernameState({ text: t("saved") });
+                router.refresh();
+              } else
+                setUsernameState({
+                  text: r && r.reason !== "error" && r.reason !== "unauthenticated" ? t(`username.${r.reason}`) : t("error"),
+                  error: true,
+                });
+            }}
+          >
+            <label className="block text-sm font-semibold text-foreground">
+              {t("username.label")}
+              <span className="mt-1.5 flex items-center rounded-xl border border-border-strong bg-surface transition-[border-color,box-shadow] focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/15">
+                <span className="ps-3.5 text-base text-muted" aria-hidden>
+                  @
+                </span>
+                <input
+                  className="block h-11 w-full rounded-xl bg-transparent px-1 text-base text-foreground outline-none"
+                  value={username}
+                  maxLength={USERNAME_MAX}
+                  autoComplete="username"
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </span>
+              <span className="mt-1 block text-xs font-normal text-muted">{t("username.hint")}</span>
+            </label>
+            <div className="flex items-center gap-3">
+              <button type="submit" disabled={savingUsername} className={buttonClass("secondary", "sm")}>
+                {savingUsername && <Loader2 className="size-4 animate-spin" />}
+                {t("save")}
+              </button>
+              <Status {...usernameState} />
             </div>
           </form>
         </Section>
