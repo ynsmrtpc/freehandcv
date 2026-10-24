@@ -14,7 +14,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { GUEST_STORAGE_KEY } from "@/client/editor/store";
 import { sampleResume } from "@/lib/resume/sample";
 import { emptyResume, normalizeResume, type ResumeData } from "@/lib/resume/schema";
-import { systemDefinition } from "@/lib/resume/design";
+import { resumeDefinition } from "@/lib/resume/design";
 import { TrashList, type TrashItem } from "./TrashList";
 import { SharingCard } from "./SharingCard";
 
@@ -189,7 +189,7 @@ export function DashboardView({
                       className="pointer-events-none aspect-[210/297] w-full overflow-hidden rounded-lg bg-white ring-1 ring-black/5"
                     >
                       <ScaledPaper initialScale={0.25}>
-                        <ResumeDocument data={data} definition={systemDefinition(data.settings.template)} noLinks embedded />
+                        <ResumeDocument data={data} definition={resumeDefinition(data)} noLinks embedded />
                       </ScaledPaper>
                     </div>
                     <p className="mt-3 truncate px-1 text-sm font-semibold text-foreground">{r.title}</p>

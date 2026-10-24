@@ -264,11 +264,21 @@
     "showPhoto": "Show on resume",
     "photoUnsupported": "This template doesn’t show a photo",
     "filter": {
+      "mine": "My templates",
       "label": "Filter templates",
       "all": "All",
       "ats": "ATS 5/5",
       "photo": "With photo",
       "twoColumn": "Two column"
+    },
+    "mine": {
+      "create": "New template",
+      "edit": "Edit the {name} template",
+      "empty": "You have no templates of your own yet. Build your own design with the visual template editor, no code needed.",
+      "applyError": "The template couldn't be applied. Try again.",
+      "applied": "Your own template. Colour, font and size settings apply on top of it.",
+      "newVersion": "There is a newer version of this template.",
+      "applyNewVersion": "Apply the new version"
     }
   },
   "pdf": {

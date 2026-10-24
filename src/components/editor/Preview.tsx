@@ -6,7 +6,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
 import { useEditor } from "@/client/editor/store";
 import { cn } from "@/lib/cn";
-import { PAPER_SIZES, systemDefinition } from "@/lib/resume/design";
+import { PAPER_SIZES, resumeDefinition } from "@/lib/resume/design";
 import { IconButton } from "./ui";
 
 type Block = { el: Element; top: Element };
@@ -41,7 +41,7 @@ export function Preview() {
   const t = useTranslations("Editor");
   const locale = useLocale();
   const data = useEditor((s) => s.data)!;
-  const definition = systemDefinition(data.settings.template);
+  const definition = resumeDefinition(data);
   const paper = PAPER_SIZES[data.settings.paper];
 
   const canvasRef = useRef<HTMLDivElement>(null);

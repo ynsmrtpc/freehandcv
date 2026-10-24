@@ -6,14 +6,14 @@ import { useMemo } from "react";
 import { useEditor } from "@/client/editor/store";
 import { cn } from "@/lib/cn";
 import { runChecks, checkScore, type CheckResult } from "@/lib/resume/checks";
-import { systemDefinition } from "@/lib/resume/design";
+import { resumeDefinition } from "@/lib/resume/design";
 
 export function useChecks() {
   const data = useEditor((s) => s.data);
   const pageCount = useEditor((s) => s.pageCount);
   return useMemo(() => {
     if (!data) return null;
-    const results = runChecks(data, systemDefinition(data.settings.template), pageCount);
+    const results = runChecks(data, resumeDefinition(data), pageCount);
     return { results, ...checkScore(results) };
   }, [data, pageCount]);
 }

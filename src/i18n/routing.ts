@@ -24,6 +24,9 @@ export const routing = defineRouting({
     "/sign-in": { tr: "/giris", en: "/sign-in" },
     "/sign-up": { tr: "/kayit", en: "/sign-up" },
     "/dashboard": { tr: "/panel", en: "/dashboard" },
+    "/dashboard/templates": { tr: "/panel/sablonlarim", en: "/dashboard/templates" },
+    "/template-editor/new": { tr: "/sablon-editoru/yeni", en: "/template-editor/new" },
+    "/template-editor/[id]": { tr: "/sablon-editoru/[id]", en: "/template-editor/[id]" },
     "/resume/[id]": { tr: "/cv/[id]", en: "/resume/[id]" },
     "/account": { tr: "/hesap", en: "/account" },
     // Opened only by the server's headless browser to make the PDF (not linked, not indexed).

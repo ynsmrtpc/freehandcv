@@ -68,6 +68,8 @@ DATABASE_URL=postgres://freehandcv:freehandcv@localhost:5433/freehandcv_test pnp
 
 ## Google sign-in and One Tap
 
+Step-by-step guide (consent screen, publishing, common errors): [docs/GOOGLE-SIGN-IN.md](docs/GOOGLE-SIGN-IN.md).
+
 1. [Google Cloud Console](https://console.cloud.google.com/apis/credentials) → **Create credentials → OAuth client ID → Web application**.
 2. **Authorized JavaScript origins:** `http://localhost:3000`, `https://freehandcv.com`
 3. **Authorized redirect URIs:** `http://localhost:3000/api/auth/callback/google`,

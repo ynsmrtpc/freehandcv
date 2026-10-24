@@ -1,19 +1,29 @@
 "use client";
 
-import { Check, Pipette, ShieldCheck } from "lucide-react";
+import { Check, Pencil, Pipette, Plus, RefreshCw, ShieldCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { memo, useEffect, useRef, useState } from "react";
-import { TemplatePreview } from "@/components/resume/TemplatePreview";
+import {
+  applyTemplateAction,
+  clearResumeTemplateAction,
+  listOwnTemplatesAction,
+  templateUpdateAction,
+  type OwnTemplateItem,
+} from "@/actions/template";
+import { DefinitionPreview, TemplatePreview } from "@/components/resume/TemplatePreview";
+import { Link } from "@/i18n/navigation";
 import { useEditor } from "@/client/editor/store";
 import { cn } from "@/lib/cn";
 import { RESUME_LOCALES } from "@/lib/resume/labels";
-import { SPACINGS, SIZES, PAPERS, type TemplateId } from "@/lib/resume/schema";
+import { SPACINGS, SIZES, PAPERS, type ResumeData, type TemplateId } from "@/lib/resume/schema";
 import {
   FONTS,
   SYSTEM_TEMPLATE_LIST,
   SYSTEM_TEMPLATES,
   ACCENT_COLORS,
   hasSidebar,
+  resumeDefinition,
+  type DesignDefinition,
   type FontId,
   type SystemTemplate,
 } from "@/lib/resume/design";
@@ -33,14 +43,14 @@ export function DesignPanel() {
   const set = <K extends keyof typeof s>(k: K, value: (typeof s)[K]) =>
     update((v) => void (v.settings[k] = value), false);
 
-  const template = SYSTEM_TEMPLATES[s.template];
-  const monochrome = template.definition.monochrome;
+  const definition = useEditor((st) => resumeDefinition(st.data!));
+  const monochrome = definition.monochrome;
   const customColor = !ACCENT_COLORS.some((c) => c.toLowerCase() === s.color.toLowerCase());
-  const photoUnsupported = template.definition.header.photo === "none";
+  const photoUnsupported = definition.header.photo === "none";
 
   return (
     <div className="space-y-8 p-4 sm:p-5">
-      <TemplatePicker selected={s.template} locale={s.locale === "tr" ? "tr" : "en"} />
+      <TemplatePicker locale={s.locale === "tr" ? "tr" : "en"} />
 
       <section>
         <Heading>{t("color")}</Heading>
@@ -95,7 +105,7 @@ export function DesignPanel() {
             {t("font")}
           </label>
           <select id="setting-font" className={selectClass} value={s.font} onChange={(e) => set("font", e.target.value)}>
-            <option value="">{t("fontDefault", { name: FONTS[template.definition.typography.font].name })}</option>
+            <option value="">{t("fontDefault", { name: FONTS[definition.typography.font].name })}</option>
             {(Object.keys(FONTS) as FontId[]).map((f) => (
               <option key={f} value={f}>
                 {FONTS[f].name}
@@ -169,40 +179,109 @@ type Filter = keyof typeof FILTERS;
 const Thumbnail = memo(TemplatePreview);
 
 /**
- * Template picker: thumbnails from the real rendering engine, a scrollable grid and filters.
- * When switching templates, a resume still in the previous template's default colour moves to the
- * new template's colour; a colour the user picked is kept.
+ * Switching designs: a resume still in the previous design's default colour moves to the new one's
+ * colour; a colour the user picked is kept.
  */
-function TemplatePicker({ selected, locale }: { selected: TemplateId; locale: "tr" | "en" }) {
+function switchColor(v: ResumeData, next: DesignDefinition) {
+  const previous = resumeDefinition(v);
+  const onDefault = previous.monochrome || v.settings.color.toLowerCase() === previous.colors.accent.toLowerCase();
+  if (onDefault && !next.monochrome) v.settings.color = next.colors.accent;
+}
+
+const MemoDefinitionPreview = memo(DefinitionPreview);
+
+/**
+ * Template picker: thumbnails from the real rendering engine, a scrollable grid and filters.
+ * In an account resume, "My templates" lists the user's own templates; applying one goes through
+ * the server (access check, plan 11.2) and stores a copy of its definition in the resume.
+ */
+function TemplatePicker({ locale }: { locale: "tr" | "en" }) {
   const t = useTranslations("Editor.design");
   const tt = useTranslations("Templates");
   const update = useEditor((s) => s.update);
-  const [filter, setFilter] = useState<Filter>("all");
+  const selected = useEditor((s) => s.data!.settings.template);
+  const custom = useEditor((s) => s.data!.settings.customTemplate);
+  const resumeId = useEditor((s) => (s.source.kind === "account" ? s.source.id : null));
+  const [filter, setFilter] = useState<Filter | "mine">(custom ? "mine" : "all");
+  const [mine, setMine] = useState<OwnTemplateItem[] | null>(null);
+  const [pending, setPending] = useState<string | null>(null);
+  const [failed, setFailed] = useState(false);
+  /** Which applied template (id:version) the server reported a newer version for. */
+  const [outdated, setOutdated] = useState<string | null>(null);
   const gridRef = useRef<HTMLUListElement>(null);
-  const list = SYSTEM_TEMPLATE_LIST.filter(FILTERS[filter]);
+  const list = filter === "mine" ? [] : SYSTEM_TEMPLATE_LIST.filter(FILTERS[filter]);
+
+  useEffect(() => {
+    if (!resumeId) return;
+    let cancelled = false;
+    void listOwnTemplatesAction().then((r) => !cancelled && setMine(r.ok ? r.templates : []));
+    return () => {
+      cancelled = true;
+    };
+  }, [resumeId]);
+
+  // "A new version is available — apply" (plan 11.2): never applied automatically.
+  const customId = custom?.id;
+  const customVersion = custom?.version;
+  const appliedKey = customId ? `${customId}:${customVersion}` : null;
+  const newVersion = !!appliedKey && outdated === appliedKey;
+  useEffect(() => {
+    if (!resumeId || !customId || !customVersion) return;
+    let cancelled = false;
+    void templateUpdateAction(customId, customVersion).then(
+      (r) => !cancelled && r.ok && r.update && setOutdated(`${customId}:${customVersion}`),
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [resumeId, customId, customVersion]);
 
   // On open, bring the selected template into view (only the grid scrolls, not the panel).
   useEffect(() => {
     const grid = gridRef.current;
     const el = grid?.querySelector<HTMLElement>('[aria-pressed="true"]');
     if (grid && el) grid.scrollTop = el.offsetTop - grid.offsetTop - 8;
-  }, []);
+  }, [mine]);
 
-  const choose = (id: TemplateId) =>
+  const choose = (id: TemplateId) => {
+    if (custom && resumeId) void clearResumeTemplateAction(resumeId);
     update((v) => {
-      const previous = SYSTEM_TEMPLATES[v.settings.template].definition;
-      const next = SYSTEM_TEMPLATES[id].definition;
-      const onDefault =
-        previous.monochrome || v.settings.color.toLowerCase() === previous.colors.accent.toLowerCase();
-      if (onDefault && !next.monochrome) v.settings.color = next.colors.accent;
+      switchColor(v, SYSTEM_TEMPLATES[id].definition);
       v.settings.template = id;
+      v.settings.customTemplate = null;
     }, false);
+  };
+
+  const chooseCustom = async (id: string) => {
+    if (!resumeId || pending) return;
+    setPending(id);
+    setFailed(false);
+    const r = await applyTemplateAction(id, resumeId);
+    setPending(null);
+    if (!r.ok) return setFailed(true);
+    update((v) => {
+      switchColor(v, r.template.definition);
+      v.settings.customTemplate = r.template;
+    }, false);
+  };
+
+  const filters: (Filter | "mine")[] = [...(resumeId ? ["mine" as const] : []), ...(Object.keys(FILTERS) as Filter[])];
+  const card = (isSelected: boolean) =>
+    cn(
+      "group relative block w-full rounded-xl border-2 bg-surface p-1.5 text-start transition-[border-color,box-shadow]",
+      isSelected ? "border-primary shadow-elevated" : "border-border hover:border-border-strong",
+    );
+  const tick = (
+    <span className="absolute end-2.5 top-2.5 grid size-5 place-items-center rounded-full bg-primary text-white shadow-card">
+      <Check className="size-3" strokeWidth={3} aria-hidden />
+    </span>
+  );
 
   return (
     <section>
       <Heading>{t("template")}</Heading>
       <div role="group" aria-label={t("filter.label")} className="mb-3 flex flex-wrap gap-1.5">
-        {(Object.keys(FILTERS) as Filter[]).map((f) => (
+        {filters.map((f) => (
           <button
             key={f}
             type="button"
@@ -217,28 +296,21 @@ function TemplatePicker({ selected, locale }: { selected: TemplateId; locale: "t
           >
             {t(`filter.${f}`)}
             <span className={cn("ms-1 tabular-nums", f === filter ? "text-white/80" : "text-muted/80")}>
-              {SYSTEM_TEMPLATE_LIST.filter(FILTERS[f]).length}
+              {f === "mine" ? (mine?.length ?? "…") : SYSTEM_TEMPLATE_LIST.filter(FILTERS[f]).length}
             </span>
           </button>
         ))}
       </div>
       <ul
         ref={gridRef}
+        aria-busy={filter === "mine" && !mine}
         className="-mx-1 grid max-h-[min(36rem,62vh)] grid-cols-2 gap-2.5 overflow-y-auto overscroll-contain px-1 py-1 min-[420px]:grid-cols-3"
       >
         {list.map((s) => {
-          const isSelected = s.id === selected;
+          const isSelected = !custom && s.id === selected;
           return (
             <li key={s.id}>
-              <button
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => choose(s.id)}
-                className={cn(
-                  "group relative block w-full rounded-xl border-2 bg-surface p-1.5 text-start transition-[border-color,box-shadow]",
-                  isSelected ? "border-primary shadow-elevated" : "border-border hover:border-border-strong",
-                )}
-              >
+              <button type="button" aria-pressed={isSelected} onClick={() => choose(s.id)} className={card(isSelected)}>
                 <div className="overflow-hidden rounded-md ring-1 ring-black/5">
                   <Thumbnail templateId={s.id} locale={locale} initialScale={0.16} />
                 </div>
@@ -249,20 +321,93 @@ function TemplatePicker({ selected, locale }: { selected: TemplateId; locale: "t
                   <ShieldCheck className="size-3" aria-hidden />
                   {t("ats", { score: s.ats })}
                 </span>
-                {isSelected && (
-                  <span className="absolute end-2.5 top-2.5 grid size-5 place-items-center rounded-full bg-primary text-white shadow-card">
-                    <Check className="size-3" strokeWidth={3} aria-hidden />
-                  </span>
-                )}
+                {isSelected && tick}
               </button>
             </li>
           );
         })}
+        {filter === "mine" &&
+          mine?.map((m) => {
+            const isSelected = custom?.id === m.id;
+            return (
+              <li key={m.id} className="relative">
+                <button
+                  type="button"
+                  aria-pressed={isSelected}
+                  aria-busy={pending === m.id}
+                  disabled={!!pending}
+                  onClick={() => void chooseCustom(m.id)}
+                  className={cn(card(isSelected), pending === m.id && "opacity-60")}
+                >
+                  <div className="overflow-hidden rounded-md ring-1 ring-black/5">
+                    <MemoDefinitionPreview definition={m.definition} locale={locale} initialScale={0.16} />
+                  </div>
+                  <span className="mt-1.5 block truncate px-0.5 pe-6 text-xs font-semibold text-foreground">{m.name}</span>
+                  <span className="flex items-center gap-1 px-0.5 pb-0.5 text-[11px] font-medium text-accent">
+                    <ShieldCheck className="size-3" aria-hidden />
+                    {t("ats", { score: m.atsScore ?? 1 })}
+                  </span>
+                  {isSelected && tick}
+                </button>
+                <Link
+                  href={{ pathname: "/template-editor/[id]", params: { id: m.id } }}
+                  aria-label={t("mine.edit", { name: m.name })}
+                  title={t("mine.edit", { name: m.name })}
+                  className="absolute end-2 bottom-2 grid size-6 place-items-center rounded-md text-muted hover:bg-surface-2 hover:text-foreground"
+                >
+                  <Pencil className="size-3.5" aria-hidden />
+                </Link>
+              </li>
+            );
+          })}
+        {filter === "mine" && mine && (
+          <li>
+            <Link
+              href="/template-editor/new"
+              className="grid aspect-[210/297] h-auto w-full place-items-center rounded-xl border-2 border-dashed border-border-strong p-3 text-center text-xs font-semibold text-muted transition-colors hover:border-primary hover:text-primary-text"
+            >
+              <span className="flex flex-col items-center gap-2">
+                <Plus className="size-5" aria-hidden />
+                {t("mine.create")}
+              </span>
+            </Link>
+          </li>
+        )}
       </ul>
-      <p className="mt-3 text-[13px] leading-relaxed text-muted">
-        <span className="font-semibold text-foreground">{tt(`names.${selected}`)}:</span>{" "}
-        {tt(`descriptions.${selected}`)}
-      </p>
+      {filter === "mine" && mine?.length === 0 && (
+        <p className="mt-3 text-[13px] leading-relaxed text-muted">{t("mine.empty")}</p>
+      )}
+      {failed && (
+        <p role="alert" className="mt-3 text-[13px] font-medium text-danger">
+          {t("mine.applyError")}
+        </p>
+      )}
+      {custom ? (
+        <div className="mt-3 space-y-2 text-[13px] leading-relaxed text-muted">
+          <p>
+            <span className="font-semibold text-foreground">{custom.name}:</span> {t("mine.applied")}
+          </p>
+          {newVersion && (
+            <p className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg bg-surface-2 px-3 py-2">
+              {t("mine.newVersion")}
+              <button
+                type="button"
+                onClick={() => void chooseCustom(custom.id)}
+                disabled={!!pending}
+                className="inline-flex items-center gap-1 font-semibold text-primary-text hover:underline"
+              >
+                <RefreshCw className="size-3.5" aria-hidden />
+                {t("mine.applyNewVersion")}
+              </button>
+            </p>
+          )}
+        </div>
+      ) : (
+        <p className="mt-3 text-[13px] leading-relaxed text-muted">
+          <span className="font-semibold text-foreground">{tt(`names.${selected}`)}:</span>{" "}
+          {tt(`descriptions.${selected}`)}
+        </p>
+      )}
     </section>
   );
 }

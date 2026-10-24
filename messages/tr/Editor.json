@@ -264,11 +264,21 @@
     "showPhoto": "CV'de göster",
     "photoUnsupported": "Bu şablonda fotoğraf gösterilmez",
     "filter": {
+      "mine": "Şablonlarım",
       "label": "Şablonları filtrele",
       "all": "Tümü",
       "ats": "ATS 5/5",
       "photo": "Fotoğraflı",
       "twoColumn": "İki sütun"
+    },
+    "mine": {
+      "create": "Yeni şablon",
+      "edit": "{name} şablonunu düzenle",
+      "empty": "Henüz kendi şablonun yok. Görsel şablon editörüyle, kod bilmeden kendi tasarımını oluşturabilirsin.",
+      "applyError": "Şablon uygulanamadı. Tekrar dene.",
+      "applied": "Kendi şablonun. Renk, yazı tipi ve boyut ayarları bu şablonun üzerine uygulanır.",
+      "newVersion": "Bu şablonun yeni bir sürümü var.",
+      "applyNewVersion": "Yeni sürümü uygula"
     }
   },
   "pdf": {

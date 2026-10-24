@@ -3,7 +3,7 @@
 import { useEffect, useSyncExternalStore } from "react";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
 import { PDF_DATA_KEY, PDF_READY_ATTRIBUTE } from "@/lib/pdf";
-import { systemDefinition } from "@/lib/resume/design";
+import { resumeDefinition } from "@/lib/resume/design";
 import { normalizeResume, type ResumeData } from "@/lib/resume/schema";
 
 // The injected resume never changes while the page is open: read once, nothing to subscribe to.
@@ -42,7 +42,7 @@ export function PrintView() {
         @page { size: ${data.settings.paper === "Letter" ? "letter" : "A4"}; margin: 0; }
         html, body, body > * { background: #fff !important; min-height: 0 !important; }
       `}</style>
-      <ResumeDocument data={data} definition={systemDefinition(data.settings.template)} />
+      <ResumeDocument data={data} definition={resumeDefinition(data)} />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { ResumeThumbnail } from "@/components/resume/TemplatePreview";
-import { systemDefinition } from "@/lib/resume/design";
+import { resumeDefinition } from "@/lib/resume/design";
 import type { ResumeData } from "@/lib/resume/schema";
 import { StackShowcase, type StackShowcaseContent } from "./StackShowcase";
 
@@ -48,7 +48,7 @@ export function ExampleShowcase({ content }: { content: ExampleShowcaseContent }
           ],
           href: { pathname: "/resume-examples/[slug]", params: { slug: e.slug } },
           thumbnail: (
-            <ResumeThumbnail data={e.content} definition={systemDefinition(e.content.settings.template)} initialScale={0.58} />
+            <ResumeThumbnail data={e.content} definition={resumeDefinition(e.content)} initialScale={0.58} />
           ),
         })),
       }}

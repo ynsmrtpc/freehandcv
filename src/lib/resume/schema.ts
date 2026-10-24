@@ -3,6 +3,7 @@
 // The schema is lenient: missing or broken fields fall back to defaults, so old files and
 // hand-edited JSON still open. Legacy Turkish-keyed data is converted first (see legacy.ts).
 import { z } from "zod";
+import { designSchema } from "./designSchema";
 import { migrateLegacyResume } from "./legacy";
 
 export const RESUME_SCHEMA_VERSION = 1;
@@ -168,6 +169,21 @@ export const settingsSchema = z.object({
     .catch([])
     .default([]),
   sectionTitles: z.record(z.string(), z.string()).catch({}).default({}),
+  /**
+   * A user template applied to this resume: a copy of its definition at that moment (plan 11.2), so
+   * the resume never breaks when the owner changes or hides it. Null = the system `template`.
+   * Travels with the content, so previews, versions, the PDF and exports need nothing extra.
+   */
+  customTemplate: z
+    .object({
+      id: z.uuid(),
+      version: z.int().min(1),
+      name: z.string().max(80),
+      definition: designSchema,
+    })
+    .nullable()
+    .catch(null)
+    .default(null),
 });
 
 export const personalSchema = z.object({

@@ -19,13 +19,13 @@ const SAMPLE_PHOTO =
 
 const cache = new Map<string, ResumeData>();
 
-function sampleData(templateId: TemplateId, locale: string): ResumeData {
-  const key = `${templateId}:${locale}`;
+/** The sample resume in the definition's own accent colour (the definition itself is passed separately). */
+function sampleData(definition: DesignDefinition, locale: string): ResumeData {
+  const key = `${definition.colors.accent}:${locale}`;
   const cached = cache.get(key);
   if (cached) return cached;
   const v = sampleResume(locale);
-  v.settings.template = templateId;
-  v.settings.color = SYSTEM_TEMPLATES[templateId].definition.colors.accent;
+  v.settings.color = definition.colors.accent;
   v.settings.showPhoto = true;
   v.personal.photo = SAMPLE_PHOTO;
   cache.set(key, v);
@@ -45,9 +45,31 @@ export function TemplatePreview({
   className?: string;
 }) {
   return (
-    <ResumeThumbnail
-      data={sampleData(templateId, locale)}
+    <DefinitionPreview
       definition={SYSTEM_TEMPLATES[templateId].definition}
+      locale={locale}
+      initialScale={initialScale}
+      className={className}
+    />
+  );
+}
+
+/** The sample resume in any design definition (user templates, the template editor). */
+export function DefinitionPreview({
+  definition,
+  locale,
+  initialScale = 0.2,
+  className,
+}: {
+  definition: DesignDefinition;
+  locale: string;
+  initialScale?: number;
+  className?: string;
+}) {
+  return (
+    <ResumeThumbnail
+      data={sampleData(definition, locale)}
+      definition={definition}
       initialScale={initialScale}
       className={className}
     />

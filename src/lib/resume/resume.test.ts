@@ -14,6 +14,7 @@ import {
   resolveDesign,
   designSchema,
   hasWhiteTextOnAccent,
+  resumeDefinition,
 } from "./design";
 import { whiteContrast, fileName, safeUrl, lines, dateRange, richTextParts } from "./utils";
 
@@ -102,6 +103,28 @@ describe("system templates", () => {
   it("there are 4–8 featured templates for the landing page", () => {
     expect(FEATURED_TEMPLATES.length).toBeGreaterThanOrEqual(4);
     expect(FEATURED_TEMPLATES.length).toBeLessThanOrEqual(8);
+  });
+});
+
+describe("user template on a resume", () => {
+  const custom = {
+    id: "8f0c2b1e-3a4d-4c5e-9f60-7a8b9c0d1e2f",
+    version: 3,
+    name: "Mine",
+    definition: { ...SYSTEM_TEMPLATES.swiss.definition, bullets: "arrow" as const },
+  };
+
+  it("is drawn with its copied definition instead of the system template", () => {
+    const data = normalizeResume({ settings: { template: "modern", customTemplate: custom } });
+    expect(data.settings.customTemplate).toEqual(custom);
+    expect(resumeDefinition(data)).toEqual(custom.definition);
+  });
+
+  it("falls back to the system template when absent or broken", () => {
+    expect(resumeDefinition(normalizeResume({ settings: { template: "ats" } }))).toBe(systemDefinition("ats"));
+    const broken = normalizeResume({ settings: { template: "ats", customTemplate: { ...custom, definition: { layout: "x" } } } });
+    expect(broken.settings.customTemplate).toBeNull();
+    expect(resumeDefinition(broken)).toBe(systemDefinition("ats"));
   });
 });
 
