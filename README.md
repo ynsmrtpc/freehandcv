@@ -66,6 +66,13 @@ database (same Postgres). To point the server at it:
 DATABASE_URL=postgres://freehandcv:freehandcv@localhost:5433/freehandcv_test pnpm start
 ```
 
+Next to a running `pnpm dev`, a second dev server on the test database needs its own build folder:
+
+```bash
+NEXT_DIST_DIR=.next-test DATABASE_URL=postgres://freehandcv:freehandcv@localhost:5433/freehandcv_test \
+  BETTER_AUTH_URL=http://localhost:3100 NEXT_PUBLIC_SITE_URL=http://localhost:3100 pnpm dev -p 3100
+```
+
 ## Google sign-in and One Tap
 
 Step-by-step guide (consent screen, publishing, common errors): [docs/GOOGLE-SIGN-IN.md](docs/GOOGLE-SIGN-IN.md).

@@ -9,6 +9,8 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
+    // Second dev server on the test database (NEXT_DIST_DIR, see README)
+    ".next-test/**",
     "out/**",
     "build/**",
     "next-env.d.ts",

@@ -364,7 +364,7 @@ function TemplatePicker({ locale }: { locale: "tr" | "en" }) {
           <li>
             <Link
               href="/template-editor/new"
-              className="grid aspect-[210/297] h-auto w-full place-items-center rounded-xl border-2 border-dashed border-border-strong p-3 text-center text-xs font-semibold text-muted transition-colors hover:border-primary hover:text-primary-text"
+              className="grid h-full min-h-32 w-full place-items-center rounded-xl border-2 border-dashed border-border-strong p-3 text-center text-xs font-semibold text-muted transition-colors hover:border-primary hover:text-primary-text"
             >
               <span className="flex flex-col items-center gap-2">
                 <Plus className="size-5" aria-hidden />

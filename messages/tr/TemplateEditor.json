@@ -1,0 +1,219 @@
+{
+  "metaNew": "Yeni şablon",
+  "metaEdit": "Şablonu düzenle",
+  "back": "Şablonlarıma dön",
+  "newTitle": "Yeni şablon",
+  "save": "Kaydet",
+  "create": "Şablonu oluştur",
+  "reset": "Son kaydedilene dön",
+  "delete": "Şablonu sil",
+  "deleteConfirm": "\"{name}\" şablonu silinsin mi? Bu şablonu kullanan CV'ler görünümlerini korur; şablon yeni CV'lere artık uygulanamaz.",
+  "namePlaceholder": "Örn. Sade mavi",
+  "descriptionHint": "Galeride şablonun altında görünür. İsteğe bağlı.",
+  "startFromPlaceholder": "Bir şablon seç…",
+  "startFromHint": "Seçtiğin hazır şablonun tüm ayarları buraya yüklenir; sonra dilediğin gibi değiştirirsin.",
+  "colorsHint": "Siyah-beyaz şablonlarda vurgu rengi yerine metin rengi kullanılır; CV sahibi renk seçemez.",
+  "lowContrast": "Vurgu rengi üzerindeki beyaz yazı zor okunuyor (kontrast {ratio}:1, en az 4,5:1 olmalı). Daha koyu bir vurgu rengi seç.",
+  "sameAsBody": "Gövdeyle aynı",
+  "ats": "ATS uyumu {score}/5",
+  "atsHint": "Otomatik hesaplanır: iki sütun, yan başlıklar, etiketler, renkli bant, küçük ya da soluk yazı puanı düşürür.",
+  "previewLocale": "Örnek CV dili",
+  "previewHint": "Önizlemede örnek bir CV gösterilir. Şablonu kullanan kişi renk, yazı tipi ve boyutu kendi CV'sinde ayrıca değiştirebilir.",
+  "setUsername": "Hesabım sayfasından bir kullanıcı adı seç",
+  "view": {
+    "edit": "Düzenle",
+    "preview": "Önizleme"
+  },
+  "status": {
+    "saving": "Kaydediliyor…",
+    "saved": "Kaydedildi",
+    "unsaved": "Kaydedilmemiş değişiklikler var"
+  },
+  "errors": {
+    "unauthenticated": "Oturumun kapanmış. Yeniden giriş yap.",
+    "not_found": "Şablon bulunamadı.",
+    "invalid": "Şablona bir ad ver.",
+    "limit": "En fazla 50 şablonun olabilir. Yenisi için birini sil.",
+    "username_required": "Şablonu herkese açmak için önce bir kullanıcı adı seçmelisin; galeride sahibi olarak bu ad görünür.",
+    "error": "Bir sorun oluştu. Tekrar dene."
+  },
+  "groups": {
+    "about": "Şablon",
+    "layout": "Yerleşim",
+    "header": "Üst bilgi",
+    "colors": "Renkler",
+    "typography": "Yazı",
+    "sections": "Bölümler",
+    "margins": "Kenar boşlukları (mm)",
+    "sharing": "Paylaşım"
+  },
+  "visibility": {
+    "private": "Özel",
+    "privateHint": "Yalnızca sen görür ve kullanırsın.",
+    "unlisted": "Bağlantıyla",
+    "unlistedHint": "Bağlantıyı paylaştığın, giriş yapmış herkes kullanabilir. Galeride listelenmez.",
+    "public": "Herkese açık",
+    "publicHint": "Şablon galerisinde kullanıcı adınla listelenir; herkes kullanabilir ve puanlayabilir."
+  },
+  "fields": {
+    "name": "Şablon adı",
+    "description": "Açıklama",
+    "startFrom": "Hazır bir şablondan başla",
+    "layout": "Sayfa düzeni",
+    "sidebarWidth": "Kenar çubuğu genişliği",
+    "sidebarBackground": "Kenar çubuğu zemini",
+    "fullHeader": "Üst bilgi iki sütunun üstünde, tam genişlikte",
+    "sidebarSections": "Kenar çubuğundaki bölümler",
+    "stripe": "Kenar şeridi",
+    "align": "Hizalama",
+    "photo": "Fotoğraf",
+    "band": "Üst bilgi zemini",
+    "divider": "Ayraç çizgisi",
+    "nameSize": "Ad boyutu",
+    "nameStyle": "Ad yazımı",
+    "nameColor": "Ad rengi",
+    "title": "Unvan yazımı",
+    "contact": "İletişim bilgileri",
+    "separator": "Ayraç",
+    "monochrome": "Siyah-beyaz",
+    "font": "Gövde yazı tipi",
+    "headingFont": "Başlık yazı tipi",
+    "size": "Yazı boyutu (pt)",
+    "lineHeight": "Satır aralığı",
+    "sectionHeading": "Bölüm başlığı",
+    "headingCase": "Başlık harfleri",
+    "sectionLayout": "Başlık yeri",
+    "datePosition": "Tarihler",
+    "company": "Kurum adı",
+    "bullets": "Madde imi",
+    "skills": "Yetkinlikler",
+    "tagStyle": "Etiket biçimi",
+    "timeline": "Deneyim ve eğitimi zaman çizgisiyle bağla",
+    "marginTop": "Üst",
+    "marginBottom": "Alt",
+    "marginHorizontal": "Yanlar"
+  },
+  "colors": {
+    "accent": "Vurgu",
+    "text": "Metin",
+    "muted": "İkincil metin",
+    "border": "Çizgiler"
+  },
+  "options": {
+    "layout": {
+      "single-column": "Tek sütun",
+      "sidebar-left": "Solda kenar çubuğu",
+      "sidebar-right": "Sağda kenar çubuğu",
+      "top-band": "Üstte renkli bant"
+    },
+    "sidebarBackground": {
+      "accent": "Vurgu rengi",
+      "light": "Açık ton",
+      "gray": "Gri",
+      "rule": "Yalnızca çizgi"
+    },
+    "align": {
+      "left": "Sola",
+      "center": "Ortaya",
+      "split": "Ad solda, iletişim sağda"
+    },
+    "photo": {
+      "none": "Yok",
+      "round": "Yuvarlak",
+      "square": "Kare",
+      "rounded": "Yuvarlak köşeli"
+    },
+    "divider": {
+      "none": "Yok",
+      "thin": "İnce",
+      "thick": "Kalın",
+      "accent": "Renkli",
+      "double": "Çift"
+    },
+    "title": {
+      "accent": "Renkli",
+      "uppercase": "Büyük harf",
+      "muted-uppercase": "Gri, büyük harf"
+    },
+    "nameColor": {
+      "dark": "Koyu",
+      "accent": "Vurgu rengi"
+    },
+    "nameSize": {
+      "small": "Küçük",
+      "medium": "Orta",
+      "large": "Büyük",
+      "huge": "Çok büyük"
+    },
+    "nameStyle": {
+      "bold": "Kalın",
+      "light": "İnce",
+      "uppercase": "Kalın, büyük harf",
+      "light-uppercase": "İnce, büyük harf"
+    },
+    "band": {
+      "none": "Yok",
+      "accent": "Vurgu rengi",
+      "dark": "Koyu",
+      "light": "Açık ton"
+    },
+    "stripe": {
+      "none": "Yok",
+      "left": "Solda",
+      "top": "Üstte"
+    },
+    "sectionHeading": {
+      "uppercase": "Yalın",
+      "underline": "Alt çizgili",
+      "left-bar": "Solda çubuk",
+      "square-marker": "Kare imli",
+      "extended-rule": "Çizgiyle uzayan",
+      "box": "Renkli kutu",
+      "centered": "Ortalı, iki yanı çizgili",
+      "short-rule": "Altında kısa çizgi"
+    },
+    "headingCase": {
+      "uppercase": "BÜYÜK HARF",
+      "normal": "Yazıldığı gibi"
+    },
+    "sectionLayout": {
+      "stacked": "İçeriğin üstünde",
+      "side": "Solda, dar sütunda"
+    },
+    "bullets": {
+      "dot": "Nokta",
+      "dash": "Tire",
+      "arrow": "Ok",
+      "square": "Kare",
+      "none": "Yok"
+    },
+    "skills": {
+      "list": "Liste",
+      "tags": "Etiketler",
+      "two-column": "İki sütun"
+    },
+    "tagStyle": {
+      "filled": "Dolu",
+      "outline": "Çerçeveli"
+    },
+    "contact": {
+      "icons": "İkonlu",
+      "separated": "Ayraçlı"
+    },
+    "separator": {
+      "|": "|",
+      "·": "·",
+      "–": "–"
+    },
+    "company": {
+      "bold": "Kalın",
+      "italic": "İtalik",
+      "accent": "Vurgu rengi"
+    },
+    "datePosition": {
+      "right": "Başlığın sağında",
+      "below": "Başlığın altında",
+      "left": "Solda, ayrı sütunda"
+    }
+  }
+}

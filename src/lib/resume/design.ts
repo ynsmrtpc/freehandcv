@@ -709,6 +709,32 @@ export function systemDefinition(id: TemplateId): DesignDefinition {
   return SYSTEM_TEMPLATES[id].definition;
 }
 
+/**
+ * The definition with every optional option written out at the value the engine uses when it is
+ * absent (same look). The template editor shows and edits these explicit values.
+ */
+export function withDefaults(d: DesignDefinition): DesignDefinition {
+  return {
+    ...d,
+    sidebar: hasSidebar(d)
+      ? {
+          width: d.sidebar?.width ?? 62,
+          sections: d.sidebar?.sections ?? SIDEBAR_SECTIONS,
+          background: d.sidebar?.background ?? "accent",
+          fullHeader: d.sidebar?.fullHeader ?? false,
+        }
+      : undefined,
+    header: { ...d.header, nameSize: d.header.nameSize ?? "medium", nameStyle: d.header.nameStyle ?? "bold" },
+    band: d.band ?? (d.layout === "top-band" ? "accent" : "none"),
+    stripe: d.stripe ?? "none",
+    headingCase: d.headingCase ?? "uppercase",
+    sectionLayout: d.sectionLayout ?? "stacked",
+    tagStyle: d.tagStyle ?? "filled",
+    datePosition: d.datePosition ?? "right",
+    timeline: d.timeline ?? false,
+  };
+}
+
 /** The definition a resume is drawn with: its applied user template, else its system template. */
 export function resumeDefinition(data: ResumeData): DesignDefinition {
   return data.settings.customTemplate?.definition ?? systemDefinition(data.settings.template);

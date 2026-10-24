@@ -21,5 +21,25 @@
     "restore": "Geri al",
     "limit": "CV sınırına ulaştın; önce bir CV sil",
     "error": "Geri alınamadı, tekrar dene"
+  },
+  "nav": {
+    "label": "Panel bölümleri",
+    "resumes": "CV'lerim",
+    "templates": "Şablonlarım"
+  },
+  "templates": {
+    "meta": "Şablonlarım",
+    "title": "Şablonlarım",
+    "subtitle": "Kendi tasarladığın CV şablonları. İstersen yalnızca kendin kullan, istersen bağlantıyla paylaş ya da galeride herkese aç.",
+    "new": "Yeni şablon",
+    "empty": "Henüz bir şablonun yok. Hazır şablonlardan birini temel alıp yazı tipini, renkleri ve yerleşimi kod bilmeden değiştirebilirsin.",
+    "edit": "{name} şablonunu düzenle",
+    "duplicate": "Kopyasını oluştur",
+    "usage": "{n, plural, =0 {Henüz kullanılmadı} other {# CV'de kullanıldı}}",
+    "updated": "Güncelleme: {date}",
+    "status": {
+      "under_review": "Şikâyet nedeniyle incelemede; galeride görünmüyor",
+      "hidden": "Yönetici tarafından gizlendi"
+    }
   }
 }

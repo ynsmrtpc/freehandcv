@@ -1,0 +1,219 @@
+{
+  "metaNew": "New template",
+  "metaEdit": "Edit template",
+  "back": "Back to my templates",
+  "newTitle": "New template",
+  "save": "Save",
+  "create": "Create template",
+  "reset": "Back to last saved",
+  "delete": "Delete template",
+  "deleteConfirm": "Delete the \"{name}\" template? Resumes using it keep their look; it just can't be applied to new resumes.",
+  "namePlaceholder": "E.g. Clean blue",
+  "descriptionHint": "Shown under the template in the gallery. Optional.",
+  "startFromPlaceholder": "Pick a template…",
+  "startFromHint": "Loads every setting of the ready-made template you pick; then change whatever you like.",
+  "colorsHint": "Black-and-white templates use the text colour instead of the accent; resume owners can't pick a colour.",
+  "lowContrast": "White text on the accent colour is hard to read (contrast {ratio}:1, needs at least 4.5:1). Pick a darker accent.",
+  "sameAsBody": "Same as body",
+  "ats": "ATS fit {score}/5",
+  "atsHint": "Calculated automatically: two columns, side headings, tags, coloured bands and small or faint text lower the score.",
+  "previewLocale": "Sample resume language",
+  "previewHint": "The preview shows a sample resume. People using the template can still change colour, font and size in their own resume.",
+  "setUsername": "Choose a username on your account page",
+  "view": {
+    "edit": "Edit",
+    "preview": "Preview"
+  },
+  "status": {
+    "saving": "Saving…",
+    "saved": "Saved",
+    "unsaved": "Unsaved changes"
+  },
+  "errors": {
+    "unauthenticated": "Your session has ended. Sign in again.",
+    "not_found": "Template not found.",
+    "invalid": "Give the template a name.",
+    "limit": "You can have up to 50 templates. Delete one to add another.",
+    "username_required": "To make a template public, first choose a username; it is shown as the owner in the gallery.",
+    "error": "Something went wrong. Try again."
+  },
+  "groups": {
+    "about": "Template",
+    "layout": "Layout",
+    "header": "Header",
+    "colors": "Colours",
+    "typography": "Type",
+    "sections": "Sections",
+    "margins": "Margins (mm)",
+    "sharing": "Sharing"
+  },
+  "visibility": {
+    "private": "Private",
+    "privateHint": "Only you can see and use it.",
+    "unlisted": "With the link",
+    "unlistedHint": "Anyone signed in who has the link can use it. Not listed in the gallery.",
+    "public": "Public",
+    "publicHint": "Listed in the template gallery under your username; anyone can use and rate it."
+  },
+  "fields": {
+    "name": "Template name",
+    "description": "Description",
+    "startFrom": "Start from a ready-made template",
+    "layout": "Page layout",
+    "sidebarWidth": "Sidebar width",
+    "sidebarBackground": "Sidebar background",
+    "fullHeader": "Header above both columns, full width",
+    "sidebarSections": "Sections in the sidebar",
+    "stripe": "Edge stripe",
+    "align": "Alignment",
+    "photo": "Photo",
+    "band": "Header background",
+    "divider": "Divider line",
+    "nameSize": "Name size",
+    "nameStyle": "Name style",
+    "nameColor": "Name colour",
+    "title": "Job title style",
+    "contact": "Contact details",
+    "separator": "Separator",
+    "monochrome": "Black and white",
+    "font": "Body font",
+    "headingFont": "Heading font",
+    "size": "Font size (pt)",
+    "lineHeight": "Line height",
+    "sectionHeading": "Section heading",
+    "headingCase": "Heading letters",
+    "sectionLayout": "Heading position",
+    "datePosition": "Dates",
+    "company": "Organisation name",
+    "bullets": "Bullet",
+    "skills": "Skills",
+    "tagStyle": "Tag style",
+    "timeline": "Link experience and education with a timeline",
+    "marginTop": "Top",
+    "marginBottom": "Bottom",
+    "marginHorizontal": "Sides"
+  },
+  "colors": {
+    "accent": "Accent",
+    "text": "Text",
+    "muted": "Secondary text",
+    "border": "Lines"
+  },
+  "options": {
+    "layout": {
+      "single-column": "Single column",
+      "sidebar-left": "Sidebar on the left",
+      "sidebar-right": "Sidebar on the right",
+      "top-band": "Coloured band on top"
+    },
+    "sidebarBackground": {
+      "accent": "Accent colour",
+      "light": "Light tint",
+      "gray": "Gray",
+      "rule": "Divider line only"
+    },
+    "align": {
+      "left": "Left",
+      "center": "Centre",
+      "split": "Name left, contact right"
+    },
+    "photo": {
+      "none": "None",
+      "round": "Round",
+      "square": "Square",
+      "rounded": "Rounded corners"
+    },
+    "divider": {
+      "none": "None",
+      "thin": "Thin",
+      "thick": "Thick",
+      "accent": "Coloured",
+      "double": "Double"
+    },
+    "title": {
+      "accent": "Coloured",
+      "uppercase": "Uppercase",
+      "muted-uppercase": "Gray, uppercase"
+    },
+    "nameColor": {
+      "dark": "Dark",
+      "accent": "Accent colour"
+    },
+    "nameSize": {
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large",
+      "huge": "Extra large"
+    },
+    "nameStyle": {
+      "bold": "Bold",
+      "light": "Light",
+      "uppercase": "Bold, uppercase",
+      "light-uppercase": "Light, uppercase"
+    },
+    "band": {
+      "none": "None",
+      "accent": "Accent colour",
+      "dark": "Dark",
+      "light": "Light tint"
+    },
+    "stripe": {
+      "none": "None",
+      "left": "Left",
+      "top": "Top"
+    },
+    "sectionHeading": {
+      "uppercase": "Plain",
+      "underline": "Underlined",
+      "left-bar": "Bar on the left",
+      "square-marker": "Square marker",
+      "extended-rule": "Line extending to the edge",
+      "box": "Coloured box",
+      "centered": "Centred between lines",
+      "short-rule": "Short line below"
+    },
+    "headingCase": {
+      "uppercase": "UPPERCASE",
+      "normal": "As written"
+    },
+    "sectionLayout": {
+      "stacked": "Above the content",
+      "side": "Left, in a narrow column"
+    },
+    "bullets": {
+      "dot": "Dot",
+      "dash": "Dash",
+      "arrow": "Arrow",
+      "square": "Square",
+      "none": "None"
+    },
+    "skills": {
+      "list": "List",
+      "tags": "Tags",
+      "two-column": "Two columns"
+    },
+    "tagStyle": {
+      "filled": "Filled",
+      "outline": "Outlined"
+    },
+    "contact": {
+      "icons": "With icons",
+      "separated": "With separators"
+    },
+    "separator": {
+      "|": "|",
+      "·": "·",
+      "–": "–"
+    },
+    "company": {
+      "bold": "Bold",
+      "italic": "Italic",
+      "accent": "Accent colour"
+    },
+    "datePosition": {
+      "right": "Right of the heading",
+      "below": "Below the heading",
+      "left": "Left, in its own column"
+    }
+  }
+}

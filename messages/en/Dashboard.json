@@ -21,5 +21,25 @@
     "restore": "Restore",
     "limit": "You’ve reached the resume limit; delete one first",
     "error": "Couldn’t restore it; try again"
+  },
+  "nav": {
+    "label": "Dashboard sections",
+    "resumes": "My resumes",
+    "templates": "My templates"
+  },
+  "templates": {
+    "meta": "My templates",
+    "title": "My templates",
+    "subtitle": "Resume templates you designed. Keep them to yourself, share them with a link, or make them public in the gallery.",
+    "new": "New template",
+    "empty": "You have no templates yet. Start from a ready-made one and change the fonts, colours and layout without any code.",
+    "edit": "Edit the {name} template",
+    "duplicate": "Make a copy",
+    "usage": "{n, plural, =0 {Not used yet} one {Used in # resume} other {Used in # resumes}}",
+    "updated": "Updated {date}",
+    "status": {
+      "under_review": "Under review after reports; not shown in the gallery",
+      "hidden": "Hidden by an administrator"
+    }
   }
 }

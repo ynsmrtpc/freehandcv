@@ -7,6 +7,7 @@ import { ResumeDocument } from "@/components/resume/ResumeDocument";
 import { ScaledPaper } from "@/components/resume/ScaledPaper";
 import { IconButton } from "@/components/editor/ui";
 import { UserMenu } from "@/components/account/UserMenu";
+import { DashboardNav } from "@/components/dashboard/DashboardNav";
 import { Logo } from "@/components/site/Logo";
 import { buttonClass } from "@/components/ui/Button";
 import { duplicateResumeAction, createResumeAction, deleteResumeAction, type ResumeActionResult } from "@/actions/resume";
@@ -111,6 +112,7 @@ export function DashboardView({
           </div>
         </div>
       </header>
+      <DashboardNav current="resumes" />
 
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
