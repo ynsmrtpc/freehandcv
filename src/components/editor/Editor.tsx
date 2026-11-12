@@ -1,5 +1,7 @@
 "use client";
 
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
 import {
   Check,
   ChevronDown,
@@ -7,12 +9,10 @@ import {
   CloudUpload,
   Loader2,
   Download,
-  Eye,
   FileJson,
   FilePlus2,
   FileUp,
   History,
-  PencilLine,
   Redo2,
   Sparkles,
   Undo2,
@@ -40,6 +40,7 @@ import { Preview } from "./Preview";
 import { DesignPanel } from "./DesignPanel";
 import { IconButton } from "./ui";
 import { VersionsDialog } from "./VersionsDialog";
+import { WorkspaceViewSwitch } from "./WorkspaceViewSwitch";
 import { ReviewPrompt, shouldAskForReview } from "./ReviewPrompt";
 import { EXAMPLE_PARAM, StartFromExample } from "./StartFromExample";
 import { StartFromTemplate } from "./StartFromTemplate";
@@ -241,24 +242,7 @@ export function Editor({ account, example }: { account?: AccountResume; example?
             </section>
           </div>
 
-          {/* Mobile: edit / preview toggle */}
-          <div className="flex shrink-0 gap-2 border-t border-border bg-surface p-2 lg:hidden">
-            {(["edit", "preview"] as const).map((v) => (
-              <button
-                key={v}
-                type="button"
-                aria-pressed={view === v}
-                onClick={() => setView(v)}
-                className={cn(
-                  "flex h-11 flex-1 items-center justify-center gap-2 rounded-xl text-sm font-semibold",
-                  view === v ? "bg-primary text-white" : "text-muted hover:bg-surface-2",
-                )}
-              >
-                {v === "edit" ? <PencilLine className="size-4" /> : <Eye className="size-4" />}
-                {t(`toolbar.${v}`)}
-              </button>
-            ))}
-          </div>
+          <WorkspaceViewSwitch value={view} onChange={setView} labels={{ edit: t("toolbar.edit"), preview: t("toolbar.preview") }} />
 
           <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-20 z-50 flex justify-center lg:bottom-6">
             <AnimatePresence>
@@ -361,6 +345,7 @@ function TopBar({
   const canUndo = useEditor((s) => s.past.length > 0);
   const canRedo = useEditor((s) => s.future.length > 0);
   const { undo, redo, replace } = useEditor.getState();
+  const confirm = useConfirm();
   const jsonRef = useRef<HTMLInputElement>(null);
   const menuRef = useRef<HTMLDetailsElement>(null);
 
@@ -404,12 +389,13 @@ function TopBar({
     "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-start text-sm font-medium text-foreground hover:bg-surface-2";
 
   return (
-    <header className="editor-chrome flex h-14 shrink-0 items-center gap-2 border-b border-border bg-surface px-3 sm:px-4">
+    <header className="editor-chrome relative flex shrink-0 flex-wrap items-center gap-2 border-b border-border bg-surface px-3 py-2 sm:h-14 sm:flex-nowrap sm:px-4 sm:py-0">
       <Link href="/" aria-label={t("toolbar.home")} className="me-1 rounded-lg">
         <Logo className="[&>span:last-child]:max-sm:hidden" />
       </Link>
+      <h1 className="min-w-0 truncate text-base font-semibold sm:sr-only">{t("meta")}</h1>
 
-      <div className="ms-1 flex min-w-0 items-center gap-1.5 text-[13px] text-muted" aria-live="polite">
+      <div className="ms-1 flex min-w-0 items-center gap-1.5 text-[13px] text-muted max-sm:me-11" aria-live="polite">
         {saveStatus.kind === "error" ? (
           <span className="flex items-center gap-1.5 font-medium text-danger">
             <CloudOff className="size-3.5" />
@@ -437,20 +423,20 @@ function TopBar({
         ) : null /* idle or conflict: guests already see where the resume lives in the notice below */}
       </div>
 
-      <div className="ms-auto flex items-center gap-1">
-        <IconButton label={t("toolbar.undo")} disabled={!canUndo} onClick={undo} className="size-9">
+      <div className="ms-auto flex items-center gap-1 max-sm:w-full max-sm:border-t max-sm:border-border max-sm:pt-1">
+        <IconButton label={t("toolbar.undo")} disabled={!canUndo} onClick={undo}>
           <Undo2 className="size-[18px]" />
         </IconButton>
-        <IconButton label={t("toolbar.redo")} disabled={!canRedo} onClick={redo} className="size-9">
+        <IconButton label={t("toolbar.redo")} disabled={!canRedo} onClick={redo}>
           <Redo2 className="size-[18px]" />
         </IconButton>
 
-        <details ref={menuRef} className="relative">
-          <summary className="flex h-9 list-none items-center gap-1 rounded-lg px-2.5 text-sm font-semibold text-foreground hover:bg-surface-2 [&::-webkit-details-marker]:hidden">
+        <details ref={menuRef} className="relative max-sm:static">
+          <summary className="flex h-11 list-none items-center gap-1 rounded-lg px-2.5 text-sm font-semibold text-foreground hover:bg-surface-2 pointer-fine:h-9 [&::-webkit-details-marker]:hidden">
             {t("toolbar.file")}
             <ChevronDown className="size-3.5 text-muted" />
           </summary>
-          <div className="absolute end-0 top-11 z-40 w-60 rounded-xl border border-border bg-surface p-1.5 shadow-elevated">
+          <div className="absolute end-0 top-full z-40 mt-1 w-60 rounded-xl border border-border bg-surface p-1.5 shadow-elevated max-sm:start-3 max-sm:end-auto">
             <button type="button" className={menuItem} onClick={() => (closeMenu(), downloadJson())}>
               <FileJson className="size-4 text-muted" />
               {t("toolbar.exportJson")}
@@ -469,9 +455,9 @@ function TopBar({
             <button
               type="button"
               className={menuItem}
-              onClick={() => {
+              onClick={async () => {
                 closeMenu();
-                if (confirm(t("confirm.loadSample"))) {
+                if (await confirm(t("confirm.loadSample"))) {
                   replace(sampleResume(locale));
                   notify(t("toast.loaded"));
                 }
@@ -483,9 +469,9 @@ function TopBar({
             <button
               type="button"
               className={menuItem}
-              onClick={() => {
+              onClick={async () => {
                 closeMenu();
-                if (confirm(t("confirm.startBlank"))) replace(emptyResume(locale));
+                if (await confirm(t("confirm.startBlank"))) replace(emptyResume(locale));
               }}
             >
               <FilePlus2 className="size-4 text-muted" />
@@ -529,12 +515,12 @@ function TopBar({
           onClick={downloadPdf}
           disabled={pdfBusy}
           aria-busy={pdfBusy}
-          className={buttonClass("primary", "sm", "ms-1 max-sm:h-11 max-sm:px-3")}
+          className={buttonClass("primary", "sm", "ms-1 max-sm:ms-auto max-sm:h-11 max-sm:min-w-0 max-sm:flex-1 max-sm:px-3")}
         >
           {pdfBusy ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
-          <span>{pdfBusy ? t("toolbar.pdfPreparing") : t("toolbar.pdf")}</span>
+          <span className="truncate">{pdfBusy ? t("toolbar.pdfPreparing") : t("toolbar.pdf")}</span>
         </button>
-        <UserMenu showSignIn={false} className="ms-1" />
+        <UserMenu showSignIn={false} className="ms-1 max-sm:absolute max-sm:end-3 max-sm:top-2" />
       </div>
     </header>
   );

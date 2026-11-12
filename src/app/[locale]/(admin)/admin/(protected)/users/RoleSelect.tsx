@@ -1,5 +1,7 @@
 "use client";
 
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import type { Role } from "@/server/db/schema";
@@ -18,6 +20,7 @@ export function RoleSelect({
   isSelf: boolean;
   canEdit: boolean;
 }) {
+  const confirm = useConfirm();
   const router = useRouter();
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
@@ -36,10 +39,10 @@ export function RoleSelect({
         aria-label="Rol"
         defaultValue={role}
         disabled={pending}
-        onChange={(e) => {
+        onChange={async (e) => {
           const select = e.currentTarget;
           const next = select.value;
-          if (next === "admin" && !confirm("Bu kişiye tüm yetkileri olan yönetici rolü verilsin mi?")) {
+          if (next === "admin" && !await confirm("Bu kişiye tüm yetkileri olan yönetici rolü verilsin mi?")) {
             select.value = role;
             return;
           }

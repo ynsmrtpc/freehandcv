@@ -3,12 +3,9 @@ import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { PageTitle } from "@/blocks/PageTitle";
-import { Section } from "@/blocks/shared";
-import { CategoryLinks, countByCategory, ExampleCards } from "@/components/examples/ExampleList";
+import { ExampleBrowser } from "@/components/examples/ExampleBrowser";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
-import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { categorySlug, EXAMPLE_CATEGORIES } from "@/lib/examples";
 import { alternates } from "@/lib/seo";
 import { getPublishedExamples } from "@/server/content/examples";
 
@@ -30,7 +27,6 @@ export default async function ResumeExamples({ params }: PageProps<"/[locale]/re
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   const [t, items] = await Promise.all([getTranslations({ locale, namespace: "Examples" }), getPublishedExamples(locale)]);
-  const counts = countByCategory(items);
 
   return (
     <>
@@ -42,35 +38,16 @@ export default async function ResumeExamples({ params }: PageProps<"/[locale]/re
           ]}
         />
       </div>
-      <PageTitle content={{ eyebrow: t("index.eyebrow"), title: t("index.title"), description: t("index.description") }} />
-      <Section className="pt-4 sm:pt-6">
+      <div className="mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-10">
+        <PageTitle reading content={{ eyebrow: t("index.eyebrow"), title: t("index.title"), description: t("index.description") }} />
+      </div>
+      <section className="mx-auto max-w-6xl px-4 pt-8 pb-16 sm:px-6 sm:pb-24">
         {items.length ? (
-          <>
-            <nav aria-label={t("index.categoriesLabel")} className="flex justify-center">
-              <CategoryLinks counts={counts} />
-            </nav>
-            <div className="mt-14 space-y-14">
-              {EXAMPLE_CATEGORIES.filter((c) => counts[c.id]).map((c) => (
-                <section key={c.id} aria-labelledby={`category-${c.id}`}>
-                  <h2 id={`category-${c.id}`} className="text-2xl font-bold tracking-tight text-foreground">
-                    <Link
-                      href={{ pathname: "/resume-examples/[slug]", params: { slug: categorySlug(locale, c.id)! } }}
-                      className="hover:text-primary-text"
-                    >
-                      {t(`categories.${c.id}.name` as never)}
-                    </Link>
-                  </h2>
-                  <div className="mt-5">
-                    <ExampleCards items={items.filter((e) => e.category === c.id)} />
-                  </div>
-                </section>
-              ))}
-            </div>
-          </>
+          <ExampleBrowser items={items} />
         ) : (
           <p className="text-center text-muted">{t("index.empty")}</p>
         )}
-      </Section>
+      </section>
     </>
   );
 }

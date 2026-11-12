@@ -1,11 +1,13 @@
 "use client";
 
-import { Copy, FilePlus2, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
+import { Copy, FilePlus2, Loader2, PencilLine, Plus, Sparkles, Trash2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
 import { ScaledPaper } from "@/components/resume/ScaledPaper";
-import { IconButton } from "@/components/editor/ui";
+import { RowMenu } from "@/components/editor/ui";
 import { UserMenu } from "@/components/account/UserMenu";
 import { DashboardNav } from "@/components/dashboard/DashboardNav";
 import { Logo } from "@/components/site/Logo";
@@ -38,6 +40,7 @@ export function DashboardView({
   sharing: { enabled: boolean; resumeId: string | null };
   trash: TrashItem[];
 }) {
+  const confirm = useConfirm();
   const t = useTranslations("Dashboard");
   const locale = useLocale();
   const router = useRouter();
@@ -85,9 +88,19 @@ export function DashboardView({
 
   useEffect(() => {
     if (!menuOpen) return;
+    menuRef.current?.querySelector<HTMLButtonElement>("[data-create-option]")?.focus();
     const onOutsideClick = (e: MouseEvent) => !menuRef.current?.contains(e.target as Node) && setMenuOpen(false);
+    const onEscape = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setMenuOpen(false);
+      menuRef.current?.querySelector<HTMLButtonElement>("[aria-expanded]")?.focus();
+    };
     document.addEventListener("click", onOutsideClick);
-    return () => document.removeEventListener("click", onOutsideClick);
+    document.addEventListener("keydown", onEscape);
+    return () => {
+      document.removeEventListener("click", onOutsideClick);
+      document.removeEventListener("keydown", onEscape);
+    };
   }, [menuOpen]);
 
   const create = (data: ResumeData) =>
@@ -120,7 +133,7 @@ export function DashboardView({
             <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("title")}</h1>
             <p className="mt-1 text-muted">{t("subtitle", { n: resumes.length })}</p>
           </div>
-          <div ref={menuRef} className="relative">
+          <div ref={menuRef} className="relative" hidden={resumes.length === 0}>
             <button
               type="button"
               aria-expanded={menuOpen}
@@ -135,6 +148,7 @@ export function DashboardView({
               <div className="absolute end-0 top-13 z-20 w-56 rounded-xl border border-border bg-surface p-1.5 shadow-elevated">
                 <button
                   type="button"
+                  data-create-option
                   onClick={() => create(sampleResume(locale))}
                   className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-start text-sm font-medium text-foreground hover:bg-surface-2"
                 >
@@ -167,59 +181,49 @@ export function DashboardView({
           <div className="mt-10 rounded-2xl border border-dashed border-border-strong p-12 text-center">
             <p className="text-muted">{t("empty")}</p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <button type="button" onClick={() => create(sampleResume(locale))} className={buttonClass("primary", "md")}>
+              <button type="button" disabled={pending} onClick={() => create(sampleResume(locale))} className={buttonClass("primary", "md")}>
                 <Sparkles className="size-4" />
                 {t("newFromExample")}
               </button>
-              <button type="button" onClick={() => create(emptyResume(locale))} className={buttonClass("secondary", "md")}>
+              <button type="button" disabled={pending} onClick={() => create(emptyResume(locale))} className={buttonClass("secondary", "md")}>
                 {t("newBlank")}
               </button>
             </div>
           </div>
         ) : (
-          <ul className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
+          <ul className="mt-8 grid gap-5 min-[480px]:grid-cols-2 lg:grid-cols-3" aria-busy={pending}>
             {resumes.map((r) => {
               const data = normalizeResume(r.content);
               return (
-                <li key={r.id} className="group relative rounded-2xl border border-border bg-surface p-2.5 shadow-card transition-shadow hover:shadow-elevated">
+                <li key={r.id} className="min-w-0 rounded-xl border border-border bg-surface p-4">
                   <Link href={{ pathname: "/resume/[id]", params: { id: r.id } }} className="block rounded-lg">
                     <div
                       aria-hidden
                       inert
-                      className="pointer-events-none isolate aspect-[210/297] w-full overflow-hidden rounded-lg bg-white ring-1 ring-black/5"
+                      className="pointer-events-none isolate aspect-[210/297] w-full overflow-hidden rounded-md bg-paper"
                     >
                       <ScaledPaper initialScale={0.25}>
                         <ResumeDocument data={data} definition={resumeDefinition(data)} noLinks embedded />
                       </ScaledPaper>
                     </div>
-                    <p className="mt-3 truncate px-1 text-sm font-semibold text-foreground">{r.title}</p>
-                    <p className="px-1 pb-1 text-xs text-muted">{t("updated", { time: formatDate(r.updatedAt) })}</p>
+                    <p className="mt-4 truncate text-lg font-semibold text-foreground" title={r.title}>{r.title}</p>
+                    <p className="mt-1 text-sm text-muted">{t("updated", { time: formatDate(r.updatedAt) })}</p>
                   </Link>
-                  <div className="absolute end-4 top-4 z-10 flex gap-1 rounded-lg bg-surface/95 p-0.5 shadow-card transition-opacity pointer-fine:opacity-0 pointer-fine:group-focus-within:opacity-100 pointer-fine:group-hover:opacity-100">
-                    <IconButton
-                      label={`${t("duplicate")}: ${r.title}`}
-                      disabled={pending}
-                      onClick={() =>
-                        startTransition(async () => {
+                  <div className="mt-4 flex items-center justify-between border-t border-border pt-3">
+                    <Link href={{ pathname: "/resume/[id]", params: { id: r.id } }} className={buttonClass("secondary", "md")} aria-label={`${t("edit")}: ${r.title}`}>
+                      <PencilLine className="size-4" aria-hidden />
+                      {t("edit")}
+                    </Link>
+                    <RowMenu label={t("actions", { name: r.title })} items={[
+                      { label: t("duplicate"), icon: <Copy />, disabled: pending, onSelect: () => startTransition(async () => {
                           if (handleResult(await duplicateResumeAction(r.id))) router.refresh();
-                        })
-                      }
-                    >
-                      <Copy className="size-4" />
-                    </IconButton>
-                    <IconButton
-                      label={`${t("delete")}: ${r.title}`}
-                      danger
-                      disabled={pending}
-                      onClick={() =>
-                        confirm(t("deleteConfirm", { name: r.title })) &&
-                        startTransition(async () => {
+                        }) },
+                      { label: t("delete"), icon: <Trash2 />, danger: true, disabled: pending, onSelect: async () => {
+                        if (await confirm(t("deleteConfirm", { name: r.title }), { danger: true })) startTransition(async () => {
                           if (handleResult(await deleteResumeAction(r.id))) router.refresh();
-                        })
-                      }
-                    >
-                      <Trash2 className="size-4" />
-                    </IconButton>
+                        });
+                      } },
+                    ]} />
                   </div>
                 </li>
               );

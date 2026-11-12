@@ -1,6 +1,8 @@
 "use client";
 
-import { AlertTriangle, ArrowLeft, Check, Eye, Loader2, PencilLine, RotateCcw, ShieldCheck, Trash2 } from "lucide-react";
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
+import { AlertTriangle, ArrowLeft, Check, Loader2, RotateCcw, ShieldCheck, Trash2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import {
@@ -11,6 +13,7 @@ import {
   type TemplateActionError,
 } from "@/actions/template";
 import { Checkbox, Field, Input, Textarea } from "@/components/editor/ui";
+import { WorkspaceViewSwitch } from "@/components/editor/WorkspaceViewSwitch";
 import { DefinitionPreview } from "@/components/resume/TemplatePreview";
 import { Logo } from "@/components/site/Logo";
 import { buttonClass } from "@/components/ui/Button";
@@ -48,7 +51,7 @@ const NAME_MAX = 60;
 const DESCRIPTION_MAX = 300;
 
 const selectClass =
-  "h-10 w-full rounded-lg border border-border-strong bg-surface px-3 text-[15px] text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/15";
+  "h-11 w-full rounded-lg border border-border-strong bg-surface px-3 text-base text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/15";
 
 
 const DEFAULT_SIDEBAR_SECTIONS = ["skills", "languages", "certifications", "interests"];
@@ -61,6 +64,7 @@ export function TemplateEditor({
   template?: EditableTemplate;
   initialDefinition: DesignDefinition;
 }) {
+  const confirm = useConfirm();
   const t = useTranslations("TemplateEditor");
   const te = useTranslations("Editor");
   const tt = useTranslations("Templates");
@@ -83,19 +87,19 @@ export function TemplateEditor({
   const [view, setView] = useState<"edit" | "preview">("edit");
   const [previewLocale, setPreviewLocale] = useState(locale === "tr" ? "tr" : "en");
 
-  const dirty =
-    !template ||
+  const hasChanges =
     name !== saved.name ||
     description !== saved.description ||
     JSON.stringify(d) !== JSON.stringify(saved.definition);
+  const dirty = !template || hasChanges;
 
   // Leaving with unsaved changes asks first (the browser's own dialog).
   useEffect(() => {
-    if (!dirty || !template) return;
+    if (!hasChanges) return;
     const onBeforeUnload = (e: BeforeUnloadEvent) => e.preventDefault();
     window.addEventListener("beforeunload", onBeforeUnload);
     return () => window.removeEventListener("beforeunload", onBeforeUnload);
-  }, [dirty, template]);
+  }, [hasChanges]);
 
   const patch = (recipe: (draft: DesignDefinition) => void) =>
     setD((current) => {
@@ -143,7 +147,7 @@ export function TemplateEditor({
   };
 
   const remove = async () => {
-    if (!template || !confirm(t("deleteConfirm", { name: saved.name }))) return;
+    if (!template || !await confirm(t("deleteConfirm", { name: saved.name }), { danger: true })) return;
     const r = await deleteTemplateAction(template.id);
     if (r.ok) router.replace("/dashboard/templates");
     else setStatus({ kind: "error", reason: r.reason });
@@ -188,7 +192,7 @@ export function TemplateEditor({
           step={step}
           value={value}
           onChange={(e) => onChange(+e.target.value)}
-          className="h-10 w-full accent-primary"
+          className="h-11 w-full accent-primary"
         />
       )}
     </Field>
@@ -215,8 +219,8 @@ export function TemplateEditor({
   );
 
   const group = (title: string, children: React.ReactNode) => (
-    <section className="space-y-4">
-      <h2 className="text-xs font-bold tracking-wider text-muted uppercase">{title}</h2>
+    <section className="space-y-4 border-b border-border pb-6 last:border-0">
+      <h2 className="text-lg font-bold text-foreground">{title}</h2>
       <div className="grid grid-cols-2 gap-x-3 gap-y-4">{children}</div>
     </section>
   );
@@ -224,13 +228,13 @@ export function TemplateEditor({
   return (
     <div className="flex h-dvh flex-col bg-background">
       <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border bg-surface px-3 sm:px-4">
-        <Link href="/dashboard/templates" aria-label={t("back")} className="grid size-9 place-items-center rounded-lg text-muted hover:bg-surface-2 hover:text-foreground">
+        <Link href="/dashboard/templates" aria-label={t("back")} className="grid size-11 shrink-0 place-items-center rounded-lg text-muted hover:bg-surface-2 hover:text-foreground pointer-fine:size-9">
           <ArrowLeft className="size-[18px]" />
         </Link>
         <Logo className="[&>span:last-child]:max-sm:hidden" />
-        <p className="ms-2 hidden truncate text-sm font-semibold text-foreground md:block">
+        <h1 className="ms-2 min-w-0 truncate text-base font-semibold text-foreground max-sm:sr-only">
           {template ? saved.name : t("newTitle")}
-        </p>
+        </h1>
         <div className="ms-auto flex items-center gap-2">
           <p className="hidden text-xs text-muted sm:block" aria-live="polite">
             {status.kind === "saving" ? (
@@ -240,7 +244,7 @@ export function TemplateEditor({
               </span>
             ) : status.kind === "error" ? (
               <span className="font-medium text-danger">{t(`errors.${status.reason}`)}</span>
-            ) : dirty && template ? (
+            ) : hasChanges ? (
               t("status.unsaved")
             ) : status.kind === "saved" ? (
               <span className="flex items-center gap-1.5">
@@ -252,8 +256,8 @@ export function TemplateEditor({
           <button
             type="button"
             onClick={() => void save()}
-            disabled={status.kind === "saving" || !dirty}
-            className={buttonClass("primary", "sm")}
+            disabled={status.kind === "saving" || !dirty || !name.trim()}
+            className={buttonClass("primary", "sm", "max-sm:h-11")}
           >
             {template ? t("save") : t("create")}
           </button>
@@ -516,7 +520,7 @@ export function TemplateEditor({
                   aria-pressed={previewLocale === l}
                   onClick={() => setPreviewLocale(l)}
                   className={cn(
-                    "h-7 rounded-md px-2.5 text-xs font-semibold uppercase transition-colors",
+                    "h-11 rounded-md px-3 text-sm font-semibold uppercase transition-colors pointer-fine:h-8",
                     previewLocale === l ? "bg-surface text-foreground shadow-card" : "text-muted hover:text-foreground",
                   )}
                 >
@@ -534,24 +538,7 @@ export function TemplateEditor({
         </div>
       </div>
 
-      {/* Mobile: edit / preview toggle */}
-      <div className="flex shrink-0 gap-2 border-t border-border bg-surface p-2 lg:hidden">
-        {(["edit", "preview"] as const).map((v) => (
-          <button
-            key={v}
-            type="button"
-            aria-pressed={view === v}
-            onClick={() => setView(v)}
-            className={cn(
-              "flex h-11 flex-1 items-center justify-center gap-2 rounded-xl text-sm font-semibold",
-              view === v ? "bg-primary text-white" : "text-muted hover:bg-surface-2",
-            )}
-          >
-            {v === "edit" ? <PencilLine className="size-4" /> : <Eye className="size-4" />}
-            {t(`view.${v}`)}
-          </button>
-        ))}
-      </div>
+      <WorkspaceViewSwitch value={view} onChange={setView} labels={{ edit: t("view.edit"), preview: t("view.preview") }} />
     </div>
   );
 }

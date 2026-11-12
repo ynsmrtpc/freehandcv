@@ -3,15 +3,16 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 
 /** Tabs between the dashboard's lists: my resumes, my templates. */
-export function DashboardNav({ current }: { current: "resumes" | "templates" }) {
+export function DashboardNav({ current }: { current: "resumes" | "templates" | "account" }) {
   const t = useTranslations("Dashboard.nav");
   const items = [
     { key: "resumes", href: "/dashboard" },
     { key: "templates", href: "/dashboard/templates" },
+    { key: "account", href: "/account" },
   ] as const;
   return (
     <nav aria-label={t("label")} className="border-b border-border bg-surface">
-      <ul className="mx-auto flex max-w-6xl gap-1 px-4 sm:px-6">
+      <ul className="mx-auto flex max-w-6xl flex-wrap gap-1 px-4 sm:px-6">
         {items.map((i) => (
           <li key={i.key}>
             <Link

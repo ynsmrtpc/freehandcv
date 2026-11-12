@@ -18,6 +18,7 @@ export default async function EditPage({ params }: PageProps<"/[locale]/admin/pa
         id: p.id,
         slug: p.slug,
         locale: p.locale,
+        kind: p.kind,
         version: p.version,
         meta: {
           title: p.title,

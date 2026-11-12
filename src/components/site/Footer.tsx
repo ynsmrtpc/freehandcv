@@ -20,7 +20,7 @@ export async function Footer() {
     getTranslations("Guides"),
     getYear(),
     getSiteSettings(locale),
-    getPublishedPages(),
+    getPublishedPages(true),
     getPublishedExamples(locale),
     getPublishedGuides(),
   ]);
@@ -91,7 +91,7 @@ export async function Footer() {
               </Link>
             </li>
             <li>
-              <Link href={{ pathname: "/", hash: "templates" }} className={linkClass}>
+              <Link href="/resume-templates" className={linkClass}>
                 {t("templates")}
               </Link>
             </li>
@@ -99,31 +99,6 @@ export async function Footer() {
               <li>
                 <Link href="/resume-examples" className={linkClass}>
                   {t("resumeExamples")}
-                </Link>
-              </li>
-            )}
-            <li>
-              {isPublished("is-it-free") ? (
-                <Link href="/is-it-free" className={linkClass}>
-                  {t("isItFree")}
-                </Link>
-              ) : (
-                <Link href={{ pathname: "/", hash: "comparison" }} className={linkClass}>
-                  {t("isItFree")}
-                </Link>
-              )}
-            </li>
-            {isPublished("support") && (
-              <li>
-                <Link href="/support" className={linkClass}>
-                  {t("support")}
-                </Link>
-              </li>
-            )}
-            {isPublished("privacy") && (
-              <li>
-                <Link href="/privacy" className={linkClass}>
-                  {t("privacy")}
                 </Link>
               </li>
             )}
@@ -155,9 +130,16 @@ export async function Footer() {
         )}
       </div>
       <div className="border-t border-border">
-        <p className="mx-auto max-w-6xl px-4 py-6 text-xs text-muted sm:px-6">
-          {t("footerCopyright", { year })}
-        </p>
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:px-6">
+          <p className="text-xs text-muted">{t("footerCopyright", { year })}</p>
+          <nav aria-label={t("footerInformation")}>
+            <ul className="flex flex-wrap items-center gap-x-5">
+              {isPublished("support") && <li><Link href="/support" className={`${linkClass} inline-flex min-h-11 items-center`}>{t("support")}</Link></li>}
+              {isPublished("privacy") && <li><Link href="/privacy" className={`${linkClass} inline-flex min-h-11 items-center`}>{t("privacy")}</Link></li>}
+              <li><Link href={isPublished("is-it-free") ? "/is-it-free" : { pathname: "/", hash: "comparison" }} className={`${linkClass} inline-flex min-h-11 items-center`}>{t("isItFree")}</Link></li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </footer>
   );

@@ -16,15 +16,15 @@ export function parseBlocks(raw: unknown): Block[] {
   return parsed.success ? (parsed.data as Block[]) : [];
 }
 
-/** Published pages as (locale, slug, updatedAt) — for the sitemap and the footer. */
-export async function getPublishedPages(): Promise<{ locale: string; slug: string; updatedAt: string }[]> {
+/** The sitemap uses indexable pages; navigation can also include published noindex legal pages. */
+export async function getPublishedPages(includeNoIndex = false): Promise<{ locale: string; slug: string; updatedAt: string }[]> {
   "use cache";
   cacheTag(PUBLISHED_PAGES_TAG);
   try {
     const rows = await db
       .select({ locale: pages.locale, slug: pages.slug, updatedAt: pages.updatedAt })
       .from(pages)
-      .where(and(eq(pages.status, "published"), eq(pages.indexable, true)));
+      .where(and(eq(pages.status, "published"), includeNoIndex ? undefined : eq(pages.indexable, true)));
     return rows.map((p) => ({ ...p, updatedAt: p.updatedAt.toISOString() }));
   } catch (error) {
     console.error("getPublishedPages: database unreachable", error);

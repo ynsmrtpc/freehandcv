@@ -1,11 +1,14 @@
 "use client";
 
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { buttonClass } from "@/components/ui/Button";
 import { setExampleActiveAction } from "./actions";
 
 export function PublishToggle({ id, active }: { id: string; active: boolean }) {
+  const confirm = useConfirm();
   const router = useRouter();
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
@@ -14,8 +17,8 @@ export function PublishToggle({ id, active }: { id: string; active: boolean }) {
       <button
         type="button"
         disabled={pending}
-        onClick={() => {
-          if (active && !confirm("Örnek yayından kaldırılsın mı? Sayfası 404 verir.")) return;
+        onClick={async () => {
+          if (active && !await confirm("Örnek yayından kaldırılsın mı? Sayfası 404 verir.")) return;
           startTransition(async () => {
             const r = await setExampleActiveAction(id, !active);
             if (r.ok) {

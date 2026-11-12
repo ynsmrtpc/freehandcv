@@ -1,6 +1,7 @@
 # FreehandCV — Web Uygulaması Planı
 
-> Durum: **Faz 0 kodda tamam** (Ekim 2026); dağıtım, Umami ve Search Console bekliyor.
+> Durum (12 Kasım 2026): Faz 0–2 ve Faz 3'ün şablon editörü/galeri/profil kodu mevcut;
+> dağıtım, Umami ve Search Console bekliyor. Güncel iş dökümü: `docs/WORK-STATUS.md`.
 > Eski statik sürüm (`ozgecmis-studyo` deposu: `index.html`, `js/uygulama.js`, `css/sablonlar.css`)
 > yeni uygulamanın tasarım/şablon referansıdır.
 >
@@ -704,6 +705,10 @@ en baştan tam haliyle kurulduğu için sonraki fazlar köklü değişiklik gere
    uyarlama, ön yazı (cover letter) şablonları.
 
 ### 14.1 Kullanıcı istekleri (12 Kasım 2026)
+
+Devam çalışması: panel ve editörlerde mobil kullanılabilirlik iyileştirildi; mevcut kâğıt/mürekkep
+tasarım sistemi `DESIGN.md` içinde belgelendi. Yapılanlar ve yayına kalanlar `docs/WORK-STATUS.md`,
+Canva aktarımı için teknik kapsam `docs/CANVA-IMPORT.md` içindedir.
 
 - **Arayüz yenilemesi:** uygulama tarafında (panel, editör, şablon editörü) UI/UX'i baştan ele alan,
   daha kullanışlı ve güncel bir arayüz. İstenen araç: `impeccable` tasarım skill'i.

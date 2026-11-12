@@ -1,5 +1,7 @@
 "use client";
 
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
 import { RotateCcw, Trash2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
@@ -14,6 +16,7 @@ export type TrashItem = { id: string; title: string; deletedAt: string };
  * The user can also remove one resume, or the whole trash, for good before that.
  */
 export function TrashList({ items }: { items: TrashItem[] }) {
+  const confirm = useConfirm();
   const t = useTranslations("Dashboard.trash");
   const locale = useLocale();
   const router = useRouter();
@@ -45,7 +48,7 @@ export function TrashList({ items }: { items: TrashItem[] }) {
           <button
             type="button"
             disabled={pending}
-            onClick={() => confirm(t("emptyConfirm", { n: items.length })) && run(() => purgeTrashAction(), "purgeError")}
+            onClick={async () => await confirm(t("emptyConfirm", { n: items.length }), { danger: true, confirmLabel: t("empty") }) && run(() => purgeTrashAction(), "purgeError")}
             className={buttonClass("ghost", "sm", "shrink-0 text-danger")}
           >
             <Trash2 className="size-4" />
@@ -78,8 +81,8 @@ export function TrashList({ items }: { items: TrashItem[] }) {
                   type="button"
                   disabled={pending}
                   aria-label={`${t("purge")}: ${r.title}`}
-                  onClick={() =>
-                    confirm(t("purgeConfirm", { name: r.title })) && run(() => purgeTrashAction(r.id), "purgeError")
+                  onClick={async () =>
+                    await confirm(t("purgeConfirm", { name: r.title }), { danger: true, confirmLabel: t("purge") }) && run(() => purgeTrashAction(r.id), "purgeError")
                   }
                   className={buttonClass("ghost", "sm", "text-danger")}
                 >

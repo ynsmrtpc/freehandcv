@@ -23,7 +23,7 @@ export function Field({
   const id = useId();
   return (
     <div className={cn("min-w-0", half ? "col-span-1" : "col-span-2")}>
-      <label htmlFor={id} className="mb-1.5 flex items-center justify-between gap-2 text-[13px] font-semibold text-foreground">
+      <label htmlFor={id} className="mb-1.5 flex items-center justify-between gap-2 text-[15px] font-semibold text-foreground">
         {label}
         {extra}
       </label>
@@ -34,7 +34,7 @@ export function Field({
 }
 
 export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return <input autoComplete="off" {...props} className={cn(inputClass, "h-10", props.className)} />;
+  return <input autoComplete="off" {...props} className={cn(inputClass, "h-11", props.className)} />;
 }
 
 export function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
@@ -53,7 +53,7 @@ export function Checkbox({
   disabled?: boolean;
 }) {
   return (
-    <label className={cn("flex min-h-10 cursor-pointer items-center gap-2.5 text-sm text-foreground", disabled && "cursor-not-allowed opacity-50")}>
+    <label className={cn("flex min-h-11 cursor-pointer items-center gap-2.5 text-sm text-foreground", disabled && "cursor-not-allowed opacity-50")}>
       <span className="relative grid size-5 place-items-center">
         <input
           type="checkbox"
@@ -83,7 +83,7 @@ export function Segmented<T extends string>({
   return (
     <div>
       <p className="mb-1.5 text-[13px] font-semibold text-foreground">{label}</p>
-      <div role="group" aria-label={label} className="inline-flex rounded-lg border border-border-strong bg-surface-2 p-0.5">
+      <div role="group" aria-label={label} className="inline-flex max-w-full flex-wrap rounded-lg border border-border-strong bg-surface-2 p-0.5">
         {options.map((o) => (
           <button
             key={o.value}
@@ -91,7 +91,7 @@ export function Segmented<T extends string>({
             aria-pressed={value === o.value}
             onClick={() => onChange(o.value)}
             className={cn(
-              "h-8 rounded-md px-3 text-[13px] font-semibold transition-colors",
+              "min-h-11 rounded-md px-3 text-sm font-semibold transition-colors pointer-fine:min-h-9",
               value === o.value ? "bg-surface text-foreground shadow-card" : "text-muted hover:text-foreground",
             )}
           >

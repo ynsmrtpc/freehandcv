@@ -1,5 +1,7 @@
 "use client";
 
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
 import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import { useState, useTransition } from "react";
 import { buttonClass } from "@/components/ui/Button";
@@ -37,6 +39,7 @@ function Label({ text, hint, children }: { text: string; hint?: string; children
 
 /** Page details and the occupation guide. The resume itself is edited in the CV editor. */
 export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial: ExampleFormValues; slugLocked: boolean }) {
+  const confirm = useConfirm();
   const router = useRouter();
   const [v, setV] = useState(initial);
   const [error, setError] = useState("");
@@ -202,7 +205,7 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
               <button
                 type="button"
                 aria-label="Bölümü sil"
-                onClick={() => confirm("Bölüm silinsin mi?") && setSections(v.guide.sections.filter((_, j) => j !== i))}
+                onClick={async () => await confirm("Bölüm silinsin mi?", { danger: true }) && setSections(v.guide.sections.filter((_, j) => j !== i))}
                 className={buttonClass("ghost", "sm", "px-2 text-danger")}
               >
                 <Trash2 className="size-4" />

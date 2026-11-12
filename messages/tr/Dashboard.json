@@ -6,6 +6,7 @@
   "newFromExample": "Örnekten başla",
   "newBlank": "Boş CV",
   "edit": "Düzenle",
+  "actions": "{name} için diğer işlemler",
   "duplicate": "Çoğalt",
   "delete": "Sil",
   "deleteConfirm": "\"{name}\" silinsin mi? Çöp kutusunda 30 gün kalır.",
@@ -30,7 +31,8 @@
   "nav": {
     "label": "Panel bölümleri",
     "resumes": "CV'lerim",
-    "templates": "Şablonlarım"
+    "templates": "Şablonlarım",
+    "account": "Hesabım"
   },
   "templates": {
     "meta": "Şablonlarım",

@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { Atkinson_Hyperlegible_Next } from "next/font/google";
 import { notFound } from "next/navigation";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { ConfirmProvider } from "@/components/ui/ConfirmProvider";
 import { routing } from "@/i18n/routing";
 import { SITE_URL } from "@/lib/site";
 import "../globals.css";
@@ -55,7 +56,7 @@ export default async function RootLayout({
     <html lang={locale} dir="ltr" className={bodyFont.variable} suppressHydrationWarning>
       <body className="min-h-dvh font-sans antialiased">
         <ThemeProvider>
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <NextIntlClientProvider><ConfirmProvider>{children}</ConfirmProvider></NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

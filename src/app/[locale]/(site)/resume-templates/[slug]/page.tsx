@@ -107,12 +107,9 @@ async function TemplatePage({ locale, item, all }: { locale: Locale; item: Galle
         />
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:py-14">
-        <div className="lg:pt-6">
-          <p className="text-sm font-semibold tracking-wide text-primary-text uppercase">
-            {item.ownerUsername ? t("community") : t("official")}
-          </p>
-          <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-balance text-foreground sm:text-5xl">{item.name}</h1>
+      <div className="mx-auto grid max-w-6xl items-start gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-12">
+        <div className="min-w-0 lg:sticky lg:top-24">
+          <h1 className="text-3xl leading-tight font-bold tracking-[-0.025em] text-pretty text-foreground sm:text-4xl">{item.name}</h1>
           <p className="mt-3 text-muted">
             {item.ownerUsername ? (
               t.rich("by", {
@@ -180,7 +177,7 @@ async function TemplatePage({ locale, item, all }: { locale: Locale; item: Galle
           <p className="mt-6 text-sm leading-relaxed text-muted">{t(item.ats === 5 ? "atsFull" : "atsPartial")}</p>
         </div>
 
-        <div>
+        <div className="min-w-0 rounded-xl border border-border bg-desk p-3 sm:p-5">
           <div className="overflow-hidden rounded-sm shadow-paper">
             <DefinitionPreview definition={item.definition} locale={locale} initialScale={0.7} />
           </div>
@@ -193,9 +190,9 @@ async function TemplatePage({ locale, item, all }: { locale: Locale; item: Galle
           <h2 id="similar-templates" className="text-2xl font-bold tracking-tight text-foreground">
             {t("similar")}
           </h2>
-          <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {similar.map((i) => (
-              <li key={`${i.ref.kind}:${i.ref.id}`}>
+              <li key={`${i.ref.kind}:${i.ref.id}`} className="min-w-0">
                 <TemplateCard item={i} locale={locale} />
               </li>
             ))}

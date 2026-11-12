@@ -1,5 +1,7 @@
 {
   "home": "Home",
+  "contents": "In this guide",
+  "readingTime": "About {minutes} min read",
   "updated": "Last updated {date}",
   "related": "More guides",
   "footer": "Guides",

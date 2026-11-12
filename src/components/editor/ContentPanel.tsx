@@ -1,5 +1,7 @@
 "use client";
 
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
 import {
   ChevronDown,
   ChevronUp,
@@ -506,6 +508,7 @@ function EntryList({
 }) {
   const t = useTranslations("Editor");
   const locale = useLocale();
+  const confirm = useConfirm();
   const singular = t(`singular.${section}`);
   const entries = data[section] as (Record<string, unknown> & { id: string; hidden?: boolean })[];
   const list = (v: ResumeData) => v[section] as unknown as Record<string, unknown>[];
@@ -562,8 +565,8 @@ function EntryList({
                     label: t("delete"),
                     icon: <Trash2 />,
                     danger: true,
-                    onSelect: () => {
-                      if (!confirm(t("confirm.deleteEntry", { name: summary }))) return;
+                    onSelect: async () => {
+                      if (!await confirm(t("confirm.deleteEntry", { name: summary }), { danger: true })) return;
                       update((v) => void list(v).splice(i, 1), false);
                     },
                   },

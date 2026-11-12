@@ -65,22 +65,22 @@ async function Content({ params }: { params: PageProps<"/[locale]/users/[usernam
           ]}
         />
       </div>
-      <header className="flex items-center gap-4 pt-10 sm:pt-14">
+      <header className="flex items-start gap-4 border-b border-border pt-8 pb-6 sm:pt-10">
         <span
           aria-hidden
           className="grid size-16 shrink-0 place-items-center rounded-full bg-primary-soft text-2xl font-bold text-primary-text uppercase"
         >
           {profile.username[0]}
         </span>
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">@{profile.username}</h1>
+        <div className="min-w-0">
+          <h1 className="text-3xl font-bold tracking-tight break-all text-foreground sm:text-4xl">@{profile.username}</h1>
           <p className="mt-1 text-muted">{t("summary", { n: items.length, uses })}</p>
         </div>
       </header>
       {items.length ? (
-        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((i) => (
-            <li key={itemKey(i)}>
+            <li key={itemKey(i)} className="min-w-0">
               <TemplateCard item={i} locale={locale} />
             </li>
           ))}

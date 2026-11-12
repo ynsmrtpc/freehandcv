@@ -1,5 +1,7 @@
 "use client";
 
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
 import { FileDown, History, Loader2, RotateCcw, Save, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -30,6 +32,7 @@ export function VersionsDialog({
   onClose: () => void;
   notify: (text: string) => void;
 }) {
+  const confirm = useConfirm();
   const t = useTranslations("Editor.versions");
   const locale = useLocale();
   const ref = useRef<HTMLDialogElement>(null);
@@ -70,7 +73,7 @@ export function VersionsDialog({
 
   const restore = async (versionId: string) => {
     const data = useEditor.getState().data;
-    if (!data || !confirm(t("restoreConfirm"))) return;
+    if (!data || !await confirm(t("restoreConfirm"))) return;
     setBusy(versionId);
     const r = await restoreVersionAction(resumeId, versionId, data).catch(() => null);
     setBusy(null);

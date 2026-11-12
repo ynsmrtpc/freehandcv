@@ -11,15 +11,15 @@ import type { ExampleSummary } from "@/server/content/examples";
 export function ExampleCards({ items }: { items: ExampleSummary[] }) {
   const t = useTranslations("Examples");
   return (
-    <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="grid gap-3 sm:grid-cols-2">
       {items.map((e) => (
         <li key={e.slug}>
           <Link
             href={{ pathname: "/resume-examples/[slug]", params: { slug: e.slug } }}
-            className="group flex h-full items-center justify-between gap-3 rounded-2xl border border-border bg-surface px-5 py-4 shadow-card transition-[border-color,box-shadow] hover:border-border-strong hover:shadow-elevated"
+            className="group flex h-full items-center justify-between gap-4 rounded-lg border border-border bg-surface p-5 transition-colors hover:border-primary"
           >
             <span className="min-w-0">
-              <span className="block font-semibold text-foreground">{e.title}</span>
+              <span className="block text-base leading-snug font-semibold text-foreground">{e.title}</span>
               <span className="mt-0.5 block text-sm text-muted">
                 {t(`categories.${e.category}.name` as never)}
                 {e.experienceLevel && ` · ${t(`levels.${e.experienceLevel}` as never)}`}
@@ -48,7 +48,7 @@ export function CategoryLinks({ counts, current }: { counts: Record<string, numb
             href={{ pathname: "/resume-examples/[slug]", params: { slug: categorySlug(locale, c.id)! } }}
             aria-current={c.id === current ? "page" : undefined}
             className={cn(
-              "inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm font-medium transition-colors",
+              "inline-flex min-h-11 items-center gap-2 rounded-lg border px-3.5 py-2 text-sm font-medium transition-colors",
               c.id === current
                 ? "border-primary bg-primary-soft text-primary-text"
                 : "border-border bg-surface text-foreground hover:border-border-strong",

@@ -1,5 +1,7 @@
 "use client";
 
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -15,6 +17,7 @@ export const EXAMPLE_PARAM = "ornek";
  * was there). The parameter is removed afterwards so a reload doesn't load it again.
  */
 export function StartFromExample({ notify }: { notify: (text: string) => void }) {
+  const confirm = useConfirm();
   const t = useTranslations("Editor.example");
   const locale = useLocale();
   const slug = useSearchParams().get(EXAMPLE_PARAM);
@@ -33,11 +36,11 @@ export function StartFromExample({ notify }: { notify: (text: string) => void })
       try {
         hasSaved = localStorage.getItem(GUEST_STORAGE_KEY) !== null;
       } catch {}
-      if (hasSaved && !confirm(t("confirmReplace"))) return;
+      if (hasSaved && !await confirm(t("confirmReplace"))) return;
       useEditor.getState().replace(r.data);
       notify(t("loaded"));
     })();
-  }, [slug, locale, router, notify, t]);
+  }, [slug, locale, router, notify, t, confirm]);
 
   return null;
 }

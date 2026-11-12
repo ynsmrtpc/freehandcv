@@ -11,7 +11,14 @@
     "description": "Her örnek, o meslekte işe alım yapanların aradığı bilgilerle yazıldı. Beğendiğini seç, kendi bilgilerinle değiştir ve ücretsiz PDF olarak indir.",
     "count": "{n} örnek",
     "empty": "Henüz yayında örnek yok.",
-    "categoriesLabel": "Kategoriler"
+    "categoriesLabel": "Kategoriler",
+    "searchLabel": "Mesleğine uygun örneği bul",
+    "searchPlaceholder": "Örn. hemşire, yazılım mühendisi, muhasebeci",
+    "all": "Tüm kategoriler",
+    "results": "{n} örnek gösteriliyor",
+    "clear": "Filtreleri temizle",
+    "noResults": "Aramana uygun örnek bulunamadı",
+    "noResultsHint": "Meslek adını kısaltmayı veya farklı bir kategori seçmeyi dene."
   },
   "category": {
     "others": "Diğer kategoriler",
@@ -27,7 +34,8 @@
     "guideTitle": "{occupation} CV'si yazarken",
     "similar": "Benzer CV örnekleri",
     "updated": "Güncelleme: {date}",
-    "resumeLabel": "{occupation} CV örneği"
+    "resumeLabel": "{occupation} CV örneği",
+    "guideLink": "Bu meslek için CV yazım önerileri"
   },
   "levels": {
     "entry": "Yeni mezun",

@@ -2,7 +2,8 @@
 
 import { Download, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useId, useState } from "react";
+import { DashboardNav } from "@/components/dashboard/DashboardNav";
 import { closeAccountAction, setUsernameAction } from "@/actions/account";
 import { UserMenu } from "@/components/account/UserMenu";
 import { Logo } from "@/components/site/Logo";
@@ -16,12 +17,13 @@ const input =
   "mt-1.5 block h-11 w-full rounded-xl border border-border-strong bg-surface px-3.5 text-base text-foreground outline-none transition-[border-color,box-shadow] focus:border-primary focus:ring-4 focus:ring-primary/15";
 
 function Section({ title, description, children, danger }: { title: string; description?: string; children: React.ReactNode; danger?: boolean }) {
+  const headingId = useId();
   return (
     <section
-      className={cn("rounded-2xl border bg-surface p-6 shadow-card", danger ? "border-danger/30" : "border-border")}
-      aria-labelledby={`account-${title}`}
+      className={cn("rounded-xl border bg-surface p-5 sm:p-6", danger ? "border-danger/30" : "border-border")}
+      aria-labelledby={headingId}
     >
-      <h2 id={`account-${title}`} className={cn("text-lg font-bold", danger ? "text-danger" : "text-foreground")}>
+      <h2 id={headingId} className={cn("text-lg font-bold", danger ? "text-danger" : "text-foreground")}>
         {title}
       </h2>
       {description && <p className="mt-1 text-sm text-muted">{description}</p>}
@@ -80,11 +82,12 @@ export function AccountView({
           </div>
         </div>
       </header>
+      <DashboardNav current="account" />
 
       <main className="mx-auto max-w-2xl space-y-6 px-4 py-10 sm:px-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("title")}</h1>
-          <p className="mt-1 text-muted">{user.email}</p>
+          <p className="mt-1 break-all text-muted">{user.email}</p>
         </div>
 
         <Section title={t("profile.title")}>
@@ -103,7 +106,7 @@ export function AccountView({
               {t("profile.name")}
               <input className={input} value={name} maxLength={80} autoComplete="name" onChange={(e) => setName(e.target.value)} />
             </label>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <button type="submit" disabled={savingName} className={buttonClass("secondary", "sm")}>
                 {savingName && <Loader2 className="size-4 animate-spin" />}
                 {t("save")}
@@ -150,7 +153,7 @@ export function AccountView({
               </span>
               <span className="mt-1 block text-xs font-normal text-muted">{t("username.hint")}</span>
             </label>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <button type="submit" disabled={savingUsername} className={buttonClass("secondary", "sm")}>
                 {savingUsername && <Loader2 className="size-4 animate-spin" />}
                 {t("save")}
@@ -204,7 +207,7 @@ export function AccountView({
                 />
                 <span className="mt-1 block text-xs font-normal text-muted">{t("password.hint")}</span>
               </label>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <button type="submit" disabled={savingPw} className={buttonClass("secondary", "sm")}>
                   {savingPw && <Loader2 className="size-4 animate-spin" />}
                   {t("password.submit")}
@@ -253,7 +256,7 @@ export function AccountView({
                   required
                 />
               </label>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <button
                   type="submit"
                   disabled={closing || confirmEmail.trim().toLowerCase() !== user.email.toLowerCase()}

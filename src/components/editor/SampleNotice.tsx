@@ -27,7 +27,7 @@ export function SampleNotice() {
         <button
           type="button"
           onClick={() => useEditor.getState().replace(emptyResume(locale))}
-          className={buttonClass("primary", "md")}
+          className={buttonClass("secondary", "md")}
         >
           {t("blank")}
         </button>

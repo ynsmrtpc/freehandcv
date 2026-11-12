@@ -34,7 +34,7 @@ function Shell({ title, subtitle, children }: { title: string; subtitle?: string
             <Logo />
           </Link>
         </div>
-        <div className="rounded-2xl border border-border bg-surface p-6 shadow-elevated sm:p-8">
+        <div className="rounded-xl border border-border bg-surface p-5 sm:p-8">
           <h1 className="text-center text-2xl font-bold tracking-tight text-foreground">{title}</h1>
           {subtitle && <p className="mt-2 text-center text-sm text-muted">{subtitle}</p>}
           {children}

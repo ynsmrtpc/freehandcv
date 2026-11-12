@@ -14,7 +14,7 @@ import { ThemeToggle } from "./ThemeToggle";
 
 // Hashes are anchors on the landing (block `anchor` values); English in every locale.
 type NavLink = {
-  labelKey: "templates" | "howItWorks" | "isItFree" | "faq" | "navExamples" | "navGuides";
+  labelKey: "templates" | "howItWorks" | "faq" | "navExamples" | "navGuides";
   href: React.ComponentProps<typeof Link>["href"];
   /** Internal route on which the link is marked as the current page. */
   route?: "/resume-templates" | "/resume-examples" | "/guides";
@@ -31,7 +31,6 @@ export function SiteHeader({ showExamples = false, showGuides = false }: { showE
     ...(showExamples ? [{ labelKey: "navExamples", href: "/resume-examples", route: "/resume-examples" } as const] : []),
     ...(showGuides ? [{ labelKey: "navGuides", href: "/guides", route: "/guides" } as const] : []),
     { labelKey: "howItWorks", href: { pathname: "/", hash: "how-it-works" }, mobileOnly: true },
-    { labelKey: "isItFree", href: { pathname: "/", hash: "comparison" } },
     { labelKey: "faq", href: { pathname: "/", hash: "faq" } },
   ];
   const isCurrent = (l: NavLink) => !!l.route && (pathname === l.route || pathname.startsWith(l.route + "/"));
@@ -62,9 +61,9 @@ export function SiteHeader({ showExamples = false, showGuides = false }: { showE
           : "border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6">
         <Link href="/" aria-label="FreehandCV" className="rounded-lg">
-          <Logo />
+          <Logo className="max-[360px]:text-[17px]" />
         </Link>
 
         <nav aria-label={t("mainMenu")} className="hidden lg:block">

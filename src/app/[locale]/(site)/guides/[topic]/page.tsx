@@ -3,10 +3,9 @@ import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { BlockRenderer } from "@/blocks/BlockRenderer";
+import { GuideReader } from "@/components/site/GuideReader";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
-import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { absoluteUrl } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
@@ -70,7 +69,6 @@ async function Content({ params }: { params: PageProps<"/[locale]/guides/[topic]
   if (!guide) notFound();
   const related = all.filter((g) => g.locale === locale && g.slug !== topic).slice(0, RELATED_MAX);
   const context = await loadBlockContext(guide.blocks, locale);
-  const date = new Date(guide.updatedAt).toLocaleDateString(locale, { dateStyle: "long" });
 
   return (
     <article>
@@ -86,35 +84,16 @@ async function Content({ params }: { params: PageProps<"/[locale]/guides/[topic]
           publisher: { "@type": "Organization", name: "FreehandCV", url: SITE_URL },
         }}
       />
-      <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
+      <div className="mx-auto max-w-5xl px-4 pt-6 sm:px-6">
         <Breadcrumbs
           items={[
             { name: t("home"), href: "/" },
+            { name: t("footer"), href: "/guides" },
             { name: guide.title, href: guideHref(topic) },
           ]}
         />
       </div>
-      <BlockRenderer blocks={guide.blocks} context={context} />
-      <p className="mx-auto max-w-3xl px-4 pb-6 text-sm text-muted sm:px-6">{t("updated", { date })}</p>
-      {related.length > 0 && (
-        <nav aria-labelledby="related-guides" className="mx-auto max-w-3xl px-4 pt-6 pb-20 sm:px-6">
-          <h2 id="related-guides" className="text-xl font-bold text-foreground">
-            {t("related")}
-          </h2>
-          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-            {related.map((g) => (
-              <li key={g.slug}>
-                <Link
-                  href={guideHref(g.slug)}
-                  className="block rounded-xl border border-border bg-surface px-4 py-3 font-medium text-foreground shadow-card hover:border-border-strong"
-                >
-                  {g.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+      <GuideReader blocks={guide.blocks} context={context} title={guide.title} updatedAt={guide.updatedAt} related={related} />
     </article>
   );
 }

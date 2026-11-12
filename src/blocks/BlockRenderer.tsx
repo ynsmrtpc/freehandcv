@@ -5,6 +5,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import type { Block } from "@/lib/blocks";
 import { cn } from "@/lib/cn";
+import { guideBlockId } from "@/lib/guides";
 import { InkUnderline } from "@/components/ui/InkMark";
 import { TEMPLATE_IDS, type TemplateId } from "@/lib/resume/schema";
 import { richTextParts } from "@/lib/resume/utils";
@@ -46,7 +47,8 @@ export type BlockContext = {
   examples?: { items: ShowcaseItem[]; total: number };
 };
 
-function BlockContent({ block, context, preview }: { block: Block; context: BlockContext; preview: boolean }) {
+function BlockContent({ block, context, preview, readingIndex }: { block: Block; context: BlockContext; preview: boolean; readingIndex?: number }) {
+  const reading = readingIndex !== undefined;
   const t = useTranslations("Landing");
   const tTemplates = useTranslations("Templates");
   const locale = useLocale() === "tr" ? "tr" : "en";
@@ -84,7 +86,7 @@ function BlockContent({ block, context, preview }: { block: Block; context: Bloc
         />
       );
     case "page_title":
-      return <PageTitle content={block.content} />;
+      return <PageTitle content={block.content} reading={reading} />;
     case "template_showcase":
       return (
         <TemplateShowcase
@@ -125,11 +127,11 @@ function BlockContent({ block, context, preview }: { block: Block; context: Bloc
     case "features":
       return <Features content={block.content} />;
     case "faq":
-      return <Faq content={block.content} />;
+      return <Faq content={block.content} reading={reading} />;
     case "cta":
-      return <Cta content={block.content} />;
+      return <Cta content={block.content} reading={reading} />;
     case "donation":
-      return <Donation content={block.content} href={context.donationUrl} />;
+      return <Donation content={block.content} href={context.donationUrl} reading={reading} />;
     case "reviews": {
       const items = (context.reviews ?? []).slice(0, Number(block.content.count));
       // No placeholder or invented reviews: without approved ones the block shows nothing (a note in the admin preview).
@@ -147,9 +149,9 @@ function BlockContent({ block, context, preview }: { block: Block; context: Bloc
       );
     }
     case "article":
-      return <Article content={block.content} />;
+      return <Article content={block.content} readingIndex={readingIndex} />;
     case "rich_text":
-      return <RichText content={block.content} />;
+      return <RichText content={block.content} reading={reading} />;
   }
 }
 
@@ -157,29 +159,29 @@ export function BlockRenderer({
   blocks,
   preview = false,
   context = {},
+  reading = false,
 }: {
   blocks: Block[];
   preview?: boolean;
   context?: BlockContext;
+  reading?: boolean;
 }) {
   return (
     <>
-      {blocks
-        .filter((b) => b.settings.visible || preview)
-        .map((b) => (
+      {blocks.map((b, index) => (b.settings.visible || preview) ? (
           <div
             key={b.id}
-            id={b.settings.anchor || undefined}
+            id={b.settings.anchor || (reading ? guideBlockId(index) : undefined)}
             data-block={b.id}
             className={cn(
-              b.settings.background === "subtle" && "bg-surface-2/50",
+              !reading && b.settings.background === "subtle" && "bg-surface-2/50",
               b.settings.hideOnMobile && "max-sm:hidden",
               preview && !b.settings.visible && "opacity-40",
             )}
           >
-            <BlockContent block={b} context={context} preview={preview} />
+            <BlockContent block={b} context={context} preview={preview} readingIndex={reading ? index : undefined} />
           </div>
-        ))}
+        ) : null)}
     </>
   );
 }

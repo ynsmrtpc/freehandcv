@@ -34,6 +34,20 @@ pnpm dev
 | `pnpm data:convert-legacy` | One-off: converts Turkish-keyed JSON (pages, site settings, resumes) to the English shape |
 | `pnpm test` | Vitest unit tests |
 
+## Admin account
+
+Create an administrator after running migrations:
+
+```bash
+pnpm admin:create admin@example.com 'a-password-of-at-least-10-characters' "Full Name"
+# With Bun: bun run admin:create admin@example.com 'a-password-of-at-least-10-characters' "Full Name"
+```
+
+Quote the password to protect shell special characters. The command reads `DATABASE_URL` from
+`.env`, normalizes the email address, and creates the password with Better Auth's hashing function.
+If the account already exists, it only grants the admin role; it does not reset that account's
+password. Set up two-factor authentication on first admin sign-in.
+
 ## Directories
 
 ```

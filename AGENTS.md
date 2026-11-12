@@ -25,7 +25,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - Colors only via the semantic tokens in `globals.css` (`bg-surface`, `text-muted`, `text-primary-text`…);
   every token has a light and a dark value. No raw hex in components (except the resume preview paper).
-- Font: Plus Jakarta Sans (`next/font`). Icons: `lucide-react`. No emoji as icons.
+- Font: Atkinson Hyperlegible Next (`next/font`), following the established direction in `DESIGN.md`. Icons: `lucide-react`. No emoji as icons.
 - Buttons via `buttonClass()` (`src/components/ui/Button.tsx`); one primary CTA per page.
 - Reveal animations live in CSS (`.reveal-on-load`, `.reveal-on-scroll`; `Reveal`/`StaggerItem` components) —
   no JS, content is never hidden waiting for JS. The LCP element (h1) renders without animation.

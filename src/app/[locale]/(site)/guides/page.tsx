@@ -4,7 +4,6 @@ import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { PageTitle } from "@/blocks/PageTitle";
-import { Section } from "@/blocks/shared";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
@@ -41,15 +40,17 @@ export default async function Guides({ params }: PageProps<"/[locale]/guides">) 
           ]}
         />
       </div>
-      <PageTitle content={{ eyebrow: t("indexEyebrow"), title: t("indexTitle"), description: t("indexDescription") }} />
-      <Section className="pt-4 sm:pt-6">
+      <div className="mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-10">
+        <PageTitle reading content={{ eyebrow: t("indexEyebrow"), title: t("indexTitle"), description: t("indexDescription") }} />
+      </div>
+      <section className="mx-auto max-w-6xl px-4 pt-8 pb-16 sm:px-6 sm:pb-24">
         {guides.length ? (
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid gap-4 md:grid-cols-2">
             {guides.map((g) => (
               <li key={g.slug}>
                 <Link
                   href={{ pathname: "/guides/[topic]", params: { topic: g.slug } }}
-                  className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-6 shadow-card transition-[border-color,box-shadow] hover:border-border-strong hover:shadow-elevated"
+                  className="group flex h-full flex-col rounded-xl border border-border bg-surface p-5 transition-colors hover:border-primary sm:p-6"
                 >
                   <h2 className="text-lg font-bold text-balance text-foreground">{g.title}</h2>
                   {g.description && <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{g.description}</p>}
@@ -64,7 +65,7 @@ export default async function Guides({ params }: PageProps<"/[locale]/guides">) 
         ) : (
           <p className="text-center text-muted">{t("empty")}</p>
         )}
-      </Section>
+      </section>
     </>
   );
 }

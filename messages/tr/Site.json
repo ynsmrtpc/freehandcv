@@ -22,5 +22,13 @@
   "signIn": "Giriş yap",
   "resumeExamples": "CV örnekleri",
   "navExamples": "CV Örnekleri",
-  "navGuides": "Rehberler"
+  "navGuides": "Rehberler",
+  "home": "Ana sayfa",
+  "contents": "Bu sayfada",
+  "notFoundTitle": "Bu sayfayı bulamadık",
+  "notFoundDescription": "Bağlantı değişmiş veya içerik henüz yayınlanmamış olabilir. Ana sayfaya dönebilir ya da CV örneklerine göz atabilirsin.",
+  "errorTitle": "Sayfa yüklenemedi",
+  "errorDescription": "Tekrar deneyebilir veya ana sayfaya dönebilirsin.",
+  "retry": "Tekrar dene",
+  "footerInformation": "Bilgi ve destek"
 }

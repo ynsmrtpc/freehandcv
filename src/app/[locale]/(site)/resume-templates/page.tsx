@@ -4,7 +4,6 @@ import { hasLocale } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { PageTitle } from "@/blocks/PageTitle";
-import { Section } from "@/blocks/shared";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { itemFacts, itemKey, TemplateCard } from "@/components/templates/TemplateCard";
 import { TemplateGallery } from "@/components/templates/TemplateGallery";
@@ -50,7 +49,7 @@ export default async function ResumeTemplates({ params }: PageProps<"/[locale]/r
         />
       </div>
       <PageTitle content={{ eyebrow: t("eyebrow"), title: t("title"), description: t("description", { n: items.length }) }} />
-      <Section className="pt-4 sm:pt-6">
+      <section className="mx-auto max-w-6xl px-4 pt-8 pb-16 sm:px-6 sm:pb-24">
         <TemplateGallery
           entries={items.map((i) => ({
             key: itemKey(i),
@@ -64,15 +63,15 @@ export default async function ResumeTemplates({ params }: PageProps<"/[locale]/r
           }))}
           cards={Object.fromEntries(items.map((i) => [itemKey(i), <TemplateCard key={itemKey(i)} item={i} locale={locale} />]))}
         />
-        <div className="mt-14 rounded-2xl border border-border bg-surface p-6 text-center shadow-card sm:p-8">
+        <div className="mt-10 border-t border-border pt-8">
           <h2 className="text-xl font-bold text-foreground">{t("createTitle")}</h2>
-          <p className="mx-auto mt-2 max-w-xl text-muted">{t("createDescription")}</p>
+          <p className="mt-2 max-w-xl text-muted">{t("createDescription")}</p>
           <Link href="/template-editor/new" className={buttonClass("secondary", "md", "mt-5")}>
             <Plus className="size-4" aria-hidden />
             {t("createButton")}
           </Link>
         </div>
-      </Section>
+      </section>
     </>
   );
 }

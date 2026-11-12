@@ -1,5 +1,7 @@
 "use client";
 
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
 import {
   ArrowLeft,
   ChevronDown,
@@ -40,6 +42,7 @@ type Page = {
   id: string;
   slug: string;
   locale: string;
+  kind: string;
   version: number;
   meta: Meta;
   blocks: Block[];
@@ -60,6 +63,7 @@ function mapIssues(issues: { path: (string | number)[]; message: string }[]): Fi
 }
 
 export function PageEditor({ page, versions }: { page: Page; versions: Version[] }) {
+  const confirm = useConfirm();
   const router = useRouter();
   const [blocks, setBlocks] = useState(page.blocks);
   const [meta, setMeta] = useState(page.meta);
@@ -92,10 +96,10 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
   // Live preview: send the blocks to the iframe once it is ready and on every change.
   const send = useCallback(() => {
     iframeRef.current?.contentWindow?.postMessage(
-      { type: "freehandcv-preview", blocks, selected },
+      { type: "freehandcv-preview", blocks, selected, kind: page.kind, slug: page.slug, title: meta.title },
       window.location.origin,
     );
-  }, [blocks, selected]);
+  }, [blocks, selected, page.kind, page.slug, meta.title]);
   useEffect(() => {
     const timer = setTimeout(send, 120);
     return () => clearTimeout(timer);
@@ -344,7 +348,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
           onClose={() => setVersionsOpen(false)}
           onRestore={(id) =>
             startTransition(async () => {
-              if (dirty && !confirm("Kaydedilmemiş değişikliklerin kaybolacak. Devam edilsin mi?")) return;
+              if (dirty && !await confirm("Kaydedilmemiş değişikliklerin kaybolacak. Devam edilsin mi?")) return;
               const r = await restoreVersionAction(id);
               setVersionsOpen(false);
               handleResult(r, "Eski sürüm taslağa alındı. Kontrol edip yayınlayabilirsin.");
@@ -371,6 +375,7 @@ function BlockList({
   update: (id: string, f: (b: Block) => Block) => void;
   setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
 }) {
+  const confirm = useConfirm();
   const [addOpen, setAddOpen] = useState(false);
   const titleSummary = (b: Block) => {
     const content = b.content as Record<string, unknown>;
@@ -425,7 +430,7 @@ function BlockList({
               <IconButton
                 label="Sil"
                 danger
-                onClick={() => confirm(`"${BLOCK_NAMES[b.type]}" bloğu silinsin mi?`) && setBlocks((l) => l.filter((x) => x.id !== b.id))}
+                onClick={async () => await confirm(`"${BLOCK_NAMES[b.type]}" bloğu silinsin mi?`, { danger: true }) && setBlocks((l) => l.filter((x) => x.id !== b.id))}
               >
                 <Trash2 className="size-4" />
               </IconButton>

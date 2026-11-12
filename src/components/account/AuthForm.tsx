@@ -87,7 +87,7 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
             <Logo />
           </Link>
         </div>
-        <div className="rounded-2xl border border-border bg-surface p-6 shadow-elevated sm:p-8">
+        <div className="rounded-xl border border-border bg-surface p-5 sm:p-8">
           <h1 className="text-center text-2xl font-bold tracking-tight text-foreground">
             {signIn ? t("signInTitle") : t("signUpTitle")}
           </h1>

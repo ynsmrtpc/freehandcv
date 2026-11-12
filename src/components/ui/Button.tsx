@@ -9,9 +9,9 @@ const variants: Record<Variant, string> = {
   ghost: "text-muted hover:bg-surface-2 hover:text-foreground",
 };
 
-// md and lg meet the 44px touch target; sm is for dense desktop toolbars only.
+// Compact controls stay 44px on touch screens; mouse toolbars may use 36px.
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-3.5 text-sm",
+  sm: "h-11 px-3.5 text-sm pointer-fine:h-9",
   md: "h-11 px-5 text-base",
   lg: "h-13 px-7 text-[17px]",
 };

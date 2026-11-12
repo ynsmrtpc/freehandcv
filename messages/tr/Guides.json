@@ -1,5 +1,7 @@
 {
   "home": "Ana sayfa",
+  "contents": "Bu rehberde",
+  "readingTime": "Yaklaşık {minutes} dk okuma",
   "updated": "Son güncelleme: {date}",
   "related": "Diğer rehberler",
   "footer": "Rehberler",

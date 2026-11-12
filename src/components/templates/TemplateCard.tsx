@@ -35,16 +35,16 @@ export function TemplateCard({ item, locale }: { item: GalleryItem; locale: stri
   return (
     <Link
       href={{ pathname: "/resume-templates/[slug]", params: { slug: itemSlug(item) } }}
-      className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-3 shadow-card transition-[border-color,box-shadow] hover:border-border-strong hover:shadow-elevated"
+      className="group flex h-full w-full min-w-0 flex-col rounded-xl border border-border bg-surface p-4 transition-colors hover:border-primary"
     >
-      <div className="overflow-hidden rounded-lg ring-1 ring-black/5">
+      <div className="overflow-hidden rounded-md bg-paper">
         <DefinitionPreview definition={item.definition} locale={locale} initialScale={0.3} />
       </div>
-      <span className="mt-3 block truncate font-semibold text-foreground group-hover:text-primary-text">{item.name}</span>
-      <span className="mt-0.5 block truncate text-xs text-muted">
+      <span className="mt-4 block truncate text-lg font-semibold text-foreground group-hover:text-primary-text" title={item.name}>{item.name}</span>
+      <span className="mt-1 block truncate text-sm text-muted">
         {item.ownerUsername ? `@${item.ownerUsername}` : t("official")}
       </span>
-      <span className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
+      <span className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
         <span className="inline-flex items-center gap-1 font-medium text-accent">
           <ShieldCheck className="size-3.5" aria-hidden />
           {t("ats", { score: item.ats })}

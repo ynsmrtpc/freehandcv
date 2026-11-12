@@ -1,12 +1,14 @@
 "use client";
 
-import { Copy, EyeOff, Globe, Link2, Lock, Plus, ShieldCheck, Trash2 } from "lucide-react";
+import { useConfirm } from "@/components/ui/ConfirmProvider";
+
+import { Copy, EyeOff, Globe, Link2, Lock, PencilLine, Plus, ShieldCheck, Trash2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { copyTemplateAction, deleteTemplateAction } from "@/actions/template";
 import { UserMenu } from "@/components/account/UserMenu";
 import { DashboardNav } from "@/components/dashboard/DashboardNav";
-import { IconButton } from "@/components/editor/ui";
+import { RowMenu } from "@/components/editor/ui";
 import { DefinitionPreview } from "@/components/resume/TemplatePreview";
 import { Logo } from "@/components/site/Logo";
 import { buttonClass } from "@/components/ui/Button";
@@ -27,8 +29,10 @@ type TemplateCard = {
 const VISIBILITY_ICON = { private: Lock, unlisted: Link2, public: Globe } as const;
 
 export function TemplatesView({ templates }: { templates: TemplateCard[] }) {
+  const confirm = useConfirm();
   const t = useTranslations("Dashboard.templates");
   const te = useTranslations("TemplateEditor");
+  const td = useTranslations("Dashboard");
   const locale = useLocale();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -81,22 +85,22 @@ export function TemplatesView({ templates }: { templates: TemplateCard[] }) {
             <p className="mx-auto max-w-md text-muted">{t("empty")}</p>
           </div>
         ) : (
-          <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" aria-busy={pending}>
+          <ul className="mt-8 grid gap-5 min-[480px]:grid-cols-2 lg:grid-cols-3" aria-busy={pending}>
             {templates.map((tpl) => {
               const Icon = VISIBILITY_ICON[tpl.visibility];
               return (
-                <li key={tpl.id} className="flex flex-col rounded-2xl border border-border bg-surface p-3 shadow-card">
+                <li key={tpl.id} className="flex min-w-0 flex-col rounded-xl border border-border bg-surface p-4">
                   <Link
                     href={{ pathname: "/template-editor/[id]", params: { id: tpl.id } }}
-                    className="block overflow-hidden rounded-lg ring-1 ring-black/5"
+                    className="block overflow-hidden rounded-md bg-paper"
                   >
                     <DefinitionPreview definition={tpl.definition} locale={locale} initialScale={0.3} />
                     <span className="sr-only">{t("edit", { name: tpl.name })}</span>
                   </Link>
-                  <div className="mt-3 flex items-start justify-between gap-2">
+                  <div className="mt-4 flex-1">
                     <div className="min-w-0">
-                      <p className="truncate font-semibold text-foreground">{tpl.name}</p>
-                      <p className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
+                      <p className="truncate text-lg font-semibold text-foreground" title={tpl.name}>{tpl.name}</p>
+                      <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
                         <span className="inline-flex items-center gap-1">
                           <Icon className="size-3.5" aria-hidden />
                           {te(`visibility.${tpl.visibility}`)}
@@ -107,7 +111,7 @@ export function TemplatesView({ templates }: { templates: TemplateCard[] }) {
                         </span>
                         <span>{t("usage", { n: tpl.usageCount })}</span>
                       </p>
-                      <p className="mt-0.5 text-xs text-muted">{t("updated", { date: formatDate(tpl.updatedAt) })}</p>
+                      <p className="mt-1 text-sm text-muted">{t("updated", { date: formatDate(tpl.updatedAt) })}</p>
                       {tpl.status !== "active" && (
                         <p className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-warning">
                           <EyeOff className="size-3.5" aria-hidden />
@@ -115,19 +119,18 @@ export function TemplatesView({ templates }: { templates: TemplateCard[] }) {
                         </p>
                       )}
                     </div>
-                    <div className="flex shrink-0">
-                      <IconButton label={t("duplicate")} disabled={pending} onClick={() => run(() => copyTemplateAction(tpl.id))}>
-                        <Copy className="size-4" />
-                      </IconButton>
-                      <IconButton
-                        label={te("delete")}
-                        danger
-                        disabled={pending}
-                        onClick={() => confirm(te("deleteConfirm", { name: tpl.name })) && run(() => deleteTemplateAction(tpl.id))}
-                      >
-                        <Trash2 className="size-4" />
-                      </IconButton>
-                    </div>
+                  </div>
+                  <div className="mt-4 flex items-center justify-between border-t border-border pt-3">
+                    <Link href={{ pathname: "/template-editor/[id]", params: { id: tpl.id } }} className={buttonClass("secondary", "md")} aria-label={t("edit", { name: tpl.name })}>
+                      <PencilLine className="size-4" aria-hidden />
+                      {td("edit")}
+                    </Link>
+                    <RowMenu label={td("actions", { name: tpl.name })} items={[
+                      { label: t("duplicate"), icon: <Copy />, disabled: pending, onSelect: () => run(() => copyTemplateAction(tpl.id)) },
+                      { label: te("delete"), icon: <Trash2 />, danger: true, disabled: pending, onSelect: async () => {
+                        if (await confirm(te("deleteConfirm", { name: tpl.name }), { danger: true })) run(() => deleteTemplateAction(tpl.id));
+                      } },
+                    ]} />
                   </div>
                 </li>
               );

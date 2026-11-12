@@ -63,14 +63,14 @@ export function TemplateGallery({ entries, cards }: { entries: GalleryEntry[]; c
                 aria-pressed={f === filter}
                 onClick={() => setFilter(f)}
                 className={cn(
-                  "h-9 rounded-full border px-3.5 text-sm font-medium transition-colors",
+                  "min-h-11 rounded-lg border px-3.5 py-2 text-sm font-medium transition-colors",
                   f === filter
-                    ? "border-primary bg-primary text-white"
+                    ? "border-primary bg-primary-soft text-primary-text"
                     : "border-border bg-surface text-foreground hover:border-border-strong",
                 )}
               >
                 {t(`filters.${f}`)}
-                <span className={cn("ms-1.5 text-xs tabular-nums", f === filter ? "text-white/80" : "text-muted")}>{n}</span>
+                <span className="ms-1.5 text-xs tabular-nums">{n}</span>
               </button>
             );
           })}
@@ -80,7 +80,7 @@ export function TemplateGallery({ entries, cards }: { entries: GalleryEntry[]; c
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as Sort)}
-            className="h-9 rounded-lg border border-border-strong bg-surface px-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/15"
+            className="h-11 rounded-lg border border-border-strong bg-surface px-3 text-base text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/15"
           >
             {(Object.keys(SORTS) as Sort[]).map((s) => (
               <option key={s} value={s}>
@@ -93,9 +93,9 @@ export function TemplateGallery({ entries, cards }: { entries: GalleryEntry[]; c
       <p className="sr-only" aria-live="polite">
         {t("results", { n: shown.length })}
       </p>
-      <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {shown.map((e) => (
-          <li key={e.key}>{cards[e.key]}</li>
+          <li key={e.key} className="min-w-0">{cards[e.key]}</li>
         ))}
       </ul>
     </div>

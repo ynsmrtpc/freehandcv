@@ -6,6 +6,7 @@
   "newFromExample": "Start from example",
   "newBlank": "Blank resume",
   "edit": "Edit",
+  "actions": "More actions for {name}",
   "duplicate": "Duplicate",
   "delete": "Delete",
   "deleteConfirm": "Delete \"{name}\"? It stays in the trash for 30 days.",
@@ -30,7 +31,8 @@
   "nav": {
     "label": "Dashboard sections",
     "resumes": "My resumes",
-    "templates": "My templates"
+    "templates": "My templates",
+    "account": "My account"
   },
   "templates": {
     "meta": "My templates",
