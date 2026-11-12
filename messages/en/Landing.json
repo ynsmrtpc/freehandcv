@@ -9,7 +9,7 @@
     "bullets": [
       "No credit card",
       "No watermark",
-      "Unlimited resumes"
+      "Download without an account"
     ],
     "template": "Template",
     "atsFriendly": "ATS-friendly",
@@ -47,7 +47,7 @@
       {
         "feature": "Number of resumes",
         "others": "Usually 1",
-        "us": "Unlimited"
+        "us": "Up to 100"
       },
       {
         "feature": "Version history",
@@ -104,7 +104,7 @@
       },
       {
         "title": "Private by design",
-        "text": "Your data is yours. No one can see your resume — not even our admins."
+        "text": "Your data is yours. Your resume is shared with employers only with your explicit consent, which you can withdraw at any time."
       },
       {
         "title": "Any device",
@@ -134,7 +134,7 @@
       },
       {
         "question": "Should I add a photo?",
-        "answer": "Common in Turkey and Germany, discouraged in the US and UK. Choose your target country and the editor suggests what fits."
+        "answer": "Common in Turkey and Germany, discouraged in the US and UK. You can turn the photo on or off in one tap on the Design tab."
       }
     ]
   },

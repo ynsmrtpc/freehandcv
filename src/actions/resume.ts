@@ -17,6 +17,7 @@ import {
   restoreVersion,
   VERSION_LABEL_MAX,
   restoreResume,
+  purgeTrashedResumes,
 } from "@/server/resumes";
 import type { ResumeData } from "@/lib/resume/schema";
 import { getSession } from "@/server/authz";
@@ -142,6 +143,18 @@ export async function restoreResumeAction(id: string): Promise<ResumeActionResul
   if (!userId) return { ok: false, reason: "unauthenticated" };
   try {
     await restoreResume(idSchema.parse(id), userId);
+    return { ok: true };
+  } catch (e) {
+    return toError(e);
+  }
+}
+
+/** Removes one trashed resume (`id`) or, without an id, the whole trash for good. */
+export async function purgeTrashAction(id?: string): Promise<ResumeActionResult> {
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: "unauthenticated" };
+  try {
+    await purgeTrashedResumes(userId, id === undefined ? undefined : idSchema.parse(id));
     return { ok: true };
   } catch (e) {
     return toError(e);

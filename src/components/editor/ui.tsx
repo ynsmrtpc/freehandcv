@@ -1,11 +1,11 @@
 "use client";
 
-import { Check } from "lucide-react";
-import { useId } from "react";
+import { Check, MoreHorizontal } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 
 const inputClass =
-  "block w-full rounded-lg border border-border-strong bg-surface px-3 text-[15px] text-foreground placeholder:text-muted/60 transition-[border-color,box-shadow] outline-none focus:border-primary focus:ring-4 focus:ring-primary/15 disabled:bg-surface-2 disabled:text-muted";
+  "block w-full rounded-lg border border-border-strong bg-surface px-3 text-base text-foreground placeholder:text-muted/80 transition-[border-color,box-shadow] outline-none focus:border-primary focus:ring-4 focus:ring-primary/15 disabled:bg-surface-2 disabled:text-muted";
 
 export function Field({
   label,
@@ -109,7 +109,7 @@ export function IconButton({
   danger,
   className,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { label: string; danger?: boolean }) {
+}: React.ComponentProps<"button"> & { label: string; danger?: boolean }) {
   return (
     <button
       type="button"
@@ -117,12 +117,108 @@ export function IconButton({
       title={label}
       {...props}
       className={cn(
-        "grid size-8 shrink-0 place-items-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground disabled:pointer-events-none disabled:opacity-30",
+        // 44px on touch screens, compact where a mouse is the pointer.
+        "grid size-11 shrink-0 place-items-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-foreground disabled:pointer-events-none disabled:opacity-30 pointer-fine:size-9",
         danger && "hover:bg-danger-soft hover:text-danger",
         className,
       )}
     >
       {children}
     </button>
+  );
+}
+
+export type RowMenuItem = {
+  label: string;
+  icon: React.ReactNode;
+  onSelect: () => void;
+  disabled?: boolean;
+  danger?: boolean;
+};
+
+/**
+ * "More actions" for a row: one labelled menu instead of a cluster of small icon buttons, so a
+ * thumb cannot move or delete an entry by accident. Keyboard: arrows move, Escape closes.
+ */
+export function RowMenu({ label, items }: { label: string; items: RowMenuItem[] }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const menuId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    rootRef.current?.querySelector<HTMLButtonElement>("[role=menuitem]:not(:disabled)")?.focus();
+    const onPointer = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    return () => document.removeEventListener("pointerdown", onPointer);
+  }, [open]);
+
+  const close = (refocus = true) => {
+    setOpen(false);
+    if (refocus) buttonRef.current?.focus();
+  };
+
+  const onMenuKey = (e: React.KeyboardEvent) => {
+    const enabled = [...(rootRef.current?.querySelectorAll<HTMLButtonElement>("[role=menuitem]:not(:disabled)") ?? [])];
+    const i = enabled.indexOf(document.activeElement as HTMLButtonElement);
+    if (e.key === "Escape") {
+      e.preventDefault();
+      close();
+    } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      const next = (i + (e.key === "ArrowDown" ? 1 : -1) + enabled.length) % enabled.length;
+      enabled[next]?.focus();
+    } else if (e.key === "Tab") {
+      setOpen(false);
+    }
+  };
+
+  return (
+    <div ref={rootRef} className="relative">
+      <IconButton
+        ref={buttonRef}
+        label={label}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-controls={open ? menuId : undefined}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <MoreHorizontal className="size-[18px]" />
+      </IconButton>
+      {open && (
+        <div
+          id={menuId}
+          role="menu"
+          aria-label={label}
+          onKeyDown={onMenuKey}
+          className="absolute end-0 top-full z-30 mt-1 w-56 rounded-lg border border-border-strong bg-surface p-1 shadow-elevated"
+        >
+          {items.map((item) => (
+            <button
+              key={item.label}
+              type="button"
+              role="menuitem"
+              disabled={item.disabled}
+              onClick={() => {
+                close(false);
+                item.onSelect();
+              }}
+              className={cn(
+                "flex min-h-11 w-full items-center gap-3 rounded-md px-3 text-start text-[15px] font-medium text-foreground hover:bg-surface-2 focus-visible:bg-surface-2 disabled:opacity-35 pointer-fine:min-h-9",
+                item.danger && "text-danger hover:bg-danger-soft focus-visible:bg-danger-soft",
+              )}
+            >
+              <span className="text-muted [&>svg]:size-4" aria-hidden>
+                {item.icon}
+              </span>
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

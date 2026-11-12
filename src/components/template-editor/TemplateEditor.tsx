@@ -361,7 +361,7 @@ export function TemplateEditor({
                   <p className="text-xs leading-relaxed text-muted">{t("colorsHint")}</p>
                 </div>
                 {lowContrast && (
-                  <p className="col-span-2 flex gap-2 rounded-lg bg-[#fef3c7] px-3 py-2 text-[13px] text-warning dark:bg-[#3a2a05]">
+                  <p className="col-span-2 flex gap-2 rounded-lg bg-warning-soft px-3 py-2 text-[13px] text-warning">
                     <AlertTriangle className="mt-0.5 size-4 shrink-0" aria-hidden />
                     {t("lowContrast", { ratio: whiteContrast(d.colors.accent).toFixed(1) })}
                   </p>
@@ -525,7 +525,7 @@ export function TemplateEditor({
               ))}
             </div>
           </div>
-          <div className="min-h-0 flex-1 overflow-auto bg-[#dfe3ea] p-4 sm:p-6 dark:bg-[#0a0f1a]">
+          <div className="min-h-0 flex-1 overflow-auto bg-desk p-4 sm:p-6">
             <div className="mx-auto max-w-[794px] shadow-paper">
               <DefinitionPreview definition={d} locale={previewLocale} initialScale={0.8} />
             </div>

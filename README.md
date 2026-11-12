@@ -83,3 +83,19 @@ Step-by-step guide (consent screen, publishing, common errors): [docs/GOOGLE-SIG
    `https://freehandcv.com/api/auth/callback/google`
 4. Put `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` and the same ID as `NEXT_PUBLIC_GOOGLE_CLIENT_ID`
    in `.env`; restart the server. Google buttons are hidden while these are empty.
+
+## Contributing and security
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Report vulnerabilities privately as described in
+[SECURITY.md](SECURITY.md), never in a public issue.
+
+## License
+
+[GNU Affero General Public License v3.0](LICENSE) (`AGPL-3.0-only`). You may use, change and
+host FreehandCV, including commercially; if you run a modified version as a public service, you
+must offer its source code to your users under the same license. This keeps every hosted copy
+as open as this one.
+
+The license covers the code and the bundled content (example resumes, guides, templates).
+It does not grant rights to the FreehandCV name or logo: a fork you host publicly needs its own
+name.

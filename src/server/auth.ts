@@ -4,6 +4,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { oneTap, twoFactor } from "better-auth/plugins";
 import { db } from "./db";
+import { RESET_TOKEN_EXPIRES_IN_SECONDS, sendPasswordResetEmail } from "./passwordReset";
 import { account, session, twoFactor as twoFactorTable, user, verification } from "./db/schema";
 
 // Google sign-in and One Tap ("Continue as Full Name") are enabled only when a client id is set.
@@ -19,11 +20,20 @@ export const auth = betterAuth({
     schema: { user, session, account, verification, twoFactor: twoFactorTable },
   }),
   // Sign-up requires only email and password; full name is optional (plan 1). Email verification
-  // does not block sign-in (plan 13); verification and password reset emails come once Resend is set up.
+  // does not block sign-in (plan 13) and is not sent yet. Password reset emails go out through
+  // Resend (src/server/email.ts); without RESEND_API_KEY the link is printed to the dev console.
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 10,
     maxPasswordLength: 128,
+    resetPasswordTokenExpiresIn: RESET_TOKEN_EXPIRES_IN_SECONDS,
+    // Not awaited: the response takes the same time whether or not the account exists
+    // (no account enumeration through timing). sendEmail itself never throws.
+    sendResetPassword: async ({ user, url }) => {
+      void sendPasswordResetEmail({ user, url }).catch((error) => console.error("[auth] reset email failed", error));
+    },
+    // Someone resetting may have lost control of the account: sign out every device.
+    revokeSessionsOnPasswordReset: true,
   },
   socialProviders: google ? { google: { ...google, prompt: "select_account" } } : {},
   account: {
@@ -46,12 +56,16 @@ export const auth = betterAuth({
     expiresIn: 60 * 60 * 24 * 30, // 30 days
     updateAge: 60 * 60 * 24, // extended once a day
   },
-  // In-memory storage is enough on a single server. Sign-in and sign-up endpoints are stricter (plan 13).
+  // In-memory storage is enough on a single server. Sign-in, sign-up and password reset endpoints
+  // are stricter (plan 13).
   rateLimit: {
     enabled: true,
     customRules: {
       "/sign-in/email": { window: 60, max: 8 },
       "/sign-up/email": { window: 60, max: 5 },
+      // Matches Better Auth's built-in rule, written out to keep it visible: 3 reset emails a minute per IP.
+      "/request-password-reset": { window: 60, max: 3 },
+      "/reset-password": { window: 60, max: 5 },
     },
   },
   plugins: [

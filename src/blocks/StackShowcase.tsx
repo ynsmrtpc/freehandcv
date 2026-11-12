@@ -54,8 +54,7 @@ export function StackShowcase({ content, side }: { content: StackShowcaseContent
         {...pauseProps}
       >
         <Reveal className={cn("max-w-xl lg:row-start-1 lg:self-end", textCol)}>
-          <p className="text-sm font-semibold tracking-wide text-primary-text uppercase">{content.eyebrow}</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-balance text-foreground sm:text-4xl">{content.title}</h2>
+          <h2 className="text-3xl leading-tight font-extrabold tracking-[-0.02em] text-balance text-foreground sm:text-[2.6rem]">{content.title}</h2>
           {content.description && <p className="mt-4 text-lg leading-relaxed text-pretty text-muted">{content.description}</p>}
         </Reveal>
 

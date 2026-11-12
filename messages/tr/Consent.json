@@ -18,5 +18,7 @@
   "mostRecent": "En son güncellediğim CV",
   "withdrawNote": "İstediğin an kapatabilirsin; kapatınca CV'n havuzdan hemen çıkarılır.",
   "saved": "Tercihin kaydedildi.",
-  "error": "Tercih kaydedilemedi. Tekrar dene."
+  "error": "Tercih kaydedilemedi. Tekrar dene.",
+  "noticeShort": "CV'n yalnızca bu tarayıcıda saklanıyor.",
+  "noticeDetails": "Ayrıntılar"
 }

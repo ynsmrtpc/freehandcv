@@ -1,0 +1,11 @@
+{
+  "greeting": "Merhaba,",
+  "greetingName": "Merhaba {name},",
+  "resetSubject": "FreehandCV şifreni sıfırla",
+  "resetIntro": "FreehandCV hesabın için bir şifre sıfırlama isteği aldık. Yeni şifreni belirlemek için aşağıdaki bağlantıyı aç.",
+  "resetButton": "Yeni şifre belirle",
+  "resetExpiry": "Bağlantı {hours} saat geçerli ve yalnızca bir kez kullanılabilir.",
+  "resetIgnore": "Bu isteği sen yapmadıysan bu e-postayı görmezden gelebilirsin; şifren değişmez.",
+  "linkFallback": "Düğme çalışmazsa bu adresi tarayıcına yapıştır:",
+  "signature": "FreehandCV"
+}

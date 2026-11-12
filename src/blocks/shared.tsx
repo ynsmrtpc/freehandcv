@@ -18,12 +18,14 @@ export function Section({
   );
 }
 
-/** Eyebrow + title + description. */
+/**
+ * Title + description. The CMS still stores an eyebrow per block; it is not rendered: the heading
+ * carries its own weight.
+ */
 export function SectionHeader({
-  eyebrow,
   title,
   description,
-  centered = true,
+  centered = false,
 }: {
   eyebrow?: string;
   title: string;
@@ -32,10 +34,7 @@ export function SectionHeader({
 }) {
   return (
     <Reveal className={cn("max-w-2xl", centered && "mx-auto text-center")}>
-      {eyebrow && (
-        <p className="text-sm font-semibold tracking-wide text-primary-text uppercase">{eyebrow}</p>
-      )}
-      <h2 className="mt-3 text-3xl font-bold tracking-tight text-balance text-foreground sm:text-4xl">
+      <h2 className="text-3xl leading-tight font-extrabold tracking-[-0.02em] text-balance text-foreground sm:text-[2.6rem]">
         {title}
       </h2>
       {description && (

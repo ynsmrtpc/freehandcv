@@ -35,7 +35,7 @@ import { emptyResume, type ResumeData } from "@/lib/resume/schema";
 import { fileName } from "@/lib/resume/utils";
 import { ContentPanel } from "./ContentPanel";
 import { ChecksPanel, useChecks } from "./ChecksPanel";
-import { GuestDownloadDialog, GuestNotice } from "./GuestNotice";
+import { DownloadedCard, GuestNotice } from "./GuestNotice";
 import { Preview } from "./Preview";
 import { DesignPanel } from "./DesignPanel";
 import { IconButton } from "./ui";
@@ -75,7 +75,7 @@ export function Editor({ account, example }: { account?: AccountResume; example?
   const [view, setView] = useState<"edit" | "preview">("edit");
   const [toast, setToast] = useState<{ text: string; id: number } | null>(null);
   const [pdfOpen, setPdfOpen] = useState(false);
-  const [guestDownloadOpen, setGuestDownloadOpen] = useState(false);
+  const [downloaded, setDownloaded] = useState<string | null>(null);
   const [versionsOpen, setVersionsOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
 
@@ -147,13 +147,14 @@ export function Editor({ account, example }: { account?: AccountResume; example?
       if (!res.ok) throw new Error(String(res.status));
       const a = document.createElement("a");
       a.href = URL.createObjectURL(await res.blob());
-      a.download = fileName(v.personal.name, "pdf");
+      const name = fileName(v.personal.name, "pdf");
+      a.download = name;
       document.body.appendChild(a);
       a.click();
       a.remove();
       setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       if (source.kind === "account") void createVersionAction(source.id, v, "pdf").catch(() => {});
-      if (source.kind !== "example" && shouldAskForReview()) setReviewOpen(true);
+      if (source.kind !== "example") setDownloaded(name);
     } catch {
       notify(t("toast.pdfFallback"));
       printWithHint();
@@ -162,14 +163,14 @@ export function Editor({ account, example }: { account?: AccountResume; example?
     }
   }, [locale, notify, pdfBusy, printWithHint, t]);
 
-  // Guests see the sign-in/sharing info on every download; "Download without signing in" is always there.
-  const downloadPdf = useCallback(
-    (direct = false) => {
-      if (isGuest && !direct) setGuestDownloadOpen(true);
-      else void savePdf();
-    },
-    [isGuest, savePdf],
-  );
+  // One press downloads, for guests too (principle 1); the confirmation card comes after.
+  const downloadPdf = useCallback(() => void savePdf(), [savePdf]);
+
+  // The review prompt waits until the download confirmation is dismissed, so they never stack.
+  const closeDownloaded = useCallback(() => {
+    setDownloaded(null);
+    if (shouldAskForReview()) setReviewOpen(true);
+  }, []);
 
   // Shortcuts: Ctrl+Z / Ctrl+Shift+Z (Ctrl+Y) undo/redo, Ctrl+P PDF.
   useEffect(() => {
@@ -184,7 +185,7 @@ export function Editor({ account, example }: { account?: AccountResume; example?
         useEditor.getState().redo();
       } else if (k === "p") {
         e.preventDefault();
-        downloadPdf(true);
+        downloadPdf();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -212,7 +213,7 @@ export function Editor({ account, example }: { account?: AccountResume; example?
           />
           {isGuest && <GuestNotice />}
 
-          <div className="editor-workspace grid min-h-0 flex-1 lg:grid-cols-[minmax(380px,460px)_1fr]">
+          <div className="editor-workspace grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(380px,460px)_minmax(0,1fr)]">
             <section
               className={cn(
                 "editor-panel flex min-h-0 flex-col border-e border-border bg-background",
@@ -292,13 +293,9 @@ export function Editor({ account, example }: { account?: AccountResume; example?
               notify={notify}
             />
           )}
-          {isGuest && (
-            <GuestDownloadDialog
-              open={guestDownloadOpen}
-              onClose={() => setGuestDownloadOpen(false)}
-              onDownloadWithoutSignIn={() => void savePdf()}
-            />
-          )}
+          <AnimatePresence>
+            {downloaded && <DownloadedCard key={downloaded} file={downloaded} guest={isGuest} onClose={closeDownloaded} />}
+          </AnimatePresence>
           {isGuest && <GoogleOneTap returnTo={getPathname({ href: "/dashboard", locale: locale as Locale })} />}
         </div>
       </MotionConfig>
@@ -336,7 +333,7 @@ function TabButton({ tab, selected, select }: { tab: Tab; selected: boolean; sel
         <span
           className={cn(
             "rounded-full px-1.5 py-0.5 text-[11px] font-bold tabular-nums",
-            checks.score >= 80 ? "bg-accent-soft text-accent" : "bg-[#fef3c7] text-warning dark:bg-[#3a2a05]",
+            checks.score >= 80 ? "bg-accent-soft text-accent" : "bg-warning-soft text-warning",
           )}
         >
           {checks.score}
@@ -412,7 +409,7 @@ function TopBar({
         <Logo className="[&>span:last-child]:max-sm:hidden" />
       </Link>
 
-      <div className="ms-1 hidden items-center gap-1.5 text-xs text-muted md:flex" aria-live="polite">
+      <div className="ms-1 flex min-w-0 items-center gap-1.5 text-[13px] text-muted" aria-live="polite">
         {saveStatus.kind === "error" ? (
           <span className="flex items-center gap-1.5 font-medium text-danger">
             <CloudOff className="size-3.5" />
@@ -427,16 +424,17 @@ function TopBar({
           <span>{t("save.pending")}</span>
         ) : saveStatus.kind === "saved" ? (
           <span className="flex items-center gap-1.5" title={isGuest ? t("save.guest") : undefined}>
-            <Check className="size-3.5 text-accent" />
-            {isAccount
-              ? t("save.savedToAccount", { time })
-              : isGuest
-                ? t("save.saved", { time })
-                : t("save.savedExample", { time })}
+            <Check className="size-4 shrink-0 text-accent" />
+            <span className="sm:hidden">{isAccount ? t("save.savedShortAccount") : t("save.savedShort")}</span>
+            <span className="max-sm:hidden">
+              {isAccount
+                ? t("save.savedToAccount", { time })
+                : isGuest
+                  ? t("save.saved", { time })
+                  : t("save.savedExample", { time })}
+            </span>
           </span>
-        ) : saveStatus.kind === "conflict" ? null : (
-          <span>{isGuest ? t("save.guest") : ""}</span>
-        )}
+        ) : null /* idle or conflict: guests already see where the resume lives in the notice below */}
       </div>
 
       <div className="ms-auto flex items-center gap-1">
@@ -531,10 +529,10 @@ function TopBar({
           onClick={downloadPdf}
           disabled={pdfBusy}
           aria-busy={pdfBusy}
-          className={buttonClass("primary", "sm", "ms-1")}
+          className={buttonClass("primary", "sm", "ms-1 max-sm:h-11 max-sm:px-3")}
         >
           {pdfBusy ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
-          <span className="max-sm:sr-only">{pdfBusy ? t("toolbar.pdfPreparing") : t("toolbar.pdf")}</span>
+          <span>{pdfBusy ? t("toolbar.pdfPreparing") : t("toolbar.pdf")}</span>
         </button>
         <UserMenu showSignIn={false} className="ms-1" />
       </div>

@@ -163,8 +163,6 @@ export function DashboardView({
           </p>
         )}
 
-        <SharingCard initial={sharing} resumes={resumes.map((r) => ({ id: r.id, title: r.title }))} />
-
         {resumes.length === 0 ? (
           <div className="mt-10 rounded-2xl border border-dashed border-border-strong p-12 text-center">
             <p className="text-muted">{t("empty")}</p>
@@ -188,7 +186,7 @@ export function DashboardView({
                     <div
                       aria-hidden
                       inert
-                      className="pointer-events-none aspect-[210/297] w-full overflow-hidden rounded-lg bg-white ring-1 ring-black/5"
+                      className="pointer-events-none isolate aspect-[210/297] w-full overflow-hidden rounded-lg bg-white ring-1 ring-black/5"
                     >
                       <ScaledPaper initialScale={0.25}>
                         <ResumeDocument data={data} definition={resumeDefinition(data)} noLinks embedded />
@@ -197,7 +195,7 @@ export function DashboardView({
                     <p className="mt-3 truncate px-1 text-sm font-semibold text-foreground">{r.title}</p>
                     <p className="px-1 pb-1 text-xs text-muted">{t("updated", { time: formatDate(r.updatedAt) })}</p>
                   </Link>
-                  <div className="absolute end-4 top-4 flex gap-1 rounded-lg bg-surface/95 p-0.5 opacity-0 shadow-card transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 max-sm:opacity-100">
+                  <div className="absolute end-4 top-4 z-10 flex gap-1 rounded-lg bg-surface/95 p-0.5 shadow-card transition-opacity pointer-fine:opacity-0 pointer-fine:group-focus-within:opacity-100 pointer-fine:group-hover:opacity-100">
                     <IconButton
                       label={`${t("duplicate")}: ${r.title}`}
                       disabled={pending}
@@ -228,6 +226,9 @@ export function DashboardView({
             })}
           </ul>
         )}
+
+        {/* Optional and secondary: below the user's own resumes, never in front of them. */}
+        <SharingCard initial={sharing} resumes={resumes.map((r) => ({ id: r.id, title: r.title }))} />
         <TrashList items={trash} />
       </main>
     </div>

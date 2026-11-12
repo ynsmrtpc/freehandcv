@@ -16,7 +16,9 @@
     "network": "Offline — will save when you’re back online",
     "tooLarge": "Resume too large; try a smaller photo",
     "session": "You were signed out — sign in again",
-    "savedExample": "Saved · {time}"
+    "savedExample": "Saved · {time}",
+    "savedShort": "Saved",
+    "savedShortAccount": "In your account"
   },
   "toolbar": {
     "undo": "Undo",
@@ -55,7 +57,7 @@
     "tooLong": "Try to stay within 2 pages",
     "next": "Page {n}"
   },
-  "sectionsHint": "Reorder sections with the arrows; hide them with the eye icon. Changes are saved instantly.",
+  "sectionsHint": "Reorder sections and entries from the ⋯ menu; hide them with the eye icon. Changes are saved instantly.",
   "personal": {
     "title": "Personal details",
     "uploadPhoto": "Upload photo",
@@ -338,5 +340,20 @@
   "templateStart": {
     "applied": "Template applied — Undo brings back the previous look",
     "error": "The template couldn't be applied"
+  },
+  "rowMenu": "More actions: {name}",
+  "downloaded": {
+    "title": "PDF downloaded",
+    "guestText": "This resume lives only in this browser for now. With a free account you can open it on any device and keep its earlier versions.",
+    "accountText": "This version was added to your version history.",
+    "saveToAccount": "Save to account",
+    "close": "Close"
+  },
+  "sample": {
+    "title": "This is an example resume",
+    "text": "It opened with example details so you can see how the fields are filled in. To write your own, start blank or continue from an example close to your job.",
+    "blank": "Start blank",
+    "examples": "Pick an example for your job",
+    "keep": "Continue with this example"
   }
 }

@@ -703,6 +703,15 @@ en baştan tam haliyle kurulduğu için sonraki fazlar köklü değişiklik gere
 6. **Sonrası (fikir):** herkese açık paylaşım bağlantısı, ilana göre yapay zekâ ile CV
    uyarlama, ön yazı (cover letter) şablonları.
 
+### 14.1 Kullanıcı istekleri (12 Kasım 2026)
+
+- **Arayüz yenilemesi:** uygulama tarafında (panel, editör, şablon editörü) UI/UX'i baştan ele alan,
+  daha kullanışlı ve güncel bir arayüz. İstenen araç: `impeccable` tasarım skill'i.
+- **Canva'dan tasarım aktarma:** fizibilite tartışılacak. Çizim motoru serbest yerleşim değil,
+  JSON tasarım tanımı okuduğu için (11.1) birebir kopya mümkün değil; olası yollar içerik aktarımı
+  (Canva'dan dışa aktarılan PDF/PPTX → CV alanları) ve stil yakınsaması (renk, font, yerleşim →
+  tasarım tanımı). Canva şablonlarının lisansı, galeride herkese açmayı kısıtlayabilir.
+
 ## 15. Verilen kararlar
 
 | Konu | Karar |

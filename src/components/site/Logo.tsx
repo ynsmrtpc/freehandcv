@@ -1,19 +1,19 @@
 import { cn } from "@/lib/cn";
 
-/** Pen-nib + page mark and wordmark. The mark is a single-colour SVG; currentColor follows the theme. */
+/**
+ * A form checkbox ticked freehand in ballpoint ink: the tick overshoots the box, as a real one does.
+ * Box follows the text colour, tick follows the ink token, so both themes work.
+ */
 export function Logo({ className }: { className?: string }) {
   return (
-    <span className={cn("inline-flex items-center gap-2 text-[17px] font-bold tracking-tight", className)}>
-      <svg viewBox="0 0 32 32" className="size-8" aria-hidden>
-        <rect width="32" height="32" rx="9" className="fill-primary" />
+    <span className={cn("inline-flex items-center gap-2 text-[19px] font-extrabold tracking-[-0.02em]", className)}>
+      <svg viewBox="0 0 32 32" className="size-8 overflow-visible" aria-hidden>
+        <rect x="3.5" y="7.5" width="21" height="21" rx="3" fill="none" stroke="currentColor" strokeWidth="2.25" className="text-foreground" />
         <path
-          d="M10 22.5 20.6 11.9a2.1 2.1 0 0 1 3 3L13 25.5l-4 1 1-4Z"
-          fill="none"
-          stroke="#fff"
-          strokeWidth="2"
-          strokeLinejoin="round"
+          d="M8.2 18.6c2.1 1.2 3.8 3 5.2 5.4C16.6 15.4 21.8 8.6 29 3.6"
+          className="ink-stroke"
+          style={{ strokeWidth: 3.2 }}
         />
-        <path d="M9 9.5h8M9 13.5h5" stroke="#fff" strokeOpacity=".7" strokeWidth="2" strokeLinecap="round" />
       </svg>
       <span className="text-foreground">
         Freehand<span className="text-primary-text">CV</span>

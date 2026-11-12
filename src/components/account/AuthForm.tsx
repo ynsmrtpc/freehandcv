@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/site/Logo";
 import { buttonClass } from "@/components/ui/Button";
+import { cn } from "@/lib/cn";
 import { getPathname, Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { authClient, GOOGLE_CLIENT_ID } from "@/client/auth";
@@ -14,6 +15,9 @@ import { GoogleLogo } from "./GoogleLogo";
 
 /** Return URL query parameter (public URL, kept as is). */
 const RETURN_PARAM = "next";
+/** Set on the sign-in URL after a successful password reset (`?reset=done`). */
+export const RESET_DONE_PARAM = "reset";
+export const RESET_DONE_VALUE = "done";
 
 /** Only relative in-site paths are followed (no open redirect). */
 function safeReturnPath(raw: string | null, fallback: string) {
@@ -21,7 +25,7 @@ function safeReturnPath(raw: string | null, fallback: string) {
   return fallback;
 }
 
-const inputClass =
+export const inputClass =
   "block h-11 w-full rounded-xl border border-border-strong bg-surface px-3.5 text-base text-foreground outline-none transition-[border-color,box-shadow] focus:border-primary focus:ring-4 focus:ring-primary/15";
 
 export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
@@ -88,6 +92,9 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
             {signIn ? t("signInTitle") : t("signUpTitle")}
           </h1>
           <p className="mt-2 text-center text-sm text-muted">{signIn ? t("signInSubtitle") : t("signUpSubtitle")}</p>
+          {signIn && searchParams.get(RESET_DONE_PARAM) === RESET_DONE_VALUE && step === "form" && (
+            <SuccessMessage text={t("passwordResetDone")} className="mt-5" />
+          )}
 
           {step === "code" ? (
             <form action={submitCode} className="mt-6 space-y-4">
@@ -145,9 +152,16 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
                   <input name="email" type="email" autoComplete="email" required className={`${inputClass} mt-1.5`} />
                 </label>
                 <div>
-                  <label htmlFor="password" className="block text-sm font-semibold text-foreground">
-                    {t("password")}
-                  </label>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <label htmlFor="password" className="block text-sm font-semibold text-foreground">
+                      {t("password")}
+                    </label>
+                    {signIn && (
+                      <Link href="/reset-password" className="text-sm font-medium text-primary-text hover:underline">
+                        {t("forgotPassword")}
+                      </Link>
+                    )}
+                  </div>
                   <div className="relative mt-1.5">
                     <input
                       id="password"
@@ -226,7 +240,15 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
   );
 }
 
-function ErrorMessage({ text }: { text: string }) {
+export function SuccessMessage({ text, className }: { text: string; className?: string }) {
+  return (
+    <p role="status" className={cn("rounded-lg bg-accent-soft px-3 py-2 text-sm font-medium text-accent", className)}>
+      {text}
+    </p>
+  );
+}
+
+export function ErrorMessage({ text }: { text: string }) {
   return (
     <p role="alert" className="rounded-lg bg-danger-soft px-3 py-2 text-sm font-medium text-danger">
       {text}

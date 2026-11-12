@@ -16,7 +16,9 @@
     "network": "Bağlantı yok — bağlanınca kaydedilecek",
     "tooLarge": "CV çok büyük; daha küçük bir fotoğraf dene",
     "session": "Oturumun kapanmış — yeniden giriş yap",
-    "savedExample": "Kaydedildi · {time}"
+    "savedExample": "Kaydedildi · {time}",
+    "savedShort": "Kaydedildi",
+    "savedShortAccount": "Hesabında"
   },
   "toolbar": {
     "undo": "Geri al",
@@ -55,7 +57,7 @@
     "tooLong": "2 sayfayı geçmemeye çalış",
     "next": "Sayfa {n}"
   },
-  "sectionsHint": "Bölümleri oklarla sırala, göz simgesiyle CV'den gizle. Değişiklikler anında kaydedilir.",
+  "sectionsHint": "Bölümleri ve kayıtları ⋯ menüsünden sırala; göz simgesiyle CV'den gizle. Değişiklikler anında kaydedilir.",
   "personal": {
     "title": "Kişisel bilgiler",
     "uploadPhoto": "Fotoğraf yükle",
@@ -338,5 +340,20 @@
   "templateStart": {
     "applied": "Şablon uygulandı — Geri al ile önceki görünüme dönebilirsin",
     "error": "Şablon uygulanamadı"
+  },
+  "rowMenu": "Diğer işlemler: {name}",
+  "downloaded": {
+    "title": "PDF indirildi",
+    "guestText": "Bu CV şu an yalnızca bu tarayıcıda duruyor. Ücretsiz bir hesapla her cihazdan açar, eski hallerini de saklarsın.",
+    "accountText": "Bu hali sürüm geçmişine eklendi.",
+    "saveToAccount": "Hesabına kaydet",
+    "close": "Kapat"
+  },
+  "sample": {
+    "title": "Bu bir örnek CV",
+    "text": "Alanların nasıl doldurulduğunu görmen için örnek bilgilerle açıldı. Kendi CV'ni yazmak için boş başla ya da mesleğine yakın bir örnekten devam et.",
+    "blank": "Boş başla",
+    "examples": "Mesleğine göre örnek seç",
+    "keep": "Bu örnekle devam et"
   }
 }

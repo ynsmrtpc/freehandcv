@@ -19,6 +19,11 @@
     "description": "Silinen CV'ler 30 gün burada kalır ve geri alınabilir; sonra kalıcı olarak silinir.",
     "purgeOn": "{date} tarihinde kalıcı olarak silinecek",
     "restore": "Geri al",
+    "purge": "Kalıcı sil",
+    "empty": "Çöp kutusunu boşalt",
+    "purgeConfirm": "\"{name}\" kalıcı olarak silinsin mi? Bu işlem geri alınamaz.",
+    "emptyConfirm": "Çöp kutusundaki {n} CV kalıcı olarak silinsin mi? Bu işlem geri alınamaz.",
+    "purgeError": "Silinemedi, tekrar dene",
     "limit": "CV sınırına ulaştın; önce bir CV sil",
     "error": "Geri alınamadı, tekrar dene"
   },

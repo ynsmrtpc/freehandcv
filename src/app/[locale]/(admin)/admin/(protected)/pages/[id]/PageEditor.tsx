@@ -326,7 +326,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
         </div>
 
         {/* Right: live preview */}
-        <div className="hidden min-h-0 overflow-auto bg-[#dfe3ea] p-4 lg:block dark:bg-[#0a0f1a]">
+        <div className="hidden min-h-0 overflow-auto bg-desk p-4 lg:block">
           <iframe
             ref={iframeRef}
             title="Canlı önizleme"

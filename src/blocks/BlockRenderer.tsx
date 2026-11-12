@@ -5,6 +5,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import type { Block } from "@/lib/blocks";
 import { cn } from "@/lib/cn";
+import { InkUnderline } from "@/components/ui/InkMark";
 import { TEMPLATE_IDS, type TemplateId } from "@/lib/resume/schema";
 import { richTextParts } from "@/lib/resume/utils";
 import { Steps } from "./Steps";
@@ -26,12 +27,9 @@ function Highlighted({ text }: { text: string }) {
     <>
       {richTextParts(text).map((p, i) =>
         p.bold ? (
-          <span
-            key={i}
-            className="bg-gradient-to-r from-primary to-[#7c3aed] bg-clip-text text-transparent dark:from-[#93c5fd] dark:to-[#c4b5fd]"
-          >
+          <InkUnderline key={i} draw delay={0.35 + i * 0.25}>
             {p.text}
-          </span>
+          </InkUnderline>
         ) : (
           p.text
         ),

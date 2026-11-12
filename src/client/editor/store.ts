@@ -42,6 +42,10 @@ type EditorStore = {
   saveStatus: SaveStatus;
   /** Approximate page count measured by the preview (used by the checks; not part of history). */
   pageCount: number;
+  /** Guest opened on the built-in sample and has not changed it yet (the editor offers a blank start). */
+  untouchedSample: boolean;
+  /** Keeps the sample and hides the offer. */
+  dismissSample: () => void;
   /** Guest: loads from the browser; without saved data starts with the sample in the UI locale. */
   startGuest: (uiLocale: string) => void;
   /** Account: starts with the resume from the server. */
@@ -60,7 +64,14 @@ type EditorStore = {
   saveNow: () => void;
 };
 
-const RESET = { past: [], future: [], lastChange: 0, saveStatus: { kind: "idle" } as SaveStatus, pageCount: 1 };
+const RESET = {
+  past: [],
+  future: [],
+  lastChange: 0,
+  saveStatus: { kind: "idle" } as SaveStatus,
+  pageCount: 1,
+  untouchedSample: false,
+};
 
 /** Moves guest data saved under the legacy key to the current key (converted to the English shape). */
 function migrateGuestStorage() {
@@ -93,7 +104,7 @@ export const useEditor = create<EditorStore>((set, get) => ({
     } catch {
       // broken or inaccessible storage: fall back to the sample
     }
-    set({ ...RESET, data: loaded ?? sampleResume(uiLocale), source: { kind: "guest" } });
+    set({ ...RESET, data: loaded ?? sampleResume(uiLocale), source: { kind: "guest" }, untouchedSample: !loaded });
   },
 
   startAccount(id, data, version) {
@@ -124,6 +135,7 @@ export const useEditor = create<EditorStore>((set, get) => ({
       past: newStep ? [...past, data].slice(-HISTORY_LIMIT) : past,
       future: [],
       lastChange: merge ? now : 0,
+      untouchedSample: false,
     });
   },
 
@@ -134,7 +146,12 @@ export const useEditor = create<EditorStore>((set, get) => ({
       past: data ? [...past, data].slice(-HISTORY_LIMIT) : past,
       future: [],
       lastChange: 0,
+      untouchedSample: false,
     });
+  },
+
+  dismissSample() {
+    set({ untouchedSample: false });
   },
 
   undo() {

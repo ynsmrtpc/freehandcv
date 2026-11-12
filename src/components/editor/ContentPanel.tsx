@@ -24,7 +24,8 @@ import {
   type ResumeData,
   type ListSection,
 } from "@/lib/resume/schema";
-import { Field, Input, IconButton, Textarea, Checkbox } from "./ui";
+import { Field, Input, IconButton, RowMenu, Textarea, Checkbox } from "./ui";
+import { SampleNotice } from "./SampleNotice";
 
 type FieldDef = {
   k: string;
@@ -158,7 +159,8 @@ export function ContentPanel({ notify }: { notify: (text: string) => void }) {
 
   return (
     <div className="space-y-3 p-4 sm:p-5">
-      <p className="text-[13px] leading-relaxed text-muted">{t("sectionsHint")}</p>
+      <SampleNotice />
+      <p className="text-sm leading-relaxed text-muted">{t("sectionsHint")}</p>
       <PersonalSection open={open.has("personal")} toggle={(o) => toggle("personal", o)} notify={notify} />
       {order.map((id, i) => (
         <SectionEditor
@@ -390,20 +392,23 @@ function SectionEditor({
       >
         {hidden ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
       </IconButton>
-      <IconButton
-        label={`${t("moveUp")}: ${name}`}
-        disabled={index === 0}
-        onClick={() => update((v) => move(v.settings.sectionOrder, index, -1), false)}
-      >
-        <ChevronUp className="size-4" />
-      </IconButton>
-      <IconButton
-        label={`${t("moveDown")}: ${name}`}
-        disabled={index === total - 1}
-        onClick={() => update((v) => move(v.settings.sectionOrder, index, 1), false)}
-      >
-        <ChevronDown className="size-4" />
-      </IconButton>
+      <RowMenu
+        label={t("rowMenu", { name })}
+        items={[
+          {
+            label: t("moveUp"),
+            icon: <ChevronUp />,
+            disabled: index === 0,
+            onSelect: () => update((v) => move(v.settings.sectionOrder, index, -1), false),
+          },
+          {
+            label: t("moveDown"),
+            icon: <ChevronDown />,
+            disabled: index === total - 1,
+            onSelect: () => update((v) => move(v.settings.sectionOrder, index, 1), false),
+          },
+        ]}
+      />
     </span>
   );
 
@@ -529,41 +534,41 @@ function EntryList({
               >
                 {e.hidden ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
               </IconButton>
-              <IconButton
-                label={`${t("moveUp")}: ${summary}`}
-                disabled={i === 0}
-                onClick={() => update((v) => move(list(v), i, -1), false)}
-              >
-                <ChevronUp className="size-4" />
-              </IconButton>
-              <IconButton
-                label={`${t("moveDown")}: ${summary}`}
-                disabled={i === entries.length - 1}
-                onClick={() => update((v) => move(list(v), i, 1), false)}
-              >
-                <ChevronDown className="size-4" />
-              </IconButton>
-              <IconButton
-                label={`${t("duplicate")}: ${summary}`}
-                className="hidden sm:grid"
-                onClick={() => {
-                  const copy = { ...structuredClone(e), id: emptyEntry(section).id };
-                  update((v) => void list(v).splice(i + 1, 0, copy), false);
-                  toggle(copy.id, true);
-                }}
-              >
-                <Copy className="size-4" />
-              </IconButton>
-              <IconButton
-                label={`${t("delete")}: ${summary}`}
-                danger
-                onClick={() => {
-                  if (!confirm(t("confirm.deleteEntry", { name: summary }))) return;
-                  update((v) => void list(v).splice(i, 1), false);
-                }}
-              >
-                <Trash2 className="size-4" />
-              </IconButton>
+              <RowMenu
+                label={t("rowMenu", { name: summary })}
+                items={[
+                  {
+                    label: t("moveUp"),
+                    icon: <ChevronUp />,
+                    disabled: i === 0,
+                    onSelect: () => update((v) => move(list(v), i, -1), false),
+                  },
+                  {
+                    label: t("moveDown"),
+                    icon: <ChevronDown />,
+                    disabled: i === entries.length - 1,
+                    onSelect: () => update((v) => move(list(v), i, 1), false),
+                  },
+                  {
+                    label: t("duplicate"),
+                    icon: <Copy />,
+                    onSelect: () => {
+                      const copy = { ...structuredClone(e), id: emptyEntry(section).id };
+                      update((v) => void list(v).splice(i + 1, 0, copy), false);
+                      toggle(copy.id, true);
+                    },
+                  },
+                  {
+                    label: t("delete"),
+                    icon: <Trash2 />,
+                    danger: true,
+                    onSelect: () => {
+                      if (!confirm(t("confirm.deleteEntry", { name: summary }))) return;
+                      update((v) => void list(v).splice(i, 1), false);
+                    },
+                  },
+                ]}
+              />
             </div>
             {entryOpen && (
               <div className="grid grid-cols-2 gap-x-3 gap-y-4 border-t border-border px-3 pt-3 pb-4">

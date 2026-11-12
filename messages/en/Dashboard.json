@@ -19,6 +19,11 @@
     "description": "Deleted resumes stay here for 30 days and can be restored; then they are removed for good.",
     "purgeOn": "Removed for good on {date}",
     "restore": "Restore",
+    "purge": "Delete for good",
+    "empty": "Empty trash",
+    "purgeConfirm": "Delete \"{name}\" for good? This can’t be undone.",
+    "emptyConfirm": "Delete all {n} resumes in the trash for good? This can’t be undone.",
+    "purgeError": "Couldn’t delete it; try again",
     "limit": "You’ve reached the resume limit; delete one first",
     "error": "Couldn’t restore it; try again"
   },

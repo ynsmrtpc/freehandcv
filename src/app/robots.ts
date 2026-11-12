@@ -4,7 +4,7 @@ import { routing } from "@/i18n/routing";
 import { SITE_URL } from "@/lib/site";
 
 // App routes are not crawled (plan 6.1), including their localized paths.
-const APP_ROUTES = ["/create-resume", "/admin", "/sign-in", "/sign-up", "/dashboard"] as const;
+const APP_ROUTES = ["/create-resume", "/admin", "/sign-in", "/sign-up", "/reset-password", "/dashboard"] as const;
 // Phase 2 app paths that have no route definition yet.
 const UPCOMING_PATHS = ["/cv/", "/en/cv/", "/yazdir/", "/hesap", "/sablon-editoru/"];
 

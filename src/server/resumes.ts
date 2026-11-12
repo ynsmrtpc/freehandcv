@@ -144,6 +144,19 @@ export async function restoreResume(id: string, userId: string) {
   if (!r.length) throw new ResumeNotFoundError();
 }
 
+/**
+ * Removes trashed resumes for good before the 30-day purge: the one with `id`, or the whole trash.
+ * Only resumes already in the trash are touched; their versions go with them (cascade).
+ */
+export async function purgeTrashedResumes(userId: string, id?: string) {
+  const removed = await db
+    .delete(resumes)
+    .where(and(eq(resumes.userId, userId), isNotNull(resumes.deletedAt), id ? eq(resumes.id, id) : undefined))
+    .returning({ id: resumes.id });
+  if (id && !removed.length) throw new ResumeNotFoundError();
+  return removed.length;
+}
+
 /* ---------------- Versions ---------------- */
 
 /**

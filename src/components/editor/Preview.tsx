@@ -143,7 +143,7 @@ export function Preview() {
         </div>
       </div>
 
-      <div ref={canvasRef} className="preview-canvas min-h-0 flex-1 overflow-auto bg-[#dfe3ea] dark:bg-[#0a0f1a]">
+      <div ref={canvasRef} className="preview-canvas min-h-0 flex-1 overflow-auto bg-desk">
         <div className="print-area mx-auto w-fit p-6" style={{ zoom: zoomState.value }}>
           <div ref={pageRef} className="relative bg-white shadow-paper">
             <ResumeDocument data={data} definition={definition} />

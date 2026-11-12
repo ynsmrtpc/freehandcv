@@ -1,129 +1,86 @@
 "use client";
 
-import { BriefcaseBusiness, Download, LockKeyhole, ShieldCheck, X } from "lucide-react";
+import { ChevronDown, CloudUpload, LockKeyhole, X } from "lucide-react";
+import { m } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useRef } from "react";
-import { GoogleLogo } from "@/components/account/GoogleLogo";
 import { buttonClass } from "@/components/ui/Button";
+import { InkTick } from "@/components/ui/InkMark";
 import { getPathname, Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { authClient, GOOGLE_CLIENT_ID } from "@/client/auth";
 import { useEditor } from "@/client/editor/store";
 
-/** Data notice always visible in the guest editor (nothing goes to the server while signed out). */
+/**
+ * Data notice in the guest editor: one line, with the full disclosure (what is sent when a PDF is
+ * made) one tap away rather than wrapping across the phone screen.
+ */
 export function GuestNotice() {
   const t = useTranslations("Consent");
   const locale = useLocale() as Locale;
   return (
-    <div className="editor-chrome flex shrink-0 flex-wrap items-center justify-center gap-x-3 gap-y-1 border-b border-border bg-primary-soft px-4 py-2 text-center text-[13px] text-foreground">
-      <span className="flex items-center gap-1.5">
-        <LockKeyhole className="size-3.5 shrink-0 text-primary-text" aria-hidden />
-        {t("notice")}
-      </span>
-      <Link
-        href={{ pathname: "/sign-in", query: { next: getPathname({ href: "/dashboard", locale }) } }}
-        className="font-semibold text-primary-text underline-offset-4 hover:underline"
-      >
-        {t("noticeLink")}
-      </Link>
-    </div>
+    <details className="editor-chrome group shrink-0 border-b border-border bg-primary-soft text-sm text-foreground">
+      <summary className="flex min-h-10 cursor-pointer list-none items-center gap-2 px-4 py-1.5 [&::-webkit-details-marker]:hidden">
+        <LockKeyhole className="size-4 shrink-0 text-primary-text" aria-hidden />
+        <span className="min-w-0 truncate">{t("noticeShort")}</span>
+        <span className="ms-auto flex shrink-0 items-center gap-1 font-semibold text-primary-text">
+          {t("noticeDetails")}
+          <ChevronDown className="size-4 transition-transform group-open:rotate-180" aria-hidden />
+        </span>
+      </summary>
+      <div className="px-4 pb-3 leading-relaxed">
+        <p className="max-w-3xl text-muted">{t("notice")}</p>
+        <Link
+          href={{ pathname: "/sign-in", query: { next: getPathname({ href: "/dashboard", locale }) } }}
+          onClick={() => useEditor.getState().saveNow()}
+          className="mt-1 inline-flex min-h-11 items-center font-semibold text-primary-text underline underline-offset-4 pointer-fine:min-h-0"
+        >
+          {t("noticeLink")}
+        </Link>
+      </div>
+    </details>
   );
 }
 
 /**
- * When a guest presses "Download PDF": explains what happens on sign-in (the resume is kept in the
- * account and, with consent, can be shared with employers) and that downloading without signing in works too.
+ * After a PDF downloads: a quiet confirmation that names the file. Guests get one optional way to
+ * keep the resume; nothing stands between them and the download.
  */
-export function GuestDownloadDialog({
-  open,
-  onClose,
-  onDownloadWithoutSignIn,
-}: {
-  open: boolean;
-  onClose: () => void;
-  onDownloadWithoutSignIn: () => void;
-}) {
-  const t = useTranslations("Consent");
+export function DownloadedCard({ file, guest, onClose }: { file: string; guest: boolean; onClose: () => void }) {
+  const t = useTranslations("Editor.downloaded");
   const locale = useLocale() as Locale;
-  const ref = useRef<HTMLDialogElement>(null);
-  const dashboard = getPathname({ href: "/dashboard", locale });
-
-  useEffect(() => {
-    const d = ref.current;
-    if (!d) return;
-    if (open && !d.open) d.showModal();
-    if (!open && d.open) d.close();
-  }, [open]);
-
   return (
-    <dialog
-      ref={ref}
-      onClose={onClose}
-      aria-labelledby="guest-download-title"
-      className="m-auto w-[min(520px,calc(100vw-2rem))] rounded-2xl border border-border bg-surface p-0 text-foreground shadow-elevated backdrop:bg-black/50 backdrop:backdrop-blur-sm"
+    <m.div
+      role="status"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } }}
+      exit={{ opacity: 0, y: 10, transition: { duration: 0.15 } }}
+      className="fixed inset-x-3 bottom-20 z-50 rounded-xl border border-border-strong bg-surface p-4 text-foreground shadow-elevated sm:inset-x-auto sm:end-6 sm:w-[24rem] lg:bottom-6"
     >
-      <div className="flex items-start justify-between gap-4 px-6 pt-6">
-        <h2 id="guest-download-title" className="text-lg font-bold">
-          {t("downloadTitle")}
-        </h2>
+      <div className="flex items-start gap-3">
+        <InkTick className="mt-0.5 text-2xl" draw delay={0.1} />
+        <div className="min-w-0 flex-1">
+          <p className="font-bold">{t("title")}</p>
+          <p className="truncate text-sm text-muted">{file}</p>
+        </div>
         <button
           type="button"
-          onClick={() => ref.current?.close()}
-          aria-label="×"
-          className="-me-2 -mt-1 grid size-9 place-items-center rounded-lg text-muted hover:bg-surface-2 hover:text-foreground"
+          onClick={onClose}
+          aria-label={t("close")}
+          className="-me-2 -mt-2 grid size-11 shrink-0 place-items-center rounded-md text-muted hover:bg-surface-2 hover:text-foreground pointer-fine:size-9"
         >
           <X className="size-4" />
         </button>
       </div>
-
-      <div className="space-y-4 px-6 pt-4 text-sm leading-relaxed">
-        <p className="flex gap-3">
-          <BriefcaseBusiness className="mt-0.5 size-5 shrink-0 text-primary-text" aria-hidden />
-          <span>{t("employerSharing")}</span>
-        </p>
-        <p className="flex gap-3">
-          <ShieldCheck className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden />
-          <span className="text-muted">{t("dataUse")}</span>
-        </p>
-        <p className="flex gap-3 rounded-xl bg-surface-2 px-3 py-2.5">
-          <LockKeyhole className="mt-0.5 size-4 shrink-0 text-muted" aria-hidden />
-          <span className="text-muted">{t("guestNoData")}</span>
-        </p>
-      </div>
-
-      <div className="mt-6 space-y-2 border-t border-border px-6 py-5">
-        {GOOGLE_CLIENT_ID && (
-          <button
-            type="button"
-            onClick={async () => {
-              useEditor.getState().saveNow(); // so the dashboard can move it to the account after sign-in
-              await authClient.signIn.social({ provider: "google", callbackURL: dashboard });
-            }}
-            className="flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border border-border-strong bg-surface text-[15px] font-semibold text-foreground hover:bg-surface-2"
-          >
-            <GoogleLogo className="size-5" />
-            {t("withGoogle")}
-          </button>
-        )}
+      <p className="mt-2 text-sm leading-relaxed text-muted">{guest ? t("guestText") : t("accountText")}</p>
+      {guest && (
         <Link
-          href={{ pathname: "/sign-in", query: { next: dashboard } }}
+          href={{ pathname: "/sign-in", query: { next: getPathname({ href: "/dashboard", locale }) } }}
           onClick={() => useEditor.getState().saveNow()}
-          className={buttonClass(GOOGLE_CLIENT_ID ? "secondary" : "primary", "md", "w-full")}
+          className={buttonClass("secondary", "md", "mt-3 w-full")}
         >
-          {t("withEmail")}
+          <CloudUpload className="size-4" />
+          {t("saveToAccount")}
         </Link>
-        <button
-          type="button"
-          onClick={() => {
-            ref.current?.close();
-            onDownloadWithoutSignIn();
-          }}
-          className={buttonClass("ghost", "md", "w-full")}
-        >
-          <Download className="size-4" />
-          {t("downloadWithoutSignIn")}
-        </button>
-      </div>
-    </dialog>
+      )}
+    </m.div>
   );
 }

@@ -1,23 +1,24 @@
 import type { Metadata, Viewport } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Atkinson_Hyperlegible_Next } from "next/font/google";
 import { notFound } from "next/navigation";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { routing } from "@/i18n/routing";
 import { SITE_URL } from "@/lib/site";
 import "../globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
+// Atkinson Hyperlegible Next: drawn for low-vision readers; many users read on small phones.
+const bodyFont = Atkinson_Hyperlegible_Next({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-jakarta",
+  variable: "--font-body",
   display: "swap",
 });
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1120" },
+    { media: "(prefers-color-scheme: light)", color: "#f2f3f6" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f1115" },
   ],
 };
 
@@ -51,7 +52,7 @@ export default async function RootLayout({
   return (
     // When Arabic (wave 2) is added, dir will be derived from the locale (plan 8.2).
     // suppressHydrationWarning: next-themes adds the theme class to <html> before first paint.
-    <html lang={locale} dir="ltr" className={jakarta.variable} suppressHydrationWarning>
+    <html lang={locale} dir="ltr" className={bodyFont.variable} suppressHydrationWarning>
       <body className="min-h-dvh font-sans antialiased">
         <ThemeProvider>
           <NextIntlClientProvider>{children}</NextIntlClientProvider>

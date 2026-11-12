@@ -1,0 +1,11 @@
+{
+  "greeting": "Hi,",
+  "greetingName": "Hi {name},",
+  "resetSubject": "Reset your FreehandCV password",
+  "resetIntro": "We got a request to reset the password for your FreehandCV account. Open the link below to set a new one.",
+  "resetButton": "Set a new password",
+  "resetExpiry": "{hours, plural, one {The link works for # hour} other {The link works for # hours}} and can be used only once.",
+  "resetIgnore": "If you didn’t ask for this, you can ignore this email; your password stays the same.",
+  "linkFallback": "If the button doesn’t work, paste this address into your browser:",
+  "signature": "FreehandCV"
+}

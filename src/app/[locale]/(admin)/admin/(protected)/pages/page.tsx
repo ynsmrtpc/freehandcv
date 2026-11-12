@@ -94,7 +94,7 @@ export default async function Pages({ searchParams }: PageProps<"/[locale]/admin
                   </span>
                 </span>
                 {p.hasUnpublishedChanges ? (
-                  <span className="rounded-full bg-[#fef3c7] px-2 py-0.5 text-xs font-semibold text-warning dark:bg-[#3a2a05]">
+                  <span className="rounded-full bg-warning-soft px-2 py-0.5 text-xs font-semibold text-warning">
                     Yayınlanmamış değişiklik
                   </span>
                 ) : (

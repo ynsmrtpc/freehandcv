@@ -14,6 +14,7 @@ import Examples from "./Examples.json";
 import Guides from "./Guides.json";
 import Account from "./Account.json";
 import TemplateEditor from "./TemplateEditor.json";
+import Email from "./Email.json";
 
-const messages = { Meta, Site, Landing, App, Admin, Editor, Checks, Auth, Dashboard, Consent, Templates, Examples, Guides, Account, TemplateEditor };
+const messages = { Meta, Site, Landing, App, Admin, Editor, Checks, Auth, Dashboard, Consent, Templates, Examples, Guides, Account, TemplateEditor, Email };
 export default messages;

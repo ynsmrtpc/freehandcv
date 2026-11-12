@@ -9,7 +9,7 @@
     "bullets": [
       "Kredi kartı yok",
       "Filigran yok",
-      "Sınırsız CV"
+      "Hesap açmadan indir"
     ],
     "template": "Şablon",
     "atsFriendly": "ATS uyumlu",
@@ -47,7 +47,7 @@
       {
         "feature": "CV sayısı",
         "others": "Genelde 1",
-        "us": "Sınırsız"
+        "us": "100'e kadar"
       },
       {
         "feature": "Sürüm geçmişi",
@@ -104,7 +104,7 @@
       },
       {
         "title": "KVKK'ya uygun",
-        "text": "Verin yalnız senin. CV'ni kimse göremez, yönetim panelinde bile."
+        "text": "Verin yalnız senin. CV'n işverenlerle yalnızca açık onayınla paylaşılır; onayı istediğin an geri alırsın."
       },
       {
         "title": "Her cihazda",
@@ -134,7 +134,7 @@
       },
       {
         "question": "CV'ye fotoğraf koymalı mıyım?",
-        "answer": "Türkiye ve Almanya'da yaygın, ABD ve İngiltere'de önerilmez. Hedef ülkeyi seçtiğinde editör sana uygun olanı önerir."
+        "answer": "Türkiye ve Almanya'da yaygın, ABD ve İngiltere'de önerilmez. Fotoğrafı Tasarım sekmesinden tek dokunuşla açıp kapatabilirsin."
       }
     ]
   },

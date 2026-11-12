@@ -18,5 +18,7 @@
   "mostRecent": "My most recently updated resume",
   "withdrawNote": "You can turn this off any time; your resume is removed from the pool immediately.",
   "saved": "Your preference was saved.",
-  "error": "Couldn’t save your preference. Please try again."
+  "error": "Couldn’t save your preference. Please try again.",
+  "noticeShort": "Your resume is stored only in this browser.",
+  "noticeDetails": "Details"
 }

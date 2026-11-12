@@ -1,0 +1,22 @@
+# Normalise line endings in the repository; contributors on Windows and macOS/Linux get the same files.
+* text=auto eol=lf
+
+# Windows scripts keep CRLF.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+
+# Generated files: hide from diffs and language stats.
+pnpm-lock.yaml linguist-generated=true -diff
+drizzle/meta/*.json linguist-generated=true

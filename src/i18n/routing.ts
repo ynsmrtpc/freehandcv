@@ -24,6 +24,8 @@ export const routing = defineRouting({
     "/privacy": { tr: "/gizlilik-ve-kvkk", en: "/privacy" },
     "/sign-in": { tr: "/giris", en: "/sign-in" },
     "/sign-up": { tr: "/kayit", en: "/sign-up" },
+    // Plan 9: one page for both steps (no token: request a link; with ?token=: set a new password).
+    "/reset-password": { tr: "/sifre-sifirla", en: "/reset-password" },
     "/dashboard": { tr: "/panel", en: "/dashboard" },
     "/dashboard/templates": { tr: "/panel/sablonlarim", en: "/dashboard/templates" },
     "/template-editor/new": { tr: "/sablon-editoru/yeni", en: "/template-editor/new" },
