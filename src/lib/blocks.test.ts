@@ -199,7 +199,8 @@ describe("legacy content", () => {
       footerTagline: "Slogan",
       donationLabel: "Destek ol",
     });
-    expect(resolveGlobalSettings(converted.settings)).toEqual(converted.settings);
+    // Settings added after the legacy format (search-engine verification) come in with their defaults.
+    expect(resolveGlobalSettings(converted.settings)).toEqual({ ...(converted.settings as object), verification: { google: "", bing: "", yandex: "" } });
     const tr = (converted.translations as Record<string, unknown>).tr;
     expect(resolveLocaleSettings(tr)).toEqual(tr);
     expect(migrateLegacySiteSettings(converted)).toEqual(converted);

@@ -74,6 +74,7 @@ const BUILT: ReadonlySet<AdminHref> = new Set<AdminHref>([
   "/admin",
   "/admin/pages",
   "/admin/examples",
+  "/admin/faqs",
   "/admin/reviews",
   "/admin/users",
   "/admin/settings",

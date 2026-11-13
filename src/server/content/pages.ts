@@ -5,6 +5,7 @@ import { blockListSchema, type Block } from "@/lib/blocks";
 import { migrateLegacyBlocks } from "@/lib/legacyContent";
 import { db } from "../db";
 import { auditLog, pages, pageVersions, user } from "../db/schema";
+import { FAQS_TAG, resolveFaqBlocks } from "./faqs";
 
 export const HOME_SLUG = "home";
 export const pageTag = (locale: string, slug: string) => `page:${locale}:${slug}`;
@@ -48,7 +49,7 @@ export type PublishedPage = {
  */
 export async function getPublishedPage(locale: string, slug: string): Promise<PublishedPage | null> {
   "use cache";
-  cacheTag(pageTag(locale, slug));
+  cacheTag(pageTag(locale, slug), FAQS_TAG);
   try {
     const [p] = await db
       .select({
@@ -62,7 +63,7 @@ export async function getPublishedPage(locale: string, slug: string): Promise<Pu
       .where(and(eq(pages.locale, locale), eq(pages.slug, slug), eq(pages.status, "published")))
       .limit(1);
     if (!p?.blocks) return null;
-    return { ...p, blocks: parseBlocks(p.blocks) };
+    return { ...p, blocks: await resolveFaqBlocks(parseBlocks(p.blocks), locale) };
   } catch (error) {
     console.error("getPublishedPage: database unreachable", error);
     cacheLife("seconds");
@@ -107,7 +108,7 @@ export async function getPublishedGuides(): Promise<GuideSummary[]> {
 /** A published guide; static and legal pages never resolve under /rehber. */
 export async function getPublishedGuide(locale: string, slug: string): Promise<(PublishedPage & { updatedAt: string }) | null> {
   "use cache";
-  cacheTag(pageTag(locale, slug));
+  cacheTag(pageTag(locale, slug), FAQS_TAG);
   try {
     const [p] = await db
       .select({
@@ -122,7 +123,7 @@ export async function getPublishedGuide(locale: string, slug: string): Promise<(
       .where(and(eq(pages.locale, locale), eq(pages.slug, slug), eq(pages.kind, "guide"), eq(pages.status, "published")))
       .limit(1);
     if (!p?.blocks) return null;
-    return { ...p, blocks: parseBlocks(p.blocks), updatedAt: p.updatedAt.toISOString() };
+    return { ...p, blocks: await resolveFaqBlocks(parseBlocks(p.blocks), locale), updatedAt: p.updatedAt.toISOString() };
   } catch (error) {
     console.error("getPublishedGuide: database unreachable", error);
     cacheLife("seconds");

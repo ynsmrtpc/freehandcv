@@ -47,6 +47,8 @@ export const routing = defineRouting({
     "/admin/users/new": "/admin/users/new",
     "/admin/users/[id]": "/admin/users/[id]",
     "/admin/faqs": "/admin/faqs",
+    "/admin/faqs/new": "/admin/faqs/new",
+    "/admin/faqs/[id]": "/admin/faqs/[id]",
     "/admin/media": "/admin/media",
     "/admin/templates": "/admin/templates",
     "/admin/reviews": "/admin/reviews",

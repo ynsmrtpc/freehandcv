@@ -54,7 +54,7 @@ export function defaultLandingBlocks(locale: "tr" | "en"): Block[] {
       settings: settings({ anchor: "reviews", background: "subtle" }),
       content: { eyebrow: L.testimonials.eyebrow, title: L.testimonials.title, count: "6" },
     },
-    { id: "faq", type: "faq", settings: settings({ anchor: "faq" }), content: L.faq },
+    { id: "faq", type: "faq", settings: settings({ anchor: "faq" }), content: { ...L.faq, category: "" } },
     {
       id: "cta",
       type: "cta",

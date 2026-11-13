@@ -25,6 +25,12 @@ export const ACTION_LABELS: Record<string, string> = {
   revoke_sessions: "Oturumlar kapatıldı",
   delete_user: "Hesap silindi",
   close_account: "Hesap kapatıldı",
+  create_faq: "SSS sorusu eklendi",
+  update_faq: "SSS sorusu düzenlendi",
+  publish_faq: "SSS sorusu yayına alındı",
+  unpublish_faq: "SSS sorusu gizlendi",
+  delete_faq: "SSS sorusu silindi",
+  import_faqs: "SSS soruları sayfalardan aktarıldı",
 };
 
 const TARGET_LABELS: Record<string, string> = {
@@ -33,6 +39,7 @@ const TARGET_LABELS: Record<string, string> = {
   user: "Kullanıcı",
   site_review: "Yorum",
   example_resume: "Örnek CV",
+  faq: "SSS",
 };
 
 type Row = {

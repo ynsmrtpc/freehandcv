@@ -105,6 +105,11 @@ export const BLOCK_SCHEMAS = {
   }),
   faq: z.object({
     ...sectionHeading,
+    // Optional so blocks saved before the FAQ pool keep validating.
+    category: m(z.string().max(40).default(""), {
+      label: "SSS kategorisi",
+      hint: "Doluysa sorular Yönetim > SSS havuzundan bu kategoriden gelir ve aşağıdaki liste kullanılmaz (ör. genel)",
+    }),
     items: m(z.array(z.object({ question: text("Soru"), answer: longText("Cevap") })).max(30), {
       label: "Sorular",
       summaryField: "question",
