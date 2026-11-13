@@ -1,4 +1,4 @@
-import { AdminPageHeader } from "@/components/admin/kit";
+import { AdminBody, AdminPageHeader } from "@/components/admin/kit";
 import { EMPTY_GUIDE } from "@/lib/examples";
 import { ExampleForm } from "../ExampleForm";
 
@@ -9,7 +9,7 @@ export default function NewExample() {
         title="Yeni örnek CV"
         description="Önce sayfa bilgilerini gir; oluşturduktan sonra CV içeriğini editörde düzenlersin. Yeni örnek taslak olarak başlar."
       />
-      <div className="max-w-4xl p-5 sm:p-8">
+      <AdminBody>
         <ExampleForm
           slugLocked={false}
           initial={{
@@ -25,7 +25,7 @@ export default function NewExample() {
             sortOrder: 100,
           }}
         />
-      </div>
+      </AdminBody>
     </>
   );
 }

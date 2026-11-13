@@ -1,7 +1,7 @@
 import { Eye, FilePen } from "lucide-react";
 import { notFound } from "next/navigation";
 import { z } from "zod";
-import { AdminPageHeader } from "@/components/admin/kit";
+import { AdminBody, AdminPageHeader } from "@/components/admin/kit";
 import { buttonClass } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { getExampleForAdmin } from "@/server/content/examples";
@@ -32,7 +32,7 @@ export default async function EditExample({ params }: PageProps<"/[locale]/admin
           <PublishToggle id={id} active={e.active} />
         </div>
       </AdminPageHeader>
-      <div className="max-w-4xl p-5 sm:p-8">
+      <AdminBody>
         <ExampleForm
           // Rebuilt from server data after saving or publishing (slug lock may change).
           key={`${e.updatedAt.toISOString()}-${e.active}`}
@@ -51,7 +51,7 @@ export default async function EditExample({ params }: PageProps<"/[locale]/admin
             sortOrder: e.sortOrder,
           }}
         />
-      </div>
+      </AdminBody>
     </>
   );
 }

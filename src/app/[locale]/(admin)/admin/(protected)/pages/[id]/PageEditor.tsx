@@ -174,22 +174,23 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
   const previewUrl = getPathname({ href: "/admin/preview", locale: page.locale as "tr" | "en" });
 
   return (
-    <div className="flex h-dvh flex-col">
+    // On phones the admin top bar (3.5rem) sits above the editor.
+    <div className="flex h-[calc(100dvh-3.5rem)] flex-col lg:h-dvh">
       {/* Top bar */}
       <div className="flex flex-wrap items-center gap-2 border-b border-border bg-surface px-4 py-3">
         <Link href="/admin/pages" className={buttonClass("ghost", "sm", "px-2")} aria-label="Sayfalara dön">
           <ArrowLeft className="size-4 rtl:rotate-180" />
         </Link>
         <div className="min-w-0">
-          <p className="truncate font-bold text-foreground">{meta.title}</p>
-          <p className="text-xs text-muted">
+          <p className="truncate text-lg font-bold text-foreground">{meta.title}</p>
+          <p className="text-sm text-muted">
             <span className="font-semibold uppercase">{page.locale}</span> · /{page.slug} ·{" "}
             {dirty ? (
               <span className="font-semibold text-warning">Kaydedilmemiş değişiklik</span>
             ) : page.hasUnpublishedChanges ? (
               <span className="font-semibold text-warning">Taslak yayında değil</span>
             ) : (
-              <span className="text-accent">Yayında</span>
+              <span className="font-semibold text-accent">Yayında</span>
             )}
           </p>
         </div>
@@ -245,7 +246,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
         <p
           role={notice.kind === "error" ? "alert" : "status"}
           className={cn(
-            "border-b px-4 py-2 text-sm font-medium",
+            "border-b px-4 py-2.5 text-[15px] font-medium",
             notice.kind === "error" ? "border-danger/20 bg-danger-soft text-danger" : "border-accent/20 bg-accent-soft text-accent",
           )}
         >
@@ -255,7 +256,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
 
       <div className="grid min-h-0 flex-1 lg:grid-cols-[440px_1fr]">
         {/* Left: blocks / page settings */}
-        <div className="flex min-h-0 flex-col border-e border-border bg-background">
+        <div className="flex min-h-0 min-w-0 flex-col border-e border-border bg-background">
           <div role="tablist" className="flex shrink-0 gap-1 border-b border-border bg-surface px-3">
             {(
               [
@@ -270,7 +271,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
                 aria-selected={tab === k}
                 onClick={() => setTab(k)}
                 className={cn(
-                  "relative h-11 px-3 text-sm font-semibold",
+                  "relative h-12 px-3 text-[15px] font-semibold",
                   tab === k ? "text-foreground" : "text-muted hover:text-foreground",
                 )}
               >
@@ -288,7 +289,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
                 <button
                   type="button"
                   onClick={() => setSelected(null)}
-                  className="mb-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-text hover:underline"
+                  className="mb-3 inline-flex min-h-11 items-center gap-1.5 text-[15px] font-semibold text-primary-text hover:underline pointer-fine:min-h-9"
                 >
                   <ArrowLeft className="size-4 rtl:rotate-180" />
                   Tüm bloklar
@@ -302,8 +303,8 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
                     errors={blockErrors(selectedIndex)}
                     path={["content"]}
                   />
-                  <details className="rounded-xl border border-border bg-surface p-4">
-                    <summary className="cursor-pointer text-sm font-semibold text-foreground">Blok ayarları</summary>
+                  <details className="rounded-lg border border-border bg-surface p-4">
+                    <summary className="cursor-pointer text-[15px] font-semibold text-foreground">Blok ayarları</summary>
                     <div className="mt-4">
                       <SchemaForm
                         schema={blockSettingsSchema}
@@ -390,19 +391,21 @@ function BlockList({
           <div
             key={b.id}
             className={cn(
-              "flex items-center rounded-xl border bg-surface shadow-card",
+              // Narrow screens: the action buttons wrap under the title instead of overflowing.
+              "flex flex-wrap items-center rounded-lg border bg-surface",
               hasError ? "border-danger" : "border-border",
               !b.settings.visible && "opacity-60",
             )}
           >
-            <button type="button" onClick={() => select(b.id)} className="min-w-0 flex-1 px-4 py-3 text-start">
-              <span className="block text-sm font-semibold text-foreground">{BLOCK_NAMES[b.type]}</span>
-              <span className="block truncate text-xs text-muted">
-                {titleSummary(b) || "—"}
+            <button type="button" onClick={() => select(b.id)} className="min-w-48 flex-1 px-4 py-3 text-start">
+              <span className="block text-[15px] font-semibold text-foreground">{BLOCK_NAMES[b.type]}</span>
+              <span className="block truncate text-sm text-muted">
+                {!b.settings.visible && <span className="me-1 font-semibold">Gizli ·</span>}
+                {titleSummary(b) || "Başlıksız"}
                 {b.settings.anchor && <span className="ms-1 font-mono">#{b.settings.anchor}</span>}
               </span>
             </button>
-            <span className="flex items-center pe-1">
+            <span className="ms-auto flex items-center px-1">
               <IconButton
                 label={b.settings.visible ? "Gizle" : "Göster"}
                 onClick={() => update(b.id, (x) => ({ ...x, settings: { ...x.settings, visible: !x.settings.visible } }))}
@@ -440,7 +443,14 @@ function BlockList({
       })}
 
       {addOpen ? (
-        <div className="grid grid-cols-2 gap-2 rounded-xl border border-dashed border-border-strong p-3">
+        <div className="rounded-lg border border-border bg-surface p-3">
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <p className="text-[15px] font-semibold text-foreground">Hangi blok eklensin?</p>
+            <button type="button" onClick={() => setAddOpen(false)} className={buttonClass("ghost", "sm")}>
+              Vazgeç
+            </button>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
           {BLOCK_TYPES.map((type: BlockType) => (
             <button
               key={type}
@@ -451,17 +461,18 @@ function BlockList({
                 setAddOpen(false);
                 select(created.id);
               }}
-              className="rounded-lg border border-border bg-surface px-3 py-2.5 text-start text-sm font-medium text-foreground hover:border-primary hover:bg-primary-soft"
+              className="min-h-11 rounded-md border border-border bg-surface px-3 py-2 text-start text-[15px] font-medium text-foreground hover:border-primary hover:bg-primary-soft"
             >
               {BLOCK_NAMES[type]}
             </button>
           ))}
+          </div>
         </div>
       ) : (
         <button
           type="button"
           onClick={() => setAddOpen(true)}
-          className="flex h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-border-strong text-sm font-semibold text-primary-text hover:border-primary hover:bg-primary-soft"
+          className="flex h-12 w-full items-center justify-center gap-1.5 rounded-lg border border-dashed border-border-strong text-[15px] font-semibold text-primary-text hover:border-primary hover:bg-primary-soft"
         >
           <Plus className="size-4" />
           Blok ekle
@@ -477,7 +488,7 @@ function PageSettings({ meta, setMeta, errors }: { meta: Meta; setMeta: (m: Meta
     const Component = long ? Textarea : Input;
     return (
       <div>
-        <label htmlFor={`meta-${k}`} className="mb-1.5 flex justify-between text-[13px] font-semibold text-foreground">
+        <label htmlFor={`meta-${k}`} className="mb-1.5 flex justify-between text-[15px] font-semibold text-foreground">
           {label}
           <span className={cn("font-medium tabular-nums", value.length > limit ? "text-danger" : "text-muted")}>
             {value.length}/{limit}
@@ -489,7 +500,7 @@ function PageSettings({ meta, setMeta, errors }: { meta: Meta; setMeta: (m: Meta
           rows={long ? 3 : undefined}
           onChange={(e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>) => setMeta({ ...meta, [k]: e.target.value })}
         />
-        {errors[`meta.${k}`] && <p className="mt-1 text-xs font-medium text-danger">{errors[`meta.${k}`]}</p>}
+        {errors[`meta.${k}`] && <p className="mt-1.5 text-sm font-medium text-danger">{errors[`meta.${k}`]}</p>}
       </div>
     );
   };
@@ -499,8 +510,8 @@ function PageSettings({ meta, setMeta, errors }: { meta: Meta; setMeta: (m: Meta
       {field("metaTitle", "SEO başlığı", 60)}
       {field("metaDescription", "SEO açıklaması", 155, true)}
       <Checkbox label="Arama motorları indekslesin" checked={meta.indexable} onChange={(v) => setMeta({ ...meta, indexable: v })} />
-      <p className="text-xs text-muted">
-        Başlık 60, açıklama 155 karakteri geçmemeli (plan 6.4). Boş bırakılırsa sitenin varsayılan başlığı kullanılır.
+      <p className="text-sm text-muted">
+        Arama sonuçlarında başlık 60, açıklama 155 karakterden sonra kesilir. Boş bırakılırsa sitenin varsayılan başlığı kullanılır.
       </p>
     </div>
   );
@@ -521,10 +532,10 @@ function VersionsDialog({
     <dialog
       ref={ref}
       onClose={onClose}
-      className="m-auto w-[min(520px,calc(100vw-2rem))] rounded-2xl border border-border bg-surface p-0 text-foreground shadow-elevated backdrop:bg-black/50"
+      className="m-auto w-[min(520px,calc(100vw-2rem))] rounded-lg border border-border bg-surface p-0 text-foreground shadow-elevated backdrop:bg-foreground/40"
     >
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
-        <h2 className="font-bold">Yayın geçmişi</h2>
+        <h2 className="text-lg font-bold">Yayın geçmişi</h2>
         <button type="button" onClick={() => ref.current?.close()} className={buttonClass("ghost", "sm")}>
           Kapat
         </button>
@@ -534,11 +545,11 @@ function VersionsDialog({
           {versions.map((v, i) => (
             <li key={v.id} className="flex items-center gap-3 px-5 py-3">
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold">
+                <p className="text-[15px] font-semibold tabular-nums">
                   {new Date(v.createdAt).toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short" })}
-                  {i === 0 && <span className="ms-2 rounded bg-accent-soft px-1.5 text-xs text-accent">Son yayın</span>}
+                  {i === 0 && <span className="ms-2 rounded-md bg-accent-soft px-1.5 py-0.5 text-sm text-accent">Son yayın</span>}
                 </p>
-                <p className="text-xs text-muted">{v.publishedBy}</p>
+                <p className="text-sm text-muted">{v.publishedBy}</p>
               </div>
               <button type="button" onClick={() => onRestore(v.id)} className={buttonClass("secondary", "sm")}>
                 Taslağa al
@@ -547,7 +558,7 @@ function VersionsDialog({
           ))}
         </ul>
       ) : (
-        <p className="p-6 text-sm text-muted">Henüz yayın geçmişi yok. İlk “Yayınla” ile oluşur.</p>
+        <p className="p-6 text-[15px] text-muted">Henüz yayın geçmişi yok. İlk “Yayınla” ile oluşur.</p>
       )}
     </dialog>
   );

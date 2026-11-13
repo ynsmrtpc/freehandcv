@@ -32,7 +32,7 @@ export function PublishToggle({ id, active }: { id: string; active: boolean }) {
         {active ? "Yayından kaldır" : "Yayınla"}
       </button>
       {error && (
-        <p role="alert" className="mt-1 text-xs font-medium text-danger">
+        <p role="alert" className="mt-1.5 text-sm font-medium text-danger">
           {error}
         </p>
       )}

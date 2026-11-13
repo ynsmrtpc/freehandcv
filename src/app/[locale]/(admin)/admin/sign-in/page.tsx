@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Field, Button, ErrorText, Card } from "@/components/admin/ui";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { authClient } from "@/client/auth";
 
 export default function AdminSignIn() {
@@ -21,7 +21,7 @@ export default function AdminSignIn() {
       password: String(form.get("password")),
     });
     setPending(false);
-    if (error) return setError(error.code === "ACCOUNT_SUSPENDED" ? "Bu hesap askıya alınmış." : t("signInFailed"));
+    if (error) return setError(error.code === "ACCOUNT_SUSPENDED" ? t("accountSuspended") : t("signInFailed"));
     if (data && "twoFactorRedirect" in data && data.twoFactorRedirect) return setStep("code");
     router.replace("/admin");
     router.refresh();
@@ -38,8 +38,15 @@ export default function AdminSignIn() {
   }
 
   return (
-    <Card>
-      <h1 className="text-xl font-bold">{t("signInTitle")}</h1>
+    <Card
+      label={t("title")}
+      aside={
+        <Link href="/" className="inline-flex min-h-11 items-center font-semibold text-primary-text hover:underline pointer-fine:min-h-9">
+          {t("backToSite")}
+        </Link>
+      }
+    >
+      <h1 className="text-2xl font-bold tracking-[-0.015em] text-foreground">{t("signInTitle")}</h1>
       {step === "password" ? (
         <form action={submitPassword}>
           <Field label={t("email")} name="email" type="email" autoComplete="username" required />
@@ -55,7 +62,7 @@ export default function AdminSignIn() {
         </form>
       ) : (
         <form action={submitCode}>
-          <p className="mt-2 text-sm text-muted">{t("verificationHint")}</p>
+          <p className="mt-2 text-[15px] leading-relaxed text-muted">{t("verificationHint")}</p>
           <Field
             label={t("verificationCode")}
             name="code"

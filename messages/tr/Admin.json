@@ -14,7 +14,12 @@
   "twoFactorDescription": "Yönetici hesaplarında iki adımlı doğrulama zorunlu. Devam etmek için şifreni gir.",
   "continue": "Devam",
   "qrInstructions": "Bu kodu Google Authenticator, 1Password gibi bir uygulamayla tara, sonra uygulamadaki kodu gir.",
-  "backupCodes": "Yedek kodlar — güvenli bir yere kaydet. Her biri bir kez kullanılır.",
-  "welcome": "Hoş geldin, {name}",
-  "comingSoon": "Site ayarları, sayfa düzenleyici, örnek CV'ler, SSS, medya ve günlük Faz 1'de burada olacak."
+  "backupCodes": "Yedek kodlar",
+  "accountSuspended": "Bu hesap askıya alınmış.",
+  "backToSite": "Siteye dön",
+  "step": "Adım {n} / 2",
+  "backupCodesHint": "Telefonuna erişemezsen bu kodlarla girersin. Her biri bir kez çalışır; şimdi güvenli bir yere kaydet.",
+  "copyCodes": "Kodları kopyala",
+  "copied": "Kopyalandı",
+  "codeHint": "Uygulamada görünen 6 haneli kod."
 }

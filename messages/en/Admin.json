@@ -14,7 +14,12 @@
   "twoFactorDescription": "Two-factor authentication is required for admin accounts. Enter your password to continue.",
   "continue": "Continue",
   "qrInstructions": "Scan this code with an app such as Google Authenticator or 1Password, then enter the code it shows.",
-  "backupCodes": "Backup codes — store them somewhere safe. Each works once.",
-  "welcome": "Welcome, {name}",
-  "comingSoon": "Site settings, the page editor, resume examples, FAQ, media and the audit log arrive here in phase 1."
+  "backupCodes": "Backup codes",
+  "accountSuspended": "This account is suspended.",
+  "backToSite": "Back to the site",
+  "step": "Step {n} of 2",
+  "backupCodesHint": "If you lose access to your phone, sign in with these. Each works once; store them somewhere safe now.",
+  "copyCodes": "Copy codes",
+  "copied": "Copied",
+  "codeHint": "The 6-digit code shown in the app."
 }
