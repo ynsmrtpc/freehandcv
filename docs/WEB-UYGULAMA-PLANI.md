@@ -717,6 +717,20 @@ Canva aktarımı için teknik kapsam `docs/CANVA-IMPORT.md` içindedir.
   (Canva'dan dışa aktarılan PDF/PPTX → CV alanları) ve stil yakınsaması (renk, font, yerleşim →
   tasarım tanımı). Canva şablonlarının lisansı, galeride herkese açmayı kısıtlayabilir.
 
+### 14.2 Kullanıcı istekleri (13 Kasım 2026) — işletmeler
+
+Henüz tasarlanmadı ve kodu yok; tüm fazlar bittikten sonra ele alınacak. Panelde var olan "işverenle
+paylaşım" onayı (açık rıza) bu özelliğin temeli olur.
+
+- **İşletme girişi:** bireysel hesaplardan ayrı bir işletme hesabı türü ve giriş alanı.
+- **CV görüntüleme sayfası:** işletmelerin, kendileriyle paylaşılmasına onay verilmiş CV'leri
+  görüntüleyebileceği bir sayfa.
+- **İşletme API'si:** işletmelere verilecek API uçları (ör. paylaşılan CV'leri listeleme/okuma).
+  Kimlik doğrulama (API anahtarı), hız sınırı ve sürümleme kararı verilmeli.
+- Açık konular: KVKK (rıza metni, rızanın geri alınması, erişim kaydı), işletmenin doğrulanması,
+  ücretli mi ücretsiz mi (bölüm 15'teki "%100 ücretsiz" kararı bireysel kullanıcılar içindir),
+  URL'ler (Türkçe yollar `routing.ts`'e yayından önce eklenmeli).
+
 ## 15. Verilen kararlar
 
 | Konu | Karar |
