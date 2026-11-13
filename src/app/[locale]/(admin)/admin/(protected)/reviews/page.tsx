@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { AdminPageHeader } from "@/components/admin/kit";
+import { AdminBody, AdminPageHeader, Badge, EmptyState, formatDate, Table, Td, Th } from "@/components/admin/kit";
 import { cn } from "@/lib/cn";
 import { listReviewsForAdmin } from "@/server/reviews";
 import { ApprovalButton } from "./ApprovalButton";
@@ -14,70 +14,47 @@ export default async function Reviews() {
         title="Yorumlar"
         description={`${rows.length} yorum${rows.length ? `, ortalama ${average.toFixed(1)} / 5` : ""}. Landing'de yalnız yazarın izin verdiği ve onaylanan, metni olan yorumlar görünür.`}
       />
-      <div className="p-5 sm:p-8">
-        <div className="overflow-x-auto rounded-2xl border border-border bg-surface shadow-card">
-          <table className="w-full text-sm">
+      <AdminBody>
+        {!rows.length ? (
+          <EmptyState title="Henüz yorum yok.">Kullanıcılar PDF indirdikten sonra puan ve yorum bırakabilir; onay bekleyenler burada görünür.</EmptyState>
+        ) : (
+          <Table label="Yorumlar">
             <thead>
-              <tr className="border-b border-border text-xs text-muted uppercase">
-                {["Puan", "Yorum", "Yazan", "Gösterim izni", "Durum", "Tarih", ""].map((h, i) => (
-                  <th key={i} className="px-4 py-3 text-start font-semibold">
-                    {h}
-                  </th>
-                ))}
+              <tr>
+                <Th>Puan</Th>
+                <Th>Yorum</Th>
+                <Th className="max-md:hidden">Yazan</Th>
+                <Th className="max-lg:hidden">Gösterim izni</Th>
+                <Th>Durum</Th>
+                <Th className="max-lg:hidden">Tarih</Th>
+                <Th />
               </tr>
             </thead>
             <tbody>
               {rows.map((r) => (
-                <tr key={r.id} className="border-b border-border align-top last:border-0">
-                  <td className="px-4 py-3">
+                <tr key={r.id} className="align-top">
+                  <Td>
                     <span className="flex gap-0.5" aria-label={`${r.rating} / 5`}>
                       {[1, 2, 3, 4, 5].map((n) => (
-                        <Star
-                          key={n}
-                          aria-hidden
-                          className={cn("size-3.5", n <= r.rating ? "fill-warning text-warning" : "text-border-strong")}
-                        />
+                        <Star key={n} aria-hidden className={cn("size-4", n <= r.rating ? "fill-warning text-warning" : "text-border-strong")} />
                       ))}
                     </span>
-                  </td>
-                  <td className="max-w-md px-4 py-3 text-foreground">
-                    {r.body || <span className="text-muted">— (yalnız puan)</span>}
-                  </td>
-                  <td className="px-4 py-3">
+                  </Td>
+                  <Td className="max-w-md text-foreground">{r.body || <span className="text-muted">Yalnız puan</span>}</Td>
+                  <Td className="max-md:hidden">
                     <p className="font-medium text-foreground">{r.userName || "Misafir"}</p>
-                    <p className="text-xs text-muted">
-                      {[r.occupation, r.userEmail].filter(Boolean).join(" · ") || "—"}
-                    </p>
-                  </td>
-                  <td className="px-4 py-3">
-                    {r.displayAllowed ? <span className="text-accent">Var</span> : <span className="text-muted">Yok</span>}
-                  </td>
-                  <td className="px-4 py-3">
-                    {r.approved ? (
-                      <span className="font-medium text-accent">Yayında</span>
-                    ) : (
-                      <span className="text-muted">Bekliyor</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-muted tabular-nums">
-                    {r.createdAt.toLocaleDateString("tr-TR")}
-                  </td>
-                  <td className="px-4 py-3">
-                    {r.body && <ApprovalButton id={r.id} approved={r.approved} displayAllowed={r.displayAllowed} />}
-                  </td>
+                    <p className="text-sm text-muted">{[r.occupation, r.userEmail].filter(Boolean).join(" · ") || "—"}</p>
+                  </Td>
+                  <Td className="max-lg:hidden">{r.displayAllowed ? <Badge tone="success">Var</Badge> : <Badge>Yok</Badge>}</Td>
+                  <Td>{r.approved ? <Badge tone="success">Yayında</Badge> : <Badge tone="warning">Bekliyor</Badge>}</Td>
+                  <Td className="whitespace-nowrap text-muted tabular-nums max-lg:hidden">{formatDate(r.createdAt)}</Td>
+                  <Td>{r.body && <ApprovalButton id={r.id} approved={r.approved} displayAllowed={r.displayAllowed} />}</Td>
                 </tr>
               ))}
-              {!rows.length && (
-                <tr>
-                  <td colSpan={7} className="px-4 py-10 text-center text-muted">
-                    Henüz yorum yok.
-                  </td>
-                </tr>
-              )}
             </tbody>
-          </table>
-        </div>
-      </div>
+          </Table>
+        )}
+      </AdminBody>
     </>
   );
 }
