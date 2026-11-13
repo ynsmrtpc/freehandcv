@@ -151,7 +151,7 @@ export function AccountView({
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </span>
-              <span className="mt-1 block text-xs font-normal text-muted">{t("username.hint")}</span>
+              <span className="mt-1 block text-sm font-normal text-muted">{t("username.hint")}</span>
             </label>
             <div className="flex flex-wrap items-center gap-3">
               <button type="submit" disabled={savingUsername} className={buttonClass("secondary", "sm")}>
@@ -205,7 +205,7 @@ export function AccountView({
                   onChange={(e) => setNext(e.target.value)}
                   required
                 />
-                <span className="mt-1 block text-xs font-normal text-muted">{t("password.hint")}</span>
+                <span className="mt-1 block text-sm font-normal text-muted">{t("password.hint")}</span>
               </label>
               <div className="flex flex-wrap items-center gap-3">
                 <button type="submit" disabled={savingPw} className={buttonClass("secondary", "sm")}>

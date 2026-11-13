@@ -184,7 +184,7 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
                     </button>
                   </div>
                   {!signIn && (
-                    <p id="password-rule" className="mt-1.5 text-xs text-muted">
+                    <p id="password-rule" className="mt-1.5 text-sm text-muted">
                       {t("passwordRule")}
                     </p>
                   )}
@@ -200,7 +200,7 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
                       <input type="checkbox" name="employerConsent" className="mt-0.5 size-4 shrink-0 accent-[var(--primary)]" />
                       {tc("signUpConsent")}
                     </label>
-                    <p className="text-xs leading-relaxed text-muted">{tc("signUpDataNote")}</p>
+                    <p className="text-sm leading-relaxed text-muted">{tc("signUpDataNote")}</p>
                     <p className="text-center text-xs leading-relaxed text-muted">
                       {t.rich("terms", {
                         link: (chunks) => (

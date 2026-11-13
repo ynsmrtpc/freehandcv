@@ -160,7 +160,7 @@ function NewPasswordStep({ token, linkHours }: { token: string; linkHours: numbe
             </button>
           </div>
           {passwordInput("new-password", "password")}
-          <p className="mt-1.5 text-xs text-muted">{t("passwordRule")}</p>
+          <p className="mt-1.5 text-sm text-muted">{t("passwordRule")}</p>
         </div>
         <div>
           <label htmlFor="confirm-password" className="text-sm font-semibold text-foreground">

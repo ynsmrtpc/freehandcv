@@ -1,6 +1,5 @@
 "use client";
 
-import { BriefcaseBusiness } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useId, useState, useTransition } from "react";
 import { setSharingAction } from "@/actions/sharing";
@@ -40,13 +39,10 @@ export function SharingCard({
 
   return (
     <section className="mt-8 rounded-2xl border border-border bg-surface p-5 shadow-card sm:p-6" aria-labelledby={`${switchId}-title`}>
-      <div className="flex items-start gap-4">
-        <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary-soft text-primary-text">
-          <BriefcaseBusiness className="size-5" aria-hidden />
-        </span>
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 id={`${switchId}-title`} className="font-bold text-foreground">
+      <div>
+        <div>
+          <div className="flex items-center justify-between gap-4">
+            <h2 id={`${switchId}-title`} className="min-w-0 text-lg font-bold text-foreground">
               {t("cardTitle")}
             </h2>
             <button
@@ -57,7 +53,8 @@ export function SharingCard({
               disabled={pending}
               onClick={() => save({ enabled: !state.enabled, resumeId: state.resumeId })}
               className={cn(
-                "relative h-7 w-12 shrink-0 rounded-full transition-colors disabled:opacity-60",
+                // The visible track is 28px; the pseudo-element widens the touch target to 44px.
+                "relative h-7 w-12 shrink-0 rounded-full transition-colors before:absolute before:-inset-2 before:content-[''] disabled:opacity-60",
                 state.enabled ? "bg-accent" : "bg-border-strong",
               )}
             >
@@ -69,19 +66,19 @@ export function SharingCard({
               />
             </button>
           </div>
-          <p className="mt-1.5 text-sm leading-relaxed text-muted">{t("cardDescription")}</p>
+          <p className="mt-1.5 max-w-3xl text-[15px] leading-relaxed text-muted">{t("cardDescription")}</p>
           <p className={cn("mt-3 text-sm font-semibold", state.enabled ? "text-accent" : "text-muted")} aria-live="polite">
             {state.enabled ? t("cardOn") : t("cardOff")}
           </p>
 
           {state.enabled && resumes.length > 0 && (
-            <label className="mt-4 block max-w-sm text-[13px] font-semibold text-foreground">
+            <label className="mt-4 block max-w-sm text-[15px] font-semibold text-foreground">
               {t("resumeSelect")}
               <select
                 value={state.resumeId ?? ""}
                 disabled={pending}
                 onChange={(e) => save({ enabled: true, resumeId: e.target.value || null })}
-                className="mt-1.5 block h-10 w-full rounded-lg border border-border-strong bg-surface px-3 text-sm font-normal text-foreground"
+                className="mt-1.5 block h-11 w-full rounded-lg border border-border-strong bg-surface px-3 text-base font-normal text-foreground"
               >
                 <option value="">{t("mostRecent")}</option>
                 {resumes.map((r) => (
@@ -92,9 +89,9 @@ export function SharingCard({
               </select>
             </label>
           )}
-          <p className="mt-3 text-xs text-muted">{t("withdrawNote")}</p>
+          <p className="mt-3 text-sm text-muted">{t("withdrawNote")}</p>
           {message && (
-            <p role={message.kind === "error" ? "alert" : "status"} className={cn("mt-2 text-xs font-medium", message.kind === "error" ? "text-danger" : "text-accent")}>
+            <p role={message.kind === "error" ? "alert" : "status"} className={cn("mt-2 text-sm font-medium", message.kind === "error" ? "text-danger" : "text-accent")}>
               {message.text}
             </p>
           )}
