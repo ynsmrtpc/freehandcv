@@ -32,6 +32,8 @@ export const templates = pgTable(
       .$type<"active" | "under_review" | "hidden">()
       .notNull()
       .default("active"),
+    // Plan: "sistem şablonu / öne çıkan". System templates live in code (lib/resume/design.ts), so in
+    // the database this marks a community template the team featured in the gallery.
     official: boolean().notNull().default(false),
     sourceTemplateId: uuid().references((): AnyPgColumn => templates.id, {
       onDelete: "set null",

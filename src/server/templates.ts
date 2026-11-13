@@ -295,6 +295,8 @@ export type SharedTemplate = {
   ratingSum: number;
   ratingCount: number;
   ownerUsername: string | null;
+  /** Featured by the team (the `official` column); shown first in the gallery. */
+  featured: boolean;
   publishedAt: string | null;
   updatedAt: string;
 };
@@ -310,6 +312,7 @@ const shared = {
   ratingSum: templates.ratingSum,
   ratingCount: templates.ratingCount,
   ownerUsername: user.username,
+  featured: templates.official,
   publishedAt: templates.publishedAt,
   updatedAt: templates.updatedAt,
 };
@@ -345,7 +348,7 @@ export async function getPublicTemplates(): Promise<SharedTemplate[]> {
       .from(templates)
       .innerJoin(user, eq(user.id, templates.ownerId))
       .where(and(visible("public"), isNotNull(user.username)))
-      .orderBy(desc(templates.usageCount), desc(templates.publishedAt))
+      .orderBy(desc(templates.official), desc(templates.usageCount), desc(templates.publishedAt))
       .limit(GALLERY_LIMIT);
     return rows.map(toShared).filter((t) => t !== null);
   } catch (error) {

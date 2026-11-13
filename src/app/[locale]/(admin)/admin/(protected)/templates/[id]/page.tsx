@@ -25,6 +25,7 @@ export default async function TemplateModeration({ params }: PageProps<"/[locale
           <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <span>{t.ownerUsername ? `@${t.ownerUsername}` : t.ownerEmail}</span>
             {t.status === "hidden" ? <Badge tone="warning">Gizlendi</Badge> : <Badge>{VISIBILITY_NAMES[t.visibility]}</Badge>}
+            {t.featured && <Badge tone="info">Öne çıkan</Badge>}
             {open.length > 0 && <Badge tone="danger">{open.length} açık şikâyet</Badge>}
           </span>
         }
@@ -59,7 +60,13 @@ export default async function TemplateModeration({ params }: PageProps<"/[locale
             )}
           </section>
 
-          <ModerationActions id={t.id} hidden={t.status === "hidden"} openReports={open.length} />
+          <ModerationActions
+            id={t.id}
+            hidden={t.status === "hidden"}
+            openReports={open.length}
+            featured={t.featured}
+            canFeature={t.status === "active" && t.visibility === "public"}
+          />
 
           {t.description && (
             <section aria-labelledby="desc-title">

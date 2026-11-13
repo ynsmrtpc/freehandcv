@@ -1,4 +1,4 @@
-import { ShieldCheck, Star, Users } from "lucide-react";
+import { Award, ShieldCheck, Star, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { DefinitionPreview } from "@/components/resume/TemplatePreview";
 import { Link } from "@/i18n/navigation";
@@ -13,6 +13,8 @@ export type GalleryItem = {
   description: string;
   /** Null for system templates (shown as FreehandCV). */
   ownerUsername: string | null;
+  /** A community template the team featured. */
+  featured?: boolean;
   definition: DesignDefinition;
   ats: number;
   usage: number;
@@ -41,8 +43,14 @@ export function TemplateCard({ item, locale }: { item: GalleryItem; locale: stri
         <DefinitionPreview definition={item.definition} locale={locale} initialScale={0.3} />
       </div>
       <span className="mt-4 block truncate text-lg font-semibold text-foreground group-hover:text-primary-text" title={item.name}>{item.name}</span>
-      <span className="mt-1 block truncate text-sm text-muted">
-        {item.ownerUsername ? `@${item.ownerUsername}` : t("official")}
+      <span className="mt-1 flex min-w-0 items-center gap-2 text-sm text-muted">
+        <span className="truncate">{item.ownerUsername ? `@${item.ownerUsername}` : t("official")}</span>
+        {item.featured && (
+          <span className="inline-flex shrink-0 items-center gap-1 font-medium text-primary-text">
+            <Award className="size-3.5" aria-hidden />
+            {t("featured")}
+          </span>
+        )}
       </span>
       <span className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
         <span className="inline-flex items-center gap-1 font-medium text-accent">

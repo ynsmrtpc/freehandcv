@@ -80,7 +80,8 @@
     },
     "createTitle": "Didn't find the design you want?",
     "createDescription": "Start from a ready-made template and change the fonts, colours and layout without any code. Share it with everyone in the gallery if you like.",
-    "createButton": "Create your own template"
+    "createButton": "Create your own template",
+    "featured": "Staff pick"
   },
   "detail": {
     "meta": {

@@ -2,7 +2,7 @@
 
 import { updateTag } from "next/cache";
 import { z } from "zod";
-import { dismissReports, setTemplatesHidden } from "@/server/admin/templates";
+import { dismissReports, setTemplatesFeatured, setTemplatesHidden } from "@/server/admin/templates";
 import { AuthorizationError, requireAdmin } from "@/server/authz";
 import { TEMPLATES_TAG } from "@/server/templates";
 
@@ -32,4 +32,15 @@ export async function restoreTemplatesAction(list: string[]) {
 
 export async function dismissReportsAction(list: string[]) {
   return run(async (actor) => `${await dismissReports(ids.parse(list), actor)} şikâyet kapatıldı; şablon yerinde kaldı.`);
+}
+
+export async function featureTemplatesAction(list: string[]) {
+  return run(async (actor) => {
+    const n = await setTemplatesFeatured(ids.parse(list), true, actor);
+    return n ? `${n} şablon öne çıkarıldı; galeride resmi şablonlardan hemen sonra görünür.` : "Yalnızca galerideki (herkese açık, gizlenmemiş) şablonlar öne çıkarılabilir.";
+  });
+}
+
+export async function unfeatureTemplatesAction(list: string[]) {
+  return run(async (actor) => `${await setTemplatesFeatured(ids.parse(list), false, actor)} şablonun öne çıkarma işareti kaldırıldı.`);
 }

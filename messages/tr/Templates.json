@@ -80,7 +80,8 @@
     },
     "createTitle": "Aradığın tasarımı bulamadın mı?",
     "createDescription": "Hazır bir şablonu temel al; yazı tipini, renkleri ve yerleşimi kod bilmeden değiştir. İstersen galeride herkesle paylaş.",
-    "createButton": "Kendi şablonunu oluştur"
+    "createButton": "Kendi şablonunu oluştur",
+    "featured": "Ekibin seçimi"
   },
   "detail": {
     "meta": {

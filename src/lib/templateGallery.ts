@@ -29,6 +29,7 @@ export function communityGalleryItems(list: SharedTemplate[], all: SharedTemplat
   return list.map(
     (t): GalleryItem => ({
       ref: { kind: "user", id: t.id },
+      featured: t.featured,
       name: t.name,
       description: t.description ?? "",
       ownerUsername: t.ownerUsername,

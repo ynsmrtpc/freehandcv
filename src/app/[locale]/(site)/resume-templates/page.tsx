@@ -54,6 +54,7 @@ export default async function ResumeTemplates({ params }: PageProps<"/[locale]/r
           entries={items.map((i) => ({
             key: itemKey(i),
             official: i.ref.kind === "system",
+            featured: i.featured,
             ats: i.ats,
             usage: i.usage,
             score: i.score,

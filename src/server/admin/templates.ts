@@ -3,7 +3,7 @@ import { and, count, desc, eq, ilike, inArray, isNull, or, sql } from "drizzle-o
 import { db } from "../db";
 import { auditLog, templateReports, templates, user } from "../db/schema";
 
-export const MODERATION_FILTERS = ["reported", "public", "unlisted", "hidden"] as const;
+export const MODERATION_FILTERS = ["reported", "featured", "public", "unlisted", "hidden"] as const;
 export type ModerationFilter = (typeof MODERATION_FILTERS)[number];
 
 const openReports = db
@@ -30,6 +30,7 @@ export async function listTemplatesForAdmin({ filter, search }: { filter?: Moder
       ownerUsername: user.username,
       ownerEmail: user.email,
       ownerId: templates.ownerId,
+      featured: templates.official,
       openReports: reportCount,
     })
     .from(templates)
@@ -38,9 +39,9 @@ export async function listTemplatesForAdmin({ filter, search }: { filter?: Moder
     .where(
       and(
         isNull(templates.deletedAt),
-        eq(templates.official, false),
         or(inArray(templates.visibility, ["public", "unlisted"]), sql`${openReports.n} > 0`),
         filter === "reported" ? sql`${openReports.n} > 0` : undefined,
+        filter === "featured" ? eq(templates.official, true) : undefined,
         filter === "public" ? and(eq(templates.visibility, "public"), eq(templates.status, "active")) : undefined,
         filter === "unlisted" ? eq(templates.visibility, "unlisted") : undefined,
         filter === "hidden" ? eq(templates.status, "hidden") : undefined,
@@ -71,10 +72,11 @@ export async function getTemplateForModeration(id: string) {
       ownerId: templates.ownerId,
       ownerUsername: user.username,
       ownerEmail: user.email,
+      featured: templates.official,
     })
     .from(templates)
     .innerJoin(user, eq(user.id, templates.ownerId))
-    .where(and(eq(templates.id, id), isNull(templates.deletedAt), eq(templates.official, false)));
+    .where(and(eq(templates.id, id), isNull(templates.deletedAt)));
   if (!t) return null;
   const reports = await db
     .select({
@@ -100,8 +102,8 @@ export async function setTemplatesHidden(ids: string[], hidden: boolean, actorId
   return db.transaction(async (tx) => {
     const rows = await tx
       .update(templates)
-      .set({ status: hidden ? "hidden" : "active" })
-      .where(and(inArray(templates.id, ids), eq(templates.official, false)))
+      .set(hidden ? { status: "hidden", official: false } : { status: "active" })
+      .where(inArray(templates.id, ids))
       .returning({ id: templates.id });
     if (hidden && rows.length)
       await tx.update(templateReports).set({ status: "closed" }).where(and(inArray(templateReports.templateId, ids), eq(templateReports.status, "open")));
@@ -123,5 +125,28 @@ export async function dismissReports(templateIds: string[], actorId: string) {
   const touched = [...new Set(rows.map((r) => r.templateId))];
   if (touched.length)
     await db.insert(auditLog).values(touched.map((id) => ({ userId: actorId, action: "dismiss_reports", targetType: "template", targetId: id })));
+  return rows.length;
+}
+
+/**
+ * Features templates in the gallery (shown first, with a "staff pick" mark) or takes the mark away.
+ * Only templates that are in the gallery (public and active) can be featured.
+ */
+export async function setTemplatesFeatured(ids: string[], featured: boolean, actorId: string) {
+  const rows = await db
+    .update(templates)
+    .set({ official: featured })
+    .where(
+      and(
+        inArray(templates.id, ids),
+        isNull(templates.deletedAt),
+        featured ? and(eq(templates.visibility, "public"), eq(templates.status, "active")) : undefined,
+      ),
+    )
+    .returning({ id: templates.id });
+  if (rows.length)
+    await db
+      .insert(auditLog)
+      .values(rows.map((r) => ({ userId: actorId, action: featured ? "feature_template" : "unfeature_template", targetType: "template", targetId: r.id })));
   return rows.length;
 }

@@ -33,6 +33,8 @@ export const ACTION_LABELS: Record<string, string> = {
   import_faqs: "SSS soruları sayfalardan aktarıldı",
   hide_template: "Şablon gizlendi",
   restore_template: "Şablon yeniden açıldı",
+  feature_template: "Şablon öne çıkarıldı",
+  unfeature_template: "Şablonun öne çıkarma işareti kaldırıldı",
   dismiss_reports: "Şikâyetler kapatıldı",
   upload_media: "Görsel yüklendi",
   update_media: "Görsel bilgisi düzenlendi",

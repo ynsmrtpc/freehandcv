@@ -2,7 +2,7 @@ import { BulkSelection, RowCheckbox, SelectAll } from "@/components/admin/BulkSe
 import { AdminBody, AdminPageHeader, adminHref, Badge, EmptyState, FilterLinks, formatDate, SearchForm, Table, Td, Th, Toolbar } from "@/components/admin/kit";
 import { Link } from "@/i18n/navigation";
 import { listTemplatesForAdmin, MODERATION_FILTERS, type ModerationFilter } from "@/server/admin/templates";
-import { dismissReportsAction, hideTemplatesAction, restoreTemplatesAction } from "./actions";
+import { dismissReportsAction, featureTemplatesAction, hideTemplatesAction, restoreTemplatesAction, unfeatureTemplatesAction } from "./actions";
 import { VISIBILITY_NAMES } from "./labels";
 
 export default async function Templates({ searchParams }: PageProps<"/[locale]/admin/templates">) {
@@ -16,7 +16,7 @@ export default async function Templates({ searchParams }: PageProps<"/[locale]/a
     <>
       <AdminPageHeader
         title="Şablonlar"
-        description="Kullanıcıların paylaştığı şablonlar. Ön onay yok; şikâyet gelince incele ve gerekirse gizle (plan 11.5). Özel şablonlar burada görünmez."
+        description="Kullanıcıların paylaştığı şablonlar. Ön onay yok; şikâyet gelince incele ve gerekirse gizle. Beğendiklerini öne çıkar; galeride resmi şablonlardan hemen sonra gelir. Özel şablonlar burada görünmez."
       />
       <AdminBody>
         <Toolbar>
@@ -28,6 +28,7 @@ export default async function Templates({ searchParams }: PageProps<"/[locale]/a
             options={[
               { value: "", label: "Tümü" },
               { value: "reported", label: "Şikâyet var" },
+              { value: "featured", label: "Öne çıkan" },
               { value: "public", label: "Galeride" },
               { value: "unlisted", label: "Bağlantıyla" },
               { value: "hidden", label: "Gizlenmiş" },
@@ -45,6 +46,8 @@ export default async function Templates({ searchParams }: PageProps<"/[locale]/a
             noun="şablon"
             actions={[
               { label: "Gizle", run: hideTemplatesAction, danger: true, confirm: "{n} şablon galeriden ve sayfasından kaldırılsın mı? Sahibi şablonu kullanmaya devam eder." },
+              { label: "Öne çıkar", run: featureTemplatesAction },
+              { label: "Öne çıkarmayı kaldır", run: unfeatureTemplatesAction },
               { label: "Yeniden aç", run: restoreTemplatesAction },
               { label: "Şikâyetleri kapat", run: dismissReportsAction },
             ]}
@@ -76,6 +79,7 @@ export default async function Templates({ searchParams }: PageProps<"/[locale]/a
                     <Td>
                       <span className="flex flex-wrap gap-1">
                         {r.openReports > 0 && <Badge tone="danger">{r.openReports} şikâyet</Badge>}
+                        {r.featured && <Badge tone="info">Öne çıkan</Badge>}
                         {r.status === "hidden" ? <Badge tone="warning">Gizlendi</Badge> : <Badge tone={r.visibility === "public" ? "success" : "neutral"}>{VISIBILITY_NAMES[r.visibility]}</Badge>}
                       </span>
                     </Td>

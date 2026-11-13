@@ -8,6 +8,8 @@ import { cn } from "@/lib/cn";
 export type GalleryEntry = {
   key: string;
   official: boolean;
+  /** A community template the team featured; follows the official ones in the default order. */
+  featured?: boolean;
   ats: number;
   photo: boolean;
   twoColumn: boolean;
@@ -27,9 +29,10 @@ const FILTERS = {
 } as const;
 type Filter = keyof typeof FILTERS;
 
-// Plan 11.4: most used, highest rated, newest, ATS. Official templates lead the default order.
+// Plan 11.4: most used, highest rated, newest, ATS. Official, then featured templates lead the default order.
 const SORTS = {
-  popular: (a: GalleryEntry, b: GalleryEntry) => Number(b.official) - Number(a.official) || b.usage - a.usage,
+  popular: (a: GalleryEntry, b: GalleryEntry) =>
+    Number(b.official) - Number(a.official) || Number(!!b.featured) - Number(!!a.featured) || b.usage - a.usage,
   rating: (a: GalleryEntry, b: GalleryEntry) =>
     Number(b.ratingCount > 0) - Number(a.ratingCount > 0) || b.score - a.score || b.usage - a.usage,
   newest: (a: GalleryEntry, b: GalleryEntry) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""),
