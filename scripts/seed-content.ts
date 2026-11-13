@@ -1,5 +1,5 @@
 // Writes the initial content to the database: landing (tr, en), the other static pages and the
-// site settings row. Existing rows are left untouched; safe to run again. Usage: pnpm content:seed
+// site settings row. Existing rows are left untouched; safe to run again. Usage: bun run content:seed
 import "dotenv/config";
 import { randomUUID } from "node:crypto";
 import { and, eq } from "drizzle-orm";

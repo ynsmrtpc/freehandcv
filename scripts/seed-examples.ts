@@ -1,8 +1,8 @@
 // Adds the example resume drafts under content/examples/<locale>/ to the database as inactive rows
 // (an admin publishes them in the panel). Existing rows (same locale + slug) are left untouched,
 // so edits made in the panel are never overwritten. Safe to run again.
-// Usage: pnpm content:seed-examples          validate and insert missing drafts
-//        pnpm content:seed-examples --check  validate only (no database)
+// Usage: bun run content:seed-examples          validate and insert missing drafts
+//        bun run content:seed-examples --check  validate only (no database)
 import "dotenv/config";
 import { readdirSync } from "node:fs";
 import path from "node:path";

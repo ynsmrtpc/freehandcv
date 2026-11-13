@@ -5,16 +5,16 @@ Naming rules (Turkish → English) for code and data: [docs/GLOSSARY.md](docs/GL
 
 ## Running locally
 
-Requirements: Node 24, pnpm 10, Docker.
+Requirements: Node 24, Bun 1.4, Docker.
 
 ```bash
-pnpm install
+bun install
 cp .env.example .env            # fill BETTER_AUTH_SECRET: openssl rand -base64 32
-pnpm db:up                      # Postgres 17, localhost:5433
-pnpm db:migrate
-pnpm content:seed               # starter landing content (tr, en) and site settings
-pnpm admin:create <email> <password> "Full Name"
-pnpm dev
+bun run db:up                      # Postgres 17, localhost:5433
+bun run db:migrate
+bun run content:seed               # starter landing content (tr, en) and site settings
+bun run admin:create <email> <password> "Full Name"
+bun run dev
 ```
 
 - Site: http://localhost:3000 (Turkish), http://localhost:3000/en
@@ -24,23 +24,22 @@ pnpm dev
 
 | Command | Purpose |
 |---|---|
-| `pnpm dev` / `pnpm build` | Dev server / production build |
-| `pnpm typecheck`, `pnpm lint` | Type and lint checks |
-| `pnpm db:generate` | Generates a SQL migration from schema changes (`drizzle/`) |
-| `pnpm db:migrate` | Applies migrations |
-| `pnpm db:studio` | Drizzle Studio |
-| `pnpm admin:create` | Creates an admin account or promotes an existing one |
-| `pnpm content:seed` | Writes starter content (leaves existing rows untouched) |
-| `pnpm data:convert-legacy` | One-off: converts Turkish-keyed JSON (pages, site settings, resumes) to the English shape |
-| `pnpm test` | Vitest unit tests |
+| `bun run dev` / `bun run build` | Dev server / production build |
+| `bun run typecheck`, `bun run lint` | Type and lint checks |
+| `bun run db:generate` | Generates a SQL migration from schema changes (`drizzle/`) |
+| `bun run db:migrate` | Applies migrations |
+| `bun run db:studio` | Drizzle Studio |
+| `bun run admin:create` | Creates an admin account or promotes an existing one |
+| `bun run content:seed` | Writes starter content (leaves existing rows untouched) |
+| `bun run data:convert-legacy` | One-off: converts Turkish-keyed JSON (pages, site settings, resumes) to the English shape |
+| `bun run test` | Vitest unit tests |
 
 ## Admin account
 
 Create an administrator after running migrations:
 
 ```bash
-pnpm admin:create admin@example.com 'a-password-of-at-least-10-characters' "Full Name"
-# With Bun: bun run admin:create admin@example.com 'a-password-of-at-least-10-characters' "Full Name"
+bun run admin:create admin@example.com 'a-password-of-at-least-10-characters' "Full Name"
 ```
 
 Quote the password to protect shell special characters. The command reads `DATABASE_URL` from
@@ -77,14 +76,14 @@ End-to-end runs **never** use the development database; they use a separate `fre
 database (same Postgres). To point the server at it:
 
 ```bash
-DATABASE_URL=postgres://freehandcv:freehandcv@localhost:5433/freehandcv_test pnpm start
+DATABASE_URL=postgres://freehandcv:freehandcv@localhost:5433/freehandcv_test bun run start
 ```
 
-Next to a running `pnpm dev`, a second dev server on the test database needs its own build folder:
+Next to a running `bun run dev`, a second dev server on the test database needs its own build folder:
 
 ```bash
 NEXT_DIST_DIR=.next-test DATABASE_URL=postgres://freehandcv:freehandcv@localhost:5433/freehandcv_test \
-  BETTER_AUTH_URL=http://localhost:3100 NEXT_PUBLIC_SITE_URL=http://localhost:3100 pnpm dev -p 3100
+  BETTER_AUTH_URL=http://localhost:3100 NEXT_PUBLIC_SITE_URL=http://localhost:3100 bun run dev -p 3100
 ```
 
 ## Google sign-in and One Tap

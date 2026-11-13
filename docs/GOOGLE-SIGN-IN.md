@@ -80,7 +80,7 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID=1234567890-abc…apps.googleusercontent.com
 
 - `NEXT_PUBLIC_GOOGLE_CLIENT_ID` alanına `GOOGLE_CLIENT_ID` ile **aynı** değer yazılır. Tarayıcıdaki
   One Tap bu değeri kullanır. Client ID gizli bir bilgi değildir, secret ise gizlidir.
-- Değişiklikten sonra `pnpm dev`'i durdurup yeniden başlat.
+- Değişiklikten sonra `bun run dev`'i durdurup yeniden başlat.
 
 ## 5. Dene
 

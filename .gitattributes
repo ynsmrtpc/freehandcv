@@ -18,5 +18,5 @@
 *.woff2 binary
 
 # Generated files: hide from diffs and language stats.
-pnpm-lock.yaml linguist-generated=true -diff
+bun.lock linguist-generated=true -diff
 drizzle/meta/*.json linguist-generated=true

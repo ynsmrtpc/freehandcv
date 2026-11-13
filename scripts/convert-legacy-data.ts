@@ -2,7 +2,7 @@
 // docs/GLOSSARY.md: page blocks, page version blocks and meta, site settings and resume content.
 // Runs in a single transaction and only updates rows whose JSON actually changes, keeping their
 // `updated_at` so sitemaps and resume lists are not disturbed. Safe to run again.
-// Usage: pnpm data:convert-legacy
+// Usage: bun run data:convert-legacy
 import "dotenv/config";
 import { eq } from "drizzle-orm";
 import { db } from "../src/server/db";

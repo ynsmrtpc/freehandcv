@@ -1,17 +1,18 @@
 # Production image built on Coolify (plan section 4: output "standalone").
 FROM node:24-alpine AS base
-RUN corepack enable
+# Bun installs and builds; Node runs the standalone server.
+COPY --from=oven/bun:1.4.4-alpine /usr/local/bin/bun /usr/local/bin/bun
 WORKDIR /app
 
 FROM base AS deps
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm install --frozen-lockfile
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
 
 FROM base AS build
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN pnpm build && pnpm build:migrate
+RUN bun run build && bun run build:migrate
 
 FROM node:24-alpine AS runtime
 WORKDIR /app

@@ -1,5 +1,5 @@
 // Creates an admin account or promotes an existing account without changing its password.
-// Usage: pnpm admin:create <email> <password> ["Full Name"]
+// Usage: bun run admin:create <email> <password> ["Full Name"]
 import "dotenv/config";
 import { randomUUID } from "node:crypto";
 import { hashPassword } from "better-auth/crypto";
@@ -11,7 +11,7 @@ import { account, user } from "../src/server/db/schema";
 const [rawEmail, password, name = ""] = process.argv.slice(2);
 if (!rawEmail || !password) {
   console.error(
-    'Usage: pnpm admin:create <email> <password> ["Full Name"]',
+    'Usage: bun run admin:create <email> <password> ["Full Name"]',
   );
   process.exit(1);
 }
@@ -67,7 +67,7 @@ main().then(
   (error) => {
     const code = error?.cause?.code ?? error?.code;
     if (code === "42P01" || code === "42703") {
-      console.error("The database schema is not up to date. Run pnpm db:migrate first.");
+      console.error("The database schema is not up to date. Run bun run db:migrate first.");
     } else if (code === "ECONNREFUSED" || error?.cause?.errors?.some((e: { code?: string }) => e.code === "ECONNREFUSED")) {
       console.error("Could not connect to PostgreSQL. Check DATABASE_URL and start the database.");
     } else {

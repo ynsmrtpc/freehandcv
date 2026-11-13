@@ -1,4 +1,4 @@
-// Draft guides kept in the repository (plan 6.2 /rehber/[konu]). `pnpm content:seed-guides` adds the
+// Draft guides kept in the repository (plan 6.2 /rehber/[konu]). `bun run content:seed-guides` adds the
 // ones missing from the database as DRAFT pages of kind "guide"; an admin reviews them in the page
 // editor and publishes. Edits made in the panel are never overwritten.
 // Rules for writers:

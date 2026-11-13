@@ -1,8 +1,8 @@
 // Adds the guide drafts under content/guides/<locale>/ to the database as DRAFT pages (kind "guide").
 // An admin publishes them from the page editor. Existing pages (same locale + slug) are left
 // untouched, so panel edits are never overwritten. Safe to run again.
-// Usage: pnpm content:seed-guides          validate and insert missing drafts
-//        pnpm content:seed-guides --check  validate only (no database)
+// Usage: bun run content:seed-guides          validate and insert missing drafts
+//        bun run content:seed-guides --check  validate only (no database)
 import "dotenv/config";
 import { randomUUID } from "node:crypto";
 import { readdirSync } from "node:fs";

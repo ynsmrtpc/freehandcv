@@ -14,17 +14,17 @@ download a PDF. Changes that put any of that behind a payment or a sign-up are n
 
 ## Setup
 
-See [README.md](README.md#running-locally). Node 24, pnpm 10 and Docker are required.
+See [README.md](README.md#running-locally). Node 24, Bun 1.4 and Docker are required.
 
 ## Making a change
 
 1. Branch from `main`.
 2. User-facing text goes in `messages/<locale>/<Namespace>.json` for every locale, never
    hard-coded in components.
-3. Schema change: `pnpm db:generate`, review the generated SQL, commit it with the change.
+3. Schema change: `bun run db:generate`, review the generated SQL, commit it with the change.
 4. Check before you push:
    ```bash
-   pnpm typecheck && pnpm lint && pnpm test
+   bun run typecheck && bun run lint && bun run test
    ```
 5. Check the UI on a phone-width screen and a desktop, in light and dark theme. Phone and desktop
    are equally important here.

@@ -1,4 +1,4 @@
-// Draft example resumes kept in the repository (plan 6.2, 6.4). `pnpm content:seed-examples` adds the
+// Draft example resumes kept in the repository (plan 6.2, 6.4). `bun run content:seed-examples` adds the
 // ones missing from the database as inactive; an admin reviews and publishes them in the panel.
 // Rules for writers:
 // - Fictional people only: no real names, companies, schools' staff or contact details.

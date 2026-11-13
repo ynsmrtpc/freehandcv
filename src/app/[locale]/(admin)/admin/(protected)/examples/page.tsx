@@ -16,7 +16,7 @@ export default async function Examples() {
     <>
       <AdminPageHeader
         title="Örnek CV'ler"
-        description={`${rows.length} örnek, ${published} yayında. Yeni taslaklar “pnpm content:seed-examples” ile yayında olmayan durumda eklenir; gözden geçirip yayınla.`}
+        description={`${rows.length} örnek, ${published} yayında. Yeni taslaklar “bun run content:seed-examples” ile yayında olmayan durumda eklenir; gözden geçirip yayınla.`}
       >
         <Link href="/admin/examples/new" className={buttonClass("primary", "sm")}>
           <Plus className="size-4" />

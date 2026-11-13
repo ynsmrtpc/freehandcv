@@ -18,7 +18,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - No database queries in components; business logic is plain functions under `src/server/`.
 - Admin Server Actions check authorization themselves with `requireAdmin()`; never rely on the layout.
 - Components that read the session must sit inside `<Suspense>` (Cache Components).
-- On schema changes: `pnpm db:generate` → review the generated SQL → `pnpm db:migrate`.
+- On schema changes: `bun run db:generate` → review the generated SQL → `bun run db:migrate`.
 - End-to-end tests run against the `freehandcv_test` database, never the development database.
 
 ## Design rules
