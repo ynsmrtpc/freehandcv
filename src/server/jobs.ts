@@ -1,7 +1,7 @@
 import "server-only";
 import { purgeTrash } from "./account";
 
-// Periodic maintenance, started from src/instrumentation.ts. One app instance runs on Coolify, so an
+// Periodic maintenance, started from src/instrumentation.ts. One app instance runs (PM2 on aaPanel), so an
 // in-process timer is enough; with several instances the jobs stay safe (they are idempotent deletes).
 
 const HOUR = 60 * 60 * 1000;

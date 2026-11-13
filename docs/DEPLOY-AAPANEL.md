@@ -117,7 +117,9 @@ location / {
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-Host $host;
     proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    # Ezilir, eklenmez: uygulama ilk adresi istemci sayar (hız sınırı); istemcinin yazdığı değer geçmemeli.
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "upgrade";
     client_max_body_size 25m;   # toplu görsel yükleme için
@@ -131,6 +133,9 @@ location /media/ {
     try_files $uri =404;
 }
 ```
+
+`X-Forwarded-For` başlığını `$remote_addr` ile **ezmek** önemlidir: `$proxy_add_x_forwarded_for` kullanılırsa
+ziyaretçi kendi yazdığı bir adresi başa koyup giriş ve şikâyet hız sınırlarını atlatabilir.
 
 `X-Forwarded-Host` başlığı gereklidir. Server Action'lar istek kaynağını bu başlıkla karşılaştırır;
 eksik olursa yönetim panelinde kaydetme işlemleri reddedilir.

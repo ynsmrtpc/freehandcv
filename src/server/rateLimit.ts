@@ -16,7 +16,7 @@ export function createRateLimiter(windowMs: number, max: number) {
   };
 }
 
-/** The client's address as forwarded by the reverse proxy (Coolify/Traefik). */
+/** The client's address as forwarded by the reverse proxy (Nginx on aaPanel). */
 export function clientIp(h: Headers) {
   return h.get("x-forwarded-for")?.split(",")[0].trim() || h.get("x-real-ip") || "local";
 }
