@@ -747,6 +747,8 @@ paylaşım" onayı (açık rıza) bu özelliğin temeli olur.
 | Şablonda CSS | Açılmaz. Karar değişirse sonradan uyarlanır |
 | SEO | URL yapısı ve site/uygulama ayrımı baştan kesin (bölüm 6) |
 | Diller | Çok dilli mimari ilk günden; ilk yayında Türkçe + İngilizce, ardından dalgalarla ~25 dile kadar (bölüm 8) |
+| Dağıtım (13 Kasım 2026) | Coolify'dan vazgeçildi; sunucu **aaPanel** ile yönetilir. Medya dosyaları R2 yerine **sunucudaki bir klasörde** tutulur (`MEDIA_DIR`) |
+| Yönetim paneli (13 Kasım 2026) | Baştan elden geçirilir: kullanıcı yönetimi (oluştur, düzenle, askıya al, şifre, sil), sayfa ve örneklerde toplu işlem, site ayarları, SSS, şablon moderasyonu, medya |
 
 ## 16. Açık sorular
 

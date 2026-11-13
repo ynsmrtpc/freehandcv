@@ -1,4 +1,4 @@
-import { AdminPageHeader } from "@/components/admin/AdminShell";
+import { AdminPageHeader } from "@/components/admin/kit";
 import { listAuditLog } from "@/server/content/pages";
 import { AuditLogTable } from "./AuditLogTable";
 

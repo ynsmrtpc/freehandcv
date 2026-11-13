@@ -8,7 +8,7 @@ export function SignOutButton({ label }: { label: string }) {
   return (
     <button
       type="button"
-      className="rounded-lg border border-border-strong px-3 py-1.5 text-sm hover:bg-background"
+      className="flex min-h-11 items-center rounded-md px-3 text-sm font-semibold text-muted hover:bg-surface-2 hover:text-foreground pointer-fine:min-h-9"
       onClick={async () => {
         await authClient.signOut();
         router.replace("/admin/sign-in");

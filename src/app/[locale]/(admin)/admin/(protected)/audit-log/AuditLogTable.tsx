@@ -1,4 +1,7 @@
-const ACTION_LABELS: Record<string, string> = {
+import { EmptyState, formatDate, Table, Td, Th } from "@/components/admin/kit";
+import { Link } from "@/i18n/navigation";
+
+export const ACTION_LABELS: Record<string, string> = {
   save_draft: "Taslak kaydedildi",
   publish: "Yayınlandı",
   restore_version: "Eski sürüm taslağa alındı",
@@ -10,10 +13,27 @@ const ACTION_LABELS: Record<string, string> = {
   update_example: "Örnek CV bilgileri değişti",
   publish_example: "Örnek CV yayınlandı",
   unpublish_example: "Örnek CV yayından kaldırıldı",
+  delete_example: "Örnek CV silindi",
+  delete_page: "Sayfa silindi",
+  unpublish_page: "Sayfa yayından kaldırıldı",
+  create_user: "Kullanıcı oluşturuldu",
+  update_user: "Kullanıcı profili düzenlendi",
+  suspend_user: "Hesap askıya alındı",
+  restore_user: "Hesap yeniden açıldı",
+  set_password: "Şifre belirlendi",
+  send_password_reset: "Şifre sıfırlama bağlantısı gönderildi",
+  revoke_sessions: "Oturumlar kapatıldı",
+  delete_user: "Hesap silindi",
+  close_account: "Hesap kapatıldı",
 };
 
-// Target types are shown with the Turkish values the table always displayed.
-const TARGET_LABELS: Record<string, string> = { page: "sayfa", site_settings: "site_ayarlari", user: "kullanici", site_review: "site_yorumu", example_resume: "ornek_cv" };
+const TARGET_LABELS: Record<string, string> = {
+  page: "Sayfa",
+  site_settings: "Site ayarları",
+  user: "Kullanıcı",
+  site_review: "Yorum",
+  example_resume: "Örnek CV",
+};
 
 type Row = {
   id: string;
@@ -26,39 +46,43 @@ type Row = {
 };
 
 export function AuditLogTable({ rows }: { rows: Row[] }) {
-  if (!rows.length)
-    return (
-      <p className="rounded-2xl border border-dashed border-border-strong p-8 text-center text-sm text-muted">
-        Henüz kayıt yok.
-      </p>
-    );
+  if (!rows.length) return <EmptyState title="Henüz kayıt yok.">Panelde yapılan her değişiklik burada kim, ne zaman bilgisiyle görünür.</EmptyState>;
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border bg-surface shadow-card">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-b border-border text-start text-xs text-muted uppercase">
-            <th className="px-4 py-3 text-start font-semibold">Zaman</th>
-            <th className="px-4 py-3 text-start font-semibold">Kişi</th>
-            <th className="px-4 py-3 text-start font-semibold">İşlem</th>
-            <th className="px-4 py-3 text-start font-semibold">Hedef</th>
+    <Table label="Değişiklik günlüğü">
+      <thead>
+        <tr>
+          <Th>Zaman</Th>
+          <Th>Kişi</Th>
+          <Th>İşlem</Th>
+          <Th className="max-md:hidden">Hedef</Th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr key={r.id}>
+            <Td className="whitespace-nowrap text-muted tabular-nums">{formatDate(r.createdAt, true)}</Td>
+            <Td className="text-foreground">{r.userName || r.userEmail || "—"}</Td>
+            <Td className="font-medium text-foreground">{ACTION_LABELS[r.action] ?? r.action}</Td>
+            <Td className="text-muted max-md:hidden">
+              {r.targetType === "user" && r.targetId ? (
+                <Link href={{ pathname: "/admin/users/[id]", params: { id: r.targetId } }} className="text-primary-text hover:underline">
+                  {TARGET_LABELS.user}
+                </Link>
+              ) : r.targetType === "page" && r.targetId ? (
+                <Link href={{ pathname: "/admin/pages/[id]", params: { id: r.targetId } }} className="text-primary-text hover:underline">
+                  {TARGET_LABELS.page}
+                </Link>
+              ) : r.targetType === "example_resume" && r.targetId ? (
+                <Link href={{ pathname: "/admin/examples/[id]", params: { id: r.targetId } }} className="text-primary-text hover:underline">
+                  {TARGET_LABELS.example_resume}
+                </Link>
+              ) : (
+                (TARGET_LABELS[r.targetType] ?? r.targetType)
+              )}
+            </Td>
           </tr>
-        </thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={r.id} className="border-b border-border last:border-0">
-              <td className="px-4 py-3 whitespace-nowrap text-muted tabular-nums">
-                {r.createdAt.toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" })}
-              </td>
-              <td className="px-4 py-3 text-foreground">{r.userName || r.userEmail || "—"}</td>
-              <td className="px-4 py-3 font-medium text-foreground">{ACTION_LABELS[r.action] ?? r.action}</td>
-              <td className="px-4 py-3 text-muted">
-                {TARGET_LABELS[r.targetType] ?? r.targetType}
-                {r.targetId && <span className="ms-1 font-mono text-xs">{r.targetId.slice(0, 8)}</span>}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </Table>
   );
 }

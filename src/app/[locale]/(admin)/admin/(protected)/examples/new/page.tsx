@@ -1,4 +1,4 @@
-import { AdminPageHeader } from "@/components/admin/AdminShell";
+import { AdminPageHeader } from "@/components/admin/kit";
 import { EMPTY_GUIDE } from "@/lib/examples";
 import { ExampleForm } from "../ExampleForm";
 

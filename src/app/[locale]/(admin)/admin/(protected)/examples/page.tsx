@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { AdminPageHeader } from "@/components/admin/AdminShell";
+import { AdminPageHeader } from "@/components/admin/kit";
 import { buttonClass } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { guideWordCount } from "@/lib/examples";

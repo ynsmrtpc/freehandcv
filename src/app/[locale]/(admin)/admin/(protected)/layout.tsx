@@ -18,5 +18,5 @@ export default function ProtectedLayout({ children }: LayoutProps<"/[locale]/adm
 async function Shell({ children }: { children: React.ReactNode }) {
   const s = await adminStatus();
   if (s.status !== "ok") return null;
-  return <AdminShell user={{ name: s.user.name, role: s.user.role }}>{children}</AdminShell>;
+  return <AdminShell user={{ name: s.user.name, email: s.user.email, role: s.user.role }}>{children}</AdminShell>;
 }

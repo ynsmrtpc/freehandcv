@@ -1,4 +1,4 @@
-import { AdminPageHeader } from "@/components/admin/AdminShell";
+import { AdminPageHeader } from "@/components/admin/kit";
 import { routing } from "@/i18n/routing";
 import { DEFAULT_LOCALE_SETTINGS } from "@/lib/siteSettings";
 import { getSiteSettingsForAdmin } from "@/server/content/siteSettings";

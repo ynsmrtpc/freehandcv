@@ -35,6 +35,10 @@ export const user = pgTable("user", {
   employerSharing: boolean().notNull().default(false),
   /** Resume shared with employers (resumes.id). Checked in code to avoid a circular import. */
   sharedResumeId: text(),
+  /** Suspended by an admin: cannot sign in, existing sessions are removed. */
+  banned: boolean().notNull().default(false),
+  bannedAt: timestamptz(),
+  banReason: text(),
 });
 
 export const session = pgTable(

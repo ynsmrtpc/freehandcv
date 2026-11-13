@@ -1,5 +1,5 @@
 import { ChevronRight } from "lucide-react";
-import { AdminPageHeader } from "@/components/admin/AdminShell";
+import { AdminPageHeader } from "@/components/admin/kit";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { listPages } from "@/server/content/pages";

@@ -21,7 +21,7 @@ export default function AdminSignIn() {
       password: String(form.get("password")),
     });
     setPending(false);
-    if (error) return setError(t("signInFailed"));
+    if (error) return setError(error.code === "ACCOUNT_SUSPENDED" ? "Bu hesap askıya alınmış." : t("signInFailed"));
     if (data && "twoFactorRedirect" in data && data.twoFactorRedirect) return setStep("code");
     router.replace("/admin");
     router.refresh();

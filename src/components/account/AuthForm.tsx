@@ -50,6 +50,7 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
     if (status === 429) return t("errors.tooManyAttempts");
     if (code === "USER_ALREADY_EXISTS" || code === "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL") return t("errors.alreadyRegistered");
     if (code === "PASSWORD_TOO_SHORT") return t("errors.passwordTooShort");
+    if (code === "ACCOUNT_SUSPENDED") return t("errors.suspended");
     if (code === "INVALID_EMAIL_OR_PASSWORD" || code === "INVALID_EMAIL" || code === "INVALID_PASSWORD") return t("errors.invalidCredentials");
     return t("errors.generic");
   };

@@ -1,7 +1,7 @@
 import { Eye, FilePen } from "lucide-react";
 import { notFound } from "next/navigation";
 import { z } from "zod";
-import { AdminPageHeader } from "@/components/admin/AdminShell";
+import { AdminPageHeader } from "@/components/admin/kit";
 import { buttonClass } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { getExampleForAdmin } from "@/server/content/examples";

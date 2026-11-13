@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { AdminPageHeader } from "@/components/admin/AdminShell";
+import { AdminPageHeader } from "@/components/admin/kit";
 import { cn } from "@/lib/cn";
 import { listReviewsForAdmin } from "@/server/reviews";
 import { ApprovalButton } from "./ApprovalButton";

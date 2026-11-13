@@ -1,5 +1,7 @@
 import "server-only";
 import { betterAuth } from "better-auth";
+import { APIError } from "better-auth/api";
+import { eq } from "drizzle-orm";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { oneTap, twoFactor } from "better-auth/plugins";
@@ -50,6 +52,17 @@ export const auth = betterAuth({
       // Employer sharing changes only through setSharing, which records the consent.
       employerSharing: { type: "boolean", required: false, defaultValue: false, input: false },
       sharedResumeId: { type: "string", required: false, input: false },
+    },
+  },
+  // A suspended account cannot open a session by any sign-in method (email, Google, One Tap).
+  databaseHooks: {
+    session: {
+      create: {
+        before: async (s) => {
+          const [u] = await db.select({ banned: user.banned }).from(user).where(eq(user.id, s.userId));
+          if (u?.banned) throw new APIError("FORBIDDEN", { message: "Account suspended", code: "ACCOUNT_SUSPENDED" });
+        },
+      },
     },
   },
   session: {
