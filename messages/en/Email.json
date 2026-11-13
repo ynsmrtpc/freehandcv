@@ -17,5 +17,13 @@
   "existingIntro": "Someone tried to create a new FreehandCV account with this email address. You already have an account with it, so you can just sign in.",
   "existingButton": "Sign in",
   "existingReset": "If you don’t remember your password, set a new one here: {url}",
-  "existingIgnore": "If this wasn’t you, there’s nothing to do; your account hasn’t changed."
+  "existingIgnore": "If this wasn’t you, there’s nothing to do; your account hasn’t changed.",
+  "changeSubject": "Approve your FreehandCV email change",
+  "changeIntro": "We got a request to change your FreehandCV account’s email address to {email}. If you approve, we send a verification link to the new address; the address changes when that link is clicked.",
+  "changeButton": "Approve the change",
+  "changeIgnore": "If you didn’t ask for this, ignore this email and change your password; your address stays the same.",
+  "newEmailSubject": "Verify your new FreehandCV email address",
+  "newEmailIntro": "Verify this address to make it your FreehandCV account’s new email. Once verified, you sign in with it.",
+  "newEmailButton": "Verify my new address",
+  "newEmailIgnore": "If you didn’t ask for this, you can ignore this email; no account moves to this address."
 }

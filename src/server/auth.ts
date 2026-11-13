@@ -12,7 +12,9 @@ import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import {
   RESET_TOKEN_EXPIRES_IN_SECONDS,
+  sendChangeEmailConfirmation,
   sendExistingAccountEmail,
+  sendNewEmailVerification,
   sendPasswordResetEmail,
   sendVerificationEmail,
   VERIFY_TOKEN_EXPIRES_IN_SECONDS,
@@ -67,8 +69,12 @@ export const auth = betterAuth({
     sendOnSignIn: true,
     autoSignInAfterVerification: true,
     expiresIn: VERIFY_TOKEN_EXPIRES_IN_SECONDS,
-    sendVerificationEmail: async ({ user, url }) => {
-      void sendVerificationEmail({ user, url }).catch((error) => console.error("[auth] verification email failed", error));
+    // The same hook verifies a new account and a new address during an email change; the change is
+    // recognised by the address differing from the one stored for the account.
+    sendVerificationEmail: async ({ user: u, url }) => {
+      const [stored] = await db.select({ email: user.email }).from(user).where(eq(user.id, u.id));
+      const send = stored && stored.email !== u.email ? sendNewEmailVerification : sendVerificationEmail;
+      void send({ user: u, url }).catch((error) => console.error("[auth] verification email failed", error));
     },
   },
   socialProviders: google ? { google: { ...google, prompt: "select_account" } } : {},
@@ -77,6 +83,13 @@ export const auth = betterAuth({
     accountLinking: { enabled: true, trustedProviders: ["google"] },
   },
   user: {
+    // Two steps: the current address approves, then the new address is verified; only then it changes.
+    changeEmail: {
+      enabled: true,
+      sendChangeEmailConfirmation: async ({ user: u, newEmail, url }) => {
+        void sendChangeEmailConfirmation({ user: u, newEmail, url }).catch((error) => console.error("[auth] change-email confirmation failed", error));
+      },
+    },
     additionalFields: {
       // Username and preferences change on the account page; they never come from the sign-up form.
       username: { type: "string", required: false, input: false },
@@ -126,6 +139,7 @@ export const auth = betterAuth({
       "/request-password-reset": { window: 60, max: 3 },
       "/reset-password": { window: 60, max: 5 },
       "/send-verification-email": { window: 60, max: 3 },
+      "/change-email": { window: 60, max: 3 },
     },
   },
   plugins: [

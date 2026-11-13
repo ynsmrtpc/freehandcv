@@ -7,6 +7,7 @@ import { getPathname, redirect } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { getSession } from "@/server/authz";
 import { getSignInMethods } from "@/server/account";
+import { googleEnabled } from "@/server/auth";
 import { AccountView } from "./AccountView";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/account">): Promise<Metadata> {
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/account"
   return { title: t("meta") };
 }
 
-// Profile, password, data download and account closure (plan 9 /hesap).
+// Profile, email, password and sign-in methods, sessions, data download and account closure (plan 9 /hesap).
 export default async function AccountPage({ params }: PageProps<"/[locale]/account">) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
@@ -37,11 +38,16 @@ async function Loader({ locale }: { locale: Locale }) {
       user={{
         name: session!.user.name,
         email: session!.user.email,
+        image: session!.user.image ?? null,
         username: session!.user.username ?? null,
+        emailVerified: session!.user.emailVerified,
+        createdAt: new Date(session!.user.createdAt).toISOString(),
         isAdmin: session!.user.role !== "user",
       }}
+      currentSessionId={session!.session.id}
       hasPassword={methods.includes("credential")}
       hasGoogle={methods.includes("google")}
+      googleEnabled={googleEnabled}
     />
   );
 }

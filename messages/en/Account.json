@@ -1,24 +1,100 @@
 {
   "meta": "My account",
   "title": "My account",
+  "subtitle": "Your profile, sign-in details and data.",
   "save": "Save",
   "saved": "Saved",
-  "error": "Something went wrong, please try again",
+  "error": "Something went wrong, try again",
+  "saving": "Saving…",
+  "nav": {
+    "label": "Account sections",
+    "profile": "Profile",
+    "email": "Email",
+    "security": "Security",
+    "sessions": "Sessions",
+    "data": "My data",
+    "close": "Close account"
+  },
+  "summary": {
+    "memberSince": "Member since {date}",
+    "verified": "Verified",
+    "unverified": "Not verified",
+    "google": "Google connected",
+    "noName": "You haven’t added your name"
+  },
   "profile": {
     "title": "Profile",
-    "name": "Full name"
+    "description": "Your name shows on your account and in emails, not on your resumes. Your username shows when you share a template.",
+    "name": "Full name",
+    "viewProfile": "View your profile"
+  },
+  "username": {
+    "label": "Username",
+    "hint": "Shown as the owner of templates you make public, and used for your profile address. 3–30 characters; lowercase letters, digits, - and _.",
+    "length": "Usernames are 3–30 characters long.",
+    "format": "Use only lowercase English letters, digits, - and _; start with a letter and don't end with - or _.",
+    "reserved": "This username is reserved; choose another.",
+    "taken": "This username is taken; choose another."
+  },
+  "email": {
+    "title": "Email address",
+    "description": "You sign in with this address and our emails go to it.",
+    "current": "Your address",
+    "new": "New email address",
+    "howItWorks": "The change takes two steps: first an approval link goes to your current address, then a verification link to the new one. Your address changes when you click the second link.",
+    "submit": "Send the change link",
+    "same": "That’s already your address.",
+    "invalid": "Enter a valid email address.",
+    "sent": "We sent an approval link to {email}. Once you approve, a verification link goes to your new address.",
+    "changed": "Your email address is updated and verified.",
+    "linkInvalid": "The link has expired or was already used. Start the change again."
   },
   "password": {
     "title": "Password",
+    "description": "When you change your password, every session except this one is signed out.",
+    "setTitle": "Set a password",
+    "setDescription": "You sign in only with Google right now. Set a password to also sign in with your email and password.",
     "current": "Current password",
     "new": "New password",
-    "hint": "At least 10 characters. Changing it signs you out on other devices.",
+    "repeat": "New password (again)",
+    "hint": "At least 10 characters. A long sentence is easy to remember and strong.",
+    "show": "Show passwords",
+    "hide": "Hide passwords",
     "submit": "Change password",
-    "changed": "Your password has been changed",
-    "failed": "Couldn’t change the password; check your current password",
-    "tooShort": "The new password must be at least 10 characters",
-    "googleOnly": "You sign in with Google; your password is managed by your Google account.",
-    "none": "This account has no password."
+    "setSubmit": "Set password",
+    "changed": "Your password changed; sessions on other devices were signed out.",
+    "set": "Your password is set. You can now also sign in with your email and password.",
+    "failed": "Couldn’t change the password; check your current password.",
+    "tooShort": "The new password must be at least 10 characters.",
+    "mismatch": "The new passwords don’t match."
+  },
+  "methods": {
+    "title": "Sign-in methods",
+    "password": "Email and password",
+    "google": "Google",
+    "on": "On",
+    "off": "Off",
+    "connected": "Connected",
+    "connect": "Connect Google account",
+    "disconnect": "Disconnect",
+    "disconnectConfirm": "Disconnect Google? From now on you sign in with your email and password.",
+    "disconnectNeedsPassword": "Set a password before disconnecting, or you won’t be able to sign in.",
+    "disconnected": "Google disconnected."
+  },
+  "sessions": {
+    "title": "Open sessions",
+    "description": "Devices signed in to your account. If you see one you don’t recognise, sign it out and change your password.",
+    "thisDevice": "This device",
+    "lastActive": "Last active: {time}",
+    "unknownDevice": "Unknown device",
+    "on": "{browser} · {os}",
+    "revoke": "Sign out",
+    "revokeOthers": "Sign out all other sessions",
+    "revokeOthersConfirm": "Sign out every session except this one?",
+    "revoked": "Session signed out.",
+    "othersRevoked": "Your other sessions were signed out.",
+    "onlyThis": "You’re signed in only on this device.",
+    "loading": "Loading sessions…"
   },
   "data": {
     "title": "My data",
@@ -32,13 +108,5 @@
     "confirm": "Type your e-mail address to confirm ({email})",
     "submit": "Close my account for good",
     "mismatch": "The e-mail address doesn’t match"
-  },
-  "username": {
-    "label": "Username",
-    "hint": "Shown as the owner of templates you make public, and used for your profile address. 3–30 characters; lowercase letters, digits, - and _.",
-    "length": "Usernames are 3–30 characters long.",
-    "format": "Use only lowercase English letters, digits, - and _; start with a letter and don't end with - or _.",
-    "reserved": "This username is reserved; choose another.",
-    "taken": "This username is taken; choose another."
   }
 }

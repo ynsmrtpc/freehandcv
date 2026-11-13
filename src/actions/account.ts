@@ -5,6 +5,8 @@
 import { AdminAccountError, closeAccount, setUsername, UsernameInvalidError, UsernameTakenError } from "@/server/account";
 import type { UsernameProblem } from "@/lib/username";
 import { updateTag } from "next/cache";
+import { headers } from "next/headers";
+import { auth } from "@/server/auth";
 import { getSession } from "@/server/authz";
 import { TEMPLATES_TAG } from "@/server/templates";
 
@@ -38,6 +40,21 @@ export async function setUsernameAction(
   } catch (error) {
     if (error instanceof UsernameTakenError) return { ok: false, reason: "taken" };
     if (error instanceof UsernameInvalidError) return { ok: false, reason: error.problem };
+    console.error(error);
+    return { ok: false, reason: "error" };
+  }
+}
+
+/** Adds a password to an account that so far signs in only with Google. */
+export async function setPasswordAction(newPassword: string): Promise<{ ok: true } | { ok: false; reason: "unauthenticated" | "tooShort" | "error" }> {
+  const session = await getSession();
+  if (!session) return { ok: false, reason: "unauthenticated" };
+  const password = String(newPassword);
+  if (password.length < 10 || password.length > 128) return { ok: false, reason: "tooShort" };
+  try {
+    await auth.api.setPassword({ body: { newPassword: password }, headers: await headers() });
+    return { ok: true };
+  } catch (error) {
     console.error(error);
     return { ok: false, reason: "error" };
   }

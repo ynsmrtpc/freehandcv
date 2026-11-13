@@ -110,3 +110,33 @@ export async function sendExistingAccountEmail({ user, signInUrl, resetUrl }: { 
     notes: [t("existingReset", { url: resetUrl }), t("existingIgnore")],
   });
 }
+
+/** Email change, step 1: the current address approves the change before anything goes to the new one. */
+export async function sendChangeEmailConfirmation({ user, newEmail, url }: { user: Recipient; newEmail: string; url: string }) {
+  const locale = resetEmailLocale(user.uiLocale, url);
+  const t = await getTranslations({ locale, namespace: "Email" });
+  await sendActionEmail({
+    to: user,
+    locale,
+    url,
+    subject: t("changeSubject"),
+    intro: t("changeIntro", { email: newEmail }),
+    button: t("changeButton"),
+    notes: [t("verifyExpiry", { hours: VERIFY_TOKEN_EXPIRES_IN_SECONDS / 3600 }), t("changeIgnore")],
+  });
+}
+
+/** Email change, step 2: the new address proves it is reachable; the account switches when it is clicked. */
+export async function sendNewEmailVerification({ user, url }: { user: Recipient; url: string }) {
+  const locale = resetEmailLocale(user.uiLocale, url);
+  const t = await getTranslations({ locale, namespace: "Email" });
+  await sendActionEmail({
+    to: user,
+    locale,
+    url,
+    subject: t("newEmailSubject"),
+    intro: t("newEmailIntro"),
+    button: t("newEmailButton"),
+    notes: [t("verifyExpiry", { hours: VERIFY_TOKEN_EXPIRES_IN_SECONDS / 3600 }), t("newEmailIgnore")],
+  });
+}

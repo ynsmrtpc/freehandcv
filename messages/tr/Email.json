@@ -17,5 +17,13 @@
   "existingIntro": "Biri bu e-posta adresiyle yeni bir FreehandCV hesabı açmaya çalıştı. Bu adresle kayıtlı bir hesabın zaten var; giriş yapabilirsin.",
   "existingButton": "Giriş yap",
   "existingReset": "Şifreni hatırlamıyorsan buradan yenisini belirleyebilirsin: {url}",
-  "existingIgnore": "Bu denemeyi sen yapmadıysan bir şey yapmana gerek yok; hesabın değişmedi."
+  "existingIgnore": "Bu denemeyi sen yapmadıysan bir şey yapmana gerek yok; hesabın değişmedi.",
+  "changeSubject": "FreehandCV e-posta değişikliğini onayla",
+  "changeIntro": "FreehandCV hesabının e-posta adresini {email} olarak değiştirmek için bir istek aldık. Onaylarsan yeni adrese bir doğrulama bağlantısı göndeririz; adres o bağlantıya tıklanınca değişir.",
+  "changeButton": "Değişikliği onayla",
+  "changeIgnore": "Bu isteği sen yapmadıysan bu e-postayı görmezden gel ve şifreni değiştir; adresin değişmez.",
+  "newEmailSubject": "FreehandCV yeni e-posta adresini doğrula",
+  "newEmailIntro": "Bu adresi FreehandCV hesabının yeni e-postası yapmak için doğrula. Doğruladığın anda giriş yaparken bu adresi kullanırsın.",
+  "newEmailButton": "Yeni adresimi doğrula",
+  "newEmailIgnore": "Bu isteği sen yapmadıysan bu e-postayı görmezden gelebilirsin; hiçbir hesap bu adrese geçmez."
 }

@@ -1,24 +1,100 @@
 {
   "meta": "Hesabım",
   "title": "Hesabım",
+  "subtitle": "Profilin, giriş bilgilerin ve verilerin.",
   "save": "Kaydet",
   "saved": "Kaydedildi",
   "error": "Bir hata oluştu, tekrar dene",
+  "saving": "Kaydediliyor…",
+  "nav": {
+    "label": "Hesap bölümleri",
+    "profile": "Profil",
+    "email": "E-posta",
+    "security": "Güvenlik",
+    "sessions": "Oturumlar",
+    "data": "Verilerim",
+    "close": "Hesabı kapat"
+  },
+  "summary": {
+    "memberSince": "{date} tarihinden beri üye",
+    "verified": "Doğrulandı",
+    "unverified": "Doğrulanmadı",
+    "google": "Google bağlı",
+    "noName": "Adını eklemedin"
+  },
   "profile": {
     "title": "Profil",
-    "name": "Ad soyad"
+    "description": "Adın CV'lerinde değil, hesabında ve e-postalarda görünür. Kullanıcı adın şablon paylaştığında görünür.",
+    "name": "Ad soyad",
+    "viewProfile": "Profilini gör"
+  },
+  "username": {
+    "label": "Kullanıcı adı",
+    "hint": "Herkese açtığın şablonlarda sahibi olarak görünür ve profil adresin olur. 3–30 karakter; küçük harf, rakam, - ve _.",
+    "length": "Kullanıcı adı 3–30 karakter olmalı.",
+    "format": "Yalnızca küçük İngilizce harf, rakam, - ve _ kullan; bir harfle başlamalı ve - ya da _ ile bitmemeli.",
+    "reserved": "Bu kullanıcı adı ayrılmış, başka bir ad seç.",
+    "taken": "Bu kullanıcı adı alınmış, başka bir ad seç."
+  },
+  "email": {
+    "title": "E-posta adresi",
+    "description": "Giriş yaparken ve sana gönderdiğimiz e-postalarda bu adres kullanılır.",
+    "current": "Kullandığın adres",
+    "new": "Yeni e-posta adresi",
+    "howItWorks": "Değişiklik iki adımda olur: önce şu anki adresine onay bağlantısı gelir, sonra yeni adresine doğrulama bağlantısı. Adresin ikinci bağlantıya tıklayınca değişir.",
+    "submit": "Değiştirme bağlantısı gönder",
+    "same": "Bu zaten kullandığın adres.",
+    "invalid": "Geçerli bir e-posta adresi yaz.",
+    "sent": "Onay bağlantısını {email} adresine gönderdik. Onayladığında yeni adresine doğrulama bağlantısı gelecek.",
+    "changed": "E-posta adresin güncellendi ve doğrulandı.",
+    "linkInvalid": "Bağlantının süresi geçmiş ya da daha önce kullanılmış. Değişikliği yeniden başlat."
   },
   "password": {
     "title": "Şifre",
+    "description": "Şifreni değiştirdiğinde bu cihaz dışındaki bütün oturumların kapanır.",
+    "setTitle": "Şifre belirle",
+    "setDescription": "Şu an yalnızca Google ile giriş yapıyorsun. Bir şifre belirlersen e-posta adresin ve şifrenle de girebilirsin.",
     "current": "Mevcut şifre",
     "new": "Yeni şifre",
-    "hint": "En az 10 karakter. Değiştirdiğinde diğer cihazlardaki oturumların kapanır.",
+    "repeat": "Yeni şifre (tekrar)",
+    "hint": "En az 10 karakter. Uzun bir cümle hatırlaması kolay ve güçlüdür.",
+    "show": "Şifreleri göster",
+    "hide": "Şifreleri gizle",
     "submit": "Şifreyi değiştir",
-    "changed": "Şifren değiştirildi",
-    "failed": "Şifre değiştirilemedi; mevcut şifreni kontrol et",
-    "tooShort": "Yeni şifre en az 10 karakter olmalı",
-    "googleOnly": "Google ile giriş yapıyorsun; şifren Google hesabında yönetilir.",
-    "none": "Bu hesapta şifre tanımlı değil."
+    "setSubmit": "Şifreyi belirle",
+    "changed": "Şifren değişti; diğer cihazlardaki oturumların kapatıldı.",
+    "set": "Şifren belirlendi. Artık e-postan ve şifrenle de giriş yapabilirsin.",
+    "failed": "Şifre değiştirilemedi; mevcut şifreni kontrol et.",
+    "tooShort": "Yeni şifre en az 10 karakter olmalı.",
+    "mismatch": "Yeni şifreler birbirini tutmuyor."
+  },
+  "methods": {
+    "title": "Giriş yöntemleri",
+    "password": "E-posta ve şifre",
+    "google": "Google",
+    "on": "Açık",
+    "off": "Yok",
+    "connected": "Bağlı",
+    "connect": "Google hesabını bağla",
+    "disconnect": "Bağlantıyı kaldır",
+    "disconnectConfirm": "Google bağlantısı kaldırılsın mı? Bundan sonra e-postan ve şifrenle giriş yaparsın.",
+    "disconnectNeedsPassword": "Bağlantıyı kaldırmadan önce bir şifre belirle; yoksa hesabına giremezsin.",
+    "disconnected": "Google bağlantısı kaldırıldı."
+  },
+  "sessions": {
+    "title": "Açık oturumlar",
+    "description": "Hesabına giriş yapılmış cihazlar. Tanımadığın bir cihaz görürsen oturumu kapat ve şifreni değiştir.",
+    "thisDevice": "Bu cihaz",
+    "lastActive": "Son etkinlik: {time}",
+    "unknownDevice": "Bilinmeyen cihaz",
+    "on": "{browser} · {os}",
+    "revoke": "Oturumu kapat",
+    "revokeOthers": "Diğer tüm oturumları kapat",
+    "revokeOthersConfirm": "Bu cihaz dışındaki bütün oturumlar kapatılsın mı?",
+    "revoked": "Oturum kapatıldı.",
+    "othersRevoked": "Diğer oturumların kapatıldı.",
+    "onlyThis": "Yalnızca bu cihazda oturumun açık.",
+    "loading": "Oturumlar yükleniyor…"
   },
   "data": {
     "title": "Verilerim",
@@ -32,13 +108,5 @@
     "confirm": "Onaylamak için e-posta adresini yaz ({email})",
     "submit": "Hesabımı kalıcı olarak kapat",
     "mismatch": "E-posta adresi eşleşmiyor"
-  },
-  "username": {
-    "label": "Kullanıcı adı",
-    "hint": "Herkese açtığın şablonlarda sahibi olarak görünür ve profil adresin olur. 3–30 karakter; küçük harf, rakam, - ve _.",
-    "length": "Kullanıcı adı 3–30 karakter olmalı.",
-    "format": "Yalnızca küçük İngilizce harf, rakam, - ve _ kullan; bir harfle başlamalı ve - ya da _ ile bitmemeli.",
-    "reserved": "Bu kullanıcı adı ayrılmış, başka bir ad seç.",
-    "taken": "Bu kullanıcı adı alınmış, başka bir ad seç."
   }
 }
