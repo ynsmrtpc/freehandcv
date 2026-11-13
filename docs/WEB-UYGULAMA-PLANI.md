@@ -727,11 +727,35 @@ paylaşım" onayı (açık rıza) bu özelliğin temeli olur.
 - **İşletme girişi:** bireysel hesaplardan ayrı bir işletme hesabı türü ve giriş alanı.
 - **CV görüntüleme sayfası:** işletmelerin, kendileriyle paylaşılmasına onay verilmiş CV'leri
   görüntüleyebileceği bir sayfa.
-- **İşletme API'si:** işletmelere verilecek API uçları (ör. paylaşılan CV'leri listeleme/okuma).
-  Kimlik doğrulama (API anahtarı), hız sınırı ve sürümleme kararı verilmeli.
+- **API yok** (13 Kasım 2026 kararı; önceki "işletme API'si" notunun yerine). İşletmeler yalnızca
+  web arayüzünü kullanır.
+- **Açık kaynakta yer almaz:** işletme hesaplarının kodu herkese açık GitHub deposuna girmez. Ayrı,
+  özel bir depo ya da modül olarak tutulur; açık kaynak uygulama bu parça olmadan eksiksiz çalışmalı.
 - Açık konular: KVKK (rıza metni, rızanın geri alınması, erişim kaydı), işletmenin doğrulanması,
   ücretli mi ücretsiz mi (bölüm 15'teki "%100 ücretsiz" kararı bireysel kullanıcılar içindir),
   URL'ler (Türkçe yollar `routing.ts`'e yayından önce eklenmeli).
+
+### 14.3 Kullanıcı istekleri (13 Kasım 2026) — sonraki işler
+
+Henüz kodu yok; sıra kullanıcıyla birlikte belirlenecek.
+
+- **CV oluşturma sihirbazı:** adım adım sorularla kolayca CV oluşturma. Dileyen sihirbazla başlar,
+  sonra CV oluşturma aracında (editör) düzenler; dileyen doğrudan editörü kullanır. Sihirbaz aynı
+  CV verisini üretir, ayrı bir veri modeli yoktur.
+- **Yapay zekâyla CV oluşturma:** e-postası doğrulanmış hesaplara **3 hak**. Hakkın sayılacağı yer
+  (kullanıcı tablosunda sayaç ya da kullanım kaydı), hangi model/sağlayıcı, maliyet ve kötüye
+  kullanım sınırı, KVKK (CV verisinin sağlayıcıya gönderilmesi için aydınlatma ve onay) kararı
+  verilmeli. Ürün yine ücretsizdir; hak sınırı maliyeti korumak içindir.
+- **GitHub bağlantısı:** kullanıcı GitHub hesabını bağlar, depolarını listeler, seçtiklerini CV'nin
+  Projeler bölümüne ekler (ad, açıklama, bağlantı, dil/teknolojiler). Yalnızca okuma izni; hesap
+  bağlama Better Auth ile (Google'daki gibi).
+- **LinkedIn bağlantısı:** LinkedIn hesabından bilgileri çekip CV'ye ekleme. Not: LinkedIn'in
+  herkese açık API'si profil ayrıntılarını (deneyim, eğitim) vermiyor; "Sign In with LinkedIn"
+  yalnızca ad, e-posta ve fotoğraf verir. Uygulanabilir yol araştırılmalı (ör. LinkedIn'den
+  indirilen veri arşivini ya da profil PDF'ini içe aktarma).
+- **Gerçek 404:** bulunamayan profil, rehber, örnek ve şablon adresleri şu an "bulunamadı" içeriğini
+  200 durum koduyla gösteriyor (notFound Suspense içinde akarken). HTTP 404 dönmeli.
+- **Logo:** logo yeniden tasarlanacak ve değiştirilecek.
 
 ## 15. Verilen kararlar
 
