@@ -51,7 +51,7 @@ The missing handoff was application usability, responsive review, and durable de
 
 These are open tasks, not features that this UI pass has completed:
 
-- Provision Coolify/VPS and PostgreSQL; supply production secrets, OAuth configuration, email
+- Set up the aaPanel server and PostgreSQL (docs/DEPLOY-AAPANEL.md); supply production secrets, OAuth configuration, email
   credentials, and domain/DNS settings. Never use real user data in test runs.
 - Build and run the Docker image against `freehandcv_test`; exercise server PDF generation with
   Alpine Chromium, selectable text, A4/Letter, and long multi-page content.

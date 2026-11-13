@@ -103,7 +103,7 @@ kolaylaştırmak için kural:
 | CV şablonları | Düz CSS (mevcut `sablonlar.css`) | mm/pt birimleri ve `@page` kuralları Tailwind'e taşınmaz, olduğu gibi kalır |
 | Düzenleyici durumu | **Zustand** | Otomatik kayıt kuyruğu, geri al/ileri al |
 | E-posta | **Resend** (ya da SMTP) | Doğrulama, şifre sıfırlama |
-| Dosya (fotoğraf) | S3 uyumlu depolama (**Cloudflare R2**) | Fotoğraf JSON'a gömülmez; sürümler şişmesin |
+| Dosya (fotoğraf) | Sunucudaki klasör (`MEDIA_DIR`; 13 Kasım 2026 kararı, önce Cloudflare R2 planlanmıştı) | Fotoğraf JSON'a gömülmez; sürümler şişmesin |
 | PDF | Faz 1: tarayıcı yazdırma (mevcut yöntem). Faz 2: **Playwright + Chromium** ile sunucuda PDF | Faz 2 tek tık "İndir" verir; metin seçilebilir kalır |
 | Çok dil | **next-intl** (yerelleştirilmiş yollar ile) | İlk günden çok dilli kurulur; dil eklemek yalnızca çeviri ve içerik işidir (bölüm 8) |
 | Yazı tipleri | Latin için mevcut fontlar + **Noto** ailesi (Noto Sans Arabic, Noto Sans JP/KR/SC, Noto Sans Devanagari) | Her yazı sistemi için PDF'e gömülebilen yedek font; CJK fontları yalnızca o dilde yüklenir |
@@ -114,7 +114,7 @@ kolaylaştırmak için kural:
 | Analitik | **Umami** (kendi sunucumuzda) | Çerezsiz; çerez onayı gerektirmez, veri bizde kalır |
 | Test | **Vitest** (birim), **Playwright** (uçtan uca + PDF sayfa sayısı) | |
 | Hata izleme | Sentry (isteğe bağlı) | |
-| Dağıtım | **Docker** → VPS üzerinde **Coolify** (Postgres aynı sunucuda) | Sunucu tarafı PDF için Chromium gerektiğinden Vercel yerine VPS. Günlük `pg_dump` yedeği |
+| Dağıtım | VPS üzerinde **aaPanel** (Node.js + PM2 + Nginx; Postgres aynı sunucuda; Dockerfile isteğe bağlı) | Sunucu tarafı PDF için Chromium gerektiğinden Vercel yerine VPS. Günlük `pg_dump` yedeği |
 
 ## 5. Veri modeli (taslak)
 
@@ -240,7 +240,7 @@ sayfalar                          landing, /ucretsiz-mi, /hakkimizda, KVKK metin
 sayfa_surumleri                   her "Yayınla"da bir kopya → geri alma
   id, sayfa_id, bloklar jsonb, meta jsonb, yayinlayan_id, olusturma
 
-medya                             görsel kütüphanesi (R2)
+medya                             görsel kütüphanesi (sunucu klasörü, MEDIA_DIR)
   id, anahtar, alt_metin, genislik, yukseklik, boyut, yukleyen_id, olusturma
 
 sss                               blokların ve FAQPage şemasının kaynağı
@@ -679,8 +679,8 @@ en baştan tam haliyle kurulduğu için sonraki fazlar köklü değişiklik gere
 1. **Faz 0 — İskelet:** Next.js + Drizzle + Postgres (Docker Compose), next-intl, `(site)` /
    `(uygulama)` / `(yonetim)` ayrımı, SEO altyapısı (metadata, sitemap, robots, JSON-LD, OG),
    **tüm tablolar** (kullanılmayanlar da), Better Auth (önce yalnız yönetici girişi + TOTP),
-   Coolify'a ilk dağıtım, Umami, Search Console.
-   *Durum: kod tarafı tamam (Dockerfile dahil). Coolify dağıtımı, Umami ve Search Console kaldı.*
+   ilk dağıtım (aaPanel; `docs/DEPLOY-AAPANEL.md`), Umami, Search Console.
+   *Durum: kod tarafı tamam (Dockerfile dahil). Dağıtım, Umami ve Search Console kaldı.*
 2. **Faz 1 — İlk yayın (MVP):** tasarım tanımını okuyan saf çizim motoru (A4/Letter, RTL hazır)
    + 5 sistem şablonu, **Türkçe + İngilizce** (dalga 1),
    **hesapsız editör** (`/cv-olustur`, localStorage), tarayıcı yazdırma ile PDF, **blok tabanlı CMS

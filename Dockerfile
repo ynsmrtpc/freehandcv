@@ -1,4 +1,5 @@
-# Production image built on Coolify (plan section 4: output "standalone").
+# Optional container build (plan section 4: output "standalone"). The main deployment is aaPanel
+# without Docker: docs/DEPLOY-AAPANEL.md. Mount a volume at MEDIA_DIR so uploads survive redeploys.
 FROM node:24-alpine AS base
 # Bun installs and builds; Node runs the standalone server.
 COPY --from=oven/bun:1.4.4-alpine /usr/local/bin/bun /usr/local/bin/bun

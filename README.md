@@ -66,7 +66,10 @@ messages/<locale>/            UI translations, one file per namespace
 
 ## Deployment
 
-The `Dockerfile` is for Coolify: a standalone Next.js image that applies database migrations on startup.
+Production runs on a server managed with aaPanel: the standalone Next.js build under PM2 behind
+Nginx, PostgreSQL on the same machine, uploaded media in a folder outside the app (`MEDIA_DIR`).
+Step by step (Turkish): [docs/DEPLOY-AAPANEL.md](docs/DEPLOY-AAPANEL.md). The `Dockerfile` builds the
+same app as an image that applies migrations on startup, for hosts that prefer containers.
 Environment variables match `.env.example`; `BETTER_AUTH_URL` and `NEXT_PUBLIC_SITE_URL` must be
 the live address (`https://freehandcv.com`).
 

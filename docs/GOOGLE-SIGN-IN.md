@@ -95,9 +95,9 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID=1234567890-abc…apps.googleusercontent.com
   **Audience → Test users** listesine eklediğin hesaplar (en fazla 100) giriş yapabilir. Yayından önce
   **Audience → Publish app** ile durumu **In production** yap. Hassas kapsam kullanılmadığı için bu
   adım onay beklemeden hemen geçerli olur.
-- **Coolify ortam değişkenleri:** üç değişkeni de Coolify'daki uygulamaya ekle.
-  `NEXT_PUBLIC_GOOGLE_CLIENT_ID` derleme sırasında koda gömülür; Coolify'da bu değişkeni
-  **Build Variable** olarak da işaretle. Değeri değiştirirsen uygulamayı yeniden derle (redeploy).
+- **Sunucu ortam değişkenleri:** üç değişkeni de sunucudaki `.env` dosyasına ekle
+  (`docs/DEPLOY-AAPANEL.md`). `NEXT_PUBLIC_GOOGLE_CLIENT_ID` derleme sırasında koda gömülür;
+  değerini değiştirirsen uygulamayı yeniden derle.
 - `BETTER_AUTH_URL` ve `NEXT_PUBLIC_SITE_URL` değerleri canlıda `https://freehandcv.com` olmalı.
   Aksi halde Google dönüş adresi eşleşmez.
 
