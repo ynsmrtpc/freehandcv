@@ -104,10 +104,14 @@ const PERSONAL_FIELDS: FieldDef[] = [
   { k: "title" },
   { k: "email", half: true, inputType: "email" },
   { k: "phone", half: true, inputType: "tel" },
-  { k: "location", half: true },
+  { k: "location" },
+];
+
+// Not every job has a GitHub profile: links sit behind one disclosure instead of three empty fields.
+const LINK_FIELDS: FieldDef[] = [
   { k: "linkedin", half: true },
-  { k: "github", half: true },
   { k: "web", half: true },
+  { k: "github", half: true },
 ];
 
 function move<T>(list: T[], i: number, dir: -1 | 1) {
@@ -147,6 +151,7 @@ export function ContentPanel({ notify }: { notify: (text: string) => void }) {
   const t = useTranslations("Editor");
   const data = useEditor((s) => s.data)!;
   const update = useEditor((s) => s.update);
+  const loads = useEditor((s) => s.loads);
   const [open, setOpen] = useState<Set<string>>(() => new Set(["personal"]));
 
   const toggle = (id: string, isOpen: boolean) =>
@@ -163,7 +168,7 @@ export function ContentPanel({ notify }: { notify: (text: string) => void }) {
     <div className="space-y-3 p-4 sm:p-5">
       <SampleNotice />
       <p className="text-sm leading-relaxed text-muted">{t("sectionsHint")}</p>
-      <PersonalSection open={open.has("personal")} toggle={(o) => toggle("personal", o)} notify={notify} />
+      <PersonalSection key={loads} open={open.has("personal")} toggle={(o) => toggle("personal", o)} notify={notify} />
       {order.map((id, i) => (
         <SectionEditor
           key={id}
@@ -233,6 +238,25 @@ function PersonalSection({
   const update = useEditor((s) => s.update);
   const fileRef = useRef<HTMLInputElement>(null);
 
+  // Opens on its own when a link is already filled; afterwards the user decides.
+  const [linksOpen] = useState(() => LINK_FIELDS.some((f) => p[f.k as keyof typeof p]));
+  const personalField = (f: FieldDef) => (
+    <Field key={f.k} label={t(`fields.personal.${f.k}` as never)} half={f.half}>
+      {(id) => (
+        <Input
+          id={id}
+          type={f.inputType ?? "text"}
+          value={p[f.k as keyof typeof p] as string}
+          placeholder={t(`placeholders.personal.${f.k}` as never)}
+          onChange={(e) => {
+            const value = e.target.value;
+            update((v) => void ((v.personal as Record<string, unknown>)[f.k] = value));
+          }}
+        />
+      )}
+    </Field>
+  );
+
   return (
     <Accordion open={open} toggle={toggle} title={t("personal.title")}>
       <div className="mb-5 flex items-center gap-4">
@@ -289,26 +313,22 @@ function PersonalSection({
       </div>
 
       <div className="grid grid-cols-2 gap-x-3 gap-y-4">
-        {PERSONAL_FIELDS.map((f) => (
-          <Field key={f.k} label={t(`fields.personal.${f.k}` as never)} half={f.half}>
-            {(id) => (
-              <Input
-                id={id}
-                type={f.inputType ?? "text"}
-                value={p[f.k as keyof typeof p] as string}
-                placeholder={t(`placeholders.personal.${f.k}` as never)}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  update((v) => void ((v.personal as Record<string, unknown>)[f.k] = value));
-                }}
-              />
-            )}
-          </Field>
-        ))}
+        {PERSONAL_FIELDS.map(personalField)}
 
+        <details open={linksOpen} className="group col-span-2 border-y border-border">
+          <summary className="flex min-h-12 cursor-pointer list-none items-center gap-2 text-[15px] font-semibold text-foreground [&::-webkit-details-marker]:hidden">
+            <ChevronDown className="size-4 shrink-0 -rotate-90 text-muted transition-transform group-open:rotate-0 rtl:rotate-90" aria-hidden />
+            {t("personal.links")}
+            <span className="min-w-0 truncate text-sm font-normal text-muted">{t("personal.linksHint")}</span>
+          </summary>
+          <div className="grid grid-cols-2 gap-x-3 gap-y-4 pb-4">{LINK_FIELDS.map(personalField)}</div>
+        </details>
+      </div>
+
+      <div className="mt-4 grid grid-cols-2 gap-x-3 gap-y-4">
         <div className="col-span-2">
-          <p className="text-[13px] font-semibold text-foreground">{t("personal.extras")}</p>
-          <p className="mt-0.5 mb-2 text-xs text-muted">{t("personal.extrasHint")}</p>
+          <p className="text-[15px] font-semibold text-foreground">{t("personal.extras")}</p>
+          <p className="mt-0.5 mb-2 text-sm text-muted">{t("personal.extrasHint")}</p>
           <div className="space-y-2">
             {p.extras.map((e, i) => (
               <div key={i} className="flex gap-2">
@@ -334,7 +354,6 @@ function PersonalSection({
                 <IconButton
                   label={t("personal.deleteExtra")}
                   danger
-                  className="size-10"
                   onClick={() => update((v) => void v.personal.extras.splice(i, 1), false)}
                 >
                   <Trash2 className="size-4" />

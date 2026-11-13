@@ -69,7 +69,9 @@
     "addExtra": "Bilgi ekle",
     "extraLabel": "Başlık",
     "extraValue": "Değer",
-    "deleteExtra": "Ek bilgiyi sil"
+    "deleteExtra": "Ek bilgiyi sil",
+    "links": "Bağlantılar",
+    "linksHint": "LinkedIn, web sitesi, GitHub"
   },
   "sections": {
     "summary": "Profesyonel özet",
@@ -92,7 +94,7 @@
     "references": "Referans"
   },
   "sectionTitle": "Bölüm başlığı",
-  "add": "{kind} ekle",
+  "add": "Yeni {kind} ekle",
   "show": "CV'de göster",
   "hide": "CV'de gizle",
   "moveUp": "Yukarı taşı",
@@ -135,7 +137,7 @@
       "role": "Rolün",
       "start": "Başlangıç",
       "end": "Bitiş",
-      "technologies": "Teknolojiler",
+      "technologies": "Araçlar ve teknolojiler",
       "link": "Bağlantı",
       "description": "Kısa tanım",
       "bullets": "Öne çıkanlar"
@@ -175,7 +177,7 @@
   "placeholders": {
     "personal": {
       "name": "Ad Soyad",
-      "title": "Yazılım Mühendisi",
+      "title": "Muhasebe Uzmanı",
       "email": "ad@ornek.com",
       "phone": "05xx xxx xx xx",
       "location": "Kadıköy, İstanbul",
@@ -184,7 +186,7 @@
       "web": "ornek.com"
     },
     "experience": {
-      "position": "Yazılım Geliştirici",
+      "position": "Satış Temsilcisi",
       "company": "Şirket adı",
       "location": "İstanbul",
       "start": "Ara 2022",
@@ -194,21 +196,21 @@
     },
     "projects": {
       "name": "Proje adı",
-      "role": "Kurucu geliştirici",
+      "role": "Proje sorumlusu",
       "start": "Oca 2026",
       "end": "",
-      "technologies": "React, Node.js, PostgreSQL",
-      "link": "github.com/kullanici/proje",
+      "technologies": "Excel, Canva, Trello",
+      "link": "ornek.com/proje",
       "description": "",
       "bullets": ""
     },
     "skills": {
-      "category": "Backend",
-      "items": "Node.js, PostgreSQL, REST API"
+      "category": "Araçlar",
+      "items": "Excel, SAP, Canva"
     },
     "education": {
       "school": "Üniversite adı",
-      "field": "Yazılım Mühendisliği",
+      "field": "İşletme",
       "degree": "Lisans",
       "start": "Eyl 2018",
       "end": "Haz 2022",
@@ -217,7 +219,7 @@
       "description": ""
     },
     "certifications": {
-      "name": "AWS Certified Developer",
+      "name": "İlk Yardım Sertifikası",
       "issuer": "Kurum",
       "date": "Eki 2022",
       "link": "https://…"
@@ -228,7 +230,7 @@
     },
     "references": {
       "name": "Ad Soyad",
-      "title": "Yazılım Müdürü",
+      "title": "Departman Müdürü",
       "company": "Kurum",
       "phone": "05xx xxx xx xx",
       "email": "ad@kurum.com"

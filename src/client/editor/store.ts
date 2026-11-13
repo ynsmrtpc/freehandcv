@@ -44,6 +44,8 @@ type EditorStore = {
   pageCount: number;
   /** Guest opened on the built-in sample and has not changed it yet (the editor offers a blank start). */
   untouchedSample: boolean;
+  /** Counts whole-resume loads (start, sample, import, blank) so panels can reset their open/closed state. */
+  loads: number;
   /** Keeps the sample and hides the offer. */
   dismissSample: () => void;
   /** Guest: loads from the browser; without saved data starts with the sample in the UI locale. */
@@ -90,6 +92,7 @@ function migrateGuestStorage() {
 export const useEditor = create<EditorStore>((set, get) => ({
   data: null,
   source: { kind: "guest" },
+  loads: 0,
   ...RESET,
 
   startGuest(uiLocale) {
@@ -104,7 +107,7 @@ export const useEditor = create<EditorStore>((set, get) => ({
     } catch {
       // broken or inaccessible storage: fall back to the sample
     }
-    set({ ...RESET, data: loaded ?? sampleResume(uiLocale), source: { kind: "guest" }, untouchedSample: !loaded });
+    set({ ...RESET, data: loaded ?? sampleResume(uiLocale), source: { kind: "guest" }, untouchedSample: !loaded, loads: get().loads + 1 });
   },
 
   startAccount(id, data, version) {
@@ -112,7 +115,7 @@ export const useEditor = create<EditorStore>((set, get) => ({
     if (s.kind === "account" && s.id === id && get().data) return;
     if (get().data) get().saveNow();
     dirty = false;
-    set({ ...RESET, data, source: { kind: "account", id, version } });
+    set({ ...RESET, data, source: { kind: "account", id, version }, loads: get().loads + 1 });
   },
 
   startExample(id, data) {
@@ -120,7 +123,7 @@ export const useEditor = create<EditorStore>((set, get) => ({
     if (s.kind === "example" && s.id === id && get().data) return;
     if (get().data) get().saveNow();
     dirty = false;
-    set({ ...RESET, data, source: { kind: "example", id } });
+    set({ ...RESET, data, source: { kind: "example", id }, loads: get().loads + 1 });
   },
 
   update(recipe, merge = true) {
@@ -147,6 +150,7 @@ export const useEditor = create<EditorStore>((set, get) => ({
       future: [],
       lastChange: 0,
       untouchedSample: false,
+      loads: get().loads + 1,
     });
   },
 

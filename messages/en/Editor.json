@@ -69,7 +69,9 @@
     "addExtra": "Add detail",
     "extraLabel": "Label",
     "extraValue": "Value",
-    "deleteExtra": "Remove detail"
+    "deleteExtra": "Remove detail",
+    "links": "Links",
+    "linksHint": "LinkedIn, website, GitHub"
   },
   "sections": {
     "summary": "Summary",
@@ -135,7 +137,7 @@
       "role": "Your role",
       "start": "Start",
       "end": "End",
-      "technologies": "Technologies",
+      "technologies": "Tools and technologies",
       "link": "Link",
       "description": "Short description",
       "bullets": "Highlights"
@@ -175,7 +177,7 @@
   "placeholders": {
     "personal": {
       "name": "Full Name",
-      "title": "Software Engineer",
+      "title": "Accountant",
       "email": "name@example.com",
       "phone": "+44 7700 900000",
       "location": "London, UK",
@@ -184,7 +186,7 @@
       "web": "example.com"
     },
     "experience": {
-      "position": "Software Developer",
+      "position": "Sales Representative",
       "company": "Company name",
       "location": "London",
       "start": "Dec 2022",
@@ -194,21 +196,21 @@
     },
     "projects": {
       "name": "Project name",
-      "role": "Founding developer",
+      "role": "Project lead",
       "start": "Jan 2026",
       "end": "",
-      "technologies": "React, Node.js, PostgreSQL",
-      "link": "github.com/username/project",
+      "technologies": "Excel, Canva, Trello",
+      "link": "example.com/project",
       "description": "",
       "bullets": ""
     },
     "skills": {
-      "category": "Backend",
-      "items": "Node.js, PostgreSQL, REST APIs"
+      "category": "Tools",
+      "items": "Excel, SAP, Canva"
     },
     "education": {
       "school": "University name",
-      "field": "Computer Science",
+      "field": "Business Administration",
       "degree": "BSc",
       "start": "Sep 2018",
       "end": "Jun 2022",
@@ -217,7 +219,7 @@
       "description": ""
     },
     "certifications": {
-      "name": "AWS Certified Developer",
+      "name": "First Aid Certificate",
       "issuer": "Issuer",
       "date": "Oct 2022",
       "link": "https://…"
@@ -228,7 +230,7 @@
     },
     "references": {
       "name": "Full Name",
-      "title": "Engineering Manager",
+      "title": "Department Manager",
       "company": "Company",
       "phone": "+44 …",
       "email": "name@company.com"
