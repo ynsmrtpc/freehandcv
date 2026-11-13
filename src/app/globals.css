@@ -166,18 +166,9 @@
 }
 
 /*
- * Hero preview (HeroPreview.tsx): floating badges bob on the compositor (translate only), and the
- * resume previews cross-fade with opacity + a slight scale, so nothing re-lays out while they move.
+ * Hero preview (HeroPreview.tsx): the resume previews cross-fade with opacity + a slight scale,
+ * so nothing re-lays out while they move.
  */
-@keyframes float {
-  50% {
-    translate: 0 var(--float, -6px);
-  }
-}
-.float {
-  animation: float var(--duration, 5s) ease-in-out var(--delay, 0s) infinite;
-  will-change: translate;
-}
 .hero-slide {
   transition:
     opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
@@ -213,8 +204,7 @@
     scroll-behavior: auto;
   }
   .reveal-on-load,
-  .reveal-on-scroll,
-  .float {
+  .reveal-on-scroll {
     animation: none;
   }
   .hero-slide {

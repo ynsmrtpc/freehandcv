@@ -91,7 +91,7 @@ export function SiteHeader({ showExamples = false, showGuides = false }: { showE
           <LanguageSwitcher className="hidden sm:flex" />
           <ThemeToggle />
           <UserMenu />
-          <Link href="/create-resume" className={buttonClass("primary", "sm", "ms-2 hidden sm:inline-flex")}>
+          <Link href="/create-resume" className={buttonClass("secondary", "sm", "ms-2 hidden sm:inline-flex")}>
             {t("createResume")}
           </Link>
           <button

@@ -12,12 +12,10 @@ type Props = {
   locale: "tr" | "en";
   names: Record<TemplateId, string>;
   labels: { template: string; atsFriendly: string; pdfReady: string; checksPassed: string };
-  /** Short promise stamped on the paper's corner (e.g. "100% free · no sign-up"). */
-  stamp?: string;
 };
 
 /** The real resume paper, cycling through templates on its own; the row below also selects one. */
-export function HeroPreview({ locale, names, labels, stamp }: Props) {
+export function HeroPreview({ locale, names, labels }: Props) {
   const { index, previous, mounted, show, pauseProps } = usePaperStack(FEATURED_TEMPLATES.length, INTERVAL_MS);
 
   return (
@@ -32,12 +30,6 @@ export function HeroPreview({ locale, names, labels, stamp }: Props) {
         }))}
       />
 
-      {/* An approval stamp pressed onto the paper's corner. */}
-      {stamp && (
-        <p className="absolute end-3 top-[58%] z-10 max-w-[11rem] -rotate-[7deg] rounded-md border-2 border-accent bg-paper/90 px-3 py-1.5 text-center text-sm leading-snug font-extrabold tracking-wide text-accent outline outline-1 outline-offset-2 outline-accent/60 sm:-end-6">
-          {stamp}
-        </p>
-      )}
 
       {/* Template switcher: ruled boxes like a form; wraps to a second row instead of scrolling. */}
       <div

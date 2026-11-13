@@ -6,20 +6,20 @@ import { cn } from "@/lib/cn";
 import { categorySlug, EXAMPLE_CATEGORIES } from "@/lib/examples";
 import type { ExampleSummary } from "@/server/content/examples";
 
-// Shared pieces of the example pages (plan 6.2): cards and category links.
+// Shared pieces of the example pages (plan 6.2): a ruled register of examples and category links.
 
 export function ExampleCards({ items }: { items: ExampleSummary[] }) {
   const t = useTranslations("Examples");
   return (
-    <ul className="grid gap-3 sm:grid-cols-2">
+    <ul className="grid border-t border-border lg:grid-cols-2 lg:gap-x-10">
       {items.map((e) => (
-        <li key={e.slug}>
+        <li key={e.slug} className="border-b border-border">
           <Link
             href={{ pathname: "/resume-examples/[slug]", params: { slug: e.slug } }}
-            className="group flex h-full items-center justify-between gap-4 rounded-lg border border-border bg-surface p-5 transition-colors hover:border-primary"
+            className="group flex h-full min-h-14 items-center justify-between gap-4 py-3.5 transition-colors hover:text-primary-text"
           >
             <span className="min-w-0">
-              <span className="block text-base leading-snug font-semibold text-foreground">{e.title}</span>
+              <span className="block text-base leading-snug font-semibold text-foreground group-hover:text-primary-text">{e.title}</span>
               <span className="mt-0.5 block text-sm text-muted">
                 {t(`categories.${e.category}.name` as never)}
                 {e.experienceLevel && ` · ${t(`levels.${e.experienceLevel}` as never)}`}

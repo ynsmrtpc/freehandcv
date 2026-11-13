@@ -21,6 +21,6 @@ STORY: visitor sees a real CV and plain statements of what is free; believes the
 
 FIRST VIEWPORT: left, h1 with the key word underlined in ink stroke; one plain sentence; one ink primary CTA plus a quiet secondary; three ruled "no card / no watermark / no trial" lines with ink ticks. Right, the real resume paper on the desk with a template switcher as a ruled segmented row. No badge, no glow, no chips.
 
-FORM: user-pinned (critique options: B skeleton + A paper), position 1. seed: none (unavailable)
+FORM: user-pinned (critique options: B skeleton + A paper), position 1. seed: none (no concept-seed roll; the user pinned this direction on 2026-11-12 by choosing "Net iskelet + kâğıt" in the critique questions)
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

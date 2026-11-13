@@ -95,7 +95,7 @@ export function StackShowcase({ content, side }: { content: StackShowcaseContent
               type="button"
               aria-label={content.labels.previous}
               onClick={() => show(index - 1)}
-              className="grid size-9 shrink-0 place-items-center rounded-full border border-border bg-surface text-foreground hover:bg-surface-2"
+              className="grid size-11 shrink-0 place-items-center rounded-md border border-border bg-surface text-foreground hover:bg-surface-2 pointer-fine:size-9"
             >
               <ChevronLeft className="size-4 rtl:rotate-180" aria-hidden />
             </button>
@@ -107,8 +107,8 @@ export function StackShowcase({ content, side }: { content: StackShowcaseContent
                   aria-pressed={i === index}
                   onClick={() => show(i)}
                   className={cn(
-                    "h-9 rounded-full px-3.5 text-xs font-semibold transition-colors duration-200",
-                    i === index ? "bg-primary text-white" : "text-muted hover:bg-surface-2 hover:text-foreground",
+                    "min-h-11 rounded-md border px-3.5 text-sm font-semibold transition-colors duration-200 pointer-fine:min-h-9",
+                    i === index ? "border-primary bg-primary-soft text-primary-text" : "border-transparent text-muted hover:bg-surface-2 hover:text-foreground",
                   )}
                 >
                   {it.name}
@@ -119,7 +119,7 @@ export function StackShowcase({ content, side }: { content: StackShowcaseContent
               type="button"
               aria-label={content.labels.next}
               onClick={() => show(index + 1)}
-              className="grid size-9 shrink-0 place-items-center rounded-full border border-border bg-surface text-foreground hover:bg-surface-2"
+              className="grid size-11 shrink-0 place-items-center rounded-md border border-border bg-surface text-foreground hover:bg-surface-2 pointer-fine:size-9"
             >
               <ChevronRight className="size-4 rtl:rotate-180" aria-hidden />
             </button>

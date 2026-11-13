@@ -17,10 +17,10 @@ export function Comparison({ content }: { content: ComparisonContent }) {
   return (
     <Section>
       <SectionHeader eyebrow={content.eyebrow} title={content.title} description={content.description} />
-      {/* The table does not fit on narrow screens: each row becomes a card. */}
-      <Reveal className="mx-auto mt-12 max-w-3xl space-y-3 sm:hidden">
+      {/* The table does not fit on narrow screens: each row becomes a ruled entry. */}
+      <Reveal className="mx-auto mt-12 max-w-3xl border-t border-border sm:hidden">
         {content.rows.map((row) => (
-          <div key={row.feature} className="rounded-2xl border border-border bg-surface p-4 shadow-card">
+          <div key={row.feature} className="border-b border-border py-4">
             <p className="font-semibold text-foreground">{row.feature}</p>
             <p className="mt-3 flex items-start gap-2 text-sm text-muted">
               <X className="mt-0.5 size-4 shrink-0 text-danger" strokeWidth={2.5} aria-hidden />
@@ -40,7 +40,7 @@ export function Comparison({ content }: { content: ComparisonContent }) {
         ))}
       </Reveal>
       <Reveal className="mx-auto mt-14 hidden max-w-3xl sm:block">
-        <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-card">
+        <div className="border-y border-border-strong">
           <table className="w-full border-collapse text-start text-[15px]">
             <caption className="sr-only">{content.title}</caption>
             <thead>

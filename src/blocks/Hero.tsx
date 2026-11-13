@@ -21,8 +21,8 @@ export type HeroContent = {
 };
 
 // The title (LCP element) renders without animation; only supporting elements reveal.
-// Composition: the statement on the left, the real resume paper lying on the desk on the right;
-// the badge is stamped on the paper rather than floating above the heading.
+// Composition: the statement on the left, the real resume paper lying on the desk on the right.
+// The CMS badge is stored but not rendered: the ruled, ticked lines already make that promise.
 export function Hero({ content }: { content: HeroContent }) {
   return (
     <section className="overflow-x-clip px-4 pt-8 pb-16 sm:px-6 sm:pt-14 lg:pb-24">
@@ -72,7 +72,7 @@ export function Hero({ content }: { content: HeroContent }) {
         </div>
 
         <Reveal mode="load" delay={0.12} className="px-2 sm:px-10 lg:px-0">
-          <HeroPreview {...content.preview} stamp={content.badge} />
+          <HeroPreview {...content.preview} />
         </Reveal>
       </div>
     </section>

@@ -8,6 +8,11 @@
         "value": "arial",
         "createdAt": "2026-11-12T11:40:28.767Z",
         "reason": "Claude: email HTML needs an email-safe font stack; web fonts do not load reliably in mail clients (src/server/passwordReset.ts)"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "arial",
+        "createdAt": "2026-11-13T06:30:42.807Z"
       }
     ]
   }

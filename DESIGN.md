@@ -146,6 +146,16 @@ The document's own content and publishing state remain in the CMS. Catalogue int
 the same title scale within their 72rem container. Account navigation includes resumes, templates,
 and the account page.
 
+### Landing and Catalogues
+The landing is Persuade mode but keeps the form skeleton. The hero holds the page's only filled
+primary action; the site header link and the closing section use the secondary button. The hero
+has no badges, stamps, chips, or glow: its promises are ruled lines with ink ticks. Selectors
+(hero template switcher, example and template showcases, catalogue filters) use bordered boxes with
+the soft-ink tint for the selected item, never filled blue pills. The closing section is a form-end
+row: a 2px graphite rule above the heading, text on the desk, no coloured slab. Comparisons and long
+lists are ruled rows rather than cards: the example index is a register of hairline-separated rows,
+two columns from 1024px.
+
 ### Confirmations
 Use `useConfirm()` for destructive or content-replacing operations. `ConfirmProvider` renders a
 translated, theme-aware alert dialog with the affected item in its message. Deletion uses a red
@@ -163,5 +173,7 @@ closing returns focus to the trigger. Browser `confirm()` and `alert()` are not 
 - **Don't** hide essential actions behind hover.
 - **Don't** substitute decorative imagery for real resume previews.
 - **Don't** add gradients, floating statistics, or invented product claims.
+- **Don't** put a primary-filled block or a second filled primary on a page that already has one.
+- **Don't** place icons inside tinted tiles; an icon sits inline with its label or not at all.
 
 Validation and remaining release work are recorded in `docs/WORK-STATUS.md`.
