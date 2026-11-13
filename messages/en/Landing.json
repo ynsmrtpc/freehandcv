@@ -19,39 +19,32 @@
   "comparison": {
     "eyebrow": "Is it really free?",
     "title": "Free to build. Free to download.",
-    "description": "Most resume sites let you work in the editor for an hour, then ask for a card when you try to download. We don’t. Ever.",
+    "description": "No account, no card details, no subscription. Downloading the PDF is always free.",
     "featureHeader": "Feature",
-    "othersHeader": "Elsewhere",
     "usHeader": "On FreehandCV",
     "rows": [
       {
         "feature": "PDF download",
-        "others": "Paid subscription",
         "us": "Free, unlimited"
       },
       {
         "feature": "Watermark",
-        "others": "On the free plan",
         "us": "Never"
       },
       {
         "feature": "Credit card",
-        "others": "Required for a trial",
         "us": "Never asked"
       },
       {
         "feature": "Charges after trial",
-        "others": "Auto-renewing",
         "us": "No trial, no charge"
       },
       {
         "feature": "Number of resumes",
-        "others": "Usually 1",
         "us": "Up to 100"
       },
       {
         "feature": "Version history",
-        "others": "Paid plans only",
         "us": "For everyone"
       }
     ]

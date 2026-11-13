@@ -89,10 +89,9 @@ export const BLOCK_SCHEMAS = {
     ...sectionHeading,
     description: longText("Açıklama"),
     featureHeader: text("1. sütun başlığı"),
-    othersHeader: text("2. sütun başlığı (diğer siteler)"),
-    usHeader: text("3. sütun başlığı (biz)"),
+    usHeader: text("2. sütun başlığı (FreehandCV)"),
     rows: m(
-      z.array(z.object({ feature: text("Özellik"), others: text("Diğer sitelerde"), us: text("Bizde") })).max(12),
+      z.array(z.object({ feature: text("Özellik"), us: text("FreehandCV'de") })).max(12),
       { label: "Satırlar", summaryField: "feature" },
     ),
   }),

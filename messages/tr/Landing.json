@@ -19,39 +19,32 @@
   "comparison": {
     "eyebrow": "Gerçekten ücretsiz mi?",
     "title": "Oluşturmak ücretsiz, indirmek de ücretsiz.",
-    "description": "Çoğu CV sitesi seni editörde bir saat çalıştırır, PDF indirmek istediğinde kart ister. Burada istemeyiz. Hiçbir zaman.",
+    "description": "Hesap açman, kart bilgisi girmen ya da abone olman gerekmez. PDF indirmek her zaman ücretsiz.",
     "featureHeader": "Özellik",
-    "othersHeader": "Diğer sitelerde",
     "usHeader": "FreehandCV'de",
     "rows": [
       {
         "feature": "PDF indirme",
-        "others": "Ücretli abonelik",
         "us": "Ücretsiz, sınırsız"
       },
       {
         "feature": "Filigran",
-        "others": "Ücretsiz planda var",
         "us": "Hiçbir zaman"
       },
       {
         "feature": "Kredi kartı",
-        "others": "Deneme için istenir",
         "us": "İstenmez"
       },
       {
         "feature": "Deneme sonrası ücret",
-        "others": "Otomatik yenilenir",
         "us": "Deneme yok, ücret yok"
       },
       {
         "feature": "CV sayısı",
-        "others": "Genelde 1",
         "us": "100'e kadar"
       },
       {
         "feature": "Sürüm geçmişi",
-        "others": "Ücretli planda",
         "us": "Herkese açık"
       }
     ]
