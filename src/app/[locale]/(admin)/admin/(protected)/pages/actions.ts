@@ -12,6 +12,9 @@ import {
   VersionConflictError,
   saveDraft,
   publishPage,
+  unpublishPages,
+  deletePages,
+  HomePageError,
 } from "@/server/content/pages";
 import { AuthorizationError, requireAdmin } from "@/server/authz";
 
@@ -78,5 +81,55 @@ export async function restoreVersionAction(versionId: string): Promise<ActionRes
     return { ok: true };
   } catch (error) {
     return errorResult(error);
+  }
+}
+
+type BulkResult = { ok: true; message?: string } | { ok: false; error: string };
+const idList = z.array(z.uuid()).min(1).max(200);
+
+function bulkError(error: unknown): BulkResult {
+  if (error instanceof HomePageError) return { ok: false, error: "Ana sayfa (landing) yayından kaldırılamaz ve silinemez." };
+  const r = errorResult(error);
+  return r.ok ? { ok: false, error: "Beklenmeyen bir hata oluştu." } : { ok: false, error: r.error };
+}
+
+export async function publishPagesAction(ids: string[]): Promise<BulkResult> {
+  try {
+    const user = await requireAdmin();
+    const list = idList.parse(ids);
+    for (const id of list) {
+      const { locale, slug } = await publishPage(id, user.id);
+      updateTag(pageTag(locale, slug));
+    }
+    updateTag(PUBLISHED_PAGES_TAG);
+    return { ok: true, message: `${list.length} sayfa yayınlandı.` };
+  } catch (error) {
+    return bulkError(error);
+  }
+}
+
+export async function unpublishPagesAction(ids: string[]): Promise<BulkResult> {
+  try {
+    const user = await requireAdmin();
+    const rows = await unpublishPages(idList.parse(ids), user.id);
+    for (const r of rows) updateTag(pageTag(r.locale, r.slug));
+    updateTag(PUBLISHED_PAGES_TAG);
+    return { ok: true, message: rows.length ? `${rows.length} sayfa yayından kaldırıldı.` : "Seçilenlerin hiçbiri yayında değildi." };
+  } catch (error) {
+    return bulkError(error);
+  }
+}
+
+export async function deletePagesAction(ids: string[]): Promise<BulkResult> {
+  try {
+    // Deleting is admin-only; editors can unpublish.
+    const user = await requireAdmin(["admin"]);
+    const rows = await deletePages(idList.parse(ids), user.id);
+    for (const r of rows) updateTag(pageTag(r.locale, r.slug));
+    updateTag(PUBLISHED_PAGES_TAG);
+    return { ok: true, message: `${rows.length} sayfa silindi.` };
+  } catch (error) {
+    if (error instanceof AuthorizationError) return { ok: false, error: "Sayfaları yalnız yöneticiler silebilir." };
+    return bulkError(error);
   }
 }

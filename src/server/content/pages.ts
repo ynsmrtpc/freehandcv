@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { blockListSchema, type Block } from "@/lib/blocks";
 import { migrateLegacyBlocks } from "@/lib/legacyContent";
@@ -268,4 +268,35 @@ export async function listAuditLog(limit = 100) {
     .leftJoin(user, eq(user.id, auditLog.userId))
     .orderBy(desc(auditLog.createdAt))
     .limit(limit);
+}
+
+export class HomePageError extends Error {}
+
+/** Takes pages off the site (the draft stays). Returns locale/slug pairs for the cache tags. */
+export async function unpublishPages(ids: string[], userId: string) {
+  return db.transaction(async (tx) => {
+    const rows = await tx
+      .update(pages)
+      .set({ publishedBlocks: null, status: "draft", updatedById: userId })
+      .where(and(inArray(pages.id, ids), eq(pages.status, "published")))
+      .returning({ id: pages.id, locale: pages.locale, slug: pages.slug });
+    if (rows.some((r) => r.slug === HOME_SLUG)) throw new HomePageError();
+    if (rows.length)
+      await tx.insert(auditLog).values(rows.map((r) => ({ userId, action: "unpublish_page", targetType: "page", targetId: r.id })));
+    return rows;
+  });
+}
+
+/** Deletes pages and their version history. The landing page cannot be deleted. */
+export async function deletePages(ids: string[], userId: string) {
+  return db.transaction(async (tx) => {
+    const rows = await tx.select({ id: pages.id, locale: pages.locale, slug: pages.slug, title: pages.title }).from(pages).where(inArray(pages.id, ids));
+    if (rows.some((r) => r.slug === HOME_SLUG)) throw new HomePageError();
+    await tx.delete(pages).where(inArray(pages.id, ids));
+    if (rows.length)
+      await tx
+        .insert(auditLog)
+        .values(rows.map((r) => ({ userId, action: "delete_page", targetType: "page", targetId: r.id, before: { slug: r.slug, locale: r.locale, title: r.title } })));
+    return rows;
+  });
 }

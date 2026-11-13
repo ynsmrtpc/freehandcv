@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, desc, eq, ne, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, ne, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { EMPTY_GUIDE, exampleGuideSchema, type ExampleGuide } from "@/lib/examples";
 import { normalizeResume, type ResumeData } from "@/lib/resume/schema";
@@ -278,5 +278,43 @@ export async function setExampleActive(id: string, active: boolean, actorId: str
       });
     }
     return before;
+  });
+}
+
+/** Publishes or unpublishes several examples. Returns locale/slug pairs for the cache tags. */
+export async function setExamplesActive(ids: string[], active: boolean, actorId: string) {
+  return db.transaction(async (tx) => {
+    const rows = await tx
+      .update(exampleResumes)
+      .set({ active })
+      .where(and(inArray(exampleResumes.id, ids), ne(exampleResumes.active, active)))
+      .returning({ id: exampleResumes.id, locale: exampleResumes.locale, slug: exampleResumes.slug });
+    if (rows.length)
+      await tx.insert(auditLog).values(
+        rows.map((r) => ({
+          userId: actorId,
+          action: active ? "publish_example" : "unpublish_example",
+          targetType: "example_resume",
+          targetId: r.id,
+          before: { active: !active },
+          after: { active },
+        })),
+      );
+    return rows;
+  });
+}
+
+/** Deletes examples. Resumes started from one keep their content (the source link is cleared). */
+export async function deleteExamples(ids: string[], actorId: string) {
+  return db.transaction(async (tx) => {
+    const rows = await tx
+      .delete(exampleResumes)
+      .where(inArray(exampleResumes.id, ids))
+      .returning({ id: exampleResumes.id, locale: exampleResumes.locale, slug: exampleResumes.slug, title: exampleResumes.title });
+    if (rows.length)
+      await tx.insert(auditLog).values(
+        rows.map((r) => ({ userId: actorId, action: "delete_example", targetType: "example_resume", targetId: r.id, before: { slug: r.slug, locale: r.locale, title: r.title } })),
+      );
+    return rows;
   });
 }

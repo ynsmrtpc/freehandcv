@@ -14,6 +14,8 @@ import {
   ExampleSlugLockedError,
   ExampleSlugTakenError,
   setExampleActive,
+  setExamplesActive,
+  deleteExamples,
   updateExampleMeta,
 } from "@/server/content/examples";
 
@@ -77,5 +79,44 @@ export async function setExampleActiveAction(id: string, active: boolean): Promi
     return { ok: true };
   } catch (error) {
     return errorResult(error);
+  }
+}
+
+type BulkResult = { ok: true; message?: string } | { ok: false; error: string };
+const idList = z.array(z.uuid()).min(1).max(500);
+
+async function setActive(ids: string[], active: boolean): Promise<BulkResult> {
+  try {
+    const user = await requireAdmin();
+    const rows = await setExamplesActive(idList.parse(ids), active, user.id);
+    for (const r of rows) updateTag(exampleTag(r.locale, r.slug));
+    updateTag(EXAMPLES_TAG);
+    const verb = active ? "yayınlandı" : "yayından kaldırıldı";
+    return { ok: true, message: rows.length ? `${rows.length} örnek ${verb}.` : `Seçilenler zaten ${active ? "yayındaydı" : "taslaktaydı"}.` };
+  } catch (error) {
+    const r = errorResult(error);
+    return r.ok ? { ok: true } : r;
+  }
+}
+
+export async function publishExamplesAction(ids: string[]) {
+  return setActive(ids, true);
+}
+
+export async function unpublishExamplesAction(ids: string[]) {
+  return setActive(ids, false);
+}
+
+export async function deleteExamplesAction(ids: string[]): Promise<BulkResult> {
+  try {
+    const user = await requireAdmin(["admin"]);
+    const rows = await deleteExamples(idList.parse(ids), user.id);
+    for (const r of rows) updateTag(exampleTag(r.locale, r.slug));
+    updateTag(EXAMPLES_TAG);
+    return { ok: true, message: `${rows.length} örnek silindi.` };
+  } catch (error) {
+    if (error instanceof AuthorizationError) return { ok: false, error: "Örnekleri yalnız yöneticiler silebilir." };
+    const r = errorResult(error);
+    return r.ok ? { ok: true } : r;
   }
 }
