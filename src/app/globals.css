@@ -15,7 +15,8 @@
   --surface: #ffffff;
   --surface-2: #e9ebf0;
   --border: #d8dbe3;
-  --border-strong: #b4bac8;
+  /* Input and control outlines: at least 3:1 against surface (WCAG 1.4.11). */
+  --border-strong: #868d9e;
   --foreground: #15171d;
   --muted: #4a5062;
   --primary: #2536a8;
@@ -41,7 +42,7 @@
   --surface: #171a20;
   --surface-2: #20242c;
   --border: #2a2f39;
-  --border-strong: #3d4351;
+  --border-strong: #646c7e;
   --foreground: #eef0f5;
   --muted: #a8aec0;
   --primary: #4558d6;

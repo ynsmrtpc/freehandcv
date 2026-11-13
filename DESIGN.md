@@ -10,7 +10,7 @@ colors:
   foreground: "#15171d"
   muted: "#4a5062"
   border: "#d8dbe3"
-  border-strong: "#b4bac8"
+  border-strong: "#868d9e"
   accent: "#0e7244"
   warning: "#8a5200"
   danger: "#b42318"
