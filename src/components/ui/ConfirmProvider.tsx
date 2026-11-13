@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { createContext, useCallback, useContext, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { buttonClass } from "./Button";
 
-type Options = { danger?: boolean; confirmLabel?: string };
+type Options = { danger?: boolean; title?: string; confirmLabel?: string };
 type Confirm = (message: string, options?: Options) => Promise<boolean>;
 type Request = { message: string; options: Options; resolve: (confirmed: boolean) => void; trigger: HTMLElement | null };
 const ConfirmContext = createContext<Confirm | null>(null);
@@ -83,7 +83,7 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
         >
           <div className="flex items-center gap-3">
             {request.options.danger && <TriangleAlert className="size-5 shrink-0 text-danger" aria-hidden />}
-            <h2 id={`${id}-title`} className="text-xl font-bold">{t(request.options.danger ? "deleteTitle" : "title")}</h2>
+            <h2 id={`${id}-title`} className="text-xl font-bold">{request.options.title ?? t(request.options.danger ? "deleteTitle" : "title")}</h2>
           </div>
           <p id={`${id}-message`} className="mt-3 break-words text-base leading-relaxed text-muted">{request.message}</p>
           <div className="mt-6 flex flex-wrap justify-end gap-3">

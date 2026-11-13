@@ -117,9 +117,19 @@ export function TemplateEditor({
       if (layout === "top-band" && x.band === "none") x.band = "accent";
     });
 
-  const startFrom = (id: TemplateId) => {
+  // Loading a ready-made template overwrites every design setting; ask once the design has been touched.
+  const startFrom = async (id: TemplateId) => {
     const base = SYSTEM_TEMPLATE_LIST.find((s) => s.id === id);
-    if (base) setD(withDefaults(base.definition));
+    if (!base) return;
+    if (JSON.stringify(d) !== JSON.stringify(saved.definition) && !(await confirm(t("startFromConfirm")))) return;
+    setD(withDefaults(base.definition));
+  };
+
+  // beforeunload only covers reloads and closing the tab; in-app navigation asks here.
+  const leave = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!hasChanges || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+    event.preventDefault();
+    if (await confirm(t("leaveConfirm"), { danger: true, title: t("leaveTitle"), confirmLabel: t("leave") })) router.push("/dashboard/templates");
   };
 
   const save = async () => {
@@ -228,7 +238,7 @@ export function TemplateEditor({
   return (
     <div className="flex h-dvh flex-col bg-background">
       <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border bg-surface px-3 sm:px-4">
-        <Link href="/dashboard/templates" aria-label={t("back")} className="grid size-11 shrink-0 place-items-center rounded-lg text-muted hover:bg-surface-2 hover:text-foreground pointer-fine:size-9">
+        <Link href="/dashboard/templates" onClick={leave} aria-label={t("back")} className="grid size-11 shrink-0 place-items-center rounded-lg text-muted hover:bg-surface-2 hover:text-foreground pointer-fine:size-9">
           <ArrowLeft className="size-[18px]" />
         </Link>
         <Logo className="[&>span:last-child]:max-sm:hidden" />
@@ -287,7 +297,7 @@ export function TemplateEditor({
                 </Field>
                 <Field label={t("fields.startFrom")} hint={t("startFromHint")}>
                   {(id) => (
-                    <select id={id} className={selectClass} value="" onChange={(e) => startFrom(e.target.value as TemplateId)}>
+                    <select id={id} className={selectClass} value="" onChange={(e) => void startFrom(e.target.value as TemplateId)}>
                       <option value="">{t("startFromPlaceholder")}</option>
                       {SYSTEM_TEMPLATE_LIST.map((s) => (
                         <option key={s.id} value={s.id}>
