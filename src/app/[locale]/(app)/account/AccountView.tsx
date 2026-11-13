@@ -14,20 +14,28 @@ import { cn } from "@/lib/cn";
 import { normalizeUsername, USERNAME_MAX, usernameProblem } from "@/lib/username";
 
 const input =
-  "mt-1.5 block h-11 w-full rounded-xl border border-border-strong bg-surface px-3.5 text-base text-foreground outline-none transition-[border-color,box-shadow] focus:border-primary focus:ring-4 focus:ring-primary/15";
+  "mt-1.5 block h-11 w-full rounded-lg border border-border-strong bg-surface px-3 text-base font-normal text-foreground outline-none transition-[border-color,box-shadow] focus:border-primary focus:ring-4 focus:ring-primary/15";
+const label = "block text-[15px] font-semibold text-foreground";
+const hint = "mt-1.5 block text-sm font-normal text-muted";
 
+/**
+ * One row of the account form: title and explanation on the left, the fields on the right (stacked
+ * on phones). Rows share one sheet and are separated by hairline rules, like a paper form.
+ */
 function Section({ title, description, children, danger }: { title: string; description?: string; children: React.ReactNode; danger?: boolean }) {
   const headingId = useId();
   return (
     <section
-      className={cn("rounded-xl border bg-surface p-5 sm:p-6", danger ? "border-danger/30" : "border-border")}
+      className="grid gap-x-10 gap-y-4 border-b border-border px-5 py-7 last:border-0 sm:px-8 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)]"
       aria-labelledby={headingId}
     >
-      <h2 id={headingId} className={cn("text-lg font-bold", danger ? "text-danger" : "text-foreground")}>
-        {title}
-      </h2>
-      {description && <p className="mt-1 text-sm text-muted">{description}</p>}
-      <div className="mt-5">{children}</div>
+      <div>
+        <h2 id={headingId} className={cn("text-lg font-bold", danger ? "text-danger" : "text-foreground")}>
+          {title}
+        </h2>
+        {description && <p className="mt-1 text-[15px] leading-relaxed text-muted">{description}</p>}
+      </div>
+      <div className="min-w-0 max-w-xl">{children}</div>
     </section>
   );
 }
@@ -35,7 +43,7 @@ function Section({ title, description, children, danger }: { title: string; desc
 function Status({ text, error }: { text: string; error?: boolean }) {
   if (!text) return null;
   return (
-    <p role={error ? "alert" : "status"} className={cn("text-sm font-medium", error ? "text-danger" : "text-accent")}>
+    <p role={error ? "alert" : "status"} className={cn("text-[15px] font-medium", error ? "text-danger" : "text-accent")}>
       {text}
     </p>
   );
@@ -84,11 +92,12 @@ export function AccountView({
       </header>
       <DashboardNav current="account" />
 
-      <main className="mx-auto max-w-2xl space-y-6 px-4 py-10 sm:px-6">
-        <div>
+      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+        <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("title")}</h1>
           <p className="mt-1 break-all text-muted">{user.email}</p>
         </div>
+        <div className="rounded-lg border border-border bg-surface">
 
         <Section title={t("profile.title")}>
           <form
@@ -102,7 +111,7 @@ export function AccountView({
               if (r && !r.error) router.refresh();
             }}
           >
-            <label className="block text-sm font-semibold text-foreground">
+            <label className={label}>
               {t("profile.name")}
               <input className={input} value={name} maxLength={80} autoComplete="name" onChange={(e) => setName(e.target.value)} />
             </label>
@@ -115,7 +124,7 @@ export function AccountView({
             </div>
           </form>
           <form
-            className="mt-6 space-y-4 border-t border-border pt-6"
+            className="mt-7 space-y-4 border-t border-border pt-7"
             onSubmit={async (e) => {
               e.preventDefault();
               const value = normalizeUsername(username);
@@ -135,14 +144,14 @@ export function AccountView({
                 });
             }}
           >
-            <label className="block text-sm font-semibold text-foreground">
+            <label className={label}>
               {t("username.label")}
-              <span className="mt-1.5 flex items-center rounded-xl border border-border-strong bg-surface transition-[border-color,box-shadow] focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/15">
-                <span className="ps-3.5 text-base text-muted" aria-hidden>
+              <span className="mt-1.5 flex items-center rounded-lg border border-border-strong bg-surface transition-[border-color,box-shadow] focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/15">
+                <span className="ps-3 text-base font-normal text-muted" aria-hidden>
                   @
                 </span>
                 <input
-                  className="block h-11 w-full rounded-xl bg-transparent px-1 text-base text-foreground outline-none"
+                  className="block h-11 w-full rounded-lg bg-transparent px-1 text-base font-normal text-foreground outline-none"
                   value={username}
                   maxLength={USERNAME_MAX}
                   autoComplete="username"
@@ -151,7 +160,7 @@ export function AccountView({
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </span>
-              <span className="mt-1 block text-sm font-normal text-muted">{t("username.hint")}</span>
+              <span className={hint}>{t("username.hint")}</span>
             </label>
             <div className="flex flex-wrap items-center gap-3">
               <button type="submit" disabled={savingUsername} className={buttonClass("secondary", "sm")}>
@@ -182,7 +191,7 @@ export function AccountView({
                 } else setPwState({ text: t("password.failed"), error: true });
               }}
             >
-              <label className="block text-sm font-semibold text-foreground">
+              <label className={label}>
                 {t("password.current")}
                 <input
                   className={input}
@@ -193,7 +202,7 @@ export function AccountView({
                   required
                 />
               </label>
-              <label className="block text-sm font-semibold text-foreground">
+              <label className={label}>
                 {t("password.new")}
                 <input
                   className={input}
@@ -205,7 +214,7 @@ export function AccountView({
                   onChange={(e) => setNext(e.target.value)}
                   required
                 />
-                <span className="mt-1 block text-sm font-normal text-muted">{t("password.hint")}</span>
+                <span className={hint}>{t("password.hint")}</span>
               </label>
               <div className="flex flex-wrap items-center gap-3">
                 <button type="submit" disabled={savingPw} className={buttonClass("secondary", "sm")}>
@@ -245,7 +254,7 @@ export function AccountView({
                 setCloseState({ text: t(r?.ok === false && r.reason === "mismatch" ? "close.mismatch" : "error"), error: true });
               }}
             >
-              <label className="block text-sm font-semibold text-foreground">
+              <label className={label}>
                 {t("close.confirm", { email: user.email })}
                 <input
                   className={input}
@@ -270,6 +279,7 @@ export function AccountView({
             </form>
           )}
         </Section>
+        </div>
       </main>
     </div>
   );
