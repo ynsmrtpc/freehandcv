@@ -12,6 +12,9 @@ const url = (label: string) =>
     { label, display: "link" },
   );
 
+// Only the token itself (letters, digits, - and _), never a whole <meta> tag.
+const token = z.string().trim().max(100).regex(/^[\w-]*$/, "Yalnız kodu yapıştır (harf, rakam, - ve _)");
+
 export const globalSettingsSchema = z.object({
   contactEmail: m(z.union([z.literal(""), z.email("Geçerli bir e-posta gir")]), { label: "İletişim e-postası" }),
   social: m(
@@ -29,6 +32,14 @@ export const globalSettingsSchema = z.object({
       url: url("Bağış sayfası adresi"),
     }),
     { label: "Bağış", hint: "Buy Me a Coffee, GitHub Sponsors vb." },
+  ),
+  verification: m(
+    z.object({
+      google: m(token, { label: "Google Search Console", hint: "google-site-verification etiketindeki content değeri" }),
+      bing: m(token, { label: "Bing Webmaster Tools", hint: "msvalidate.01 etiketindeki content değeri" }),
+      yandex: m(token, { label: "Yandex Webmaster", hint: "yandex-verification etiketindeki content değeri" }),
+    }),
+    { label: "Arama motoru doğrulaması" },
   ),
 });
 
@@ -58,6 +69,7 @@ export const DEFAULT_GLOBAL_SETTINGS: GlobalSettings = {
   contactEmail: "",
   social: { linkedin: "", x: "", instagram: "", github: "" },
   donation: { enabled: false, url: "" },
+  verification: { google: "", bing: "", yandex: "" },
 };
 export const DEFAULT_LOCALE_SETTINGS: LocaleSettings = {
   announcement: { enabled: false, text: "", href: "" },

@@ -37,7 +37,7 @@ function move<T>(list: T[], i: number, direction: -1 | 1): T[] {
 
 function ErrorMessage({ error }: { error?: string }) {
   return error ? (
-    <p role="alert" className="mt-1 text-xs font-medium text-danger">
+    <p role="alert" className="mt-1 text-sm font-medium text-danger">
       {error}
     </p>
   ) : null;
@@ -81,7 +81,7 @@ export function SchemaForm({
     if (!m.label) return fields;
     return (
       <fieldset className="rounded-xl border border-border p-4">
-        <legend className="px-1.5 text-[13px] font-semibold text-foreground">{m.label}</legend>
+        <legend className="px-1.5 text-[15px] font-semibold text-foreground">{m.label}</legend>
         {fields}
       </fieldset>
     );
@@ -93,8 +93,8 @@ export function SchemaForm({
     const primitive = itemDefinition.type !== "object";
     return (
       <div>
-        <p className="mb-1.5 text-[13px] font-semibold text-foreground">{m.label}</p>
-        {m.hint && <p className="-mt-1 mb-2 text-xs text-muted">{m.hint}</p>}
+        <p className="mb-1.5 text-[15px] font-semibold text-foreground">{m.label}</p>
+        {m.hint && <p className="-mt-1 mb-2 text-sm text-muted">{m.hint}</p>}
         <div className="space-y-2">
           {list.map((item, i) =>
             primitive ? (
@@ -144,7 +144,7 @@ export function SchemaForm({
     const options = Object.values(def.entries ?? {});
     return (
       <div>
-        <label htmlFor={id} className="mb-1.5 block text-[13px] font-semibold text-foreground">
+        <label htmlFor={id} className="mb-1.5 block text-[15px] font-semibold text-foreground">
           {m.label}
         </label>
         <select
@@ -166,7 +166,7 @@ export function SchemaForm({
   // text
   return (
     <div>
-      <label htmlFor={id} className="mb-1.5 block text-[13px] font-semibold text-foreground">
+      <label htmlFor={id} className="mb-1.5 block text-[15px] font-semibold text-foreground">
         {m.label}
       </label>
       {m.display === "long" ? (
@@ -186,7 +186,7 @@ export function SchemaForm({
           onChange={(e) => onChange(e.target.value)}
         />
       )}
-      {m.hint && <p className="mt-1 text-xs text-muted">{m.hint}</p>}
+      {m.hint && <p className="mt-1 text-sm text-muted">{m.hint}</p>}
       <ErrorMessage error={error} />
     </div>
   );

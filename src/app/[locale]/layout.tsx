@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { ConfirmProvider } from "@/components/ui/ConfirmProvider";
 import { routing } from "@/i18n/routing";
 import { SITE_URL } from "@/lib/site";
+import { getSiteSettings } from "@/server/content/siteSettings";
 import "../globals.css";
 
 // Atkinson Hyperlegible Next: drawn for low-vision readers; many users read on small phones.
@@ -32,7 +33,8 @@ export async function generateMetadata({
 }: LayoutProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
-  const t = await getTranslations({ locale, namespace: "Meta" });
+  const [t, { global }] = await Promise.all([getTranslations({ locale, namespace: "Meta" }), getSiteSettings(locale)]);
+  const { google, bing, yandex } = global.verification;
   return {
     metadataBase: new URL(SITE_URL),
     title: { default: t("defaultTitle"), template: `%s | ${t("siteName")}` },
@@ -40,6 +42,12 @@ export async function generateMetadata({
     applicationName: t("siteName"),
     openGraph: { siteName: t("siteName"), type: "website", locale },
     twitter: { card: "summary_large_image" },
+    // Ownership tags for search consoles, entered in the admin panel (plan 7.3).
+    verification: {
+      google: google || undefined,
+      yandex: yandex || undefined,
+      other: bing ? { "msvalidate.01": bing } : undefined,
+    },
   };
 }
 
