@@ -7,5 +7,15 @@
   "resetExpiry": "Bağlantı {hours} saat geçerli ve yalnızca bir kez kullanılabilir.",
   "resetIgnore": "Bu isteği sen yapmadıysan bu e-postayı görmezden gelebilirsin; şifren değişmez.",
   "linkFallback": "Düğme çalışmazsa bu adresi tarayıcına yapıştır:",
-  "signature": "FreehandCV"
+  "signature": "FreehandCV",
+  "verifySubject": "FreehandCV e-posta adresini doğrula",
+  "verifyIntro": "FreehandCV hesabını oluşturduğun için teşekkürler. Hesabını açmak için e-posta adresini doğrula.",
+  "verifyButton": "E-postamı doğrula",
+  "verifyExpiry": "Bağlantı {hours} saat geçerli. Süresi geçerse giriş yapmayı denediğinde yenisini göndeririz.",
+  "verifyIgnore": "Bu hesabı sen açmadıysan bu e-postayı görmezden gelebilirsin; doğrulanmayan hesap kullanılamaz.",
+  "existingSubject": "FreehandCV hesabın zaten var",
+  "existingIntro": "Biri bu e-posta adresiyle yeni bir FreehandCV hesabı açmaya çalıştı. Bu adresle kayıtlı bir hesabın zaten var; giriş yapabilirsin.",
+  "existingButton": "Giriş yap",
+  "existingReset": "Şifreni hatırlamıyorsan buradan yenisini belirleyebilirsin: {url}",
+  "existingIgnore": "Bu denemeyi sen yapmadıysan bir şey yapmana gerek yok; hesabın değişmedi."
 }

@@ -663,8 +663,10 @@ tanımını okuyacak şekilde kurulmalı** — şablona özel `if` yazılmaz.
 
 - Şifreler Better Auth'un varsayılan özet algoritmasıyla saklanır; giriş ve kayıt uçlarında hız
   sınırlama.
-- E-posta doğrulaması gönderilir ama girişi engellemez (sürtünmeyi azaltmak için); şifre
-  sıfırlama yalnızca doğrulanmış e-postaya.
+- E-posta doğrulaması zorunlu: kayıttan sonra hesap, e-postadaki bağlantıyla açılır (13 Kasım
+  2026 kararı; önceki "girişi engellemez" kararının yerine). Doğrulanmamış girişte yeni bağlantı
+  gönderilir. Kayıtlı bir adresle yeniden kayıt denenirse form aynı yanıtı verir, hesap sahibine
+  e-posta gider (hesap varlığı sızmaz). Şifre sıfırlanınca bütün oturumlar kapanır.
 - Aydınlatma metni ve açık rıza kayıt ekranında; çerez bildirimi.
 - Fotoğraflar R2'de özel (public olmayan) tutulur, imzalı ve süreli URL ile sunulur.
 - CSP, `SameSite=Lax` httpOnly oturum çerezi, Server Action'larda Zod doğrulaması.
@@ -749,6 +751,7 @@ paylaşım" onayı (açık rıza) bu özelliğin temeli olur.
 | Diller | Çok dilli mimari ilk günden; ilk yayında Türkçe + İngilizce, ardından dalgalarla ~25 dile kadar (bölüm 8) |
 | Dağıtım (13 Kasım 2026) | Coolify'dan vazgeçildi; sunucu **aaPanel** ile yönetilir. Medya dosyaları R2 yerine **sunucudaki bir klasörde** tutulur (`MEDIA_DIR`) |
 | Yönetim paneli (13 Kasım 2026) | Baştan elden geçirilir: kullanıcı yönetimi (oluştur, düzenle, askıya al, şifre, sil), sayfa ve örneklerde toplu işlem, site ayarları, SSS, şablon moderasyonu, medya |
+| E-posta doğrulaması (13 Kasım 2026) | Zorunlu hale geldi; mevcut hesaplar doğrulanmış sayıldı (migration 0004). Öne çıkan topluluk şablonları `official` sütunuyla işaretlenir |
 
 ## 16. Açık sorular
 

@@ -10,7 +10,6 @@ import { cn } from "@/lib/cn";
 import { getPathname, Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { authClient, GOOGLE_CLIENT_ID } from "@/client/auth";
-import { setSharingAction } from "@/actions/sharing";
 import { GoogleLogo } from "./GoogleLogo";
 
 /** Return URL query parameter (public URL, kept as is). */
@@ -18,6 +17,10 @@ const RETURN_PARAM = "next";
 /** Set on the sign-in URL after a successful password reset (`?reset=done`). */
 export const RESET_DONE_PARAM = "reset";
 export const RESET_DONE_VALUE = "done";
+/** Sent with the sign-up's verification callback: the employer-sharing box was ticked (recorded in auth.ts). */
+const CONSENT_PARAM = "onay";
+/** Better Auth appends `?error=` to the verification callback when the link is invalid or expired. */
+const VERIFY_ERROR_PARAM = "error";
 
 /** Only relative in-site paths are followed (no open redirect). */
 function safeReturnPath(raw: string | null, fallback: string) {
@@ -35,22 +38,31 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
   const searchParams = useSearchParams();
   const returnTo = safeReturnPath(searchParams.get(RETURN_PARAM), getPathname({ href: "/dashboard", locale }));
   const session = authClient.useSession();
-  const [step, setStep] = useState<"form" | "code">("form");
+  const [step, setStep] = useState<"form" | "code" | "check-email">("form");
+  const [sentTo, setSentTo] = useState("");
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const signIn = mode === "sign-in";
 
-  // Already signed in: go straight to the target.
+  // Already signed in (also right after a verification link): go straight to the target.
   useEffect(() => {
     if (session.data) window.location.replace(returnTo);
   }, [session.data, returnTo]);
+
+  // Where the verification link lands: this sign-in page, which forwards to the return path.
+  const verifyCallback = (consent: boolean) => {
+    const q = new URLSearchParams({ [RETURN_PARAM]: returnTo });
+    if (consent) q.set(CONSENT_PARAM, "1");
+    return `${getPathname({ href: "/sign-in", locale })}?${q}`;
+  };
 
   const errorMessage = (code?: string, status?: number) => {
     if (status === 429) return t("errors.tooManyAttempts");
     if (code === "USER_ALREADY_EXISTS" || code === "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL") return t("errors.alreadyRegistered");
     if (code === "PASSWORD_TOO_SHORT") return t("errors.passwordTooShort");
     if (code === "ACCOUNT_SUSPENDED") return t("errors.suspended");
+    if (code === "EMAIL_NOT_VERIFIED") return t("errors.emailNotVerified");
     if (code === "INVALID_EMAIL_OR_PASSWORD" || code === "INVALID_EMAIL" || code === "INVALID_PASSWORD") return t("errors.invalidCredentials");
     return t("errors.generic");
   };
@@ -60,14 +72,20 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
     setError("");
     const email = String(form.get("email")).trim();
     const password = String(form.get("password"));
+    // Optional explicit consent: recorded only when the person ticked the box themselves.
+    const consent = form.get("employerConsent") === "on";
     const result = signIn
-      ? await authClient.signIn.email({ email, password })
-      : await authClient.signUp.email({ email, password, name: String(form.get("name") ?? "").trim() });
+      ? await authClient.signIn.email({ email, password, callbackURL: verifyCallback(false) })
+      : await authClient.signUp.email({ email, password, name: String(form.get("name") ?? "").trim(), callbackURL: verifyCallback(consent) });
     setPending(false);
     if (result.error) return setError(errorMessage(result.error.code, result.error.status));
     if (result.data && "twoFactorRedirect" in result.data && result.data.twoFactorRedirect) return setStep("code");
-    // Optional explicit consent: recorded only when the person ticked the box themselves.
-    if (!signIn && form.get("employerConsent") === "on") await setSharingAction(true, null, "sign_up");
+    // A new account opens only through the verification link (the answer is the same when the
+    // address is already registered, so nobody can probe for accounts).
+    if (!signIn) {
+      setSentTo(email);
+      return setStep("check-email");
+    }
     window.location.replace(returnTo);
   }
 
@@ -90,14 +108,25 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
         </div>
         <div className="rounded-xl border border-border bg-surface p-5 sm:p-8">
           <h1 className="text-center text-2xl font-bold tracking-tight text-foreground">
-            {signIn ? t("signInTitle") : t("signUpTitle")}
+            {step === "check-email" ? t("verifySentTitle") : signIn ? t("signInTitle") : t("signUpTitle")}
           </h1>
-          <p className="mt-2 text-center text-sm text-muted">{signIn ? t("signInSubtitle") : t("signUpSubtitle")}</p>
+          {step !== "check-email" && <p className="mt-2 text-center text-sm text-muted">{signIn ? t("signInSubtitle") : t("signUpSubtitle")}</p>}
           {signIn && searchParams.get(RESET_DONE_PARAM) === RESET_DONE_VALUE && step === "form" && (
             <SuccessMessage text={t("passwordResetDone")} className="mt-5" />
           )}
+          {signIn && searchParams.get(VERIFY_ERROR_PARAM) && step === "form" && (
+            <div className="mt-5">
+              <ErrorMessage text={t("verifyLinkInvalid")} />
+            </div>
+          )}
 
-          {step === "code" ? (
+          {step === "check-email" ? (
+            <div role="status" className="mt-5 space-y-3 text-[15px] leading-relaxed text-foreground">
+              <p>{t("verifySent", { email: sentTo })}</p>
+              <p className="text-muted">{t("verifyAfter")}</p>
+              <p className="text-sm text-muted">{t("verifySentNote")}</p>
+            </div>
+          ) : step === "code" ? (
             <form action={submitCode} className="mt-6 space-y-4">
               <p className="text-sm text-muted">{t("twoFactor")}</p>
               <label className="block text-sm font-semibold text-foreground">

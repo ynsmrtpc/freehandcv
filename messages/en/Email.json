@@ -7,5 +7,15 @@
   "resetExpiry": "{hours, plural, one {The link works for # hour} other {The link works for # hours}} and can be used only once.",
   "resetIgnore": "If you didn’t ask for this, you can ignore this email; your password stays the same.",
   "linkFallback": "If the button doesn’t work, paste this address into your browser:",
-  "signature": "FreehandCV"
+  "signature": "FreehandCV",
+  "verifySubject": "Verify your FreehandCV email address",
+  "verifyIntro": "Thanks for creating a FreehandCV account. Verify your email address to open it.",
+  "verifyButton": "Verify my email",
+  "verifyExpiry": "{hours, plural, one {The link works for # hour} other {The link works for # hours}}. If it expires, we send a new one when you try to sign in.",
+  "verifyIgnore": "If you didn’t create this account, you can ignore this email; an unverified account can’t be used.",
+  "existingSubject": "You already have a FreehandCV account",
+  "existingIntro": "Someone tried to create a new FreehandCV account with this email address. You already have an account with it, so you can just sign in.",
+  "existingButton": "Sign in",
+  "existingReset": "If you don’t remember your password, set a new one here: {url}",
+  "existingIgnore": "If this wasn’t you, there’s nothing to do; your account hasn’t changed."
 }

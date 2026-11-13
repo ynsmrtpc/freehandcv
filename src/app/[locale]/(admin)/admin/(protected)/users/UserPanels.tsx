@@ -41,7 +41,7 @@ export function ProfileForm({ id, name: initialName, email: initialEmail }: { id
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         autoComplete="off"
-        hint="Değiştirirsen adres doğrulanmamış sayılır."
+        hint="Değiştirirsen adres doğrulanmamış sayılır: kişi bir sonraki girişinde yeni adresine gelen bağlantıyla doğrulamadan giremez."
       />
       <InlineNotice notice={notice} />
       <button type="submit" disabled={!dirty || pending} className={buttonClass("secondary", "sm")}>

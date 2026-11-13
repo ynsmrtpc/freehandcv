@@ -6,7 +6,17 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { oneTap, twoFactor } from "better-auth/plugins";
 import { db } from "./db";
-import { RESET_TOKEN_EXPIRES_IN_SECONDS, sendPasswordResetEmail } from "./passwordReset";
+import { setSharing } from "./consents";
+import { hasLocale } from "next-intl";
+import { getPathname } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
+import {
+  RESET_TOKEN_EXPIRES_IN_SECONDS,
+  sendExistingAccountEmail,
+  sendPasswordResetEmail,
+  sendVerificationEmail,
+  VERIFY_TOKEN_EXPIRES_IN_SECONDS,
+} from "./authEmails";
 import { account, session, twoFactor as twoFactorTable, user, verification } from "./db/schema";
 
 // Google sign-in and One Tap ("Continue as Full Name") are enabled only when a client id is set.
@@ -21,11 +31,25 @@ export const auth = betterAuth({
     provider: "pg",
     schema: { user, session, account, verification, twoFactor: twoFactorTable },
   }),
-  // Sign-up requires only email and password; full name is optional (plan 1). Email verification
-  // does not block sign-in (plan 13) and is not sent yet. Password reset emails go out through
-  // Resend (src/server/email.ts); without RESEND_API_KEY the link is printed to the dev console.
+  // Sign-up requires only email and password; full name is optional (plan 1). The address must be
+  // verified before the first session (decided 13 Nov 2026, replacing plan 13's "does not block").
+  // Emails go out through Resend (src/server/email.ts); without RESEND_API_KEY the links are printed
+  // to the dev console.
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+    // Sign-up with a taken address answers like a new sign-up (no account enumeration); the owner
+    // gets an email instead. Not awaited, for the same timing reason as the reset email.
+    onExistingUserSignUp: async ({ user }) => {
+      const ui = (user as { uiLocale?: unknown }).uiLocale;
+      const locale = typeof ui === "string" && hasLocale(routing.locales, ui) ? ui : routing.defaultLocale;
+      const site = process.env.BETTER_AUTH_URL ?? "";
+      void sendExistingAccountEmail({
+        user,
+        signInUrl: site + getPathname({ href: "/sign-in", locale }),
+        resetUrl: site + getPathname({ href: "/reset-password", locale }),
+      }).catch((error) => console.error("[auth] existing-account email failed", error));
+    },
     minPasswordLength: 10,
     maxPasswordLength: 128,
     resetPasswordTokenExpiresIn: RESET_TOKEN_EXPIRES_IN_SECONDS,
@@ -36,6 +60,16 @@ export const auth = betterAuth({
     },
     // Someone resetting may have lost control of the account: sign out every device.
     revokeSessionsOnPasswordReset: true,
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    // An unverified sign-in attempt sends a fresh link (an expired one is the common case).
+    sendOnSignIn: true,
+    autoSignInAfterVerification: true,
+    expiresIn: VERIFY_TOKEN_EXPIRES_IN_SECONDS,
+    sendVerificationEmail: async ({ user, url }) => {
+      void sendVerificationEmail({ user, url }).catch((error) => console.error("[auth] verification email failed", error));
+    },
   },
   socialProviders: google ? { google: { ...google, prompt: "select_account" } } : {},
   account: {
@@ -56,6 +90,18 @@ export const auth = betterAuth({
   },
   // A suspended account cannot open a session by any sign-in method (email, Google, One Tap).
   databaseHooks: {
+    user: {
+      create: {
+        // Employer sharing ticked on the sign-up form (sent as `onay=1` in the verification callback,
+        // the one sign-up field Better Auth carries). Recorded with the account, before verification,
+        // so a later verification link without the flag cannot lose it.
+        after: async (created, ctx) => {
+          const callback = ctx?.path === "/sign-up/email" ? (ctx.body as { callbackURL?: unknown } | undefined)?.callbackURL : undefined;
+          if (typeof callback === "string" && new URL(callback, "http://x").searchParams.get("onay") === "1")
+            await setSharing(created.id, true, null, "sign_up");
+        },
+      },
+    },
     session: {
       create: {
         before: async (s) => {
@@ -79,6 +125,7 @@ export const auth = betterAuth({
       // Matches Better Auth's built-in rule, written out to keep it visible: 3 reset emails a minute per IP.
       "/request-password-reset": { window: 60, max: 3 },
       "/reset-password": { window: 60, max: 5 },
+      "/send-verification-email": { window: 60, max: 3 },
     },
   },
   plugins: [

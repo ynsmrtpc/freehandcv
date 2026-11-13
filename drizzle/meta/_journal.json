@@ -29,6 +29,13 @@
       "when": 1794557784937,
       "tag": "0003_user_suspension",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794569329409,
+      "tag": "0004_verify_existing_users",
+      "breakpoints": true
     }
   ]
 }

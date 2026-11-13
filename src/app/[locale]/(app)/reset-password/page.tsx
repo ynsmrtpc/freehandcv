@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ResetPasswordForm } from "@/components/account/ResetPasswordForm";
 import { routing } from "@/i18n/routing";
-import { RESET_TOKEN_EXPIRES_IN_SECONDS } from "@/server/passwordReset";
+import { RESET_TOKEN_EXPIRES_IN_SECONDS } from "@/server/authEmails";
 
 // Not indexed: the (app) layout sets robots noindex for every page in this group.
 export async function generateMetadata({ params }: PageProps<"/[locale]/reset-password">): Promise<Metadata> {
