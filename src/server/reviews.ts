@@ -65,7 +65,7 @@ export async function getApprovedReviews(): Promise<PublicReview[]> {
     return rows.filter((r) => r.body).map((r) => ({ ...r, name: publicName(r.name) }));
   } catch (error) {
     console.error("getApprovedReviews: database unreachable", error);
-    cacheLife("seconds");
+    cacheLife("minutes");
     return [];
   }
 }

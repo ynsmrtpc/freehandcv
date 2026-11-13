@@ -14,9 +14,15 @@ import { getProfile, getPublicTemplates } from "@/server/templates";
 // A template owner's public profile (plan 6.2 /kullanici/[kullanici-adi]): their public templates
 // only, never resumes. A profile without public templates is not indexed.
 
+/**
+ * Cache Components needs at least one param at build time, also when the database is unreachable or
+ * no template is public yet. The placeholder fails the username pattern, so it always renders a 404.
+ */
+const FALLBACK_USERNAME = "__placeholder__";
+
 export async function generateStaticParams() {
   const owners = new Set((await getPublicTemplates()).map((t) => t.ownerUsername).filter((u) => u !== null));
-  return [...owners].map((username) => ({ username }));
+  return owners.size ? [...owners].map((username) => ({ username })) : [{ username: FALLBACK_USERNAME }];
 }
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/users/[username]">): Promise<Metadata> {

@@ -29,7 +29,7 @@ export async function getPublishedPages(includeNoIndex = false): Promise<{ local
     return rows.map((p) => ({ ...p, updatedAt: p.updatedAt.toISOString() }));
   } catch (error) {
     console.error("getPublishedPages: database unreachable", error);
-    cacheLife("seconds");
+    cacheLife("minutes");
     return [];
   }
 }
@@ -66,7 +66,7 @@ export async function getPublishedPage(locale: string, slug: string): Promise<Pu
     return { ...p, blocks: await resolveFaqBlocks(parseBlocks(p.blocks), locale) };
   } catch (error) {
     console.error("getPublishedPage: database unreachable", error);
-    cacheLife("seconds");
+    cacheLife("minutes");
     return null;
   }
 }
@@ -100,7 +100,7 @@ export async function getPublishedGuides(): Promise<GuideSummary[]> {
     return rows.map((r) => ({ ...r, updatedAt: r.updatedAt.toISOString() }));
   } catch (error) {
     console.error("getPublishedGuides: database unreachable", error);
-    cacheLife("seconds");
+    cacheLife("minutes");
     return [];
   }
 }
@@ -126,7 +126,7 @@ export async function getPublishedGuide(locale: string, slug: string): Promise<(
     return { ...p, blocks: await resolveFaqBlocks(parseBlocks(p.blocks), locale), updatedAt: p.updatedAt.toISOString() };
   } catch (error) {
     console.error("getPublishedGuide: database unreachable", error);
-    cacheLife("seconds");
+    cacheLife("minutes");
     return null;
   }
 }

@@ -48,7 +48,7 @@ export async function getPublishedExamples(locale: string): Promise<ExampleSumma
     return rows.map((r) => ({ ...r, updatedAt: r.updatedAt.toISOString() }));
   } catch (error) {
     console.error("getPublishedExamples: database unreachable", error);
-    cacheLife("seconds");
+    cacheLife("minutes");
     return [];
   }
 }
@@ -91,7 +91,7 @@ export async function getShowcaseExamples(locale: string, limit: number): Promis
     }));
   } catch (error) {
     console.error("getShowcaseExamples: database unreachable", error);
-    cacheLife("seconds");
+    cacheLife("minutes");
     return [];
   }
 }
@@ -127,7 +127,7 @@ export async function getPublishedExample(locale: string, slug: string): Promise
     };
   } catch (error) {
     console.error("getPublishedExample: database unreachable", error);
-    cacheLife("seconds");
+    cacheLife("minutes");
     return null;
   }
 }

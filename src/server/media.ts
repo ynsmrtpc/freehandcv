@@ -10,7 +10,11 @@ import { auditLog, media, pages, siteSettings } from "./db/schema";
  * Uploaded files live in a folder on the server (aaPanel deployment; no object storage). The folder
  * must survive deploys: point MEDIA_DIR at a path outside the app directory (or a Docker volume).
  */
-export const MEDIA_DIR = path.resolve(process.env.MEDIA_DIR || path.join(process.cwd(), "storage", "media"));
+// The folder lives outside the build: file access below is marked turbopackIgnore so the standalone
+// output does not trace (and copy) the whole project.
+export const MEDIA_DIR = path.resolve(
+  /* turbopackIgnore: true */ process.env.MEDIA_DIR || path.join(/* turbopackIgnore: true */ process.cwd(), "storage", "media"),
+);
 export const MEDIA_URL_PREFIX = "/media/";
 export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
 
@@ -75,9 +79,9 @@ export async function saveUpload(file: File, altText: string, actorId: string) {
   if (!type || !EXT_BY_TYPE[type]) throw new MediaTypeError();
   const now = new Date();
   const key = `${now.getUTCFullYear()}/${String(now.getUTCMonth() + 1).padStart(2, "0")}/${randomUUID()}.${EXT_BY_TYPE[type]}`;
-  const target = path.join(MEDIA_DIR, key);
-  await mkdir(path.dirname(target), { recursive: true });
-  await writeFile(target, buf, { flag: "wx" });
+  const target = path.join(/* turbopackIgnore: true */ MEDIA_DIR, key);
+  await mkdir(/* turbopackIgnore: true */ path.dirname(target), { recursive: true });
+  await writeFile(/* turbopackIgnore: true */ target, buf, { flag: "wx" });
   const size = imageSize(buf);
   try {
     const [row] = await db
@@ -87,7 +91,7 @@ export async function saveUpload(file: File, altText: string, actorId: string) {
     await db.insert(auditLog).values({ userId: actorId, action: "upload_media", targetType: "media", targetId: row.id, after: { key, name: file.name } });
     return { id: row.id, key };
   } catch (error) {
-    await rm(target, { force: true });
+    await rm(/* turbopackIgnore: true */ target, { force: true });
     throw error;
   }
 }
@@ -95,10 +99,10 @@ export async function saveUpload(file: File, altText: string, actorId: string) {
 /** Resolves a public key to a file inside MEDIA_DIR; anything that escapes the folder is rejected. */
 export async function readMediaFile(key: string) {
   if (!/^\d{4}\/\d{2}\/[0-9a-f-]{36}\.(png|jpg|webp|gif|avif)$/.test(key)) return null;
-  const file = path.join(MEDIA_DIR, key);
+  const file = path.join(/* turbopackIgnore: true */ MEDIA_DIR, key);
   if (!file.startsWith(MEDIA_DIR + path.sep)) return null;
   try {
-    const [data, info] = await Promise.all([readFile(file), stat(file)]);
+    const [data, info] = await Promise.all([readFile(/* turbopackIgnore: true */ file), stat(/* turbopackIgnore: true */ file)]);
     return { data, type: MEDIA_TYPES[key.split(".").pop()!], modified: info.mtime };
   } catch {
     return null;
@@ -140,7 +144,7 @@ export async function updateAltText(id: string, altText: string, actorId: string
 
 export async function deleteMedia(ids: string[], actorId: string) {
   const rows = await db.delete(media).where(inArray(media.id, ids)).returning({ id: media.id, key: media.key });
-  await Promise.all(rows.map((r) => rm(path.join(MEDIA_DIR, r.key), { force: true })));
+  await Promise.all(rows.map((r) => rm(/* turbopackIgnore: true */ path.join(/* turbopackIgnore: true */ MEDIA_DIR, r.key), { force: true })));
   if (rows.length)
     await db.insert(auditLog).values(rows.map((r) => ({ userId: actorId, action: "delete_media", targetType: "media", targetId: r.id, before: { key: r.key } })));
   return rows.length;

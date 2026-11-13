@@ -35,7 +35,10 @@ export async function getSiteSettings(locale: string): Promise<{ global: GlobalS
     };
   } catch (error) {
     console.error("getSiteSettings: database unreachable", error);
-    cacheLife("seconds");
+    // Database fallbacks use "minutes", not "seconds": "seconds" is excluded from prerenders, so a
+    // build without a database (the Docker image) failed on content read outside <Suspense> (root
+    // layout metadata, Footer). "minutes" is prerendered and revalidates a minute later at runtime.
+    cacheLife("minutes");
     return { global: DEFAULT_GLOBAL_SETTINGS, localized: DEFAULT_LOCALE_SETTINGS };
   }
 }

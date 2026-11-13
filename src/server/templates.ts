@@ -353,7 +353,7 @@ export async function getPublicTemplates(): Promise<SharedTemplate[]> {
     return rows.map(toShared).filter((t) => t !== null);
   } catch (error) {
     console.error("getPublicTemplates: database unreachable", error);
-    cacheLife("seconds");
+    cacheLife("minutes");
     return [];
   }
 }
@@ -375,16 +375,23 @@ export async function getSharedTemplate(id: string): Promise<SharedTemplate | nu
 export async function getProfile(username: string) {
   "use cache";
   cacheTag(TEMPLATES_TAG);
-  const [owner] = await db.select({ id: user.id, username: user.username }).from(user).where(eq(user.username, username)).limit(1);
-  if (!owner) return null;
-  const rows = await db
-    .select(shared)
-    .from(templates)
-    .innerJoin(user, eq(user.id, templates.ownerId))
-    .where(and(eq(templates.ownerId, owner.id), visible("public")))
-    .orderBy(desc(templates.publishedAt))
-    .limit(TEMPLATE_MAX_COUNT);
-  return { username: owner.username!, templates: rows.map(toShared).filter((t) => t !== null) };
+  try {
+    const [owner] = await db.select({ id: user.id, username: user.username }).from(user).where(eq(user.username, username)).limit(1);
+    if (!owner) return null;
+    const rows = await db
+      .select(shared)
+      .from(templates)
+      .innerJoin(user, eq(user.id, templates.ownerId))
+      .where(and(eq(templates.ownerId, owner.id), visible("public")))
+      .orderBy(desc(templates.publishedAt))
+      .limit(TEMPLATE_MAX_COUNT);
+    return { username: owner.username!, templates: rows.map(toShared).filter((t) => t !== null) };
+  } catch (error) {
+    // No database during `next build` (e.g. the Docker image): the build-time placeholder renders a 404.
+    console.error("getProfile: database unreachable", error);
+    cacheLife("minutes");
+    return null;
+  }
 }
 
 export const REPORT_REASONS = ["inappropriate", "copyright", "spam", "other"] as const;

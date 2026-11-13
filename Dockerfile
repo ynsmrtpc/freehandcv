@@ -13,7 +13,10 @@ FROM base AS build
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN bun run build && bun run build:migrate
+# Better Auth rejects its default secret in production as soon as the module loads. Nothing is signed
+# during the build, so a throwaway value set for this command only keeps the log clean; it is not an
+# ENV, so it stays out of every layer and the runtime image. The real secret comes from the container env.
+RUN BETTER_AUTH_SECRET=build-only-placeholder-never-used-at-runtime-0000 bun run build && bun run build:migrate
 
 FROM node:24-alpine AS runtime
 WORKDIR /app

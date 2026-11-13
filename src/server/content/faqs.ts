@@ -42,7 +42,7 @@ export async function getFaqsByCategory(locale: string, category: string) {
     return rows.map((r) => ({ question: r.question, answer: answerText(r.answer) }));
   } catch (error) {
     console.error("getFaqsByCategory: database unreachable", error);
-    cacheLife("seconds");
+    cacheLife("minutes");
     return [];
   }
 }
