@@ -31,6 +31,9 @@ export const ACTION_LABELS: Record<string, string> = {
   unpublish_faq: "SSS sorusu gizlendi",
   delete_faq: "SSS sorusu silindi",
   import_faqs: "SSS soruları sayfalardan aktarıldı",
+  hide_template: "Şablon gizlendi",
+  restore_template: "Şablon yeniden açıldı",
+  dismiss_reports: "Şikâyetler kapatıldı",
 };
 
 const TARGET_LABELS: Record<string, string> = {
@@ -40,6 +43,7 @@ const TARGET_LABELS: Record<string, string> = {
   site_review: "Yorum",
   example_resume: "Örnek CV",
   faq: "SSS",
+  template: "Şablon",
 };
 
 type Row = {

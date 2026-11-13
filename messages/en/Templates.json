@@ -122,6 +122,22 @@
       "resume_limit": "You can have up to 100 resumes. Delete one to add another.",
       "username_required": "Choose a username first.",
       "error": "Something went wrong. Try again."
+    },
+    "report": {
+      "title": "Report this template",
+      "intro": "If it is inappropriate, someone else’s design or misleading, let our team know. The owner does not see your report.",
+      "reason": "Reason",
+      "reasons": {
+        "inappropriate": "Inappropriate content",
+        "copyright": "Someone else’s design or copyright",
+        "spam": "Spam or misleading",
+        "other": "Other"
+      },
+      "details": "Details (optional)",
+      "submit": "Send report",
+      "sent": "Thank you. Your report reached our team; we will review it and remove the template if needed.",
+      "signIn": "Sign in to report.",
+      "error": "Could not send. Try again in a moment."
     }
   },
   "profile": {

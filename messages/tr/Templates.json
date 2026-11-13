@@ -122,6 +122,22 @@
       "resume_limit": "En fazla 100 CV'n olabilir. Yenisi için birini sil.",
       "username_required": "Önce bir kullanıcı adı seçmelisin.",
       "error": "Bir sorun oluştu. Tekrar dene."
+    },
+    "report": {
+      "title": "Bu şablonu şikâyet et",
+      "intro": "Uygunsuz, başkasına ait ya da yanıltıcı bir şablonsa ekibimize bildir. Şikâyetin şablon sahibine gösterilmez.",
+      "reason": "Neden",
+      "reasons": {
+        "inappropriate": "Uygunsuz içerik",
+        "copyright": "Başkasına ait tasarım ya da telif",
+        "spam": "Spam ya da yanıltıcı",
+        "other": "Diğer"
+      },
+      "details": "Açıklama (isteğe bağlı)",
+      "submit": "Şikâyeti gönder",
+      "sent": "Teşekkürler. Şikâyetin ekibimize ulaştı; inceleyip gerekirse şablonu kaldıracağız.",
+      "signIn": "Şikâyet etmek için giriş yap.",
+      "error": "Gönderilemedi. Biraz sonra tekrar dene."
     }
   },
   "profile": {

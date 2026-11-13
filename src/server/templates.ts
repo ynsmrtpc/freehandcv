@@ -8,7 +8,7 @@ import { sampleResume } from "@/lib/resume/sample";
 import type { ResumeSettings } from "@/lib/resume/schema";
 import type { TemplateRef } from "@/lib/templates";
 import { db } from "./db";
-import { resumes, templateFavorites, templates, user } from "./db/schema";
+import { templateReports, resumes, templateFavorites, templates, user } from "./db/schema";
 import { createResume, getResume, saveResume } from "./resumes";
 
 // User templates (plan 11). Access is decided here, never on screen: a template id coming from the
@@ -382,4 +382,25 @@ export async function getProfile(username: string) {
     .orderBy(desc(templates.publishedAt))
     .limit(TEMPLATE_MAX_COUNT);
   return { username: owner.username!, templates: rows.map(toShared).filter((t) => t !== null) };
+}
+
+export const REPORT_REASONS = ["inappropriate", "copyright", "spam", "other"] as const;
+export type ReportReason = (typeof REPORT_REASONS)[number];
+
+/**
+ * A signed-in user reports a shared template (plan 11.5). One open report per person and template;
+ * reporting again is accepted silently. Own templates cannot be reported.
+ */
+export async function reportTemplate(userId: string, templateId: string, reason: ReportReason, details: string) {
+  const [t] = await db
+    .select({ ownerId: templates.ownerId })
+    .from(templates)
+    .where(and(eq(templates.id, templateId), visible("public", "unlisted")));
+  if (!t || t.ownerId === userId) throw new TemplateNotFoundError();
+  const [existing] = await db
+    .select({ id: templateReports.id })
+    .from(templateReports)
+    .where(and(eq(templateReports.templateId, templateId), eq(templateReports.userId, userId), eq(templateReports.status, "open")));
+  if (existing) return;
+  await db.insert(templateReports).values({ templateId, userId, reason, details: details.trim().slice(0, 1000) || null });
 }

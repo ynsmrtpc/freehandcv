@@ -8,6 +8,7 @@ import { DefinitionPreview } from "@/components/resume/TemplatePreview";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { itemFacts, itemSlug, TemplateCard, type GalleryItem } from "@/components/templates/TemplateCard";
 import { TemplateActions } from "@/components/templates/TemplateActions";
+import { ReportTemplate } from "@/components/templates/ReportTemplate";
 import { getPathname, Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { FONTS } from "@/lib/resume/design";
@@ -175,6 +176,7 @@ async function TemplatePage({ locale, item, all }: { locale: Locale; item: Galle
             </div>
           </dl>
           <p className="mt-6 text-sm leading-relaxed text-muted">{t(item.ats === 5 ? "atsFull" : "atsPartial")}</p>
+          {item.ref.kind === "user" && <ReportTemplate templateId={item.ref.id} />}
         </div>
 
         <div className="min-w-0 rounded-xl border border-border bg-desk p-3 sm:p-5">

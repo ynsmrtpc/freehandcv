@@ -13,6 +13,7 @@ export default async function Overview() {
 
   // What needs a person's attention, most actionable first. Empty items drop out.
   const todo = [
+    { n: o.openReports, text: "şablon şikâyeti inceleme bekliyor", href: "/admin/templates?durum=reported" },
     { n: o.unpublishedPages, text: "sayfada yayınlanmamış değişiklik var", href: "/admin/pages?durum=taslak" },
     { n: o.draftExamples, text: "örnek CV taslakta bekliyor", href: "/admin/examples?durum=taslak" },
     { n: o.pendingReviews, text: "yorum onay bekliyor", href: "/admin/reviews" },

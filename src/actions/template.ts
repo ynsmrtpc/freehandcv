@@ -26,6 +26,8 @@ import {
   TemplateNotFoundError,
   UsernameRequiredError,
   type TemplateSnapshot,
+  REPORT_REASONS,
+  reportTemplate,
 } from "@/server/templates";
 
 export type TemplateActionError =
@@ -170,4 +172,24 @@ export async function startWithTemplateAction(ref: unknown, locale: string, resu
       resumeId === undefined ? undefined : idSchema.parse(resumeId),
     ),
   }));
+}
+
+const reportSchema = z.object({
+  templateId: idSchema,
+  reason: z.enum(REPORT_REASONS),
+  details: z.string().max(1000),
+});
+
+/** Reports a shared template to the team (plan 11.5). */
+export async function reportTemplateAction(raw: unknown): Promise<TemplateActionResult> {
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: "unauthenticated" };
+  const input = reportSchema.safeParse(raw);
+  if (!input.success) return { ok: false, reason: "invalid" };
+  try {
+    await reportTemplate(userId, input.data.templateId, input.data.reason, input.data.details);
+    return { ok: true };
+  } catch (e) {
+    return toError(e);
+  }
 }
