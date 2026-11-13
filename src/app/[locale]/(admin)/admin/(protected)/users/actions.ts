@@ -4,6 +4,7 @@ import { z } from "zod";
 import { getPathname } from "@/i18n/navigation";
 import { auth } from "@/server/auth";
 import { roles } from "@/server/db/schema";
+import { emailConfigured } from "@/server/email";
 import {
   changeRole,
   createUser,
@@ -79,6 +80,14 @@ export async function sendResetLinkAction(id: string) {
     await auth.api.requestPasswordReset({
       body: { email, redirectTo: getPathname({ href: "/reset-password", locale: "tr" }) },
     });
+    if (!emailConfigured())
+      return {
+        ok: false,
+        error:
+          process.env.NODE_ENV === "production"
+            ? "E-posta gönderimi ayarlı değil (RESEND_API_KEY, EMAIL_FROM); bağlantı gönderilmedi. Bunun yerine yeni şifre belirleyebilirsin."
+            : "E-posta gönderimi ayarlı değil; bağlantı gönderilmedi, geliştirme sunucusunun terminaline yazıldı.",
+      };
     await logPasswordResetSent(id, actorId);
     return { ok: true, message: `Şifre sıfırlama bağlantısı ${email} adresine gönderildi.` };
   });

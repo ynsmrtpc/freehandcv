@@ -2,6 +2,9 @@ import "server-only";
 
 export type EmailMessage = { to: string; subject: string; text: string; html: string };
 
+/** Whether outgoing email is set up (Resend key and sender address). */
+export const emailConfigured = () => Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
+
 /**
  * Sends an email through the Resend HTTP API (plan: Resend for verification and password reset).
  * Without RESEND_API_KEY and EMAIL_FROM the message is not sent: in development it is printed to the
