@@ -65,3 +65,6 @@ desktop.ini
 .impeccable/build/
 .impeccable/mocks/
 .impeccable/config.local.json
+
+# Uploaded media (MEDIA_DIR default)
+/storage/

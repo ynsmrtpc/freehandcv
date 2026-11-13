@@ -34,6 +34,9 @@ export const ACTION_LABELS: Record<string, string> = {
   hide_template: "Şablon gizlendi",
   restore_template: "Şablon yeniden açıldı",
   dismiss_reports: "Şikâyetler kapatıldı",
+  upload_media: "Görsel yüklendi",
+  update_media: "Görsel bilgisi düzenlendi",
+  delete_media: "Görsel silindi",
 };
 
 const TARGET_LABELS: Record<string, string> = {
@@ -44,6 +47,7 @@ const TARGET_LABELS: Record<string, string> = {
   example_resume: "Örnek CV",
   faq: "SSS",
   template: "Şablon",
+  media: "Medya",
 };
 
 type Row = {
