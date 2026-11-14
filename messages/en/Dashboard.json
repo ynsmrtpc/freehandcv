@@ -48,5 +48,7 @@
       "under_review": "Under review after reports; not shown in the gallery",
       "hidden": "Hidden by an administrator"
     }
-  }
+  },
+  "wizard": "Create with the wizard",
+  "importResume": "Import a resume"
 }

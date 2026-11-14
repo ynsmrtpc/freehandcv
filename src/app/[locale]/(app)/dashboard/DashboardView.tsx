@@ -168,6 +168,10 @@ export function DashboardView({
           </div>
         </div>
 
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link href="/resume-wizard" className={buttonClass("secondary")}>{t("wizard")}</Link>
+          <Link href="/resume-import" className={buttonClass("ghost")}>{t("importResume")}</Link>
+        </div>
         {message && (
           <p
             role={message.kind === "error" ? "alert" : "status"}

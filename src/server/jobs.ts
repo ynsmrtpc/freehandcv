@@ -1,5 +1,7 @@
 import "server-only";
 import { purgeTrash } from "./account";
+import { purgeExpiredAiDrafts } from "./ai";
+import { runExtensionMaintenance } from "@/extensions/generated-maintenance";
 
 // Periodic maintenance, started from src/instrumentation.ts. One app instance runs (PM2 on aaPanel), so an
 // in-process timer is enough; with several instances the jobs stay safe (they are idempotent deletes).
@@ -10,6 +12,8 @@ const globalForJobs = globalThis as unknown as { jobsStarted?: boolean };
 async function runPurge() {
   try {
     const n = await purgeTrash();
+    await purgeExpiredAiDrafts();
+    await runExtensionMaintenance();
     if (n) console.log(`purgeTrash: ${n} resume(s) removed from the trash for good`);
   } catch (error) {
     console.error("purgeTrash failed", error);

@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { AdminBody, AdminPageHeader } from "@/components/admin/kit";
@@ -11,11 +12,10 @@ export default async function EditFaq({ params }: PageProps<"/[locale]/admin/faq
   if (!faq) notFound();
   return (
     <>
-      <AdminPageHeader title="Soruyu düzenle" description={faq.question}>
+      <AdminPageHeader title={ADMIN_CONTENT.faqsIdPageTitle168} description={faq.question}>
         <Link href="/admin/faqs" className="inline-flex min-h-11 items-center gap-1.5 text-[15px] font-semibold text-primary-text hover:underline">
           <ArrowLeft className="size-4 rtl:rotate-180" aria-hidden />
-          SSS
-        </Link>
+          {ADMIN_CONTENT.auditLogAuditLogTableFaq43}</Link>
       </AdminPageHeader>
       <AdminBody>
         <FaqForm

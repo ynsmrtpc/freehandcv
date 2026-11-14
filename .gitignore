@@ -68,3 +68,9 @@ desktop.ini
 
 # Uploaded media (MEDIA_DIR default)
 /storage/
+
+# Optional proprietary extensions and generated integration files are never public source.
+/.private/
+/src/extensions/generated-*
+**/(private-extension)/
+/public/pdf.worker.min.mjs

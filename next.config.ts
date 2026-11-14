@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["playwright-core"],
   cacheComponents: true,
   partialPrefetching: true,
+  // The root layout has a locale segment; unmatched URLs need a complete routing-level 404.
+  experimental: { globalNotFound: true },
   turbopack: {
     rules: {
       "*.css": {

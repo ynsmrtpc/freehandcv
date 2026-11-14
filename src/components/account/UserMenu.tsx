@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { authClient } from "@/client/auth";
 import { cn } from "@/lib/cn";
+import { ExtensionMenu } from "@/extensions/generated-client";
 
 /**
  * With a session: avatar + menu (My resumes, Sign out); otherwise a "Sign in" link. The session is
@@ -95,6 +96,7 @@ export function UserMenu({ className, showSignIn = true }: { className?: string;
             <UserRound className="size-4 text-muted" />
             {t("account")}
           </Link>
+          <ExtensionMenu />
           <button
             role="menuitem"
             type="button"

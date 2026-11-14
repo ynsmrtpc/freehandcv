@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
 import { Star } from "lucide-react";
 import { AdminBody, AdminPageHeader, Badge, EmptyState, formatDate, Table, Td, Th } from "@/components/admin/kit";
 import { cn } from "@/lib/cn";
@@ -11,22 +12,22 @@ export default async function Reviews() {
   return (
     <>
       <AdminPageHeader
-        title="Yorumlar"
-        description={`${rows.length} yorum${rows.length ? `, ortalama ${average.toFixed(1)} / 5` : ""}. Landing'de yalnız yazarın izin verdiği ve onaylanan, metni olan yorumlar görünür.`}
+        title={ADMIN_CONTENT.reviewsPageTitle281}
+        description={formatAdminContent(ADMIN_CONTENT.reviewsPageMessage282, {value0: rows.length,value1: rows.length ? `, ortalama ${average.toFixed(1)} / 5` : ""})}
       />
       <AdminBody>
         {!rows.length ? (
-          <EmptyState title="Henüz yorum yok.">Kullanıcılar PDF indirdikten sonra puan ve yorum bırakabilir; onay bekleyenler burada görünür.</EmptyState>
+          <EmptyState title={ADMIN_CONTENT.reviewsPageTitle283}>{ADMIN_CONTENT.reviewsPageContent284}</EmptyState>
         ) : (
-          <Table label="Yorumlar">
+          <Table label={ADMIN_CONTENT.reviewsPageTitle281}>
             <thead>
               <tr>
-                <Th>Puan</Th>
-                <Th>Yorum</Th>
-                <Th className="max-md:hidden">Yazan</Th>
-                <Th className="max-lg:hidden">Gösterim izni</Th>
-                <Th>Durum</Th>
-                <Th className="max-lg:hidden">Tarih</Th>
+                <Th>{ADMIN_CONTENT.reviewsPageContent285}</Th>
+                <Th>{ADMIN_CONTENT.auditLogAuditLogTableSiteReview41}</Th>
+                <Th className="max-md:hidden">{ADMIN_CONTENT.reviewsPageContent286}</Th>
+                <Th className="max-lg:hidden">{ADMIN_CONTENT.reviewsPageContent287}</Th>
+                <Th>{ADMIN_CONTENT.examplesPageLabel148}</Th>
+                <Th className="max-lg:hidden">{ADMIN_CONTENT.reviewsPageContent288}</Th>
                 <Th />
               </tr>
             </thead>
@@ -40,13 +41,13 @@ export default async function Reviews() {
                       ))}
                     </span>
                   </Td>
-                  <Td className="max-w-md text-foreground">{r.body || <span className="text-muted">Yalnız puan</span>}</Td>
+                  <Td className="max-w-md text-foreground">{r.body || <span className="text-muted">{ADMIN_CONTENT.reviewsPageContent289}</span>}</Td>
                   <Td className="max-md:hidden">
                     <p className="font-medium text-foreground">{r.userName || "Misafir"}</p>
                     <p className="text-sm text-muted">{[r.occupation, r.userEmail].filter(Boolean).join(" · ") || "—"}</p>
                   </Td>
-                  <Td className="max-lg:hidden">{r.displayAllowed ? <Badge tone="success">Var</Badge> : <Badge>Yok</Badge>}</Td>
-                  <Td>{r.approved ? <Badge tone="success">Yayında</Badge> : <Badge tone="warning">Bekliyor</Badge>}</Td>
+                  <Td className="max-lg:hidden">{r.displayAllowed ? <Badge tone="success">{ADMIN_CONTENT.reviewsPageContent290}</Badge> : <Badge>{ADMIN_CONTENT.reviewsPageContent291}</Badge>}</Td>
+                  <Td>{r.approved ? <Badge tone="success">{ADMIN_CONTENT.examplesIdPageLabel97}</Badge> : <Badge tone="warning">{ADMIN_CONTENT.reviewsPageContent292}</Badge>}</Td>
                   <Td className="whitespace-nowrap text-muted tabular-nums max-lg:hidden">{formatDate(r.createdAt)}</Td>
                   <Td>{r.body && <ApprovalButton id={r.id} approved={r.approved} displayAllowed={r.displayAllowed} />}</Td>
                 </tr>

@@ -1,4 +1,6 @@
 "use server";
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
+
 
 import { updateTag } from "next/cache";
 import { z } from "zod";
@@ -12,10 +14,10 @@ export async function setReviewApprovalAction(id: string, approved: boolean) {
     updateTag(APPROVED_REVIEWS_TAG);
     return { ok: true as const };
   } catch (error) {
-    if (error instanceof AuthorizationError) return { ok: false as const, error: "Bu işlem için yetkin yok." };
+    if (error instanceof AuthorizationError) return { ok: false as const, error: ADMIN_CONTENT.reviewsActionsError279 };
     if (error instanceof ReviewNotAllowedError)
-      return { ok: false as const, error: "Yazarı sitede gösterilmesine izin vermediği için onaylanamaz." };
+      return { ok: false as const, error: ADMIN_CONTENT.reviewsActionsError280 };
     console.error(error);
-    return { ok: false as const, error: "Beklenmeyen bir hata oluştu." };
+    return { ok: false as const, error: ADMIN_CONTENT.examplesActionsError111 };
   }
 }

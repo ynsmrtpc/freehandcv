@@ -22,9 +22,13 @@ const ICON = { good: CheckCircle2, warning: AlertTriangle, info: Info };
 const COLOR = { good: "text-accent", warning: "text-warning", info: "text-primary-text" };
 
 export function ChecksPanel() {
-  const t = useTranslations("Checks");
   const checks = useChecks();
   if (!checks) return null;
+  return <CheckResults checks={checks} />;
+}
+
+export function CheckResults({ checks }: { checks: { results: CheckResult[]; score: number; passed: number; total: number } }) {
+  const t = useTranslations("Checks");
   const { results, score, passed, total } = checks;
   const verdict = score >= 90 ? "ready" : score >= 70 ? "good" : "needsWork";
   const circumference = 2 * Math.PI * 30;

@@ -737,7 +737,8 @@ paylaşım" onayı (açık rıza) bu özelliğin temeli olur.
 
 ### 14.3 Kullanıcı istekleri (13 Kasım 2026) — sonraki işler
 
-Henüz kodu yok; sıra kullanıcıyla birlikte belirlenecek.
+404 düzeltmesinin kodu 14 Kasım'da eklendi; aşağıdaki diğer istekler henüz uygulanmadı.
+Yayın, kullanıcının 14 Kasım kararıyla kalan işlerin tamamlanmasından sonraya bırakıldı.
 
 - **CV oluşturma sihirbazı:** adım adım sorularla kolayca CV oluşturma. Dileyen sihirbazla başlar,
   sonra CV oluşturma aracında (editör) düzenler; dileyen doğrudan editörü kullanır. Sihirbaz aynı
@@ -753,8 +754,11 @@ Henüz kodu yok; sıra kullanıcıyla birlikte belirlenecek.
   herkese açık API'si profil ayrıntılarını (deneyim, eğitim) vermiyor; "Sign In with LinkedIn"
   yalnızca ad, e-posta ve fotoğraf verir. Uygulanabilir yol araştırılmalı (ör. LinkedIn'den
   indirilen veri arşivini ya da profil PDF'ini içe aktarma).
-- **Gerçek 404:** bulunamayan profil, rehber, örnek ve şablon adresleri şu an "bulunamadı" içeriğini
-  200 durum koduyla gösteriyor (notFound Suspense içinde akarken). HTTP 404 dönmeli.
+- **Gerçek 404 (14 Kasım: kodlandı):** profil, rehber, örnek ve şablon varlığı akış başlamadan
+  sunucu katmanında kontrol edilir; bulunamayan adres yerelleştirilmiş global 404 belgesine gider.
+  Türkçe/İngilizce eksik şablon adreslerinde üretim derlemesinin HTTP 404, çevrilmiş HTML ve HEAD
+  yanıtları doğrulandı. Diğer veritabanı senaryolarının E2E doğrulaması `freehandcv_test` kurulumu
+  bekliyor. Ayrıntılar `docs/WORK-STATUS.md`.
 - **Logo:** logo yeniden tasarlanacak ve değiştirilecek.
 
 ## 15. Verilen kararlar

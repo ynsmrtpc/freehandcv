@@ -1,0 +1,11 @@
+{
+  "meta": "ATS resume check",
+  "description": "Free preliminary checks for resume readability and common content gaps. Files are processed in your browser. This does not guarantee a hiring outcome or a pass in any ATS product.",
+  "file": "PDF or FreehandCV JSON file",
+  "check": "Check the resume",
+  "pdfNotice": "PDF results include only checks supported by extracted text. The original layout, columns, colors and fonts are not scored.",
+  "jsonNotice": "Content and saved-template checks use your FreehandCV data.",
+  "results": "Check results",
+  "error": "The file could not be read. Choose a text-based PDF up to 20 pages / 10 MB, or valid FreehandCV JSON.",
+  "start": "Continue with the resume wizard"
+}

@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 // Shared building blocks of the admin screens (server-safe; no client hooks here).
 // The panel is for our team only, so its texts are Turkish.
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
@@ -54,7 +55,7 @@ export function SearchForm({
       <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted" aria-hidden />
       <input
         type="search"
-        name="q"
+        name={ADMIN_CONTENT.kitName385}
         defaultValue={value}
         placeholder={placeholder}
         aria-label={label}
@@ -184,7 +185,7 @@ export function Pagination({
   const linkClass =
     "inline-flex min-h-11 items-center gap-1 rounded-md border border-border bg-surface px-3 text-sm font-semibold text-foreground hover:border-border-strong pointer-fine:min-h-9";
   return (
-    <nav aria-label="Sayfalar" className="flex items-center justify-between gap-3 text-sm text-muted">
+    <nav aria-label={ADMIN_CONTENT.pagesPageTitle268} className="flex items-center justify-between gap-3 text-sm text-muted">
       <span className="tabular-nums">
         {page * pageSize + 1}–{Math.min(total, (page + 1) * pageSize)} / {total}
       </span>
@@ -192,13 +193,11 @@ export function Pagination({
         {page > 0 && (
           <Link href={hrefFor(page - 1) as never} className={linkClass}>
             <ChevronLeft className="size-4 rtl:rotate-180" aria-hidden />
-            Önceki
-          </Link>
+            {ADMIN_CONTENT.kitContent386}</Link>
         )}
         {page < pages - 1 && (
           <Link href={hrefFor(page + 1) as never} className={linkClass}>
-            Sonraki
-            <ChevronRight className="size-4 rtl:rotate-180" aria-hidden />
+            {ADMIN_CONTENT.kitContent387}<ChevronRight className="size-4 rtl:rotate-180" aria-hidden />
           </Link>
         )}
       </span>

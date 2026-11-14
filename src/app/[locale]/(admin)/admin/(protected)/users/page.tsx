@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { ChevronRight, UserPlus } from "lucide-react";
 import { BulkSelection, RowCheckbox, SelectAll } from "@/components/admin/BulkSelection";
 import {
@@ -26,6 +27,7 @@ import { ROLE_NAMES } from "./labels";
 const PAGE_SIZE = 50;
 
 export default async function Users({ searchParams }: PageProps<"/[locale]/admin/users">) {
+  const t_ = await getTranslations("Admin.users");
   const sp = await searchParams;
   const q = typeof sp.q === "string" ? sp.q.slice(0, 100) : "";
   const role = roles.includes(sp.rol as Role) ? (sp.rol as Role) : undefined;
@@ -38,7 +40,7 @@ export default async function Users({ searchParams }: PageProps<"/[locale]/admin
   const href = (patch: Record<string, string | number | undefined>) => adminHref("/admin/users", { ...query, ...patch });
 
   const list = (
-    <Table label="Kullanıcılar">
+    <Table label={t_("users")}>
       <thead>
         <tr>
           {isAdmin && (
@@ -46,12 +48,12 @@ export default async function Users({ searchParams }: PageProps<"/[locale]/admin
               <SelectAll />
             </Th>
           )}
-          <Th>Kullanıcı</Th>
-          <Th className="max-md:hidden">Rol</Th>
-          <Th className="max-md:hidden">Durum</Th>
-          <Th className="text-end max-lg:hidden">CV</Th>
-          <Th className="max-lg:hidden">Son görülme</Th>
-          <Th className="max-lg:hidden">Kayıt</Th>
+          <Th>{t_("user")}</Th>
+          <Th className="max-md:hidden">{t_("role")}</Th>
+          <Th className="max-md:hidden">{t_("status")}</Th>
+          <Th className="text-end max-lg:hidden">{t_("cv")}</Th>
+          <Th className="max-lg:hidden">{t_("lastSeen")}</Th>
+          <Th className="max-lg:hidden">{t_("joined")}</Th>
           <Th className="w-10" />
         </tr>
       </thead>
@@ -76,19 +78,19 @@ export default async function Users({ searchParams }: PageProps<"/[locale]/admin
               </p>
               {/* Phones: role and state under the name instead of their own columns. */}
               <span className="mt-1 flex flex-wrap gap-1 md:hidden">
-                {u.role !== "user" && <Badge tone="info">{ROLE_NAMES[u.role]}</Badge>}
-                {u.banned && <Badge tone="danger">Askıda</Badge>}
-                {u.role !== "user" && !u.twoFactorEnabled && <Badge tone="warning">2FA yok</Badge>}
+                {u.role !== "user" && <Badge tone="info">{t_(ROLE_NAMES[u.role] as never)}</Badge>}
+                {u.banned && <Badge tone="danger">{t_("suspended2")}</Badge>}
+                {u.role !== "user" && !u.twoFactorEnabled && <Badge tone="warning">{t_("no2FA")}</Badge>}
               </span>
             </Td>
             <Td className="max-md:hidden">
-              <Badge tone={u.role === "user" ? "neutral" : "info"}>{ROLE_NAMES[u.role]}</Badge>
+              <Badge tone={u.role === "user" ? "neutral" : "info"}>{t_(ROLE_NAMES[u.role] as never)}</Badge>
             </Td>
             <Td className="max-md:hidden">
               <span className="flex flex-wrap gap-1">
-                {u.banned ? <Badge tone="danger">Askıda</Badge> : <Badge tone="success">Aktif</Badge>}
-                {u.role !== "user" && !u.twoFactorEnabled && <Badge tone="warning">2FA yok</Badge>}
-                {!u.emailVerified && <Badge>E-posta doğrulanmadı</Badge>}
+                {u.banned ? <Badge tone="danger">{t_("suspended2")}</Badge> : <Badge tone="success">{t_("active")}</Badge>}
+                {u.role !== "user" && !u.twoFactorEnabled && <Badge tone="warning">{t_("no2FA")}</Badge>}
+                {!u.emailVerified && <Badge>{t_("emailUnverified")}</Badge>}
               </span>
             </Td>
             <Td className="text-end tabular-nums max-lg:hidden">{u.resumeCount}</Td>
@@ -97,7 +99,7 @@ export default async function Users({ searchParams }: PageProps<"/[locale]/admin
             <Td>
               <Link
                 href={{ pathname: "/admin/users/[id]", params: { id: u.id } }}
-                aria-label={`Ayrıntılar: ${u.name || u.email}`}
+                aria-label={t_("details", {name: u.name || u.email})}
                 className="grid size-9 place-items-center rounded-md text-muted hover:bg-surface-2 hover:text-foreground"
               >
                 <ChevronRight className="size-4 rtl:rotate-180" aria-hidden />
@@ -112,60 +114,58 @@ export default async function Users({ searchParams }: PageProps<"/[locale]/admin
   return (
     <>
       <AdminPageHeader
-        title="Kullanıcılar"
-        description="CV içerikleri burada görünmez (KVKK); yalnız sayıları gösterilir."
+        title={t_("users")}
+        description={t_("resumeContentsArePrivateOnlyCountsAre")}
       >
         {isAdmin && (
           <Link href="/admin/users/new" className={buttonClass("primary", "sm")}>
             <UserPlus className="size-4" aria-hidden />
-            Yeni kullanıcı
-          </Link>
+            {t_("newUser")}</Link>
         )}
       </AdminPageHeader>
       <AdminBody>
         <Toolbar>
-          <SearchForm value={q} placeholder="E-posta, ad ya da kullanıcı adı" label="Kullanıcı ara" hidden={{ rol: role ?? "", durum: status ?? "" }} />
+          <SearchForm value={q} placeholder={t_("emailNameOrUsername")} label={t_("searchUsers")} hidden={{ rol: role ?? "", durum: status ?? "" }} />
           <FilterLinks
-            label="Rol"
+            label={t_("role")}
             current={role ?? ""}
             hrefFor={(v) => href({ rol: v || undefined, sayfa: undefined })}
-            options={[{ value: "", label: "Tüm roller" }, ...roles.map((r) => ({ value: r, label: ROLE_NAMES[r] }))]}
+            options={[{ value: "", label: t_("allRoles") }, ...roles.map((r) => ({ value: r, label: t_(ROLE_NAMES[r] as never) }))]}
           />
           <FilterLinks
-            label="Durum"
+            label={t_("status")}
             current={status ?? ""}
             hrefFor={(v) => href({ durum: v || undefined, sayfa: undefined })}
             options={[
-              { value: "", label: "Tümü" },
-              { value: "active", label: "Aktif" },
-              { value: "suspended", label: "Askıda" },
-              { value: "no-2fa", label: "2FA'sız ekip" },
+              { value: "", label: t_("all") },
+              { value: "active", label: t_("active") },
+              { value: "suspended", label: t_("suspended2") },
+              { value: "no-2fa", label: t_("staffWithout2FA") },
             ]}
           />
         </Toolbar>
 
         <p className="text-sm text-muted" aria-live="polite">
-          {total} kullanıcı{q && ` · “${q}” araması`}
+          {t_("userCount", {count: total})}{q && t_("searchQuery", {query: q})}
         </p>
 
         {rows.length === 0 ? (
-          <EmptyState title="Bu filtreye uyan kullanıcı yok.">
+          <EmptyState title={t_("noUsersMatchTheseFilters")}>
             <Link href="/admin/users" className="font-semibold text-primary-text underline underline-offset-4">
-              Filtreleri temizle
-            </Link>
+              {t_("clearFilters")}</Link>
           </EmptyState>
         ) : isAdmin ? (
           <BulkSelection
             ids={rows.filter((u) => u.id !== me?.id).map((u) => u.id)}
-            noun="kullanıcı"
+            noun={t_("user2")}
             actions={[
-              { label: "Askıya al", run: suspendUsersAction, confirm: "{n} hesap askıya alınsın mı? Oturumları kapanır ve giriş yapamazlar." },
-              { label: "Yeniden aç", run: restoreUsersAction },
+              { label: t_("suspend"), run: suspendUsersAction, confirm: t_("nAccountsWillBeSuspendedAndSigned") },
+              { label: t_("restore2"), run: restoreUsersAction },
               {
-                label: "Sil",
+                label: t_("delete"),
                 run: deleteUsersAction,
                 danger: true,
-                confirm: "{n} hesap kalıcı olarak silinsin mi? CV'leri silinir, kişisel bilgileri anonimleştirilir. Bu işlem geri alınamaz.",
+                confirm: t_("permanentlyDeleteNAccountsAndTheirResumes"),
               },
             ]}
           >

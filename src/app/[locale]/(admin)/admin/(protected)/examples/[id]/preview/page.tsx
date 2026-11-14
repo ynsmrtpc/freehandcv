@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
@@ -22,10 +23,9 @@ export default async function PreviewExample({ params }: PageProps<"/[locale]/ad
           className="inline-flex min-h-11 items-center gap-1.5 text-[15px] font-semibold text-primary-text hover:underline pointer-fine:min-h-9"
         >
           <ArrowLeft className="size-4 rtl:rotate-180" aria-hidden />
-          Örneğe dön
-        </Link>
+          {ADMIN_CONTENT.examplesIdPreviewPageContent101}</Link>
         <p className={e.active ? "text-[15px] text-muted" : "text-[15px] font-semibold text-warning"}>
-          {e.active ? "Önizleme: ziyaretçilerin gördüğü sayfa." : "Taslak önizlemesi: bu sayfa ziyaretçilere görünmez."}
+          {e.active ? ADMIN_CONTENT.examplesIdPreviewPageLabel102 : ADMIN_CONTENT.examplesIdPreviewPageLabel103}
         </p>
       </div>
       <ExamplePage

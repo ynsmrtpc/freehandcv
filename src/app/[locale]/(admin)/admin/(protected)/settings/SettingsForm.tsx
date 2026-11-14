@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
+
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
@@ -11,31 +13,31 @@ import { localeSettingsSchema, globalSettingsSchema, type LocaleSettings, type G
 import { saveSiteSettingsAction } from "./actions";
 
 type Value = { global: GlobalSettings; translations: Record<string, LocaleSettings> };
-const LOCALE_NAMES: Record<string, string> = { tr: "Türkçe", en: "İngilizce" };
+const LOCALE_NAMES: Record<string, string> = { tr: ADMIN_CONTENT.examplesExampleFormContent65, en: ADMIN_CONTENT.examplesExampleFormContent66 };
 
 const g = globalSettingsSchema.shape;
 const l = localeSettingsSchema.shape;
 
 /** Each section edits one slice of the settings; the schema's own group label becomes the section title. */
 const GLOBAL_SECTIONS = [
-  { id: "contact", title: "İletişim", description: "Alt bilgide ve yasal sayfalarda görünen adres.", schema: z.object({ contactEmail: g.contactEmail }), key: null },
-  { id: "social", title: "Sosyal bağlantılar", description: "Boş bırakılan bağlantı alt bilgide gösterilmez.", schema: z.object(g.social.shape), key: "social" },
-  { id: "donation", title: "Bağış", description: "Buy Me a Coffee, GitHub Sponsors gibi bir bağış sayfası.", schema: z.object(g.donation.shape), key: "donation" },
+  { id: "contact", title: ADMIN_CONTENT.settingsSettingsFormTitle293, description: ADMIN_CONTENT.settingsSettingsFormDescription294, schema: z.object({ contactEmail: g.contactEmail }), key: null },
+  { id: "social", title: ADMIN_CONTENT.settingsSettingsFormTitle295, description: ADMIN_CONTENT.settingsSettingsFormDescription296, schema: z.object(g.social.shape), key: "social" },
+  { id: "donation", title: ADMIN_CONTENT.settingsSettingsFormTitle297, description: ADMIN_CONTENT.settingsSettingsFormDescription298, schema: z.object(g.donation.shape), key: "donation" },
   {
     id: "verification",
-    title: "Arama motorları",
-    description: "Search Console ve benzerlerinin site sahipliği doğrulaması. Yalnız kodu yapıştır.",
+    title: ADMIN_CONTENT.examplesExampleFormTitle71,
+    description: ADMIN_CONTENT.settingsSettingsFormDescription299,
     schema: z.object(g.verification.shape),
     key: "verification",
   },
 ] as const;
 
 const LOCALE_SECTIONS = [
-  { id: "announcement", title: "Duyuru çubuğu", description: "Sitenin en üstünde ince bir şerit; kısa tut.", schema: z.object(l.announcement.shape), key: "announcement" },
+  { id: "announcement", title: ADMIN_CONTENT.settingsSettingsFormTitle300, description: ADMIN_CONTENT.settingsSettingsFormDescription301, schema: z.object(l.announcement.shape), key: "announcement" },
   {
     id: "footer",
-    title: "Alt bilgi",
-    description: "Boş bırakılan alanlarda varsayılan metin kullanılır.",
+    title: ADMIN_CONTENT.settingsSettingsFormTitle302,
+    description: ADMIN_CONTENT.settingsSettingsFormDescription303,
     schema: z.object({ footerTagline: l.footerTagline, donationLabel: l.donationLabel }),
     key: null,
   },
@@ -63,12 +65,12 @@ export function SettingsForm({ initial, locales }: { initial: Value; locales: st
       const r = await saveSiteSettingsAction(value);
       if (r.ok) {
         setErrors({});
-        setNotice({ kind: "success", text: "Kaydedildi. Değişiklikler sitede hemen görünür." });
+        setNotice({ kind: "success", text: ADMIN_CONTENT.settingsSettingsFormText304 });
         router.refresh();
       } else {
         const next = Object.fromEntries((r.issues ?? []).map((i) => [pathKey(i.path), i.message]));
         setErrors(next);
-        setNotice({ kind: "error", text: "Bazı alanlar hatalı; kırmızı başlıklı bölüme bak." });
+        setNotice({ kind: "error", text: ADMIN_CONTENT.settingsSettingsFormText305 });
         // A wrong value in another language tab switches to it; then the first message comes into view.
         const lc = Object.keys(next).find((k) => k.startsWith("translations."))?.split(".")[1];
         if (lc && !Object.keys(next).some((k) => k.startsWith("global.") || k.startsWith(`translations.${locale}.`))) setLocale(lc);
@@ -105,7 +107,7 @@ export function SettingsForm({ initial, locales }: { initial: Value; locales: st
 
   return (
     <div id="settings-form" className="mx-auto max-w-6xl px-4 sm:px-8">
-      <nav aria-label="Ayar bölümleri" className="flex flex-wrap gap-x-5 gap-y-2 border-b border-border py-4 text-[15px]">
+      <nav aria-label={ADMIN_CONTENT.settingsSettingsFormAriaLabel306} className="flex flex-wrap gap-x-5 gap-y-2 border-b border-border py-4 text-[15px]">
         {[...GLOBAL_SECTIONS, ...LOCALE_SECTIONS].map((s) => (
           <a key={s.id} href={`#${s.id}`} className="font-semibold text-primary-text hover:underline">
             {s.title}
@@ -113,7 +115,7 @@ export function SettingsForm({ initial, locales }: { initial: Value; locales: st
         ))}
       </nav>
 
-      <h2 className="sr-only">Tüm dillerde geçerli</h2>
+      <h2 className="sr-only">{ADMIN_CONTENT.settingsSettingsFormContent307}</h2>
       {GLOBAL_SECTIONS.map((s) => {
         const errs = sectionErrors(globalErrors, s);
         return section(
@@ -130,8 +132,8 @@ export function SettingsForm({ initial, locales }: { initial: Value; locales: st
       })}
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-y-2 border-foreground py-4">
-        <h2 className="text-lg font-bold text-foreground">Dile bağlı metinler</h2>
-        <div role="tablist" aria-label="Dil" className="flex gap-1">
+        <h2 className="text-lg font-bold text-foreground">{ADMIN_CONTENT.settingsSettingsFormContent308}</h2>
+        <div role="tablist" aria-label={ADMIN_CONTENT.examplesExampleFormLabel63} className="flex gap-1">
           {locales.map((lc) => (
             <button
               key={lc}
@@ -174,14 +176,12 @@ export function SettingsForm({ initial, locales }: { initial: Value; locales: st
 
       <div className="sticky bottom-0 z-20 -mx-4 flex flex-wrap items-center gap-3 border-t border-border-strong bg-surface px-4 py-3 sm:-mx-8 sm:px-8">
         <div className="me-auto min-w-0">
-          {notice ? <InlineNotice notice={notice} /> : <p className="text-[15px] text-muted">{dirty ? "Kaydedilmemiş değişiklikler var." : "Tüm değişiklikler kaydedildi."}</p>}
+          {notice ? <InlineNotice notice={notice} /> : <p className="text-[15px] text-muted">{dirty ? ADMIN_CONTENT.examplesExampleFormLabel90 : ADMIN_CONTENT.examplesExampleFormLabel91}</p>}
         </div>
         <button type="button" disabled={!dirty || pending} onClick={() => (setValue(initial), setErrors({}), setNotice(null))} className={buttonClass("ghost", "sm")}>
-          Geri al
-        </button>
+          {ADMIN_CONTENT.examplesExampleFormContent92}</button>
         <button type="button" disabled={!dirty || pending} onClick={save} className={buttonClass("primary", "sm")}>
-          Kaydet
-        </button>
+          {ADMIN_CONTENT.mediaMediaClientContent200}</button>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 import { BulkSelection, RowCheckbox, SelectAll } from "@/components/admin/BulkSelection";
 import { AdminBody, AdminPageHeader, adminHref, EmptyState, formatDate, Pagination, SearchForm, Toolbar } from "@/components/admin/kit";
 import { listMedia, MAX_UPLOAD_BYTES, mediaUrl, mediaUsage } from "@/server/media";
@@ -17,30 +18,30 @@ export default async function Media({ searchParams }: PageProps<"/[locale]/admin
   return (
     <>
       <AdminPageHeader
-        title="Medya"
-        description="Sayfalarda kullanılacak görseller. Dosyalar sunucudaki medya klasöründe tutulur; adresi kopyalayıp bir bloğa yapıştırabilirsin."
+        title={ADMIN_CONTENT.auditLogAuditLogTableMedia45}
+        description={ADMIN_CONTENT.mediaPageDescription204}
       />
       <AdminBody>
         <MediaUploader maxMb={MAX_UPLOAD_BYTES / 1024 / 1024} />
 
         <Toolbar>
-          <SearchForm value={q} placeholder="Alternatif metin ya da dosya adı" label="Medya ara" />
-          <p className="text-sm text-muted">{total} dosya</p>
+          <SearchForm value={q} placeholder={ADMIN_CONTENT.mediaPagePlaceholder205} label={ADMIN_CONTENT.mediaPageLabel206} />
+          <p className="text-sm text-muted">{total} {ADMIN_CONTENT.mediaPageContent207}</p>
         </Toolbar>
 
         {!rows.length ? (
-          <EmptyState title={q ? "Bu aramaya uyan dosya yok." : "Henüz görsel yüklenmedi."}>
-            {q ? null : "Yukarıdaki alana bir görsel bırakarak başla."}
+          <EmptyState title={q ? "Bu aramaya uyan dosya yok." : ADMIN_CONTENT.mediaPageLabel208}>
+            {q ? null : ADMIN_CONTENT.mediaPageLabel209}
           </EmptyState>
         ) : (
           <BulkSelection
             ids={rows.map((r) => r.id)}
-            noun="dosya"
-            actions={[{ label: "Sil", run: deleteMediaAction, danger: true, confirm: "{n} dosya kalıcı olarak silinsin mi? Kullanıldığı yer varsa silme reddedilir." }]}
+            noun={ADMIN_CONTENT.mediaPageContent207}
+            actions={[{ label: ADMIN_CONTENT.examplesPageLabel140, run: deleteMediaAction, danger: true, confirm: ADMIN_CONTENT.mediaPageConfirm210 }]}
           >
             <div className="mb-3 flex items-center gap-3 text-[15px] text-foreground">
               <SelectAll />
-              <span>Bu sayfadakilerin hepsini seç</span>
+              <span>{ADMIN_CONTENT.mediaPageContent211}</span>
             </div>
             <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {rows.map((m) => {
@@ -62,11 +63,11 @@ export default async function Media({ searchParams }: PageProps<"/[locale]/admin
                       <p className="text-sm">
                         {used.length ? (
                           <span className="text-foreground" title={used.join(", ")}>
-                            Kullanılıyor: {used.slice(0, 2).join(", ")}
+                            {ADMIN_CONTENT.mediaPageContent212}{used.slice(0, 2).join(", ")}
                             {used.length > 2 && ` +${used.length - 2}`}
                           </span>
                         ) : (
-                          <span className="text-muted">Hiçbir yerde kullanılmıyor</span>
+                          <span className="text-muted">{ADMIN_CONTENT.mediaPageContent213}</span>
                         )}
                       </p>
                       <AltTextField id={m.id} value={m.altText ?? ""} />

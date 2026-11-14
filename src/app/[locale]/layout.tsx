@@ -1,21 +1,15 @@
 import type { Metadata, Viewport } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { Atkinson_Hyperlegible_Next } from "next/font/google";
 import { notFound } from "next/navigation";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ConfirmProvider } from "@/components/ui/ConfirmProvider";
 import { routing } from "@/i18n/routing";
 import { SITE_URL } from "@/lib/site";
+import { bodyFont } from "@/lib/fonts";
+import { Analytics } from "@/components/site/Analytics";
 import { getSiteSettings } from "@/server/content/siteSettings";
 import "../globals.css";
-
-// Atkinson Hyperlegible Next: drawn for low-vision readers; many users read on small phones.
-const bodyFont = Atkinson_Hyperlegible_Next({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-body",
-  display: "swap",
-});
 
 export const viewport: Viewport = {
   themeColor: [
@@ -64,7 +58,9 @@ export default async function RootLayout({
     <html lang={locale} dir="ltr" className={bodyFont.variable} suppressHydrationWarning>
       <body className="min-h-dvh font-sans antialiased">
         <ThemeProvider>
-          <NextIntlClientProvider><ConfirmProvider>{children}</ConfirmProvider></NextIntlClientProvider>
+          <NextIntlClientProvider><ConfirmProvider>{children}</ConfirmProvider>
+            {process.env.UMAMI_SCRIPT_URL?.startsWith("https://") && process.env.UMAMI_WEBSITE_ID && <Analytics source={process.env.UMAMI_SCRIPT_URL} websiteId={process.env.UMAMI_WEBSITE_ID} />}
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

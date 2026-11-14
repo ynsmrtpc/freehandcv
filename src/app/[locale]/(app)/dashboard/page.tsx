@@ -3,6 +3,8 @@ import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { redirect as redirectToPath } from "next/navigation";
+import { extensionLandingPath } from "@/extensions/generated-server";
 import { getPathname, redirect } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { listResumes, listTrash } from "@/server/resumes";
@@ -31,6 +33,8 @@ export default async function DashboardPage({ params }: PageProps<"/[locale]/das
 async function ResumeList({ locale }: { locale: Locale }) {
   const session = await getSession();
   if (!session) redirect({ href: { pathname: "/sign-in", query: { next: getPathname({ href: "/dashboard", locale }) } }, locale });
+  const extensionPath = await extensionLandingPath(session!.user.id, locale);
+  if (extensionPath) redirectToPath(extensionPath);
   const [resumes, sharing, trash] = await Promise.all([
     listResumes(session!.user.id),
     getSharingStatus(session!.user.id),

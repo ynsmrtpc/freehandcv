@@ -1,4 +1,6 @@
 "use server";
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
+
 
 import { updateTag } from "next/cache";
 import { z } from "zod";
@@ -16,31 +18,31 @@ async function run(fn: (actorId: string) => Promise<string>): Promise<Result> {
     updateTag(TEMPLATES_TAG);
     return { ok: true, message };
   } catch (error) {
-    if (error instanceof AuthorizationError) return { ok: false, error: "Bu işlem için yetkin yok. Yeniden giriş yap." };
+    if (error instanceof AuthorizationError) return { ok: false, error: ADMIN_CONTENT.examplesActionsError106 };
     console.error(error);
-    return { ok: false, error: "Beklenmeyen bir hata oluştu." };
+    return { ok: false, error: ADMIN_CONTENT.examplesActionsError111 };
   }
 }
 
 export async function hideTemplatesAction(list: string[]) {
-  return run(async (actor) => `${await setTemplatesHidden(ids.parse(list), true, actor)} şablon gizlendi; açık şikâyetleri kapatıldı.`);
+  return run(async (actor) => formatAdminContent(ADMIN_CONTENT.templatesActionsMessage333, {value0: await setTemplatesHidden(ids.parse(list), true, actor)}));
 }
 
 export async function restoreTemplatesAction(list: string[]) {
-  return run(async (actor) => `${await setTemplatesHidden(ids.parse(list), false, actor)} şablon yeniden açıldı.`);
+  return run(async (actor) => formatAdminContent(ADMIN_CONTENT.templatesActionsMessage334, {value0: await setTemplatesHidden(ids.parse(list), false, actor)}));
 }
 
 export async function dismissReportsAction(list: string[]) {
-  return run(async (actor) => `${await dismissReports(ids.parse(list), actor)} şikâyet kapatıldı; şablon yerinde kaldı.`);
+  return run(async (actor) => formatAdminContent(ADMIN_CONTENT.templatesActionsMessage335, {value0: await dismissReports(ids.parse(list), actor)}));
 }
 
 export async function featureTemplatesAction(list: string[]) {
   return run(async (actor) => {
     const n = await setTemplatesFeatured(ids.parse(list), true, actor);
-    return n ? `${n} şablon öne çıkarıldı; galeride resmi şablonlardan hemen sonra görünür.` : "Yalnızca galerideki (herkese açık, gizlenmemiş) şablonlar öne çıkarılabilir.";
+    return n ? formatAdminContent(ADMIN_CONTENT.templatesActionsMessage336, {value0: n}) : ADMIN_CONTENT.templatesActionsLabel337;
   });
 }
 
 export async function unfeatureTemplatesAction(list: string[]) {
-  return run(async (actor) => `${await setTemplatesFeatured(ids.parse(list), false, actor)} şablonun öne çıkarma işareti kaldırıldı.`);
+  return run(async (actor) => formatAdminContent(ADMIN_CONTENT.templatesActionsMessage338, {value0: await setTemplatesFeatured(ids.parse(list), false, actor)}));
 }

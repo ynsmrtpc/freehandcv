@@ -1,4 +1,56 @@
-# Work status — 12 November 2026
+# Work status — 14 November 2026
+
+## Current continuation: correctness before release
+
+The user explicitly moved deployment to the very end, after the remaining work is completed.
+No deployment, content publication, DNS change or production configuration was performed.
+The existing `DESIGN.md`, `PRODUCT.md` and `.impeccable/` records remain the design direction.
+
+- Public resource availability is checked in `src/server/publicRoutes.ts` before React streaming,
+  using the internal paths produced by next-intl. Only published guides, active examples and
+  accessible templates resolve; private/deleted/moderated templates remain unavailable. Profiles
+  do not require a public template. Misses are not cached, so publishing opens a URL immediately.
+- Missing resources are internally rewritten to the routing-level 404. The installed Next.js
+  version requires `experimental.globalNotFound` for that document and `instant = false` to read
+  its locale before rendering. It shares the existing translated recovery screen, semantic CSS,
+  theme and Atkinson font. Public URLs and the data model are unchanged.
+- Added unit coverage for localized proxy behavior, publication/visibility rules, malformed and
+  broken template definitions, admin roles/TOTP, and session-derived resume action ownership.
+- Added a Playwright runner that refuses a database other than `freehandcv_test`, requires an
+  explicit `TEST_DATABASE_URL`, disables external email/OAuth, migrates the test database and starts
+  its own server. The account tests use synthetic fixtures and remove them afterward.
+- Added 13 E2E cases for localized HTTP 404 and server-rendered recovery content, valid template/
+  category routes, anonymous export rejection, account export isolation, password reset/session
+  revocation, reset-token reuse and rejection of unverified/suspended sign-ins.
+- Added GitHub Actions checks with isolated PostgreSQL. Browser checks run against a production
+  build. Type checking generates Next route types first, including on a fresh checkout.
+
+### Verification and limits
+
+- All 187 unit tests, TypeScript, lint and the production build passed.
+- Local production HTTP checks passed with the real database disconnected: Turkish/English missing
+  template URLs returned 404 with translated headings in the HTML, the correct `lang` and noindex;
+  HEAD returned 404 too. Unknown English URLs used the same complete 404 document. Official
+  templates and category pages returned 200; anonymous account export returned 401.
+- The 13 E2E cases are discoverable and the missing-test-database guard was verified. They have
+  **not** been executed: `freehandcv_test` is absent on the configured PostgreSQL server and its
+  database user lacks `CREATEDB`. No development database was used for tests or migrations.
+- Docker PDF verification remains open: the Docker daemon is unavailable, and the installed
+  OrbStack application is missing its executable. Browser visual verification also remains open;
+  no Playwright browser is installed and the system Chrome failed to launch in this environment.
+- No schema change, environment-file edit, skill installation or live content change was needed.
+
+### Next work, in order
+
+1. Provision `freehandcv_test` with a PostgreSQL administrator and run the committed E2E suite;
+   extend it to resume mutations/ownership and admin moderation as needed by the results.
+2. Restore a working container/browser runtime and verify server PDF output with Alpine Chromium,
+   selectable text, A4/Letter and long multi-page resumes.
+3. Move remaining hard-coded admin interface text into translation namespaces.
+4. Continue the unimplemented product backlog in plan sections 14.1–14.3; provider, legal and
+   operator decisions remain prerequisites where the plan names them. Release stays last.
+
+## Previous continuation — 12 November 2026
 
 ## Where work stopped
 

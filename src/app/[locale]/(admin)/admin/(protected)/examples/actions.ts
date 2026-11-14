@@ -1,4 +1,6 @@
 "use server";
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
+
 
 // Example resume admin actions. Every action checks authorization itself (plan 7.5) and validates its input.
 import { updateTag } from "next/cache";
@@ -21,8 +23,8 @@ import {
 
 const metaSchema = z.object({
   slug: exampleSlugSchema,
-  title: z.string().trim().min(1, "Başlık boş olamaz").max(120),
-  occupation: z.string().trim().min(1, "Meslek boş olamaz").max(80),
+  title: z.string().trim().min(1, ADMIN_CONTENT.examplesActionsLabel104).max(120),
+  occupation: z.string().trim().min(1, ADMIN_CONTENT.examplesActionsLabel105).max(80),
   category: z.enum(EXAMPLE_CATEGORY_IDS),
   locale: z.enum(["tr", "en"]),
   experienceLevel: z.enum(EXPERIENCE_LEVELS),
@@ -35,14 +37,14 @@ const metaSchema = z.object({
 export type ExampleActionResult = { ok: true; id?: string } | { ok: false; error: string };
 
 function errorResult(error: unknown): ExampleActionResult {
-  if (error instanceof AuthorizationError) return { ok: false, error: "Bu işlem için yetkin yok. Yeniden giriş yap." };
-  if (error instanceof z.ZodError) return { ok: false, error: "Bazı alanlar hatalı: " + error.issues.map((i) => i.path.join(".")).join(", ") };
-  if (error instanceof ExampleSlugTakenError) return { ok: false, error: "Bu dilde aynı adresli bir örnek zaten var." };
+  if (error instanceof AuthorizationError) return { ok: false, error: ADMIN_CONTENT.examplesActionsError106 };
+  if (error instanceof z.ZodError) return { ok: false, error: ADMIN_CONTENT.examplesActionsLabel107 + error.issues.map((i) => i.path.join(".")).join(", ") };
+  if (error instanceof ExampleSlugTakenError) return { ok: false, error: ADMIN_CONTENT.examplesActionsError108 };
   if (error instanceof ExampleSlugLockedError)
-    return { ok: false, error: "Yayındaki örneğin adresi ve dili değiştirilemez; önce yayından kaldır." };
-  if (error instanceof ExampleNotFoundError) return { ok: false, error: "Örnek bulunamadı." };
+    return { ok: false, error: ADMIN_CONTENT.examplesActionsError109 };
+  if (error instanceof ExampleNotFoundError) return { ok: false, error: ADMIN_CONTENT.examplesActionsError110 };
   console.error(error);
-  return { ok: false, error: "Beklenmeyen bir hata oluştu." };
+  return { ok: false, error: ADMIN_CONTENT.examplesActionsError111 };
 }
 
 export async function createExampleAction(raw: unknown): Promise<ExampleActionResult> {
@@ -91,8 +93,8 @@ async function setActive(ids: string[], active: boolean): Promise<BulkResult> {
     const rows = await setExamplesActive(idList.parse(ids), active, user.id);
     for (const r of rows) updateTag(exampleTag(r.locale, r.slug));
     updateTag(EXAMPLES_TAG);
-    const verb = active ? "yayınlandı" : "yayından kaldırıldı";
-    return { ok: true, message: rows.length ? `${rows.length} örnek ${verb}.` : `Seçilenler zaten ${active ? "yayındaydı" : "taslaktaydı"}.` };
+    const verb = active ? ADMIN_CONTENT.examplesActionsLabel112 : ADMIN_CONTENT.examplesActionsLabel113;
+    return { ok: true, message: rows.length ? formatAdminContent(ADMIN_CONTENT.examplesActionsMessage114, {value0: rows.length,value1: verb}) : formatAdminContent(ADMIN_CONTENT.examplesActionsMessage117, {value0: active ? ADMIN_CONTENT.examplesActionsLabel115 : ADMIN_CONTENT.examplesActionsLabel116}) };
   } catch (error) {
     const r = errorResult(error);
     return r.ok ? { ok: true } : r;
@@ -113,9 +115,9 @@ export async function deleteExamplesAction(ids: string[]): Promise<BulkResult> {
     const rows = await deleteExamples(idList.parse(ids), user.id);
     for (const r of rows) updateTag(exampleTag(r.locale, r.slug));
     updateTag(EXAMPLES_TAG);
-    return { ok: true, message: `${rows.length} örnek silindi.` };
+    return { ok: true, message: formatAdminContent(ADMIN_CONTENT.examplesActionsMessage118, {value0: rows.length}) };
   } catch (error) {
-    if (error instanceof AuthorizationError) return { ok: false, error: "Örnekleri yalnız yöneticiler silebilir." };
+    if (error instanceof AuthorizationError) return { ok: false, error: ADMIN_CONTENT.examplesActionsError119 };
     const r = errorResult(error);
     return r.ok ? { ok: true } : r;
   }

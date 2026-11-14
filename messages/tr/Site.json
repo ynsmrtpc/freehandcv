@@ -30,5 +30,6 @@
   "errorTitle": "Sayfa yüklenemedi",
   "errorDescription": "Tekrar deneyebilir veya ana sayfaya dönebilirsin.",
   "retry": "Tekrar dene",
-  "footerInformation": "Bilgi ve destek"
+  "footerInformation": "Bilgi ve destek",
+  "atsCheck": "ATS kontrolü"
 }

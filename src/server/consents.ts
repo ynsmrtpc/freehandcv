@@ -1,5 +1,5 @@
 import "server-only";
-import { and, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { db } from "./db";
 import { consents, resumes, user } from "./db/schema";
 
@@ -8,7 +8,7 @@ import { consents, resumes, user } from "./db/schema";
  * (messages: Consent.*) changes; earlier grants count as given to the earlier text.
  * The value is stored in consent rows as evidence, so existing values never change.
  */
-export const EMPLOYER_CONSENT_VERSION = "isveren-2026-10";
+export const EMPLOYER_CONSENT_VERSION = "employer-sharing-2026-11-v2";
 
 export const consentSources = ["sign_up", "dashboard", "download"] as const;
 export type ConsentSource = (typeof consentSources)[number];
@@ -21,7 +21,9 @@ export async function getSharingStatus(userId: string): Promise<SharingStatus> {
     .from(user)
     .where(eq(user.id, userId))
     .limit(1);
-  return { enabled: !!u?.enabled, resumeId: u?.resumeId ?? null };
+  const [consent] = await db.select({ granted: consents.granted, textVersion: consents.textVersion }).from(consents)
+    .where(and(eq(consents.userId, userId), eq(consents.kind, "employer_sharing"))).orderBy(desc(consents.createdAt), desc(consents.id)).limit(1);
+  return { enabled: !!u?.enabled && !!consent?.granted && consent.textVersion === EMPLOYER_CONSENT_VERSION, resumeId: u?.resumeId ?? null };
 }
 
 export class NotResumeOwnerError extends Error {}
@@ -54,7 +56,8 @@ export async function setSharing(
       .update(user)
       .set({ employerSharing: enabled, sharedResumeId: enabled ? resumeId : null })
       .where(eq(user.id, userId));
-    if (before?.enabled !== enabled)
+    // Explicit grants also renew the consent version and record a changed resume selection.
+    if (enabled || before?.enabled !== enabled)
       await tx.insert(consents).values({
         userId,
         kind: "employer_sharing",

@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
 import { Plus } from "lucide-react";
 import { BulkSelection, RowCheckbox, SelectAll } from "@/components/admin/BulkSelection";
 import { SelectFilter } from "@/components/admin/SelectFilter";
@@ -52,79 +53,76 @@ export default async function Examples({ searchParams }: PageProps<"/[locale]/ad
   const published = all.filter((r) => r.active).length;
   const query = { dil: locale, kategori: category, durum: status, q };
   const href = (patch: Record<string, string | number | undefined>) => adminHref("/admin/examples", { ...query, sayfa: undefined, ...patch });
-  const categoryOptions = [{ value: "", label: "Tümü" }, ...Object.entries(CATEGORY_NAMES).map(([value, label]) => ({ value, label }))];
+  const categoryOptions = [{ value: "", label: ADMIN_CONTENT.examplesPageLabel136 }, ...Object.entries(CATEGORY_NAMES).map(([value, label]) => ({ value, label }))];
 
   const actions = [
-    { label: "Yayınla", run: publishExamplesAction, confirm: "{n} örnek yayınlansın mı? Örnek sayfaları ve listede hemen görünür." },
-    { label: "Taslağa al", run: unpublishExamplesAction, confirm: "{n} örnek yayından kaldırılsın mı? Sayfaları 404 verir." },
+    { label: ADMIN_CONTENT.examplesPublishToggleLabel96, run: publishExamplesAction, confirm: ADMIN_CONTENT.examplesPageConfirm137 },
+    { label: ADMIN_CONTENT.examplesPageLabel138, run: unpublishExamplesAction, confirm: ADMIN_CONTENT.examplesPageConfirm139 },
     ...(isAdmin
-      ? [{ label: "Sil", run: deleteExamplesAction, danger: true, confirm: "{n} örnek kalıcı olarak silinsin mi? Bu örnekten başlatılmış CV'ler etkilenmez. Geri alınamaz." }]
+      ? [{ label: ADMIN_CONTENT.examplesPageLabel140, run: deleteExamplesAction, danger: true, confirm: ADMIN_CONTENT.examplesPageConfirm141 }]
       : []),
   ];
 
   return (
     <>
-      <AdminPageHeader title="Örnek CV'ler" description={`${all.length} örnek, ${published} yayında. Taslakları gözden geçirip yayınla; rehber metni ${MIN_GUIDE_WORDS} kelimenin altındaysa uyarı görünür.`}>
+      <AdminPageHeader title={ADMIN_CONTENT.examplesPageTitle142} description={formatAdminContent(ADMIN_CONTENT.examplesPageMessage143, {value0: all.length,value1: published,value2: MIN_GUIDE_WORDS})}>
         <Link href="/admin/examples/new" className={buttonClass("primary", "sm")}>
           <Plus className="size-4" aria-hidden />
-          Yeni örnek
-        </Link>
+          {ADMIN_CONTENT.examplesPageContent144}</Link>
       </AdminPageHeader>
       <AdminBody>
         <Toolbar>
-          <SearchForm value={q} placeholder="Başlık, meslek ya da adres" label="Örnek ara" hidden={{ dil: locale, kategori: category, durum: status }} />
+          <SearchForm value={q} placeholder={ADMIN_CONTENT.examplesPagePlaceholder145} label={ADMIN_CONTENT.examplesPageLabel146} hidden={{ dil: locale, kategori: category, durum: status }} />
           <SelectFilter
-            label="Kategori"
+            label={ADMIN_CONTENT.examplesExampleFormLabel68}
             value={category}
             options={categoryOptions}
             hrefs={Object.fromEntries(categoryOptions.map((o) => [o.value, href({ kategori: o.value })]))}
           />
           <FilterLinks
-            label="Dil"
+            label={ADMIN_CONTENT.examplesExampleFormLabel63}
             current={locale}
             hrefFor={(v) => href({ dil: v })}
             options={[
-              { value: "", label: "Tüm diller" },
-              { value: "tr", label: "Türkçe" },
-              { value: "en", label: "İngilizce" },
+              { value: "", label: ADMIN_CONTENT.examplesPageLabel147 },
+              { value: "tr", label: ADMIN_CONTENT.examplesExampleFormContent65 },
+              { value: "en", label: ADMIN_CONTENT.examplesExampleFormContent66 },
             ]}
           />
           <FilterLinks
-            label="Durum"
+            label={ADMIN_CONTENT.examplesPageLabel148}
             current={status}
             hrefFor={(v) => href({ durum: v })}
             options={[
-              { value: "", label: "Tümü" },
-              { value: "yayinda", label: "Yayında" },
-              { value: "taslak", label: "Taslak" },
-              { value: "kisa", label: "Rehberi kısa" },
+              { value: "", label: ADMIN_CONTENT.examplesPageLabel136 },
+              { value: "yayinda", label: ADMIN_CONTENT.examplesIdPageLabel97 },
+              { value: "taslak", label: ADMIN_CONTENT.examplesPageLabel149 },
+              { value: "kisa", label: ADMIN_CONTENT.examplesPageLabel150 },
             ]}
           />
         </Toolbar>
 
         <p className="text-sm text-muted" aria-live="polite">
-          {filtered.length} örnek
-        </p>
+          {filtered.length} {ADMIN_CONTENT.examplesPageContent151}</p>
 
         {!list.length ? (
-          <EmptyState title="Bu filtreye uyan örnek yok.">
+          <EmptyState title={ADMIN_CONTENT.examplesPageTitle152}>
             <Link href="/admin/examples" className="font-semibold text-primary-text underline underline-offset-4">
-              Filtreleri temizle
-            </Link>
+              {ADMIN_CONTENT.examplesPageContent153}</Link>
           </EmptyState>
         ) : (
-          <BulkSelection ids={list.map((r) => r.id)} noun="örnek" actions={actions}>
-            <Table label="Örnek CV'ler">
+          <BulkSelection ids={list.map((r) => r.id)} noun={ADMIN_CONTENT.examplesPageContent151} actions={actions}>
+            <Table label={ADMIN_CONTENT.examplesPageTitle142}>
               <thead>
                 <tr>
                   <Th className="w-12">
                     <SelectAll />
                   </Th>
-                  <Th>Örnek</Th>
-                  <Th className="max-md:hidden">Kategori</Th>
-                  <Th className="text-end max-lg:hidden">Rehber</Th>
-                  <Th className="text-end max-lg:hidden">Kullanım</Th>
-                  <Th>Durum</Th>
+                  <Th>{ADMIN_CONTENT.examplesPageContent154}</Th>
+                  <Th className="max-md:hidden">{ADMIN_CONTENT.examplesExampleFormLabel68}</Th>
+                  <Th className="text-end max-lg:hidden">{ADMIN_CONTENT.examplesPageContent155}</Th>
+                  <Th className="text-end max-lg:hidden">{ADMIN_CONTENT.examplesPageContent156}</Th>
+                  <Th>{ADMIN_CONTENT.examplesPageLabel148}</Th>
                 </tr>
               </thead>
               <tbody>
@@ -141,16 +139,15 @@ export default async function Examples({ searchParams }: PageProps<"/[locale]/ad
                         {r.title}
                       </Link>
                       <p className="truncate text-sm text-muted">
-                        {r.locale.toUpperCase()} · /{r.slug}
+                        {r.locale.toUpperCase()} {ADMIN_CONTENT.examplesPageContent157}{r.slug}
                         {r.experienceLevel && ` · ${LEVEL_NAMES[r.experienceLevel] ?? r.experienceLevel}`}
                       </p>
                     </Td>
                     <Td className="text-muted max-md:hidden">{CATEGORY_NAMES[r.category] ?? r.category}</Td>
                     <Td className={cn("text-end whitespace-nowrap tabular-nums max-lg:hidden", r.words < MIN_GUIDE_WORDS ? "font-semibold text-warning" : "text-muted")}>
-                      {r.words} kelime
-                    </Td>
+                      {r.words} {ADMIN_CONTENT.examplesPageContent158}</Td>
                     <Td className="text-end text-muted tabular-nums max-lg:hidden">{r.usageCount}</Td>
-                    <Td>{r.active ? <Badge tone="success">Yayında</Badge> : <Badge>Taslak</Badge>}</Td>
+                    <Td>{r.active ? <Badge tone="success">{ADMIN_CONTENT.examplesIdPageLabel97}</Badge> : <Badge>{ADMIN_CONTENT.examplesPageLabel149}</Badge>}</Td>
                   </tr>
                 ))}
               </tbody>

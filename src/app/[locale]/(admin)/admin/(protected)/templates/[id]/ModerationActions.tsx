@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
+
 
 import { InlineNotice, useAction } from "@/components/admin/forms";
 import { buttonClass } from "@/components/ui/Button";
@@ -26,37 +28,32 @@ export function ModerationActions({
       <div className="flex flex-wrap gap-2">
         {hidden ? (
           <button type="button" disabled={pending} onClick={() => run(() => restoreTemplatesAction([id]))} className={buttonClass("secondary", "sm")}>
-            Yeniden aç
-          </button>
+            {ADMIN_CONTENT.templatesIdModerationActionsContent311}</button>
         ) : (
           <button
             type="button"
             disabled={pending}
             onClick={async () => {
-              if (!(await confirm("Şablon galeriden ve sayfasından kaldırılsın mı? Sahibi kendi CV'lerinde kullanmaya devam eder.", { danger: true, title: "Şablonu gizle", confirmLabel: "Gizle" })))
+              if (!(await confirm(ADMIN_CONTENT.templatesIdModerationActionsLabel312, { danger: true, title: ADMIN_CONTENT.templatesIdModerationActionsTitle313, confirmLabel: "Gizle" })))
                 return;
               run(() => hideTemplatesAction([id]));
             }}
             className={buttonClass("secondary", "sm", "text-danger hover:border-danger/50")}
           >
-            Şablonu gizle
-          </button>
+            {ADMIN_CONTENT.templatesIdModerationActionsTitle313}</button>
         )}
         {featured ? (
           <button type="button" disabled={pending} onClick={() => run(() => unfeatureTemplatesAction([id]))} className={buttonClass("secondary", "sm")}>
-            Öne çıkarmayı kaldır
-          </button>
+            {ADMIN_CONTENT.templatesIdModerationActionsContent314}</button>
         ) : (
           canFeature && (
             <button type="button" disabled={pending} onClick={() => run(() => featureTemplatesAction([id]))} className={buttonClass("secondary", "sm")}>
-              Galeride öne çıkar
-            </button>
+              {ADMIN_CONTENT.templatesIdModerationActionsContent315}</button>
           )
         )}
         {openReports > 0 && (
           <button type="button" disabled={pending} onClick={() => run(() => dismissReportsAction([id]))} className={buttonClass("secondary", "sm")}>
-            Sorun yok, şikâyetleri kapat
-          </button>
+            {ADMIN_CONTENT.templatesIdModerationActionsContent316}</button>
         )}
       </div>
       <InlineNotice notice={notice} />

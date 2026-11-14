@@ -30,5 +30,6 @@
   "errorTitle": "This page couldn’t load",
   "errorDescription": "Try again or return to the home page.",
   "retry": "Try again",
-  "footerInformation": "Information and support"
+  "footerInformation": "Information and support",
+  "atsCheck": "ATS check"
 }

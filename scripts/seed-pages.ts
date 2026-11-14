@@ -135,8 +135,8 @@ export function seedPages(locale: "tr" | "en"): SeedPage[] {
           "controller",
           tr ? "Veri sorumlusu" : "Data controller",
           tr
-            ? "Bu metin 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında hazırlanmıştır. Veri sorumlusu: **[Unvan / ad soyad]**, [adres]. İletişim: [e-posta]."
-            : "Data controller: **[Legal name]**, [address]. Contact: [email].",
+            ? "Bu metin 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında hazırlanmıştır. Veri sorumlusu: **FreehandCV**. İletişim: **support@freehandcv.com**."
+            : "Data controller: **FreehandCV**. Contact: **support@freehandcv.com**.",
         ),
         richText(
           "data",
@@ -149,8 +149,15 @@ export function seedPages(locale: "tr" | "en"): SeedPage[] {
           "purpose",
           tr ? "Neden işliyoruz?" : "Why we process it",
           tr
-            ? "Hesabını oluşturmak ve güvenliğini sağlamak, CV'lerini senin için saklamak, şifre sıfırlama gibi işlemleri yapmak ve hizmeti iyileştirmek için. Hukuki sebep: [KVKK m.5 kapsamındaki dayanak — hukukçu tarafından belirlenecek].\n\n**İşverenlerle paylaşım (isteğe bağlı):** Açık rızan varsa, seçtiğin CV'n işe alım yapan firmalarla paylaşılabilir; böylece iş fırsatlarına daha kolay ulaşırsın. Bu işlemenin dayanağı yalnızca **açık rızandır** (KVKK m.5/1, m.8). Rıza vermemen hiçbir özelliği kısıtlamaz; rızanı hesabındaki panelden istediğin an geri alabilirsin. Ne zaman ve hangi metne onay verdiğin kayıt altında tutulur."
-            : "To create and secure your account, store your resumes for you, handle things like password resets, and improve the service. Legal basis: [to be determined by legal counsel].\n\n**Sharing with employers (optional):** With your explicit consent, the resume you choose may be shared with hiring companies so job opportunities reach you more easily. The only basis for this is your **explicit consent**. Declining limits no feature, and you can withdraw consent from your dashboard at any time. We record when and to which text you consented.",
+            ? "Hesabını oluşturmak ve güvenliğini sağlamak, CV'lerini senin için saklamak, şifre sıfırlama gibi işlemleri yapmak ve hizmeti iyileştirmek için. Hukuki sebep: [KVKK m.5 kapsamındaki dayanak — hukukçu tarafından belirlenecek].\n\n**İşverenlerle paylaşım (isteğe bağlı):** Açık rızan varsa, seçtiğin CV’nin mesleki ve iletişim bilgileri ölçütlerine uyan firma hesaplarınca panel ve API üzerinden görüntülenebilir ve işe alım sistemlerine aktarılabilir. Gizli bölümler, fotoğraflar ve referanslar bu erişime dahil değildir. Rızanı geri çekmek sonraki erişimleri durdurur; daha önce aktarılmış kopyalar otomatik olarak geri alınamaz. Bu işlemenin dayanağı yalnızca **açık rızandır** (KVKK m.5/1, m.8). Rıza vermemen hiçbir özelliği kısıtlamaz; rızanı hesabındaki panelden istediğin an geri alabilirsin. Ne zaman ve hangi metne onay verdiğin kayıt altında tutulur."
+            : "To create and secure your account, store your resumes for you, handle things like password resets, and improve the service. Legal basis: [to be determined by legal counsel].\n\n**Sharing with employers (optional):** With your explicit consent, professional and contact details from your selected resume can be viewed by matching companies through the dashboard and API and imported into recruiting systems. Hidden sections, photos and references are excluded. Withdrawal stops future access; copies already imported cannot be automatically recalled. The only basis for this is your **explicit consent**. Declining limits no feature, and you can withdraw consent from your dashboard at any time. We record when and to which text you consented.",
+        ),
+        richText(
+          "optional-import-and-ai",
+          tr ? "İçe aktarma ve yapay zekâ" : "Imports and AI assistance",
+          tr
+            ? "PDF, metin ve LinkedIn CSV dosyaları tarayıcında işlenir; içe aktarma sırasında sunucuya yüklenmez. GitHub bağlantısı, kendi herkese açık depolarının temel bilgilerini okur; koduna yazma izni istemez.\n\nYapay zekâ özelliği sağlayıcı yapılandırılana kadar kapalıdır. Etkinleştirildiğinde yalnız açık onay verdiğin metin seçili sağlayıcıya gönderilir. İstek metni uygulamada saklanmaz. Kullanım hakkı ve onay sürümü kayıt altında tutulur; başarılı taslak 1 saat yeniden erişilebilir olur ve süresi dolan taslaklar periyodik bakımda temizlenir. Sağlayıcının veri işleme ve yurt dışı aktarım koşulları etkinleştirmeden önce ayrıca açıklanmalıdır."
+            : "PDF, text and LinkedIn CSV files are processed in your browser and are not uploaded during import. GitHub access reads basic metadata from your own public repositories and requests no code-writing permission.\n\nAI assistance stays disabled until a provider is configured. When enabled, only the text you explicitly consent to send is sent to the selected provider. The application does not retain the prompt. Usage and consent version are recorded; a successful draft can be retrieved for one hour, and expired drafts are cleared by periodic maintenance. The provider’s data processing and international transfer arrangements must be disclosed before activation.",
         ),
         richText(
           "sharing",
@@ -170,8 +177,8 @@ export function seedPages(locale: "tr" | "en"): SeedPage[] {
           "rights",
           tr ? "Hakların" : "Your rights",
           tr
-            ? "KVKK'nın 11. maddesi uyarınca verilerinin işlenip işlenmediğini öğrenme, bilgi isteme, düzeltilmesini ya da silinmesini isteme, itiraz etme ve zararın giderilmesini talep etme hakların vardır. **Hesabım** sayfasından verilerinin tamamını JSON olarak indirebilir ve hesabını kapatabilirsin. Başvurular için: [e-posta / başvuru yöntemi]."
-            : "You can ask whether your data is processed, request access, correction or deletion, object, and seek redress. On the **My account** page you can download all your data as JSON and close your account. Requests: [email / method].",
+            ? "KVKK'nın 11. maddesi uyarınca verilerinin işlenip işlenmediğini öğrenme, bilgi isteme, düzeltilmesini ya da silinmesini isteme, itiraz etme ve zararın giderilmesini talep etme hakların vardır. **Hesabım** sayfasından verilerinin tamamını JSON olarak indirebilir ve hesabını kapatabilirsin. Başvurularını support@freehandcv.com adresine iletebilirsin."
+            : "You can ask whether your data is processed, request access, correction or deletion, object, and seek redress. On the **My account** page you can download all your data as JSON and close your account. Send requests to support@freehandcv.com.",
         ),
         richText(
           "cookies",

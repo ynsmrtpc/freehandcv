@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
+
 
 import { useConfirm } from "@/components/ui/ConfirmProvider";
 
@@ -18,7 +20,7 @@ export function PublishToggle({ id, active }: { id: string; active: boolean }) {
         type="button"
         disabled={pending}
         onClick={async () => {
-          if (active && !await confirm("Örnek yayından kaldırılsın mı? Sayfası 404 verir.")) return;
+          if (active && !await confirm(ADMIN_CONTENT.examplesPublishToggleLabel94)) return;
           startTransition(async () => {
             const r = await setExampleActiveAction(id, !active);
             if (r.ok) {
@@ -29,7 +31,7 @@ export function PublishToggle({ id, active }: { id: string; active: boolean }) {
         }}
         className={buttonClass(active ? "ghost" : "secondary", "sm")}
       >
-        {active ? "Yayından kaldır" : "Yayınla"}
+        {active ? ADMIN_CONTENT.examplesPublishToggleLabel95 : ADMIN_CONTENT.examplesPublishToggleLabel96}
       </button>
       {error && (
         <p role="alert" className="mt-1.5 text-sm font-medium text-danger">

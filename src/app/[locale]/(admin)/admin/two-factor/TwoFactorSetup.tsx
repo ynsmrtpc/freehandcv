@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
+
 
 import { Check, Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -45,7 +47,7 @@ export function TwoFactorSetup() {
       {!setup ? (
         <form action={start}>
           <p className="mt-2 text-[15px] leading-relaxed text-muted">{t("twoFactorDescription")}</p>
-          <Field label={t("password")} name="password" type="password" autoComplete="current-password" required autoFocus />
+          <Field label={t("password")} name={ADMIN_CONTENT.signInPageName361} type="password" autoComplete="current-password" required autoFocus />
           <ErrorText>{error}</ErrorText>
           <Button disabled={pending}>{t("continue")}</Button>
         </form>
@@ -84,7 +86,7 @@ export function TwoFactorSetup() {
           <Field
             label={t("verificationCode")}
             hint={t("codeHint")}
-            name="code"
+            name={ADMIN_CONTENT.signInPageName362}
             inputMode="numeric"
             autoComplete="one-time-code"
             pattern="[0-9]{6}"

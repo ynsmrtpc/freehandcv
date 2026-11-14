@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
+
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -10,7 +12,7 @@ export function ApprovalButton({ id, approved, displayAllowed }: { id: string; a
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
 
-  if (!approved && !displayAllowed) return <span className="text-xs text-muted">İzin yok</span>;
+  if (!approved && !displayAllowed) return <span className="text-xs text-muted">{ADMIN_CONTENT.reviewsApprovalButtonContent278}</span>;
 
   return (
     <div>

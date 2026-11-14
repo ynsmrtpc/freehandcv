@@ -1,0 +1,11 @@
+{
+  "meta": "ATS CV kontrolü",
+  "description": "CV’nin okunabilirliği ve temel içerik eksikleri için ücretsiz ön kontrol. Dosya yalnız tarayıcıda işlenir; işe alım sonucu veya bir ATS ürününde geçiş garantisi değildir.",
+  "file": "PDF veya FreehandCV JSON dosyası",
+  "check": "CV’yi kontrol et",
+  "pdfNotice": "PDF metni üzerinden yalnız doğrulanabilen içerik kontrolleri gösterilir. Orijinal tasarımın sütunları, renkleri ve yazı tipleri için puan verilmez.",
+  "jsonNotice": "FreehandCV verisi üzerinde içerik ve kayıtlı şablon kontrolleri uygulanır.",
+  "results": "Kontrol sonucu",
+  "error": "Dosya okunamadı. Metin içeren, en fazla 20 sayfalık / 10 MB PDF veya geçerli FreehandCV JSON seç.",
+  "start": "CV sihirbazıyla devam et"
+}

@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
 import { ArrowRight } from "lucide-react";
 import { AdminBody, AdminPageHeader } from "@/components/admin/kit";
 import { InkTick } from "@/components/ui/InkMark";
@@ -13,23 +14,22 @@ export default async function Overview() {
 
   // What needs a person's attention, most actionable first. Empty items drop out.
   const todo = [
-    { n: o.openReports, text: "şablon şikâyeti inceleme bekliyor", href: "/admin/templates?durum=reported" },
-    { n: o.unpublishedPages, text: "sayfada yayınlanmamış değişiklik var", href: "/admin/pages?durum=taslak" },
-    { n: o.draftExamples, text: "örnek CV taslakta bekliyor", href: "/admin/examples?durum=taslak" },
+    { n: o.openReports, text: ADMIN_CONTENT.pageText214, href: "/admin/templates?durum=reported" },
+    { n: o.unpublishedPages, text: ADMIN_CONTENT.pageText215, href: "/admin/pages?durum=taslak" },
+    { n: o.draftExamples, text: ADMIN_CONTENT.pageText216, href: "/admin/examples?durum=taslak" },
     { n: o.pendingReviews, text: "yorum onay bekliyor", href: "/admin/reviews" },
   ].filter((t) => t.n > 0);
 
   return (
     <>
       <AdminPageHeader
-        title={`Hoş geldin, ${name}`}
-        description={`${o.users} kullanıcı · ${o.resumes} kayıtlı CV · ${o.publishedExamples} yayında örnek`}
+        title={formatAdminContent(ADMIN_CONTENT.pageMessage217, {value0: name})}
+        description={formatAdminContent(ADMIN_CONTENT.pageMessage218, {value0: o.users,value1: o.resumes,value2: o.publishedExamples})}
       />
       <AdminBody>
         <section aria-labelledby="todo-title">
           <h2 id="todo-title" className="text-lg font-bold text-foreground">
-            Bekleyen işler
-          </h2>
+            {ADMIN_CONTENT.pageContent219}</h2>
           {todo.length ? (
             <ul className="mt-3 border-t border-border">
               {todo.map((t) => (
@@ -48,19 +48,16 @@ export default async function Overview() {
           ) : (
             <p className="mt-3 flex items-center gap-2 text-[15px] text-muted">
               <InkTick className="size-5" />
-              Bekleyen iş yok: tüm sayfalar yayında, taslak örnek ya da onay bekleyen yorum yok.
-            </p>
+              {ADMIN_CONTENT.pageContent220}</p>
           )}
         </section>
 
         <section aria-labelledby="recent-title">
           <div className="mb-3 flex items-center justify-between">
             <h2 id="recent-title" className="text-lg font-bold text-foreground">
-              Son değişiklikler
-            </h2>
+              {ADMIN_CONTENT.pageContent221}</h2>
             <Link href="/admin/audit-log" className="text-[15px] font-semibold text-primary-text hover:underline">
-              Tüm günlük
-            </Link>
+              {ADMIN_CONTENT.pageContent222}</Link>
           </div>
           <AuditLogTable rows={recent} />
         </section>

@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
+
 
 import { Check, Copy, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -29,14 +31,14 @@ export function MediaUploader({ maxMb }: { maxMb: number }) {
     try {
       const res = await fetch("/api/admin/media", { method: "POST", body });
       const r = (await res.json()) as { ok: boolean; saved?: number; failed?: string[]; error?: string };
-      const failed = r.failed?.length ? ` Yüklenemeyenler: ${r.failed.join("; ")}.` : "";
-      setNotice(r.saved ? { kind: failed ? "error" : "success", text: `${r.saved} dosya yüklendi.${failed}` } : { kind: "error", text: (r.error ?? "Yüklenemedi.") + failed });
+      const failed = r.failed?.length ? formatAdminContent(ADMIN_CONTENT.mediaMediaClientMessage187, {value0: r.failed.join("; ")}) : "";
+      setNotice(r.saved ? { kind: failed ? "error" : "success", text: formatAdminContent(ADMIN_CONTENT.mediaMediaClientMessage188, {value0: r.saved,value1: failed}) } : { kind: "error", text: (r.error ?? ADMIN_CONTENT.mediaMediaClientLabel189) + failed });
       if (r.saved) {
         setAlt("");
         router.refresh();
       }
     } catch {
-      setNotice({ kind: "error", text: "Bağlantı kesildi; yükleme tamamlanmadı." });
+      setNotice({ kind: "error", text: ADMIN_CONTENT.mediaMediaClientText190 });
     } finally {
       setBusy(false);
       if (input.current) input.current.value = "";
@@ -46,8 +48,7 @@ export function MediaUploader({ maxMb }: { maxMb: number }) {
   return (
     <section aria-labelledby="upload-title" className="space-y-3">
       <h2 id="upload-title" className="sr-only">
-        Yükle
-      </h2>
+        {ADMIN_CONTENT.mediaMediaClientContent191}</h2>
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -66,19 +67,17 @@ export function MediaUploader({ maxMb }: { maxMb: number }) {
       >
         <Upload className="size-6 text-muted" aria-hidden />
         <p className="text-[15px] text-foreground">
-          Görselleri buraya sürükle ya da{" "}
+          {ADMIN_CONTENT.mediaMediaClientContent192}{" "}
           <button type="button" disabled={busy} onClick={() => input.current?.click()} className="font-semibold text-primary-text underline underline-offset-4">
-            bilgisayarından seç
-          </button>
+            {ADMIN_CONTENT.mediaMediaClientContent193}</button>
         </p>
-        <p className="text-sm text-muted">PNG, JPG, WebP, GIF ya da AVIF; her biri en fazla {maxMb} MB. SVG güvenlik nedeniyle kabul edilmez.</p>
+        <p className="text-sm text-muted">{ADMIN_CONTENT.mediaMediaClientContent194}{maxMb} {ADMIN_CONTENT.mediaMediaClientContent195}</p>
         <input ref={input} type="file" multiple accept="image/png,image/jpeg,image/webp,image/gif,image/avif" className="sr-only" tabIndex={-1} onChange={(e) => e.target.files && void upload(e.target.files)} />
-        {busy && <p className="text-[15px] font-semibold text-foreground" aria-live="polite">Yükleniyor…</p>}
+        {busy && <p className="text-[15px] font-semibold text-foreground" aria-live="polite">{ADMIN_CONTENT.loadingContent186}</p>}
       </div>
       <div className="max-w-xl">
         <label htmlFor={altId} className="block text-[15px] font-semibold text-foreground">
-          Alternatif metin (isteğe bağlı)
-        </label>
+          {ADMIN_CONTENT.mediaMediaClientContent196}</label>
         <input
           id={altId}
           value={alt}
@@ -86,7 +85,7 @@ export function MediaUploader({ maxMb }: { maxMb: number }) {
           onChange={(e) => setAlt(e.target.value)}
           className="mt-1.5 block h-11 w-full rounded-lg border border-border-strong bg-surface px-3 text-base text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/15"
         />
-        <p className="mt-1.5 text-sm text-muted">Görmeyen kullanıcılar için görseli bir cümleyle anlat. Bu yüklemedeki tüm dosyalara uygulanır; sonra tek tek düzenlenebilir.</p>
+        <p className="mt-1.5 text-sm text-muted">{ADMIN_CONTENT.mediaMediaClientContent197}</p>
       </div>
       <InlineNotice notice={notice} />
     </section>
@@ -106,16 +105,15 @@ export function AltTextField({ id, value }: { id: string; value: string }) {
     >
       <div className="flex gap-1.5">
         <input
-          aria-label="Alternatif metin"
-          placeholder="Alternatif metin yok"
+          aria-label={ADMIN_CONTENT.mediaMediaClientAriaLabel198}
+          placeholder={ADMIN_CONTENT.mediaMediaClientPlaceholder199}
           value={v}
           maxLength={300}
           onChange={(e) => setV(e.target.value)}
           className="block h-10 min-w-0 flex-1 rounded-md border border-border-strong bg-surface px-2.5 text-sm text-foreground outline-none placeholder:text-muted/80 focus:border-primary focus:ring-4 focus:ring-primary/15"
         />
         <button type="submit" disabled={pending || v === value} className={buttonClass("secondary", "sm", "pointer-fine:h-10")}>
-          Kaydet
-        </button>
+          {ADMIN_CONTENT.mediaMediaClientContent200}</button>
       </div>
       <InlineNotice notice={notice} />
     </form>
@@ -135,7 +133,7 @@ export function CopyUrl({ url }: { url: string }) {
       className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-2 text-sm font-semibold text-primary-text hover:bg-primary-soft pointer-fine:min-h-9"
     >
       {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
-      {copied ? "Kopyalandı" : "Adresi kopyala"}
+      {copied ? ADMIN_CONTENT.mediaMediaClientLabel201 : "Adresi kopyala"}
     </button>
   );
 }

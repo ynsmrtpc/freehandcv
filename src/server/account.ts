@@ -2,6 +2,7 @@ import "server-only";
 import { and, asc, eq, inArray, isNotNull, isNull, lt, ne } from "drizzle-orm";
 import { normalizeUsername, usernameProblem, type UsernameProblem } from "@/lib/username";
 import { db } from "./db";
+import { closeExtensionData, getExtensionAccountData } from "@/extensions/generated-data";
 import {
   account,
   auditLog,
@@ -14,6 +15,7 @@ import {
   templates,
   twoFactor,
   user,
+  aiGenerations,
 } from "./db/schema";
 
 // The account page's data rights (plan 9 /hesap, 13; KVKK): download everything as JSON, close the
@@ -46,7 +48,7 @@ export async function exportAccountData(userId: string) {
     .where(eq(user.id, userId))
     .limit(1);
   if (!u) return null;
-  const [linked, resumeRows, consentRows, reviewRows, templateRows] = await Promise.all([
+  const [linked, resumeRows, consentRows, reviewRows, templateRows, generationRows] = await Promise.all([
     db.select({ provider: account.providerId, createdAt: account.createdAt }).from(account).where(eq(account.userId, userId)),
     db
       .select({
@@ -89,6 +91,7 @@ export async function exportAccountData(userId: string) {
       .from(templates)
       .where(and(eq(templates.ownerId, userId), isNull(templates.deletedAt)))
       .orderBy(asc(templates.createdAt)),
+    db.select({ id: aiGenerations.id, status: aiGenerations.status, provider: aiGenerations.provider, model: aiGenerations.model, consentVersion: aiGenerations.consentVersion, draft: aiGenerations.draft, createdAt: aiGenerations.createdAt }).from(aiGenerations).where(eq(aiGenerations.userId, userId)),
   ]);
   const versions = resumeRows.length
     ? await db
@@ -115,6 +118,8 @@ export async function exportAccountData(userId: string) {
     consents: consentRows,
     reviews: reviewRows,
     templates: templateRows,
+    aiGenerations: generationRows,
+    extensions: await getExtensionAccountData(userId, resumeRows.map((row) => row.id)),
   };
 }
 
@@ -159,7 +164,9 @@ export async function closeAccount(userId: string) {
       .for("update");
     if (!u) return;
     if (u.role !== "user") throw new AdminAccountError();
+    await closeExtensionData(tx, userId);
     await tx.delete(resumes).where(eq(resumes.userId, userId));
+    await tx.delete(aiGenerations).where(eq(aiGenerations.userId, userId));
     await tx.update(siteReviews).set({ userId: null }).where(eq(siteReviews.userId, userId));
     // Templates leave the gallery and can no longer be applied; resumes using them keep their copy.
     await tx

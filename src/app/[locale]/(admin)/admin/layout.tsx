@@ -1,7 +1,8 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Yönetim",
+  title: ADMIN_CONTENT.layoutTitle359,
   robots: { index: false, follow: false },
 };
 

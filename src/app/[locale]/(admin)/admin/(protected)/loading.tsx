@@ -1,8 +1,9 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 // Shown inside the admin shell while a page loads its data, so a menu click responds at once.
 export default function AdminLoading() {
   return (
     <div aria-busy="true" aria-live="polite">
-      <span className="sr-only">Yükleniyor…</span>
+      <span className="sr-only">{ADMIN_CONTENT.loadingContent186}</span>
       <div className="border-b border-border bg-surface">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-8">
           <div className="h-8 w-56 rounded-md bg-surface-2" />

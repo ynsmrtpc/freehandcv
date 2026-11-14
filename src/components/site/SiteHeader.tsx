@@ -14,10 +14,10 @@ import { ThemeToggle } from "./ThemeToggle";
 
 // Hashes are anchors on the landing (block `anchor` values); English in every locale.
 type NavLink = {
-  labelKey: "templates" | "howItWorks" | "faq" | "navExamples" | "navGuides";
+  labelKey: "templates" | "howItWorks" | "faq" | "navExamples" | "navGuides" | "atsCheck";
   href: React.ComponentProps<typeof Link>["href"];
   /** Internal route on which the link is marked as the current page. */
-  route?: "/resume-templates" | "/resume-examples" | "/guides";
+  route?: "/resume-templates" | "/resume-examples" | "/guides" | "/ats-resume-check";
   /** Shown only in the mobile menu (the desktop bar stays short). */
   mobileOnly?: boolean;
 };
@@ -28,6 +28,7 @@ export function SiteHeader({ showExamples = false, showGuides = false }: { showE
   const pathname = usePathname();
   const links: NavLink[] = [
     { labelKey: "templates", href: "/resume-templates", route: "/resume-templates" },
+    { labelKey: "atsCheck", href: "/ats-resume-check", route: "/ats-resume-check", mobileOnly: true },
     ...(showExamples ? [{ labelKey: "navExamples", href: "/resume-examples", route: "/resume-examples" } as const] : []),
     ...(showGuides ? [{ labelKey: "navGuides", href: "/guides", route: "/guides" } as const] : []),
     { labelKey: "howItWorks", href: { pathname: "/", hash: "how-it-works" }, mobileOnly: true },

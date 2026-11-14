@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 // Site settings (plan 5: site_settings, 7.3). `settings` is locale-independent, `translations` is per locale.
 import { z } from "zod";
 import type { FieldMeta } from "./blocks";
@@ -8,15 +9,15 @@ const url = (label: string) =>
     z
       .string()
       .max(300)
-      .refine((v) => !v || /^https:\/\//.test(v), "https:// ile başlamalı"),
+      .refine((v) => !v || /^https:\/\//.test(v), ADMIN_CONTENT.siteSettingsLabel437),
     { label, display: "link" },
   );
 
 // Only the token itself (letters, digits, - and _), never a whole <meta> tag.
-const token = z.string().trim().max(100).regex(/^[\w-]*$/, "Yalnız kodu yapıştır (harf, rakam, - ve _)");
+const token = z.string().trim().max(100).regex(/^[\w-]*$/, ADMIN_CONTENT.siteSettingsLabel438);
 
 export const globalSettingsSchema = z.object({
-  contactEmail: m(z.union([z.literal(""), z.email("Geçerli bir e-posta gir")]), { label: "İletişim e-postası" }),
+  contactEmail: m(z.union([z.literal(""), z.email(ADMIN_CONTENT.siteSettingsLabel439)]), { label: ADMIN_CONTENT.siteSettingsLabel440 }),
   social: m(
     z.object({
       linkedin: url("LinkedIn"),
@@ -24,49 +25,49 @@ export const globalSettingsSchema = z.object({
       instagram: url("Instagram"),
       github: url("GitHub"),
     }),
-    { label: "Sosyal bağlantılar" },
+    { label: ADMIN_CONTENT.settingsSettingsFormTitle295 },
   ),
   donation: m(
     z.object({
-      enabled: m(z.boolean(), { label: "Bağış bağlantısını göster" }),
-      url: url("Bağış sayfası adresi"),
+      enabled: m(z.boolean(), { label: ADMIN_CONTENT.siteSettingsLabel441 }),
+      url: url(ADMIN_CONTENT.siteSettingsLabel442),
     }),
-    { label: "Bağış", hint: "Buy Me a Coffee, GitHub Sponsors vb." },
+    { label: ADMIN_CONTENT.settingsSettingsFormTitle297, hint: ADMIN_CONTENT.siteSettingsHint443 },
   ),
   verification: m(
     z.object({
-      google: m(token, { label: "Google Search Console", hint: "google-site-verification etiketindeki content değeri" }),
-      bing: m(token, { label: "Bing Webmaster Tools", hint: "msvalidate.01 etiketindeki content değeri" }),
-      yandex: m(token, { label: "Yandex Webmaster", hint: "yandex-verification etiketindeki content değeri" }),
+      google: m(token, { label: ADMIN_CONTENT.siteSettingsLabel444, hint: ADMIN_CONTENT.siteSettingsHint445 }),
+      bing: m(token, { label: ADMIN_CONTENT.siteSettingsLabel446, hint: ADMIN_CONTENT.siteSettingsHint447 }),
+      yandex: m(token, { label: ADMIN_CONTENT.siteSettingsLabel448, hint: ADMIN_CONTENT.siteSettingsHint449 }),
     }),
-    { label: "Arama motoru doğrulaması" },
+    { label: ADMIN_CONTENT.siteSettingsLabel450 },
   ),
 });
 
 export const localeSettingsSchema = z.object({
   announcement: m(
     z.object({
-      enabled: m(z.boolean(), { label: "Duyuru çubuğunu göster" }),
-      text: m(z.string().max(160), { label: "Metin" }),
+      enabled: m(z.boolean(), { label: ADMIN_CONTENT.siteSettingsLabel451 }),
+      text: m(z.string().max(160), { label: ADMIN_CONTENT.blocksRichText435 }),
       href: m(
         z
           .string()
           .max(300)
-          .refine((v) => !v || /^(\/|https:\/\/)/.test(v), "/ ya da https:// ile başlamalı"),
-        { label: "Bağlantı (isteğe bağlı)", display: "link" },
+          .refine((v) => !v || /^(\/|https:\/\/)/.test(v), ADMIN_CONTENT.siteSettingsLabel452),
+        { label: ADMIN_CONTENT.siteSettingsLabel453, display: "link" },
       ),
     }),
-    { label: "Duyuru çubuğu", hint: "Sitenin en üstünde ince bir şerit" },
+    { label: ADMIN_CONTENT.settingsSettingsFormTitle300, hint: ADMIN_CONTENT.siteSettingsHint454 },
   ),
-  footerTagline: m(z.string().max(240), { label: "Alt bilgi sloganı", display: "long", hint: "Boşsa varsayılan metin" }),
-  donationLabel: m(z.string().max(80), { label: "Bağış bağlantısı metni", hint: "Örn. Beğendiysen destek ol" }),
+  footerTagline: m(z.string().max(240), { label: ADMIN_CONTENT.siteSettingsLabel455, display: "long", hint: ADMIN_CONTENT.siteSettingsHint456 }),
+  donationLabel: m(z.string().max(80), { label: ADMIN_CONTENT.siteSettingsLabel457, hint: ADMIN_CONTENT.siteSettingsHint458 }),
 });
 
 export type GlobalSettings = z.infer<typeof globalSettingsSchema>;
 export type LocaleSettings = z.infer<typeof localeSettingsSchema>;
 
 export const DEFAULT_GLOBAL_SETTINGS: GlobalSettings = {
-  contactEmail: "",
+  contactEmail: "support@freehandcv.com",
   social: { linkedin: "", x: "", instagram: "", github: "" },
   donation: { enabled: false, url: "" },
   verification: { google: "", bing: "", yandex: "" },

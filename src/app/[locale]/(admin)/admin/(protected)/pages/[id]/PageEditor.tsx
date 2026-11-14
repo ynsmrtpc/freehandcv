@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
+
 
 import { useConfirm } from "@/components/ui/ConfirmProvider";
 
@@ -134,7 +136,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
     const b = blockListSchema.safeParse(blocks);
     if (b.success) return true;
     setErrors(mapIssues(b.error.issues.map((i) => ({ path: ["blocks", ...(i.path as (string | number)[])], message: i.message }))));
-    setNotice({ kind: "error", text: "Bazı alanlar hatalı; kırmızı alanları düzelt." });
+    setNotice({ kind: "error", text: ADMIN_CONTENT.pagesIdPageEditorText223 });
     return false;
   };
 
@@ -147,8 +149,8 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
         if (!r.ok) return void handleResult(r, "");
         version = r.version ?? version;
       }
-      if (then) handleResult(await then(), "Yayınlandı. Ziyaretçiler yeni içeriği görüyor.");
-      else handleResult({ ok: true, version }, "Taslak kaydedildi. Sitede görünmesi için yayınla.");
+      if (then) handleResult(await then(), ADMIN_CONTENT.pagesIdPageEditorLabel224);
+      else handleResult({ ok: true, version }, ADMIN_CONTENT.pagesIdPageEditorLabel225);
     });
 
   const updateBlock = (id: string, f: (b: Block) => Block) => setBlocks((l) => l.map((b) => (b.id === id ? f(b) : b)));
@@ -178,27 +180,27 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
     <div className="flex h-[calc(100dvh-3.5rem)] flex-col lg:h-dvh">
       {/* Top bar */}
       <div className="flex flex-wrap items-center gap-2 border-b border-border bg-surface px-4 py-3">
-        <Link href="/admin/pages" className={buttonClass("ghost", "sm", "px-2")} aria-label="Sayfalara dön">
+        <Link href="/admin/pages" className={buttonClass("ghost", "sm", "px-2")} aria-label={ADMIN_CONTENT.pagesIdPageEditorAriaLabel226}>
           <ArrowLeft className="size-4 rtl:rotate-180" />
         </Link>
         <div className="min-w-0">
           <p className="truncate text-lg font-bold text-foreground">{meta.title}</p>
           <p className="text-sm text-muted">
-            <span className="font-semibold uppercase">{page.locale}</span> · /{page.slug} ·{" "}
+            <span className="font-semibold uppercase">{page.locale}</span> {ADMIN_CONTENT.examplesPageContent157}{page.slug} ·{" "}
             {dirty ? (
-              <span className="font-semibold text-warning">Kaydedilmemiş değişiklik</span>
+              <span className="font-semibold text-warning">{ADMIN_CONTENT.pagesIdPageEditorContent227}</span>
             ) : page.hasUnpublishedChanges ? (
-              <span className="font-semibold text-warning">Taslak yayında değil</span>
+              <span className="font-semibold text-warning">{ADMIN_CONTENT.pagesIdPageEditorContent228}</span>
             ) : (
-              <span className="font-semibold text-accent">Yayında</span>
+              <span className="font-semibold text-accent">{ADMIN_CONTENT.examplesIdPageLabel97}</span>
             )}
           </p>
         </div>
         <div className="ms-auto flex flex-wrap items-center gap-1.5">
-          <div role="group" aria-label="Önizleme genişliği" className="hidden rounded-lg border border-border p-0.5 md:flex">
+          <div role="group" aria-label={ADMIN_CONTENT.pagesIdPageEditorAriaLabel229} className="hidden rounded-lg border border-border p-0.5 md:flex">
             {(
               [
-                ["desktop", Laptop, "Masaüstü"],
+                ["desktop", Laptop, ADMIN_CONTENT.pagesIdPageEditorLabel230],
                 ["tablet", Tablet, "Tablet"],
                 ["mobile", Smartphone, "Mobil"],
               ] as const
@@ -216,11 +218,11 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
           </div>
           <a href={siteUrl} target="_blank" rel="noreferrer" className={buttonClass("ghost", "sm")}>
             <ExternalLink className="size-4" />
-            <span className="max-sm:sr-only">Sitede aç</span>
+            <span className="max-sm:sr-only">{ADMIN_CONTENT.pagesIdPageEditorContent231}</span>
           </a>
           <button type="button" onClick={() => setVersionsOpen(true)} className={buttonClass("ghost", "sm")}>
             <History className="size-4" />
-            <span className="max-sm:sr-only">Sürümler</span>
+            <span className="max-sm:sr-only">{ADMIN_CONTENT.pagesIdPageEditorContent232}</span>
           </button>
           <button
             type="button"
@@ -228,8 +230,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
             onClick={() => save()}
             className={buttonClass("secondary", "sm")}
           >
-            Taslağı kaydet
-          </button>
+            {ADMIN_CONTENT.pagesIdPageEditorContent233}</button>
           <button
             type="button"
             disabled={pending || (!dirty && !page.hasUnpublishedChanges)}
@@ -237,8 +238,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
             className={buttonClass("primary", "sm")}
           >
             {pending && <Loader2 className="size-4 animate-spin" />}
-            Yayınla
-          </button>
+            {ADMIN_CONTENT.examplesPublishToggleLabel96}</button>
         </div>
       </div>
 
@@ -261,7 +261,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
             {(
               [
                 ["blocks", "Bloklar"],
-                ["settings", "Sayfa ayarları"],
+                ["settings", ADMIN_CONTENT.pagesIdPageEditorLabel234],
               ] as const
             ).map(([k, name]) => (
               <button
@@ -292,8 +292,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
                   className="mb-3 inline-flex min-h-11 items-center gap-1.5 text-[15px] font-semibold text-primary-text hover:underline pointer-fine:min-h-9"
                 >
                   <ArrowLeft className="size-4 rtl:rotate-180" />
-                  Tüm bloklar
-                </button>
+                  {ADMIN_CONTENT.pagesIdPageEditorContent235}</button>
                 <h2 className="mb-4 text-lg font-bold text-foreground">{BLOCK_NAMES[selectedBlock.type]}</h2>
                 <div className="space-y-6">
                   <SchemaForm
@@ -304,7 +303,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
                     path={["content"]}
                   />
                   <details className="rounded-lg border border-border bg-surface p-4">
-                    <summary className="cursor-pointer text-[15px] font-semibold text-foreground">Blok ayarları</summary>
+                    <summary className="cursor-pointer text-[15px] font-semibold text-foreground">{ADMIN_CONTENT.pagesIdPageEditorContent236}</summary>
                     <div className="mt-4">
                       <SchemaForm
                         schema={blockSettingsSchema}
@@ -334,7 +333,7 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
         <div className="hidden min-h-0 overflow-auto bg-desk p-4 lg:block">
           <iframe
             ref={iframeRef}
-            title="Canlı önizleme"
+            title={ADMIN_CONTENT.pagesIdPageEditorTitle237}
             src={previewUrl}
             onLoad={send}
             className="mx-auto h-full rounded-lg bg-background shadow-paper transition-[width] duration-300"
@@ -349,10 +348,10 @@ export function PageEditor({ page, versions }: { page: Page; versions: Version[]
           onClose={() => setVersionsOpen(false)}
           onRestore={(id) =>
             startTransition(async () => {
-              if (dirty && !await confirm("Kaydedilmemiş değişikliklerin kaybolacak. Devam edilsin mi?")) return;
+              if (dirty && !await confirm(ADMIN_CONTENT.pagesIdPageEditorLabel238)) return;
               const r = await restoreVersionAction(id);
               setVersionsOpen(false);
-              handleResult(r, "Eski sürüm taslağa alındı. Kontrol edip yayınlayabilirsin.");
+              handleResult(r, ADMIN_CONTENT.pagesIdPageEditorLabel239);
             })
           }
         />
@@ -400,26 +399,26 @@ function BlockList({
             <button type="button" onClick={() => select(b.id)} className="min-w-48 flex-1 px-4 py-3 text-start">
               <span className="block text-[15px] font-semibold text-foreground">{BLOCK_NAMES[b.type]}</span>
               <span className="block truncate text-sm text-muted">
-                {!b.settings.visible && <span className="me-1 font-semibold">Gizli ·</span>}
-                {titleSummary(b) || "Başlıksız"}
+                {!b.settings.visible && <span className="me-1 font-semibold">{ADMIN_CONTENT.pagesIdPageEditorContent240}</span>}
+                {titleSummary(b) || ADMIN_CONTENT.pagesIdPageEditorLabel241}
                 {b.settings.anchor && <span className="ms-1 font-mono">#{b.settings.anchor}</span>}
               </span>
             </button>
             <span className="ms-auto flex items-center px-1">
               <IconButton
-                label={b.settings.visible ? "Gizle" : "Göster"}
+                label={b.settings.visible ? "Gizle" : ADMIN_CONTENT.pagesIdPageEditorLabel242}
                 onClick={() => update(b.id, (x) => ({ ...x, settings: { ...x.settings, visible: !x.settings.visible } }))}
               >
                 {b.settings.visible ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
               </IconButton>
-              <IconButton label="Yukarı" disabled={i === 0} onClick={() => move(i, -1)}>
+              <IconButton label={ADMIN_CONTENT.pagesIdPageEditorLabel243} disabled={i === 0} onClick={() => move(i, -1)}>
                 <ChevronUp className="size-4" />
               </IconButton>
-              <IconButton label="Aşağı" disabled={i === blocks.length - 1} onClick={() => move(i, 1)}>
+              <IconButton label={ADMIN_CONTENT.pagesIdPageEditorLabel244} disabled={i === blocks.length - 1} onClick={() => move(i, 1)}>
                 <ChevronDown className="size-4" />
               </IconButton>
               <IconButton
-                label="Çoğalt"
+                label={ADMIN_CONTENT.pagesIdPageEditorLabel245}
                 onClick={() =>
                   setBlocks((l) => {
                     const next = [...l];
@@ -431,9 +430,9 @@ function BlockList({
                 <Copy className="size-4" />
               </IconButton>
               <IconButton
-                label="Sil"
+                label={ADMIN_CONTENT.examplesPageLabel140}
                 danger
-                onClick={async () => await confirm(`"${BLOCK_NAMES[b.type]}" bloğu silinsin mi?`, { danger: true }) && setBlocks((l) => l.filter((x) => x.id !== b.id))}
+                onClick={async () => await confirm(formatAdminContent(ADMIN_CONTENT.pagesIdPageEditorMessage246, {value0: BLOCK_NAMES[b.type]}), { danger: true }) && setBlocks((l) => l.filter((x) => x.id !== b.id))}
               >
                 <Trash2 className="size-4" />
               </IconButton>
@@ -445,10 +444,9 @@ function BlockList({
       {addOpen ? (
         <div className="rounded-lg border border-border bg-surface p-3">
           <div className="mb-2 flex items-center justify-between gap-2">
-            <p className="text-[15px] font-semibold text-foreground">Hangi blok eklensin?</p>
+            <p className="text-[15px] font-semibold text-foreground">{ADMIN_CONTENT.pagesIdPageEditorContent247}</p>
             <button type="button" onClick={() => setAddOpen(false)} className={buttonClass("ghost", "sm")}>
-              Vazgeç
-            </button>
+              {ADMIN_CONTENT.pagesIdPageEditorContent248}</button>
           </div>
           <div className="grid grid-cols-2 gap-2">
           {BLOCK_TYPES.map((type: BlockType) => (
@@ -475,8 +473,7 @@ function BlockList({
           className="flex h-12 w-full items-center justify-center gap-1.5 rounded-lg border border-dashed border-border-strong text-[15px] font-semibold text-primary-text hover:border-primary hover:bg-primary-soft"
         >
           <Plus className="size-4" />
-          Blok ekle
-        </button>
+          {ADMIN_CONTENT.pagesIdPageEditorContent249}</button>
       )}
     </div>
   );
@@ -506,13 +503,12 @@ function PageSettings({ meta, setMeta, errors }: { meta: Meta; setMeta: (m: Meta
   };
   return (
     <div className="space-y-4">
-      {field("title", "Sayfa adı (yönetimde görünür)", 120)}
-      {field("metaTitle", "SEO başlığı", 60)}
-      {field("metaDescription", "SEO açıklaması", 155, true)}
-      <Checkbox label="Arama motorları indekslesin" checked={meta.indexable} onChange={(v) => setMeta({ ...meta, indexable: v })} />
+      {field("title", ADMIN_CONTENT.pagesIdPageEditorLabel250, 120)}
+      {field("metaTitle", ADMIN_CONTENT.examplesExampleFormLabel73, 60)}
+      {field("metaDescription", ADMIN_CONTENT.examplesExampleFormLabel74, 155, true)}
+      <Checkbox label={ADMIN_CONTENT.pagesIdPageEditorLabel251} checked={meta.indexable} onChange={(v) => setMeta({ ...meta, indexable: v })} />
       <p className="text-sm text-muted">
-        Arama sonuçlarında başlık 60, açıklama 155 karakterden sonra kesilir. Boş bırakılırsa sitenin varsayılan başlığı kullanılır.
-      </p>
+        {ADMIN_CONTENT.pagesIdPageEditorContent252}</p>
     </div>
   );
 }
@@ -535,10 +531,9 @@ function VersionsDialog({
       className="m-auto w-[min(520px,calc(100vw-2rem))] rounded-lg border border-border bg-surface p-0 text-foreground shadow-elevated backdrop:bg-foreground/40"
     >
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
-        <h2 className="text-lg font-bold">Yayın geçmişi</h2>
+        <h2 className="text-lg font-bold">{ADMIN_CONTENT.pagesIdPageEditorContent253}</h2>
         <button type="button" onClick={() => ref.current?.close()} className={buttonClass("ghost", "sm")}>
-          Kapat
-        </button>
+          {ADMIN_CONTENT.pagesIdPageEditorContent254}</button>
       </div>
       {versions.length ? (
         <ul className="max-h-[60vh] divide-y divide-border overflow-y-auto">
@@ -547,18 +542,17 @@ function VersionsDialog({
               <div className="min-w-0 flex-1">
                 <p className="text-[15px] font-semibold tabular-nums">
                   {new Date(v.createdAt).toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short" })}
-                  {i === 0 && <span className="ms-2 rounded-md bg-accent-soft px-1.5 py-0.5 text-sm text-accent">Son yayın</span>}
+                  {i === 0 && <span className="ms-2 rounded-md bg-accent-soft px-1.5 py-0.5 text-sm text-accent">{ADMIN_CONTENT.pagesIdPageEditorContent255}</span>}
                 </p>
                 <p className="text-sm text-muted">{v.publishedBy}</p>
               </div>
               <button type="button" onClick={() => onRestore(v.id)} className={buttonClass("secondary", "sm")}>
-                Taslağa al
-              </button>
+                {ADMIN_CONTENT.examplesPageLabel138}</button>
             </li>
           ))}
         </ul>
       ) : (
-        <p className="p-6 text-[15px] text-muted">Henüz yayın geçmişi yok. İlk “Yayınla” ile oluşur.</p>
+        <p className="p-6 text-[15px] text-muted">{ADMIN_CONTENT.pagesIdPageEditorContent256}</p>
       )}
     </dialog>
   );

@@ -48,5 +48,7 @@
       "under_review": "Şikâyet nedeniyle incelemede; galeride görünmüyor",
       "hidden": "Yönetici tarafından gizlendi"
     }
-  }
+  },
+  "wizard": "Sihirbazla oluştur",
+  "importResume": "CV içe aktar"
 }

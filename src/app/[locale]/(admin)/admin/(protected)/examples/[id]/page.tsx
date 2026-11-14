@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
 import { Eye, FilePen } from "lucide-react";
 import { notFound } from "next/navigation";
 import { z } from "zod";
@@ -18,17 +19,15 @@ export default async function EditExample({ params }: PageProps<"/[locale]/admin
     <>
       <AdminPageHeader
         title={e.title}
-        description={`${e.active ? "Yayında" : "Taslak"} · /${e.slug} · ${e.usageCount} kez kullanıldı`}
+        description={formatAdminContent(ADMIN_CONTENT.examplesIdPageMessage98, {value0: e.active ? ADMIN_CONTENT.examplesIdPageLabel97 : "Taslak",value1: e.slug,value2: e.usageCount})}
       >
         <div className="flex flex-wrap items-start gap-2">
           <Link href={{ pathname: "/admin/examples/[id]/preview", params: { id } }} className={buttonClass("ghost", "sm")}>
             <Eye className="size-4" />
-            Önizle
-          </Link>
+            {ADMIN_CONTENT.examplesIdPageContent99}</Link>
           <Link href={{ pathname: "/admin/example-editor/[id]", params: { id } }} className={buttonClass("secondary", "sm")}>
             <FilePen className="size-4" />
-            CV içeriğini düzenle
-          </Link>
+            {ADMIN_CONTENT.examplesIdPageContent100}</Link>
           <PublishToggle id={id} active={e.active} />
         </div>
       </AdminPageHeader>

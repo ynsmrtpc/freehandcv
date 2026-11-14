@@ -33,6 +33,7 @@ bun run dev
 | `bun run content:seed` | Writes starter content (leaves existing rows untouched) |
 | `bun run data:convert-legacy` | One-off: converts Turkish-keyed JSON (pages, site settings, resumes) to the English shape |
 | `bun run test` | Vitest unit tests |
+| `bun run test:e2e` | Playwright checks against `freehandcv_test` only |
 
 ## Admin account
 
@@ -88,6 +89,22 @@ Next to a running `bun run dev`, a second dev server on the test database needs 
 NEXT_DIST_DIR=.next-test DATABASE_URL=postgres://freehandcv:freehandcv@localhost:5433/freehandcv_test \
   BETTER_AUTH_URL=http://localhost:3100 NEXT_PUBLIC_SITE_URL=http://localhost:3100 bun run dev -p 3100
 ```
+
+The automated suite requires `TEST_DATABASE_URL` explicitly and refuses any database name other
+than `freehandcv_test`. Create that database with an account that has `CREATEDB` permission first.
+The runner applies migrations and starts its own server at `localhost:3100`; it never reuses a
+development server. Email delivery and Google OAuth are disabled for the test server.
+
+```bash
+bunx playwright install chromium
+TEST_DATABASE_URL=postgres://freehandcv:freehandcv@localhost:5433/freehandcv_test bun run test:e2e
+```
+
+GitHub Actions provisions an isolated PostgreSQL service and runs type checking, lint, unit tests,
+and the browser suite against a production build (`E2E_PRODUCTION=1`). The browser suite covers HTTP 404/localization, official
+template/category availability, account-export isolation, password reset/session revocation, and
+rejection of unverified/suspended sign-ins. It creates synthetic fixtures and removes them afterward.
+Resume mutations, admin moderation and PDF output still need further integration coverage.
 
 ## Google sign-in and One Tap
 

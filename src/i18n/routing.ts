@@ -1,4 +1,5 @@
 import { defineRouting } from "next-intl/routing";
+import { extensionPathnames } from "@/extensions/generated-routing";
 
 // Plan sections 6.2 and 8.3: Turkish lives at the root (no prefix), other locales use a prefix.
 // Internal route keys are English; public path segments are written for each market's real
@@ -10,8 +11,12 @@ export const routing = defineRouting({
   // No automatic redirect; a browser-language suggestion bar is shown instead (8.3).
   localeDetection: false,
   pathnames: {
+    ...extensionPathnames,
     "/": "/",
     "/create-resume": { tr: "/cv-olustur", en: "/create-resume" },
+    "/resume-wizard": { tr: "/cv-sihirbazi", en: "/resume-wizard" },
+    "/resume-import": { tr: "/cv-aktar", en: "/resume-import" },
+    "/ats-resume-check": { tr: "/ats-cv-kontrolu", en: "/ats-resume-check" },
     "/resume-examples": { tr: "/cv-ornekleri", en: "/resume-examples" },
     "/resume-examples/[slug]": { tr: "/cv-ornekleri/[slug]", en: "/resume-examples/[slug]" },
     "/resume-templates": { tr: "/cv-sablonlari", en: "/resume-templates" },

@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
+
 
 import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import { useEffect, useId, useMemo, useState, useTransition } from "react";
@@ -112,18 +114,18 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
         submit();
       }}
     >
-      <FormSection id="page" title="Sayfa" description="Örnek sayfasının başlığı, adresi ve listede nerede duracağı.">
+      <FormSection id="page" title={ADMIN_CONTENT.auditLogAuditLogTablePage38} description={ADMIN_CONTENT.examplesExampleFormDescription55}>
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field label="Sayfa başlığı" hint="Sayfanın ana başlığı. Örn. Hemşire CV Örneği">
+          <Field label={ADMIN_CONTENT.examplesExampleFormLabel56} hint={ADMIN_CONTENT.examplesExampleFormHint57}>
             {(p) => <input {...p} className={adminInputClass} value={v.title} onChange={(e) => set("title", e.target.value)} required />}
           </Field>
-          <Field label="Meslek" hint="Rehberde “Hemşire CV'si yazarken” gibi başlıklarda kullanılır.">
+          <Field label={ADMIN_CONTENT.examplesExampleFormLabel58} hint={ADMIN_CONTENT.examplesExampleFormHint59}>
             {(p) => <input {...p} className={adminInputClass} value={v.occupation} onChange={(e) => set("occupation", e.target.value)} required />}
           </Field>
           <Field
-            label="Adres (slug)"
+            label={ADMIN_CONTENT.examplesExampleFormLabel60}
             className="sm:col-span-2"
-            hint={slugLocked ? "Yayındaki örneğin adresi değiştirilemez; eski bağlantılar kırılır." : "Türkçe: …-cv-ornegi, İngilizce: …-resume. Yayınlandıktan sonra değişmez."}
+            hint={slugLocked ? ADMIN_CONTENT.examplesExampleFormLabel61 : ADMIN_CONTENT.examplesExampleFormLabel62}
           >
             {(p) => (
               <input
@@ -136,15 +138,15 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
               />
             )}
           </Field>
-          <Field label="Dil" hint={slugLocked ? "Yayındaki örneğin dili değiştirilemez." : undefined}>
+          <Field label={ADMIN_CONTENT.examplesExampleFormLabel63} hint={slugLocked ? ADMIN_CONTENT.examplesExampleFormLabel64 : undefined}>
             {(p) => (
               <select {...p} className={cn(adminInputClass, "disabled:bg-surface-2")} value={v.locale} disabled={slugLocked} onChange={(e) => set("locale", e.target.value as "tr" | "en")}>
-                <option value="tr">Türkçe</option>
-                <option value="en">İngilizce</option>
+                <option value="tr">{ADMIN_CONTENT.examplesExampleFormContent65}</option>
+                <option value="en">{ADMIN_CONTENT.examplesExampleFormContent66}</option>
               </select>
             )}
           </Field>
-          <Field label="Deneyim seviyesi">
+          <Field label={ADMIN_CONTENT.examplesExampleFormLabel67}>
             {(p) => (
               <select {...p} className={adminInputClass} value={v.experienceLevel} onChange={(e) => set("experienceLevel", e.target.value as ExampleFormValues["experienceLevel"])}>
                 {EXPERIENCE_LEVELS.map((l) => (
@@ -155,7 +157,7 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
               </select>
             )}
           </Field>
-          <Field label="Kategori">
+          <Field label={ADMIN_CONTENT.examplesExampleFormLabel68}>
             {(p) => (
               <select {...p} className={adminInputClass} value={v.category} onChange={(e) => set("category", e.target.value)}>
                 {EXAMPLE_CATEGORY_IDS.map((c) => (
@@ -166,7 +168,7 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
               </select>
             )}
           </Field>
-          <Field label="Sıra" hint="Küçük sayı önce gelir; eşitse en çok kullanılan önce.">
+          <Field label={ADMIN_CONTENT.examplesExampleFormLabel69} hint={ADMIN_CONTENT.examplesExampleFormHint70}>
             {(p) => (
               <input
                 {...p}
@@ -181,12 +183,12 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
         </div>
       </FormSection>
 
-      <FormSection id="seo" title="Arama motorları" description="Arama sonuçlarında görünen başlık ve açıklama. Boş kalırsa sayfa başlığı ve rehber girişi kullanılır.">
+      <FormSection id="seo" title={ADMIN_CONTENT.examplesExampleFormTitle71} description={ADMIN_CONTENT.examplesExampleFormDescription72}>
         <div className="space-y-5">
-          <Field label="SEO başlığı" counter={{ value: v.metaTitle.length, limit: 60 }}>
+          <Field label={ADMIN_CONTENT.examplesExampleFormLabel73} counter={{ value: v.metaTitle.length, limit: 60 }}>
             {(p) => <input {...p} className={adminInputClass} value={v.metaTitle} onChange={(e) => set("metaTitle", e.target.value)} />}
           </Field>
-          <Field label="SEO açıklaması" counter={{ value: v.metaDescription.length, limit: 155 }}>
+          <Field label={ADMIN_CONTENT.examplesExampleFormLabel74} counter={{ value: v.metaDescription.length, limit: 155 }}>
             {(p) => <textarea {...p} rows={3} className={textareaClass} value={v.metaDescription} onChange={(e) => set("metaDescription", e.target.value)} />}
           </Field>
         </div>
@@ -194,18 +196,16 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
 
       <FormSection
         id="guide"
-        title="Meslek rehberi"
+        title={ADMIN_CONTENT.examplesExampleFormTitle75}
         description={
           <>
-            Örnek CV&apos;nin altında görünen yazı. Boş satır yeni paragraf, “- ” ile başlayan satırlar liste, **iki yıldız** kalın.
-            <span className={cn("mt-2 block font-semibold tabular-nums", words < 400 || words > 800 ? "text-warning" : "text-foreground")}>
-              {words} kelime · hedef 400–800
-            </span>
+            {ADMIN_CONTENT.examplesExampleFormContent76}<span className={cn("mt-2 block font-semibold tabular-nums", words < 400 || words > 800 ? "text-warning" : "text-foreground")}>
+              {words} {ADMIN_CONTENT.examplesExampleFormContent77}</span>
           </>
         }
       >
         <div className="space-y-5">
-          <Field label="Giriş" hint="Başlığın altında görünür; SEO açıklaması boşsa ilk 155 karakteri kullanılır.">
+          <Field label={ADMIN_CONTENT.examplesExampleFormLabel78} hint={ADMIN_CONTENT.examplesExampleFormHint79}>
             {(p) => <textarea {...p} rows={4} className={textareaClass} value={v.guide.intro} onChange={(e) => set("guide", { ...v.guide, intro: e.target.value })} />}
           </Field>
 
@@ -213,15 +213,15 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
             {v.guide.sections.map((s, i) => (
               <li key={i} className="rounded-lg border border-border bg-surface p-4">
                 <div className="flex items-end gap-1">
-                  <Field label={`Bölüm ${i + 1} başlığı`} className="min-w-0 flex-1">
+                  <Field label={formatAdminContent(ADMIN_CONTENT.examplesExampleFormMessage80, {value0: i + 1})} className="min-w-0 flex-1">
                     {(p) => <input {...p} className={adminInputClass} value={s.heading} onChange={(e) => setSection(i, { heading: e.target.value })} />}
                   </Field>
-                  <button type="button" aria-label={`Bölüm ${i + 1}: yukarı taşı`} disabled={i === 0} onClick={() => swap(i, i - 1)} className={buttonClass("ghost", "sm", "px-2.5")}>
+                  <button type="button" aria-label={formatAdminContent(ADMIN_CONTENT.examplesExampleFormMessage81, {value0: i + 1})} disabled={i === 0} onClick={() => swap(i, i - 1)} className={buttonClass("ghost", "sm", "px-2.5")}>
                     <ArrowUp className="size-4" />
                   </button>
                   <button
                     type="button"
-                    aria-label={`Bölüm ${i + 1}: aşağı taşı`}
+                    aria-label={formatAdminContent(ADMIN_CONTENT.examplesExampleFormMessage82, {value0: i + 1})}
                     disabled={i === v.guide.sections.length - 1}
                     onClick={() => swap(i, i + 1)}
                     className={buttonClass("ghost", "sm", "px-2.5")}
@@ -230,9 +230,9 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
                   </button>
                   <button
                     type="button"
-                    aria-label={`Bölüm ${i + 1}: sil`}
+                    aria-label={formatAdminContent(ADMIN_CONTENT.examplesExampleFormMessage83, {value0: i + 1})}
                     onClick={async () =>
-                      (await confirm(`“${s.heading || `Bölüm ${i + 1}`}” bölümü silinsin mi?`, { danger: true })) && setSections(v.guide.sections.filter((_, j) => j !== i))
+                      (await confirm(formatAdminContent(ADMIN_CONTENT.examplesExampleFormMessage85, {value0: s.heading || formatAdminContent(ADMIN_CONTENT.examplesExampleFormMessage84, {value0: i + 1})}), { danger: true })) && setSections(v.guide.sections.filter((_, j) => j !== i))
                     }
                     className={buttonClass("ghost", "sm", "px-2.5 text-danger hover:bg-danger-soft")}
                   >
@@ -241,7 +241,7 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
                 </div>
                 <textarea
                   rows={7}
-                  aria-label={`Bölüm ${i + 1} metni`}
+                  aria-label={formatAdminContent(ADMIN_CONTENT.examplesExampleFormMessage86, {value0: i + 1})}
                   className={cn(textareaClass, "mt-3")}
                   value={s.body}
                   onChange={(e) => setSection(i, { body: e.target.value })}
@@ -256,9 +256,8 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
             className={buttonClass("secondary", "sm")}
           >
             <Plus className="size-4" />
-            Bölüm ekle
-          </button>
-          {v.guide.sections.length >= 12 && <p className="text-sm text-muted">En fazla 12 bölüm eklenebilir.</p>}
+            {ADMIN_CONTENT.examplesExampleFormContent87}</button>
+          {v.guide.sections.length >= 12 && <p className="text-sm text-muted">{ADMIN_CONTENT.examplesExampleFormContent88}</p>}
         </div>
       </FormSection>
 
@@ -267,16 +266,15 @@ export function ExampleForm({ id, initial, slugLocked }: { id?: string; initial:
           {notice ? (
             <InlineNotice notice={notice} />
           ) : (
-            <p className="text-[15px] text-muted">{!id ? "Yeni örnek taslak olarak oluşturulur." : dirty ? "Kaydedilmemiş değişiklikler var." : "Tüm değişiklikler kaydedildi."}</p>
+            <p className="text-[15px] text-muted">{!id ? ADMIN_CONTENT.examplesExampleFormLabel89 : dirty ? ADMIN_CONTENT.examplesExampleFormLabel90 : ADMIN_CONTENT.examplesExampleFormLabel91}</p>
           )}
         </div>
         {id && (
           <button type="button" disabled={!dirty || pending} onClick={() => (setV(initial), setNotice(null))} className={buttonClass("ghost", "sm")}>
-            Geri al
-          </button>
+            {ADMIN_CONTENT.examplesExampleFormContent92}</button>
         )}
         <button type="submit" disabled={pending || (!!id && !dirty)} className={buttonClass("primary", "sm")}>
-          {id ? "Kaydet" : "Oluştur"}
+          {id ? "Kaydet" : ADMIN_CONTENT.examplesExampleFormLabel93}
         </button>
       </div>
     </form>

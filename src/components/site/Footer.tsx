@@ -85,6 +85,7 @@ export async function Footer() {
         <nav aria-label={t("footerProduct")}>
           <p className="text-sm font-semibold text-foreground">{t("footerProduct")}</p>
           <ul className="mt-4 space-y-3">
+            <li><Link href="/ats-resume-check" className={linkClass}>{t("atsCheck")}</Link></li>
             <li>
               <Link href="/create-resume" className={linkClass}>
                 {t("createResume")}

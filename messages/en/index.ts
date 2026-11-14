@@ -16,6 +16,10 @@ import Account from "./Account.json";
 import TemplateEditor from "./TemplateEditor.json";
 import Email from "./Email.json";
 import Confirmation from "./Confirmation.json";
+import Wizard from "./Wizard.json";
+import Import from "./Import.json";
+import Ats from "./Ats.json";
+import { extensionMessages } from "../../src/extensions/generated-messages";
 
-const messages = { Meta, Site, Landing, App, Admin, Editor, Checks, Auth, Dashboard, Consent, Templates, Examples, Guides, Account, TemplateEditor, Email, Confirmation };
+const messages = { ...extensionMessages.en, Ats, Import, Wizard, Meta, Site, Landing, App, Admin, Editor, Checks, Auth, Dashboard, Consent, Templates, Examples, Guides, Account, TemplateEditor, Email, Confirmation };
 export default messages;

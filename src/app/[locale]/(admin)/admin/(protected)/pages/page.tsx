@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 import { BulkSelection, RowCheckbox, SelectAll } from "@/components/admin/BulkSelection";
 import {
   AdminBody,
@@ -18,8 +19,8 @@ import { HOME_SLUG, listPages } from "@/server/content/pages";
 import { adminStatus } from "@/server/authz";
 import { deletePagesAction, publishPagesAction, unpublishPagesAction } from "./actions";
 
-const KIND_LABELS: Record<string, string> = { static: "Sabit", guide: "Rehber", legal: "Yasal" };
-const LOCALES: Record<string, string> = { tr: "Türkçe", en: "İngilizce" };
+const KIND_LABELS: Record<string, string> = { static: ADMIN_CONTENT.pagesPageStatic263, guide: ADMIN_CONTENT.examplesPageContent155, legal: ADMIN_CONTENT.pagesPageLegal264 };
+const LOCALES: Record<string, string> = { tr: ADMIN_CONTENT.examplesExampleFormContent65, en: ADMIN_CONTENT.examplesExampleFormContent66 };
 
 export default async function Pages({ searchParams }: PageProps<"/[locale]/admin/pages">) {
   const sp = await searchParams;
@@ -48,61 +49,60 @@ export default async function Pages({ searchParams }: PageProps<"/[locale]/admin
   const href = (patch: Record<string, string>) => adminHref("/admin/pages", { ...query, ...patch });
 
   const actions = [
-    { label: "Yayınla", run: publishPagesAction, confirm: "{n} sayfanın taslağı yayınlansın mı? Ziyaretçiler hemen yeni hâlini görür." },
-    { label: "Yayından kaldır", run: unpublishPagesAction, confirm: "{n} sayfa yayından kaldırılsın mı? Adresleri 404 verir; taslak korunur." },
+    { label: ADMIN_CONTENT.examplesPublishToggleLabel96, run: publishPagesAction, confirm: ADMIN_CONTENT.pagesPageConfirm265 },
+    { label: ADMIN_CONTENT.examplesPublishToggleLabel95, run: unpublishPagesAction, confirm: ADMIN_CONTENT.pagesPageConfirm266 },
     ...(isAdmin
-      ? [{ label: "Sil", run: deletePagesAction, danger: true, confirm: "{n} sayfa ve sürüm geçmişi kalıcı olarak silinsin mi? Bu işlem geri alınamaz." }]
+      ? [{ label: ADMIN_CONTENT.examplesPageLabel140, run: deletePagesAction, danger: true, confirm: ADMIN_CONTENT.pagesPageConfirm267 }]
       : []),
   ];
 
   return (
     <>
-      <AdminPageHeader title="Sayfalar" description="Landing ve diğer sayfalar blok blok düzenlenir; değişiklikler “Yayınla” deyince sitede görünür." />
+      <AdminPageHeader title={ADMIN_CONTENT.pagesPageTitle268} description={ADMIN_CONTENT.pagesPageDescription269} />
       <AdminBody>
         <Toolbar>
-          <SearchForm value={q} placeholder="Başlık ya da adres" label="Sayfa ara" hidden={{ dil: locale, tur: kind, durum: status }} />
+          <SearchForm value={q} placeholder={ADMIN_CONTENT.pagesPagePlaceholder270} label={ADMIN_CONTENT.pagesPageLabel271} hidden={{ dil: locale, tur: kind, durum: status }} />
           <FilterLinks
-            label="Dil"
+            label={ADMIN_CONTENT.examplesExampleFormLabel63}
             current={locale}
             hrefFor={(v) => href({ dil: v })}
-            options={[{ value: "", label: "Tüm diller", count: byLocale[""] ?? 0 }, ...Object.entries(LOCALES).map(([v, l]) => ({ value: v, label: l, count: byLocale[v] ?? 0 }))]}
+            options={[{ value: "", label: ADMIN_CONTENT.examplesPageLabel147, count: byLocale[""] ?? 0 }, ...Object.entries(LOCALES).map(([v, l]) => ({ value: v, label: l, count: byLocale[v] ?? 0 }))]}
           />
           <FilterLinks
-            label="Tür"
+            label={ADMIN_CONTENT.pagesPageLabel272}
             current={kind}
             hrefFor={(v) => href({ tur: v })}
-            options={[{ value: "", label: "Tüm türler", count: byKind[""] ?? 0 }, ...Object.entries(KIND_LABELS).map(([v, l]) => ({ value: v, label: l, count: byKind[v] ?? 0 }))]}
+            options={[{ value: "", label: ADMIN_CONTENT.pagesPageLabel273, count: byKind[""] ?? 0 }, ...Object.entries(KIND_LABELS).map(([v, l]) => ({ value: v, label: l, count: byKind[v] ?? 0 }))]}
           />
           <FilterLinks
-            label="Durum"
+            label={ADMIN_CONTENT.examplesPageLabel148}
             current={status}
             hrefFor={(v) => href({ durum: v })}
             options={[
-              { value: "", label: "Tümü", count: byStatus[""] ?? 0 },
-              { value: "yayinda", label: "Yayında", count: byStatus.yayinda ?? 0 },
-              { value: "taslak", label: "Yayınlanmamış değişiklik", count: byStatus.taslak ?? 0 },
+              { value: "", label: ADMIN_CONTENT.examplesPageLabel136, count: byStatus[""] ?? 0 },
+              { value: "yayinda", label: ADMIN_CONTENT.examplesIdPageLabel97, count: byStatus.yayinda ?? 0 },
+              { value: "taslak", label: ADMIN_CONTENT.pagesPageLabel274, count: byStatus.taslak ?? 0 },
             ]}
           />
         </Toolbar>
 
         {!list.length ? (
-          <EmptyState title="Bu filtreye uyan sayfa yok.">
+          <EmptyState title={ADMIN_CONTENT.pagesPageTitle275}>
             <Link href="/admin/pages" className="font-semibold text-primary-text underline underline-offset-4">
-              Filtreleri temizle
-            </Link>
+              {ADMIN_CONTENT.examplesPageContent153}</Link>
           </EmptyState>
         ) : (
-          <BulkSelection ids={list.map((p) => p.id)} noun="sayfa" actions={actions}>
-            <Table label="Sayfalar">
+          <BulkSelection ids={list.map((p) => p.id)} noun={ADMIN_CONTENT.pagesPageNoun276} actions={actions}>
+            <Table label={ADMIN_CONTENT.pagesPageTitle268}>
               <thead>
                 <tr>
                   <Th className="w-12">
                     <SelectAll />
                   </Th>
-                  <Th>Sayfa</Th>
-                  <Th className="max-md:hidden">Tür</Th>
-                  <Th>Durum</Th>
-                  <Th className="max-lg:hidden">Son değişiklik</Th>
+                  <Th>{ADMIN_CONTENT.auditLogAuditLogTablePage38}</Th>
+                  <Th className="max-md:hidden">{ADMIN_CONTENT.pagesPageLabel272}</Th>
+                  <Th>{ADMIN_CONTENT.examplesPageLabel148}</Th>
+                  <Th className="max-lg:hidden">{ADMIN_CONTENT.pagesPageContent277}</Th>
                 </tr>
               </thead>
               <tbody>
@@ -125,11 +125,11 @@ export default async function Pages({ searchParams }: PageProps<"/[locale]/admin
                     <Td className="text-muted max-md:hidden">{KIND_LABELS[p.kind] ?? p.kind}</Td>
                     <Td>
                       {!p.isPublished ? (
-                        <Badge>Taslak</Badge>
+                        <Badge>{ADMIN_CONTENT.examplesPageLabel149}</Badge>
                       ) : p.hasUnpublishedChanges ? (
-                        <Badge tone="warning">Yayınlanmamış değişiklik</Badge>
+                        <Badge tone="warning">{ADMIN_CONTENT.pagesPageLabel274}</Badge>
                       ) : (
-                        <Badge tone="success">Yayında</Badge>
+                        <Badge tone="success">{ADMIN_CONTENT.examplesIdPageLabel97}</Badge>
                       )}
                     </Td>
                     <Td className="whitespace-nowrap text-muted tabular-nums max-lg:hidden">{formatDate(p.updatedAt, true)}</Td>

@@ -36,6 +36,13 @@
       "when": 1794569329409,
       "tag": "0004_verify_existing_users",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794668511101,
+      "tag": "0005_superb_glorian",
+      "breakpoints": true
     }
   ]
 }

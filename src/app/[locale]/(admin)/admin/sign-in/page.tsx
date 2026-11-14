@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
+
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -49,10 +51,10 @@ export default function AdminSignIn() {
       <h1 className="text-2xl font-bold tracking-[-0.015em] text-foreground">{t("signInTitle")}</h1>
       {step === "password" ? (
         <form action={submitPassword}>
-          <Field label={t("email")} name="email" type="email" autoComplete="username" required />
+          <Field label={t("email")} name={ADMIN_CONTENT.signInPageName360} type="email" autoComplete="username" required />
           <Field
             label={t("password")}
-            name="password"
+            name={ADMIN_CONTENT.signInPageName361}
             type="password"
             autoComplete="current-password"
             required
@@ -65,7 +67,7 @@ export default function AdminSignIn() {
           <p className="mt-2 text-[15px] leading-relaxed text-muted">{t("verificationHint")}</p>
           <Field
             label={t("verificationCode")}
-            name="code"
+            name={ADMIN_CONTENT.signInPageName362}
             inputMode="numeric"
             autoComplete="one-time-code"
             pattern="[0-9]{6}"

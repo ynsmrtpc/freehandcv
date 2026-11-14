@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 import { Plus } from "lucide-react";
 import { BulkSelection, RowCheckbox, SelectAll } from "@/components/admin/BulkSelection";
 import { SelectFilter } from "@/components/admin/SelectFilter";
@@ -17,71 +18,69 @@ export default async function Faqs({ searchParams }: PageProps<"/[locale]/admin/
   const rows = await listFaqsForAdmin({ locale: locale || undefined, category: category || undefined, search: q || undefined });
   const query = { dil: locale, kategori: category, q };
   const href = (patch: Record<string, string>) => adminHref("/admin/faqs", { ...query, ...patch });
-  const categoryOptions = [{ value: "", label: "Tümü" }, ...categories.map((c) => ({ value: c.category, label: `${c.category} (${c.n})` }))];
+  const categoryOptions = [{ value: "", label: ADMIN_CONTENT.examplesPageLabel136 }, ...categories.map((c) => ({ value: c.category, label: `${c.category} (${c.n})` }))];
 
   return (
     <>
       <AdminPageHeader
-        title="SSS"
-        description="Soru havuzu. Bir sayfadaki SSS bloğuna kategori yazınca o kategorinin yayındaki soruları sırasıyla orada görünür; Google için SSS işaretlemesi de buradan üretilir."
+        title={ADMIN_CONTENT.auditLogAuditLogTableFaq43}
+        description={ADMIN_CONTENT.faqsPageDescription175}
       >
         <Link href="/admin/faqs/new" className={buttonClass("primary", "sm")}>
           <Plus className="size-4" aria-hidden />
-          Yeni soru
-        </Link>
+          {ADMIN_CONTENT.faqsNewPageTitle174}</Link>
       </AdminPageHeader>
       <AdminBody>
         <ImportFaqsButton />
         <Toolbar>
-          <SearchForm value={q} placeholder="Soru ya da cevapta ara" label="SSS ara" hidden={{ dil: locale, kategori: category }} />
+          <SearchForm value={q} placeholder={ADMIN_CONTENT.faqsPagePlaceholder176} label={ADMIN_CONTENT.faqsPageLabel177} hidden={{ dil: locale, kategori: category }} />
           <SelectFilter
-            label="Kategori"
+            label={ADMIN_CONTENT.examplesExampleFormLabel68}
             value={category}
             options={categoryOptions}
             hrefs={Object.fromEntries(categoryOptions.map((o) => [o.value, href({ kategori: o.value })]))}
           />
           <FilterLinks
-            label="Dil"
+            label={ADMIN_CONTENT.examplesExampleFormLabel63}
             current={locale}
             hrefFor={(v) => href({ dil: v })}
             options={[
-              { value: "", label: "Tüm diller" },
-              { value: "tr", label: "Türkçe" },
-              { value: "en", label: "İngilizce" },
+              { value: "", label: ADMIN_CONTENT.examplesPageLabel147 },
+              { value: "tr", label: ADMIN_CONTENT.examplesExampleFormContent65 },
+              { value: "en", label: ADMIN_CONTENT.examplesExampleFormContent66 },
             ]}
           />
         </Toolbar>
 
         {!rows.length ? (
-          <EmptyState title={q || category || locale ? "Bu filtreye uyan soru yok." : "Havuzda henüz soru yok."}>
+          <EmptyState title={q || category || locale ? "Bu filtreye uyan soru yok." : ADMIN_CONTENT.faqsPageLabel178}>
             {q || category || locale ? (
               <Link href="/admin/faqs" className="font-semibold text-primary-text underline underline-offset-4">
-                Filtreleri temizle
-              </Link>
+                {ADMIN_CONTENT.examplesPageContent153}</Link>
             ) : (
-              "Yeni soru ekleyebilir ya da sayfalardaki SSS bloklarında yazılı soruları “Sayfalardan aktar” ile havuza alabilirsin."
+              ADMIN_CONTENT.faqsPageLabel179
             )}
           </EmptyState>
         ) : (
           <BulkSelection
             ids={rows.map((r) => r.id)}
-            noun="soru"
+            noun={ADMIN_CONTENT.faqsPageNoun180}
             actions={[
-              { label: "Yayına al", run: publishFaqsAction },
-              { label: "Gizle", run: unpublishFaqsAction },
-              { label: "Sil", run: deleteFaqsAction, danger: true, confirm: "{n} soru kalıcı olarak silinsin mi? Bu soruları kullanan sayfalardan da kalkar." },
+              { label: ADMIN_CONTENT.faqsPageLabel181, run: publishFaqsAction },
+              { label: ADMIN_CONTENT.faqsPageLabel182, run: unpublishFaqsAction },
+              { label: ADMIN_CONTENT.examplesPageLabel140, run: deleteFaqsAction, danger: true, confirm: ADMIN_CONTENT.faqsPageConfirm183 },
             ]}
           >
-            <Table label="Sorular">
+            <Table label={ADMIN_CONTENT.faqsPageLabel184}>
               <thead>
                 <tr>
                   <Th className="w-12">
                     <SelectAll />
                   </Th>
-                  <Th>Soru</Th>
-                  <Th className="max-md:hidden">Kategori</Th>
-                  <Th className="text-end max-lg:hidden">Sıra</Th>
-                  <Th>Durum</Th>
+                  <Th>{ADMIN_CONTENT.faqsFaqFormLabel160}</Th>
+                  <Th className="max-md:hidden">{ADMIN_CONTENT.examplesExampleFormLabel68}</Th>
+                  <Th className="text-end max-lg:hidden">{ADMIN_CONTENT.examplesExampleFormLabel69}</Th>
+                  <Th>{ADMIN_CONTENT.examplesPageLabel148}</Th>
                 </tr>
               </thead>
               <tbody>
@@ -100,7 +99,7 @@ export default async function Faqs({ searchParams }: PageProps<"/[locale]/admin/
                     </Td>
                     <Td className="text-muted max-md:hidden">{r.category ?? "—"}</Td>
                     <Td className="text-end text-muted tabular-nums max-lg:hidden">{r.sortOrder}</Td>
-                    <Td>{r.active ? <Badge tone="success">Yayında</Badge> : <Badge>Gizli</Badge>}</Td>
+                    <Td>{r.active ? <Badge tone="success">{ADMIN_CONTENT.examplesIdPageLabel97}</Badge> : <Badge>{ADMIN_CONTENT.faqsPageContent185}</Badge>}</Td>
                   </tr>
                 ))}
               </tbody>

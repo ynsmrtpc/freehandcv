@@ -1,55 +1,56 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 import { EmptyState, formatDate, Table, Td, Th } from "@/components/admin/kit";
 import { Link } from "@/i18n/navigation";
 
 export const ACTION_LABELS: Record<string, string> = {
-  save_draft: "Taslak kaydedildi",
-  publish: "Yayınlandı",
-  restore_version: "Eski sürüm taslağa alındı",
-  update_site_settings: "Site ayarları değişti",
-  change_role: "Rol değişti",
-  approve_review: "Yorum onaylandı",
-  hide_review: "Yorum gizlendi",
-  create_example: "Örnek CV eklendi",
-  update_example: "Örnek CV bilgileri değişti",
-  publish_example: "Örnek CV yayınlandı",
-  unpublish_example: "Örnek CV yayından kaldırıldı",
-  delete_example: "Örnek CV silindi",
-  delete_page: "Sayfa silindi",
-  unpublish_page: "Sayfa yayından kaldırıldı",
-  create_user: "Kullanıcı oluşturuldu",
-  update_user: "Kullanıcı profili düzenlendi",
-  suspend_user: "Hesap askıya alındı",
-  restore_user: "Hesap yeniden açıldı",
-  set_password: "Şifre belirlendi",
-  send_password_reset: "Şifre sıfırlama bağlantısı gönderildi",
-  revoke_sessions: "Oturumlar kapatıldı",
-  delete_user: "Hesap silindi",
-  close_account: "Hesap kapatıldı",
-  create_faq: "SSS sorusu eklendi",
-  update_faq: "SSS sorusu düzenlendi",
-  publish_faq: "SSS sorusu yayına alındı",
-  unpublish_faq: "SSS sorusu gizlendi",
-  delete_faq: "SSS sorusu silindi",
-  import_faqs: "SSS soruları sayfalardan aktarıldı",
-  hide_template: "Şablon gizlendi",
-  restore_template: "Şablon yeniden açıldı",
-  feature_template: "Şablon öne çıkarıldı",
-  unfeature_template: "Şablonun öne çıkarma işareti kaldırıldı",
-  dismiss_reports: "Şikâyetler kapatıldı",
-  upload_media: "Görsel yüklendi",
-  update_media: "Görsel bilgisi düzenlendi",
-  delete_media: "Görsel silindi",
+  save_draft: ADMIN_CONTENT.auditLogAuditLogTableSaveDraft1,
+  publish: ADMIN_CONTENT.auditLogAuditLogTablePublish2,
+  restore_version: ADMIN_CONTENT.auditLogAuditLogTableRestoreVersion3,
+  update_site_settings: ADMIN_CONTENT.auditLogAuditLogTableUpdateSiteSettings4,
+  change_role: ADMIN_CONTENT.auditLogAuditLogTableChangeRole5,
+  approve_review: ADMIN_CONTENT.auditLogAuditLogTableApproveReview6,
+  hide_review: ADMIN_CONTENT.auditLogAuditLogTableHideReview7,
+  create_example: ADMIN_CONTENT.auditLogAuditLogTableCreateExample8,
+  update_example: ADMIN_CONTENT.auditLogAuditLogTableUpdateExample9,
+  publish_example: ADMIN_CONTENT.auditLogAuditLogTablePublishExample10,
+  unpublish_example: ADMIN_CONTENT.auditLogAuditLogTableUnpublishExample11,
+  delete_example: ADMIN_CONTENT.auditLogAuditLogTableDeleteExample12,
+  delete_page: ADMIN_CONTENT.auditLogAuditLogTableDeletePage13,
+  unpublish_page: ADMIN_CONTENT.auditLogAuditLogTableUnpublishPage14,
+  create_user: ADMIN_CONTENT.auditLogAuditLogTableCreateUser15,
+  update_user: ADMIN_CONTENT.auditLogAuditLogTableUpdateUser16,
+  suspend_user: ADMIN_CONTENT.auditLogAuditLogTableSuspendUser17,
+  restore_user: ADMIN_CONTENT.auditLogAuditLogTableRestoreUser18,
+  set_password: ADMIN_CONTENT.auditLogAuditLogTableSetPassword19,
+  send_password_reset: ADMIN_CONTENT.auditLogAuditLogTableSendPasswordReset20,
+  revoke_sessions: ADMIN_CONTENT.auditLogAuditLogTableRevokeSessions21,
+  delete_user: ADMIN_CONTENT.auditLogAuditLogTableDeleteUser22,
+  close_account: ADMIN_CONTENT.auditLogAuditLogTableCloseAccount23,
+  create_faq: ADMIN_CONTENT.auditLogAuditLogTableCreateFaq24,
+  update_faq: ADMIN_CONTENT.auditLogAuditLogTableUpdateFaq25,
+  publish_faq: ADMIN_CONTENT.auditLogAuditLogTablePublishFaq26,
+  unpublish_faq: ADMIN_CONTENT.auditLogAuditLogTableUnpublishFaq27,
+  delete_faq: ADMIN_CONTENT.auditLogAuditLogTableDeleteFaq28,
+  import_faqs: ADMIN_CONTENT.auditLogAuditLogTableImportFaqs29,
+  hide_template: ADMIN_CONTENT.auditLogAuditLogTableHideTemplate30,
+  restore_template: ADMIN_CONTENT.auditLogAuditLogTableRestoreTemplate31,
+  feature_template: ADMIN_CONTENT.auditLogAuditLogTableFeatureTemplate32,
+  unfeature_template: ADMIN_CONTENT.auditLogAuditLogTableUnfeatureTemplate33,
+  dismiss_reports: ADMIN_CONTENT.auditLogAuditLogTableDismissReports34,
+  upload_media: ADMIN_CONTENT.auditLogAuditLogTableUploadMedia35,
+  update_media: ADMIN_CONTENT.auditLogAuditLogTableUpdateMedia36,
+  delete_media: ADMIN_CONTENT.auditLogAuditLogTableDeleteMedia37,
 };
 
 const TARGET_LABELS: Record<string, string> = {
-  page: "Sayfa",
-  site_settings: "Site ayarları",
-  user: "Kullanıcı",
-  site_review: "Yorum",
-  example_resume: "Örnek CV",
-  faq: "SSS",
-  template: "Şablon",
-  media: "Medya",
+  page: ADMIN_CONTENT.auditLogAuditLogTablePage38,
+  site_settings: ADMIN_CONTENT.auditLogAuditLogTableSiteSettings39,
+  user: ADMIN_CONTENT.auditLogAuditLogTableUser40,
+  site_review: ADMIN_CONTENT.auditLogAuditLogTableSiteReview41,
+  example_resume: ADMIN_CONTENT.auditLogAuditLogTableExampleResume42,
+  faq: ADMIN_CONTENT.auditLogAuditLogTableFaq43,
+  template: ADMIN_CONTENT.auditLogAuditLogTableTemplate44,
+  media: ADMIN_CONTENT.auditLogAuditLogTableMedia45,
 };
 
 type Row = {
@@ -63,15 +64,15 @@ type Row = {
 };
 
 export function AuditLogTable({ rows }: { rows: Row[] }) {
-  if (!rows.length) return <EmptyState title="Henüz kayıt yok.">Panelde yapılan her değişiklik burada kim, ne zaman bilgisiyle görünür.</EmptyState>;
+  if (!rows.length) return <EmptyState title={ADMIN_CONTENT.auditLogAuditLogTableTitle46}>{ADMIN_CONTENT.auditLogAuditLogTableContent47}</EmptyState>;
   return (
-    <Table label="Değişiklik günlüğü">
+    <Table label={ADMIN_CONTENT.auditLogAuditLogTableLabel48}>
       <thead>
         <tr>
-          <Th>Zaman</Th>
-          <Th>Kişi</Th>
-          <Th>İşlem</Th>
-          <Th className="max-md:hidden">Hedef</Th>
+          <Th>{ADMIN_CONTENT.auditLogAuditLogTableContent49}</Th>
+          <Th>{ADMIN_CONTENT.auditLogAuditLogTableContent50}</Th>
+          <Th>{ADMIN_CONTENT.auditLogAuditLogTableContent51}</Th>
+          <Th className="max-md:hidden">{ADMIN_CONTENT.auditLogAuditLogTableContent52}</Th>
         </tr>
       </thead>
       <tbody>

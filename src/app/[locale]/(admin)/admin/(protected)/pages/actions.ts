@@ -1,4 +1,6 @@
 "use server";
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
+
 
 // Page editor actions. Every action checks authorization itself (plan 7.5: the layout alone is
 // not trusted) and validates its input with Zod.
@@ -19,7 +21,7 @@ import {
 import { AuthorizationError, requireAdmin } from "@/server/authz";
 
 const metaSchema = z.object({
-  title: z.string().trim().min(1, "Başlık boş olamaz").max(120),
+  title: z.string().trim().min(1, ADMIN_CONTENT.examplesActionsLabel104).max(120),
   metaTitle: z.string().trim().max(70, "En fazla 70 karakter"),
   metaDescription: z.string().trim().max(170, "En fazla 170 karakter"),
   indexable: z.boolean(),
@@ -30,11 +32,11 @@ export type ActionResult =
   | { ok: false; error: string; issues?: { path: (string | number)[]; message: string }[] };
 
 function errorResult(error: unknown): ActionResult {
-  if (error instanceof AuthorizationError) return { ok: false, error: "Bu işlem için yetkin yok. Yeniden giriş yap." };
+  if (error instanceof AuthorizationError) return { ok: false, error: ADMIN_CONTENT.examplesActionsError106 };
   if (error instanceof VersionConflictError)
-    return { ok: false, error: "Sayfa başka bir sekmede ya da başka biri tarafından değiştirilmiş. Sayfayı yenile." };
+    return { ok: false, error: ADMIN_CONTENT.pagesActionsError257 };
   console.error(error);
-  return { ok: false, error: "Beklenmeyen bir hata oluştu." };
+  return { ok: false, error: ADMIN_CONTENT.examplesActionsError111 };
 }
 
 export async function saveDraftAction(
@@ -52,7 +54,7 @@ export async function saveDraftAction(
         ...(blocks.error?.issues.map((i) => ({ path: ["blocks", ...(i.path as (string | number)[])], message: i.message })) ?? []),
         ...(meta.error?.issues.map((i) => ({ path: ["meta", ...(i.path as (string | number)[])], message: i.message })) ?? []),
       ];
-      return { ok: false, error: "Bazı alanlar hatalı.", issues };
+      return { ok: false, error: ADMIN_CONTENT.faqsActionsError169, issues };
     }
     const saved = await saveDraft(id, blocks.data as Block[], meta.data, version, user.id);
     return { ok: true, version: saved.version };
@@ -88,9 +90,9 @@ type BulkResult = { ok: true; message?: string } | { ok: false; error: string };
 const idList = z.array(z.uuid()).min(1).max(200);
 
 function bulkError(error: unknown): BulkResult {
-  if (error instanceof HomePageError) return { ok: false, error: "Ana sayfa (landing) yayından kaldırılamaz ve silinemez." };
+  if (error instanceof HomePageError) return { ok: false, error: ADMIN_CONTENT.pagesActionsError258 };
   const r = errorResult(error);
-  return r.ok ? { ok: false, error: "Beklenmeyen bir hata oluştu." } : { ok: false, error: r.error };
+  return r.ok ? { ok: false, error: ADMIN_CONTENT.examplesActionsError111 } : { ok: false, error: r.error };
 }
 
 export async function publishPagesAction(ids: string[]): Promise<BulkResult> {
@@ -102,7 +104,7 @@ export async function publishPagesAction(ids: string[]): Promise<BulkResult> {
       updateTag(pageTag(locale, slug));
     }
     updateTag(PUBLISHED_PAGES_TAG);
-    return { ok: true, message: `${list.length} sayfa yayınlandı.` };
+    return { ok: true, message: formatAdminContent(ADMIN_CONTENT.pagesActionsMessage259, {value0: list.length}) };
   } catch (error) {
     return bulkError(error);
   }
@@ -114,7 +116,7 @@ export async function unpublishPagesAction(ids: string[]): Promise<BulkResult> {
     const rows = await unpublishPages(idList.parse(ids), user.id);
     for (const r of rows) updateTag(pageTag(r.locale, r.slug));
     updateTag(PUBLISHED_PAGES_TAG);
-    return { ok: true, message: rows.length ? `${rows.length} sayfa yayından kaldırıldı.` : "Seçilenlerin hiçbiri yayında değildi." };
+    return { ok: true, message: rows.length ? formatAdminContent(ADMIN_CONTENT.pagesActionsMessage260, {value0: rows.length}) : ADMIN_CONTENT.pagesActionsLabel261 };
   } catch (error) {
     return bulkError(error);
   }
@@ -129,7 +131,7 @@ export async function deletePagesAction(ids: string[]): Promise<BulkResult> {
     updateTag(PUBLISHED_PAGES_TAG);
     return { ok: true, message: `${rows.length} sayfa silindi.` };
   } catch (error) {
-    if (error instanceof AuthorizationError) return { ok: false, error: "Sayfaları yalnız yöneticiler silebilir." };
+    if (error instanceof AuthorizationError) return { ok: false, error: ADMIN_CONTENT.pagesActionsError262 };
     return bulkError(error);
   }
 }

@@ -1,3 +1,4 @@
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
 import { BulkSelection, RowCheckbox, SelectAll } from "@/components/admin/BulkSelection";
 import { AdminBody, AdminPageHeader, adminHref, Badge, EmptyState, FilterLinks, formatDate, SearchForm, Table, Td, Th, Toolbar } from "@/components/admin/kit";
 import { Link } from "@/i18n/navigation";
@@ -15,53 +16,53 @@ export default async function Templates({ searchParams }: PageProps<"/[locale]/a
   return (
     <>
       <AdminPageHeader
-        title="Şablonlar"
-        description="Kullanıcıların paylaştığı şablonlar. Ön onay yok; şikâyet gelince incele ve gerekirse gizle. Beğendiklerini öne çıkar; galeride resmi şablonlardan hemen sonra gelir. Özel şablonlar burada görünmez."
+        title={ADMIN_CONTENT.templatesIdPageContent320}
+        description={ADMIN_CONTENT.templatesPageDescription346}
       />
       <AdminBody>
         <Toolbar>
-          <SearchForm value={q} placeholder="Şablon adı ya da @kullanıcı" label="Şablon ara" hidden={{ durum: filter ?? "" }} />
+          <SearchForm value={q} placeholder={ADMIN_CONTENT.templatesPagePlaceholder347} label={ADMIN_CONTENT.templatesPageLabel348} hidden={{ durum: filter ?? "" }} />
           <FilterLinks
-            label="Durum"
+            label={ADMIN_CONTENT.examplesPageLabel148}
             current={filter ?? ""}
             hrefFor={(v) => href({ durum: v })}
             options={[
-              { value: "", label: "Tümü" },
-              { value: "reported", label: "Şikâyet var" },
-              { value: "featured", label: "Öne çıkan" },
-              { value: "public", label: "Galeride" },
-              { value: "unlisted", label: "Bağlantıyla" },
-              { value: "hidden", label: "Gizlenmiş" },
+              { value: "", label: ADMIN_CONTENT.examplesPageLabel136 },
+              { value: "reported", label: ADMIN_CONTENT.templatesPageLabel349 },
+              { value: "featured", label: ADMIN_CONTENT.templatesIdPageContent318 },
+              { value: "public", label: ADMIN_CONTENT.templatesLabelsPublic339 },
+              { value: "unlisted", label: ADMIN_CONTENT.templatesLabelsUnlisted340 },
+              { value: "hidden", label: ADMIN_CONTENT.templatesPageLabel350 },
             ]}
           />
         </Toolbar>
 
         {!rows.length ? (
-          <EmptyState title={filter === "reported" ? "Açık şikâyet yok." : "Bu filtreye uyan şablon yok."}>
-            {filter === "reported" ? "Kullanıcılar bir şablonu şikâyet edince burada en üstte görünür." : null}
+          <EmptyState title={filter === "reported" ? ADMIN_CONTENT.templatesPageLabel351 : ADMIN_CONTENT.templatesPageLabel352}>
+            {filter === "reported" ? ADMIN_CONTENT.templatesPageLabel353 : null}
           </EmptyState>
         ) : (
           <BulkSelection
             ids={rows.map((r) => r.id)}
-            noun="şablon"
+            noun={ADMIN_CONTENT.templatesPageNoun354}
             actions={[
-              { label: "Gizle", run: hideTemplatesAction, danger: true, confirm: "{n} şablon galeriden ve sayfasından kaldırılsın mı? Sahibi şablonu kullanmaya devam eder." },
-              { label: "Öne çıkar", run: featureTemplatesAction },
-              { label: "Öne çıkarmayı kaldır", run: unfeatureTemplatesAction },
-              { label: "Yeniden aç", run: restoreTemplatesAction },
-              { label: "Şikâyetleri kapat", run: dismissReportsAction },
+              { label: ADMIN_CONTENT.faqsPageLabel182, run: hideTemplatesAction, danger: true, confirm: ADMIN_CONTENT.templatesPageConfirm355 },
+              { label: ADMIN_CONTENT.templatesPageLabel356, run: featureTemplatesAction },
+              { label: ADMIN_CONTENT.templatesIdModerationActionsContent314, run: unfeatureTemplatesAction },
+              { label: ADMIN_CONTENT.templatesIdModerationActionsContent311, run: restoreTemplatesAction },
+              { label: ADMIN_CONTENT.templatesPageLabel357, run: dismissReportsAction },
             ]}
           >
-            <Table label="Şablonlar">
+            <Table label={ADMIN_CONTENT.templatesIdPageContent320}>
               <thead>
                 <tr>
                   <Th className="w-12">
                     <SelectAll />
                   </Th>
-                  <Th>Şablon</Th>
-                  <Th>Durum</Th>
-                  <Th className="text-end max-lg:hidden">Kullanım</Th>
-                  <Th className="max-lg:hidden">Güncellendi</Th>
+                  <Th>{ADMIN_CONTENT.auditLogAuditLogTableTemplate44}</Th>
+                  <Th>{ADMIN_CONTENT.examplesPageLabel148}</Th>
+                  <Th className="text-end max-lg:hidden">{ADMIN_CONTENT.examplesPageContent156}</Th>
+                  <Th className="max-lg:hidden">{ADMIN_CONTENT.templatesIdPageLabel329}</Th>
                 </tr>
               </thead>
               <tbody>
@@ -78,9 +79,9 @@ export default async function Templates({ searchParams }: PageProps<"/[locale]/a
                     </Td>
                     <Td>
                       <span className="flex flex-wrap gap-1">
-                        {r.openReports > 0 && <Badge tone="danger">{r.openReports} şikâyet</Badge>}
-                        {r.featured && <Badge tone="info">Öne çıkan</Badge>}
-                        {r.status === "hidden" ? <Badge tone="warning">Gizlendi</Badge> : <Badge tone={r.visibility === "public" ? "success" : "neutral"}>{VISIBILITY_NAMES[r.visibility]}</Badge>}
+                        {r.openReports > 0 && <Badge tone="danger">{r.openReports} {ADMIN_CONTENT.templatesPageContent358}</Badge>}
+                        {r.featured && <Badge tone="info">{ADMIN_CONTENT.templatesIdPageContent318}</Badge>}
+                        {r.status === "hidden" ? <Badge tone="warning">{ADMIN_CONTENT.templatesIdPageContent317}</Badge> : <Badge tone={r.visibility === "public" ? "success" : "neutral"}>{VISIBILITY_NAMES[r.visibility]}</Badge>}
                       </span>
                     </Td>
                     <Td className="text-end text-muted tabular-nums max-lg:hidden">{r.usageCount}</Td>

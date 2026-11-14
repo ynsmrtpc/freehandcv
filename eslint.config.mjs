@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated third-party PDF.js worker; lint our importer, not Mozilla's bundled distribution.
+    "public/pdf.worker.min.mjs",
     // Claude Code worktrees (separate git worktree copies)
     ".claude/**",
   ]),

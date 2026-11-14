@@ -3,6 +3,7 @@
 // Form pieces shared by the admin screens: labelled fields, inline notices and an action runner.
 import { useRouter } from "next/navigation";
 import { useId, useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/cn";
 
 export const adminInputClass =
@@ -51,13 +52,14 @@ type Result = { ok: true; message?: string } | { ok: false; error: string };
 
 /** Runs a Server Action, shows its message and refreshes the server-rendered page on success. */
 export function useAction() {
+  const t = useTranslations("Admin.common");
   const router = useRouter();
   const [notice, setNotice] = useState<Notice>(null);
   const [pending, startTransition] = useTransition();
   const run = (fn: () => Promise<Result>, onOk?: (r: Result) => void) =>
     startTransition(async () => {
       const r = await fn();
-      setNotice(r.ok ? { kind: "success", text: r.message ?? "Kaydedildi." } : { kind: "error", text: r.error });
+      setNotice(r.ok ? { kind: "success", text: r.message ?? t("saved") } : { kind: "error", text: r.error });
       if (r.ok) {
         onOk?.(r);
         router.refresh();

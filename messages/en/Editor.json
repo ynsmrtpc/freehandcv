@@ -37,7 +37,9 @@
     "home": "Home",
     "saveToAccount": "Save to account",
     "versions": "Version history",
-    "pdfPreparing": "Preparing PDF…"
+    "pdfPreparing": "Preparing PDF…",
+    "wizard": "Resume wizard",
+    "importDocument": "Import PDF / LinkedIn / GitHub"
   },
   "confirm": {
     "loadSample": "Replace your current resume with the example? Downloading it as JSON first is recommended.",

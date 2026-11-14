@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
+
 
 // Generates a form from a Zod schema (plan 7.1: "the admin form is generated from this schema").
 // Labels and display hints are read from the schema's `.meta()` (FieldMeta).
@@ -130,8 +132,7 @@ export function SchemaForm({
           className="mt-2 inline-flex h-9 items-center gap-1.5 rounded-lg px-2 text-sm font-semibold text-primary-text hover:bg-primary-soft"
         >
           <Plus className="size-4" />
-          Ekle
-        </button>
+          {ADMIN_CONTENT.schemaFormContent382}</button>
         <ErrorMessage error={error} />
       </div>
     );
@@ -213,10 +214,10 @@ function ListTools({
 }) {
   return (
     <span className="flex shrink-0 items-center">
-      <IconButton label={`Yukarı: ${label}`} disabled={i === 0} onClick={() => onChange(move(list, i, -1))}>
+      <IconButton label={formatAdminContent(ADMIN_CONTENT.schemaFormMessage383, {value0: label})} disabled={i === 0} onClick={() => onChange(move(list, i, -1))}>
         <ChevronUp className="size-4" />
       </IconButton>
-      <IconButton label={`Aşağı: ${label}`} disabled={i === list.length - 1} onClick={() => onChange(move(list, i, 1))}>
+      <IconButton label={formatAdminContent(ADMIN_CONTENT.schemaFormMessage384, {value0: label})} disabled={i === list.length - 1} onClick={() => onChange(move(list, i, 1))}>
         <ChevronDown className="size-4" />
       </IconButton>
       <IconButton label={`Sil: ${label}`} danger onClick={() => onChange(list.filter((_, j) => j !== i))}>

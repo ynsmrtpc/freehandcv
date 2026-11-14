@@ -1,4 +1,6 @@
 "use server";
+import { adminContent as ADMIN_CONTENT } from "@/lib/adminContent";
+
 
 import { updateTag } from "next/cache";
 import { z } from "zod";
@@ -20,15 +22,15 @@ export async function saveSiteSettingsAction(raw: unknown) {
     if (!input.success)
       return {
         ok: false as const,
-        error: "Bazı alanlar hatalı.",
+        error: ADMIN_CONTENT.faqsActionsError169,
         issues: input.error.issues.map((i) => ({ path: i.path as (string | number)[], message: i.message })),
       };
     await saveSiteSettings(input.data.global, input.data.translations, user.id);
     updateTag(SITE_SETTINGS_TAG);
     return { ok: true as const };
   } catch (error) {
-    if (error instanceof AuthorizationError) return { ok: false as const, error: "Site ayarlarını yalnız yöneticiler değiştirebilir." };
+    if (error instanceof AuthorizationError) return { ok: false as const, error: ADMIN_CONTENT.settingsActionsError309 };
     console.error(error);
-    return { ok: false as const, error: "Beklenmeyen bir hata oluştu." };
+    return { ok: false as const, error: ADMIN_CONTENT.examplesActionsError111 };
   }
 }

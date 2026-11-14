@@ -1,3 +1,5 @@
+"use client";
+
 import { FileQuestion } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Logo } from "@/components/site/Logo";

@@ -99,5 +99,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...owners.flatMap((username) => everyLocale({ pathname: "/users/[username]", params: { username } })),
   ];
 
-  return [...pages, ...examplePages, ...guideIndexes, ...guidePages, ...templatePages];
+  return [...pages, ...everyLocale("/ats-resume-check"), ...examplePages, ...guideIndexes, ...guidePages, ...templatePages];
 }

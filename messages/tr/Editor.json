@@ -37,7 +37,9 @@
     "home": "Ana sayfa",
     "saveToAccount": "Hesabına kaydet",
     "versions": "Sürüm geçmişi",
-    "pdfPreparing": "PDF hazırlanıyor…"
+    "pdfPreparing": "PDF hazırlanıyor…",
+    "wizard": "CV sihirbazı",
+    "importDocument": "PDF / LinkedIn / GitHub içe aktar"
   },
   "confirm": {
     "loadSample": "Mevcut CV örnek CV ile değiştirilsin mi? Önce JSON olarak indirmen önerilir.",

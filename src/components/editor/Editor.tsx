@@ -445,6 +445,8 @@ function TopBar({
               <FileUp className="size-4 text-muted" />
               {t("toolbar.importJson")}
             </button>
+            <Link href="/resume-wizard" className={menuItem} onClick={closeMenu}><FileUp className="size-4 text-muted" />{t("toolbar.wizard")}</Link>
+            <Link href="/resume-import" className={menuItem} onClick={closeMenu}><FileUp className="size-4 text-muted" />{t("toolbar.importDocument")}</Link>
             {isAccount && (
               <button type="button" className={menuItem} onClick={() => (closeMenu(), openVersions())}>
                 <History className="size-4 text-muted" />

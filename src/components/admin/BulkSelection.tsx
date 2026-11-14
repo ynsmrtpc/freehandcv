@@ -1,4 +1,6 @@
 "use client";
+import { adminContent as ADMIN_CONTENT, formatAdminContent } from "@/lib/adminContent";
+
 
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, useTransition } from "react";
@@ -75,7 +77,7 @@ export function BulkSelection({
       const r = await action.run(list);
       if (r.ok) {
         setSelected(new Set());
-        setNotice({ kind: "success", text: r.message ?? "Tamamlandı." });
+        setNotice({ kind: "success", text: r.message ?? ADMIN_CONTENT.bulkSelectionLabel376 });
         router.refresh();
       } else setNotice({ kind: "error", text: r.error });
     });
@@ -92,18 +94,17 @@ export function BulkSelection({
           )}
         >
           {notice.text}
-          <button type="button" onClick={() => setNotice(null)} aria-label="Bildirimi kapat" className="grid size-8 place-items-center rounded-md hover:bg-surface/60">
+          <button type="button" onClick={() => setNotice(null)} aria-label={ADMIN_CONTENT.bulkSelectionAriaLabel377} className="grid size-8 place-items-center rounded-md hover:bg-surface/60">
             <X className="size-4" aria-hidden />
           </button>
         </p>
       )}
       {children}
       {selected.size > 0 && (
-        <div className="sticky bottom-0 z-30 -mx-4 mt-4 border-t border-border-strong bg-surface px-4 py-3 sm:-mx-8 sm:px-8" role="region" aria-label="Toplu işlemler">
+        <div className="sticky bottom-0 z-30 -mx-4 mt-4 border-t border-border-strong bg-surface px-4 py-3 sm:-mx-8 sm:px-8" role="region" aria-label={ADMIN_CONTENT.bulkSelectionAriaLabel378}>
           <div className="flex flex-wrap items-center gap-2">
             <p className="me-auto text-[15px] font-semibold text-foreground" aria-live="polite">
-              {selected.size} {noun} seçildi
-            </p>
+              {selected.size} {noun} {ADMIN_CONTENT.bulkSelectionContent379}</p>
             {actions.map((a) => (
               <button
                 key={a.label}
@@ -116,8 +117,7 @@ export function BulkSelection({
               </button>
             ))}
             <button type="button" disabled={pending} onClick={() => setSelected(new Set())} className={buttonClass("ghost", "sm")}>
-              Seçimi kaldır
-            </button>
+              {ADMIN_CONTENT.bulkSelectionContent380}</button>
           </div>
         </div>
       )}
@@ -138,7 +138,7 @@ export function RowCheckbox({ id, label }: { id: string; label: string }) {
   return (
     // The label widens the hit area to 44px around the box.
     <label className="-m-3 inline-grid size-11 cursor-pointer place-items-center">
-      <input type="checkbox" className={boxClass} checked={selected.has(id)} onChange={() => toggle(id)} aria-label={`Seç: ${label}`} />
+      <input type="checkbox" className={boxClass} checked={selected.has(id)} onChange={() => toggle(id)} aria-label={formatAdminContent(ADMIN_CONTENT.bulkSelectionMessage381, {value0: label})} />
     </label>
   );
 }
@@ -152,7 +152,7 @@ export function SelectAll() {
   }, [selected.size, all]);
   return (
     <label className="-m-3 inline-grid size-11 cursor-pointer place-items-center">
-      <input ref={ref} type="checkbox" className={boxClass} checked={all} onChange={toggleAll} disabled={!ids.length} aria-label="Bu sayfadakilerin hepsini seç" />
+      <input ref={ref} type="checkbox" className={boxClass} checked={all} onChange={toggleAll} disabled={!ids.length} aria-label={ADMIN_CONTENT.mediaPageContent211} />
     </label>
   );
 }
