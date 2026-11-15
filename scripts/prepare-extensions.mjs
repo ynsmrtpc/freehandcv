@@ -16,8 +16,8 @@ put("client.tsx", enabled
   ? 'export { UserCreationOptions, ExtensionMenu } from "@private/company/components/integration";\n'
   : 'import type { ReactNode } from "react";\nexport function UserCreationOptions({children}: {children: ReactNode}) {return children;}\nexport function ExtensionMenu() {return null;}\n');
 put("server.tsx", enabled
-  ? 'export { UserDetailsExtension, extensionLandingPath } from "@private/company/server/integration";\n'
-  : 'export function UserDetailsExtension(_props: {userId: string}) {void _props; return null;}\nexport async function extensionLandingPath(_userId: string, _locale: string): Promise<string | null> {void _userId; void _locale; return null;}\n');
+  ? 'export { UserDetailsExtension, extensionLandingPath, extensionAccountPath } from "@private/company/server/integration";\n'
+  : 'export function UserDetailsExtension(_props: {userId: string}) {void _props; return null;}\nexport async function extensionAccountPath(_userId: string, _locale: string): Promise<string | null> {void _userId; void _locale; return null;}\nexport async function extensionLandingPath(_userId: string, _locale: string): Promise<string | null> {void _userId; void _locale; return null;}\n');
 put("maintenance.ts", enabled ? 'export {runExtensionMaintenance} from "@private/company/server/maintenance";\n' : 'export async function runExtensionMaintenance() {}\n');
 put("data.ts", enabled
   ? 'export {getExtensionAccountData, closeExtensionData} from "@private/company/server/data";\n'
@@ -28,6 +28,9 @@ put("routing.ts", enabled
 put("messages.ts", enabled
   ? 'import tr from "@private/company/messages/tr/Company.json";\nimport en from "@private/company/messages/en/Company.json";\nexport const extensionMessages = {tr: {Company: tr}, en: {Company: en}};\n'
   : 'export const extensionMessages = {tr: {}, en: {}};\n');
+put("sources.css", enabled
+  ? '@source "../../.private/company";\n'
+  : '/* No private extension sources. */\n');
 for (const [source, target] of [["routes/locale", "src/app/[locale]/(private-extension)"], ["routes/api", "src/app/api/(private-extension)"], ["e2e", "e2e/(private-extension)"]]) {
   const destination = resolve(root, target);
   rmSync(destination, { recursive: true, force: true });

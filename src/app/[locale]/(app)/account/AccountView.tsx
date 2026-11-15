@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useId, useState } from "react";
 import { closeAccountAction, setPasswordAction, setUsernameAction } from "@/actions/account";
+import { ConnectedAccountRows, type AccountConnection } from "@/components/account/ConnectedAccountRows";
 import { GoogleLogo } from "@/components/account/GoogleLogo";
 import { UserMenu } from "@/components/account/UserMenu";
 import { DashboardNav } from "@/components/dashboard/DashboardNav";
@@ -122,12 +123,14 @@ export function AccountView({
   hasPassword,
   hasGoogle,
   googleEnabled,
+  connections,
 }: {
   user: User;
   currentSessionId: string;
   hasPassword: boolean;
   hasGoogle: boolean;
   googleEnabled: boolean;
+  connections: AccountConnection[];
 }) {
   const t = useTranslations("Account");
   const locale = useLocale() as Locale;
@@ -218,7 +221,7 @@ export function AccountView({
 
             <ProfileCard user={user} />
             <EmailCard user={user} locale={locale} />
-            <SecurityCard hasPassword={hasPassword} hasGoogle={hasGoogle} googleEnabled={googleEnabled} locale={locale} />
+            <SecurityCard connections={connections} hasPassword={hasPassword} hasGoogle={hasGoogle} googleEnabled={googleEnabled} locale={locale} />
             <SessionsCard currentSessionId={currentSessionId} format={(iso) => date(iso, true)} />
 
             <Card
@@ -423,11 +426,13 @@ function SecurityCard({
   hasPassword: initialHasPassword,
   hasGoogle: initialHasGoogle,
   googleEnabled,
+  connections,
   locale,
 }: {
   hasPassword: boolean;
   hasGoogle: boolean;
   googleEnabled: boolean;
+  connections: AccountConnection[];
   locale: Locale;
 }) {
   const t = useTranslations("Account");
@@ -591,6 +596,7 @@ function SecurityCard({
               )}
             </li>
           )}
+          <ConnectedAccountRows connections={connections} hasPassword={hasPassword} />
         </ul>
         {methodNotice && (
           <p role={methodNotice.error ? "alert" : "status"} className={cn("mt-3 text-[15px] font-medium", methodNotice.error ? "text-danger" : "text-accent")}>

@@ -742,7 +742,10 @@ Yayın, kullanıcının 14 Kasım kararıyla kalan işlerin tamamlanmasından so
 
 - **CV oluşturma sihirbazı:** adım adım sorularla kolayca CV oluşturma. Dileyen sihirbazla başlar,
   sonra CV oluşturma aracında (editör) düzenler; dileyen doğrudan editörü kullanır. Sihirbaz aynı
-  CV verisini üretir, ayrı bir veri modeli yoktur.
+  CV verisini üretir, ayrı bir veri modeli yoktur. 15 Kasım kararı: CV’lerim ekranında yalnızca
+  Yeni CV menüsünden açılan modal; kişisel bilgiler, deneyim, eğitim, beceriler, görünüm/dil ve
+  önizleme adımları. Yapay zekâ ayrı bir metin kutusu yerine bu yanıtları düzenler. Sonuç
+  seçilen tek sütunlu ATS şablonuyla editörde açılır. Eski sihirbaz URL’si korunur.
 - **Yapay zekâyla CV oluşturma:** e-postası doğrulanmış hesaplara **3 hak**. Hakkın sayılacağı yer
   (kullanıcı tablosunda sayaç ya da kullanım kaydı), hangi model/sağlayıcı, maliyet ve kötüye
   kullanım sınırı, KVKK (CV verisinin sağlayıcıya gönderilmesi için aydınlatma ve onay) kararı
@@ -789,3 +792,12 @@ Yayın, kullanıcının 14 Kasım kararıyla kalan işlerin tamamlanmasından so
 - Bağış kanalı: Buy Me a Coffee, Patreon, GitHub Sponsors, banka havalesi (IBAN)? Türkiye'den kartla
   ödeme alabilen bir kanal seçilmeli.
 - Dalga 2'deki dillerin içeriğini gözden geçirecek anadili konuşanlar (gönüllü / serbest çevirmen).
+
+### 15 Kasım 2026 — hesap bağlantıları ve firma gezinmesi
+
+- Google, GitHub ve LinkedIn bağlantıları Hesabım ekranındaki hesap yöntemlerinde yönetilir.
+  İçe aktarma ekranı kaynak seçimi ve bilgi aktarımı içindir; metin yapıştırma alanı yoktur.
+- Firma panelinde Adaylar ve Geliştirici seçenekleri birlikte görünür; Hesabım sağda ayrılır.
+  Kullanıcının bu talebi, geliştirici gezinmesini kaldıran önceki arayüz kararının yerine geçer.
+
+- Firma hesabı ayrı bir ekrandır: `/firmalar/hesabim` (`/en/companies/account`). Firma kullanıcılarının genel Hesabım bağlantısı bu ekrana yönlenir. Adaylar, geliştirici seçenekleri ve firma hesabı aynı firma gezinmesini kullanır.

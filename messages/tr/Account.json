@@ -79,7 +79,14 @@
     "disconnect": "Bağlantıyı kaldır",
     "disconnectConfirm": "Google bağlantısı kaldırılsın mı? Bundan sonra e-postan ve şifrenle giriş yaparsın.",
     "disconnectNeedsPassword": "Bağlantıyı kaldırmadan önce bir şifre belirle; yoksa hesabına giremezsin.",
-    "disconnected": "Google bağlantısı kaldırıldı."
+    "disconnected": "Google bağlantısı kaldırıldı.",
+    "connectGithub": "GitHub hesabını bağla",
+    "connectLinkedin": "LinkedIn hesabını bağla",
+    "disconnectProviderConfirm": "{provider} bağlantısı kaldırılsın mı? Bundan sonra e-postan ve şifrenle giriş yaparsın.",
+    "githubHint": "Seçtiğin depoları CV’ne proje olarak ekle.",
+    "linkedinHint": "Profil bağlantısı. Deneyim ve eğitim için LinkedIn veri dosyası gerekir.",
+    "unavailable": "Henüz etkin değil",
+    "importProjects": "Projeleri aktar"
   },
   "sessions": {
     "title": "Açık oturumlar",

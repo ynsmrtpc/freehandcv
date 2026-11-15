@@ -1,4 +1,18 @@
 @import "tailwindcss";
+@import "../extensions/generated-sources.css";
+
+@media (min-width: 768px) {
+  .company-search-aside {
+    width: 21rem;
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .company-search-aside {
+    width: 23rem;
+  }
+}
 
 /* Dark theme: <html class="dark"> (next-themes). */
 @custom-variant dark (&:where(.dark, .dark *));

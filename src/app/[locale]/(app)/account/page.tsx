@@ -1,3 +1,5 @@
+import { redirect as redirectToPath } from "next/navigation";
+import { extensionAccountPath } from "@/extensions/generated-server";
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
@@ -7,7 +9,7 @@ import { getPathname, redirect } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { getSession } from "@/server/authz";
 import { getSignInMethods } from "@/server/account";
-import { googleEnabled } from "@/server/auth";
+import { googleEnabled, githubEnabled, linkedinEnabled } from "@/server/auth";
 import { AccountView } from "./AccountView";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/account">): Promise<Metadata> {
@@ -32,6 +34,8 @@ export default async function AccountPage({ params }: PageProps<"/[locale]/accou
 async function Loader({ locale }: { locale: Locale }) {
   const session = await getSession();
   if (!session) redirect({ href: { pathname: "/sign-in", query: { next: getPathname({ href: "/account", locale }) } }, locale });
+  const companyAccountPath = await extensionAccountPath(session!.user.id, locale);
+  if (companyAccountPath) redirectToPath(companyAccountPath);
   const methods = await getSignInMethods(session!.user.id);
   return (
     <AccountView
@@ -48,6 +52,7 @@ async function Loader({ locale }: { locale: Locale }) {
       hasPassword={methods.includes("credential")}
       hasGoogle={methods.includes("google")}
       googleEnabled={googleEnabled}
+      connections={[{ provider: "github", connected: methods.includes("github"), enabled: githubEnabled }, { provider: "linkedin", connected: methods.includes("linkedin"), enabled: linkedinEnabled }]}
     />
   );
 }

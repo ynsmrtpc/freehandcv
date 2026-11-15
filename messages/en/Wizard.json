@@ -1,18 +1,20 @@
 {
   "meta": "Create a resume step by step",
-  "intro": "Answer the questions, review your resume and finish in the editor. No account required.",
+  "intro": "Your resume, a few short steps away.",
   "steps": {
-    "0": "Personal details",
-    "1": "Experience and education",
-    "2": "Skills and languages",
-    "3": "Review"
+    "0": "About you",
+    "1": "Experience",
+    "2": "Education",
+    "3": "Skills",
+    "4": "Style and language",
+    "5": "Preview"
   },
   "name": "Full name",
   "title": "Target position",
   "email": "Email",
   "phone": "Phone",
   "location": "Location",
-  "summary": "Briefly introduce yourself",
+  "summary": "Anything else about you (optional)",
   "experience": "Work experience",
   "education": "Education",
   "skills": "Skills",
@@ -39,11 +41,11 @@
   "replace": "Replace the guest resume stored in this browser? You can undo this in the editor.",
   "error": "The request failed. Try again.",
   "directEditor": "Open the editor directly",
-  "aiTitle": "Ask AI for a draft",
-  "aiDescription": "Use only your own factual information. Each successful draft uses one of three generations per verified account. Review the result before saving.",
+  "aiTitle": "Polish my answers with AI",
+  "aiDescription": "Turn your answers into a professional summary and clear job descriptions without inventing facts. A successful generation uses one credit.",
   "aiText": "Your experience, education and skills",
   "aiConsent": "I agree to send the information I enter to {provider} to generate a draft. The provider’s data processing terms apply.",
-  "aiGenerate": "Generate draft",
+  "aiGenerate": "Prepare draft",
   "aiRemaining": "{remaining} generations remaining",
   "aiUnavailable": "AI assistance is not enabled yet. You can continue manually.",
   "aiSignIn": "Sign in with a verified account to use AI.",
@@ -54,6 +56,36 @@
     "pending": "This request is still processing.",
     "failed": "Draft generation failed; no generation was used. You can try again.",
     "invalid": "Check your information and consent checkbox.",
-    "unverified": "Sign in with a verified account."
-  }
+    "unverified": "Sign in with a verified account.",
+    "provider_auth": "The AI provider denied access. Check the API key and permissions. No credit was used.",
+    "provider_limit": "The AI provider quota or rate limit was reached. Try again later. No credit was used.",
+    "provider_model": "The configured AI model or endpoint was not found. No credit was used.",
+    "provider_request": "The AI provider rejected the request format. Check the integration settings. No credit was used."
+  },
+  "questions": {
+    "0": "Let’s get to know you.",
+    "1": "Where have you worked?",
+    "2": "Tell us about your education.",
+    "3": "What are your skills?",
+    "4": "How should your resume look?",
+    "5": "Your resume is ready for the editor."
+  },
+  "hints": {
+    "0": "Enter your name and target role. You can fill in the other fields later.",
+    "1": "Start with your most recent role. No experience yet? Just continue.",
+    "2": "Add your most recent school, or skip this step.",
+    "3": "Add the tools, skills and languages you know.",
+    "4": "Choose a template and resume language. Optionally let AI polish your answers.",
+    "5": "Review your details. Everything remains editable in the editor."
+  },
+  "progress": "Step {current} of {total}",
+  "close": "Close",
+  "removeEntry": "Remove {section} {number}",
+  "addSection": "Add {section}",
+  "template": "Template",
+  "atsHint": "These templates use readable text and a single column for ATS parsing.",
+  "resumeLanguage": "Resume language",
+  "turkish": "Turkish",
+  "english": "English",
+  "working": "Preparing…"
 }

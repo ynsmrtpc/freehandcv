@@ -30,6 +30,9 @@ const github = process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET
   ? { clientId: process.env.GITHUB_CLIENT_ID, clientSecret: process.env.GITHUB_CLIENT_SECRET, scope: ["read:user", "user:email"] }
   : null;
 
+const linkedin = process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET
+  ? { clientId: process.env.LINKEDIN_CLIENT_ID, clientSecret: process.env.LINKEDIN_CLIENT_SECRET } : null;
+
 export const auth = betterAuth({
   appName: "FreehandCV",
   database: drizzleAdapter(db, {
@@ -80,7 +83,7 @@ export const auth = betterAuth({
       void send({ user: u, url }).catch((error) => console.error("[auth] verification email failed", error));
     },
   },
-  socialProviders: { ...(google ? { google: { ...google, prompt: "select_account" } } : {}), ...(github ? { github } : {}) },
+  socialProviders: { ...(google ? { google: { ...google, prompt: "select_account" } } : {}), ...(github ? { github } : {}), ...(linkedin ? { linkedin } : {}) },
   account: {
     // A user registered by email who arrives via Google with the same address is linked (Google verifies it).
     accountLinking: { enabled: true, trustedProviders: ["google"] },
@@ -156,3 +159,5 @@ export const auth = betterAuth({
 export type Session = typeof auth.$Infer.Session;
 export const googleEnabled = !!google;
 export const githubEnabled = !!github;
+
+export const linkedinEnabled = !!linkedin;

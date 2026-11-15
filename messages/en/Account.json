@@ -79,7 +79,14 @@
     "disconnect": "Disconnect",
     "disconnectConfirm": "Disconnect Google? From now on you sign in with your email and password.",
     "disconnectNeedsPassword": "Set a password before disconnecting, or you won’t be able to sign in.",
-    "disconnected": "Google disconnected."
+    "disconnected": "Google disconnected.",
+    "connectGithub": "Connect GitHub",
+    "connectLinkedin": "Connect LinkedIn",
+    "disconnectProviderConfirm": "Disconnect {provider}? From now on you sign in with your email and password.",
+    "githubHint": "Import selected repositories as resume projects.",
+    "linkedinHint": "Connect your profile. Experience and education require a LinkedIn data export.",
+    "unavailable": "Not configured",
+    "importProjects": "Import projects"
   },
   "sessions": {
     "title": "Open sessions",
